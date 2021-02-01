@@ -1,0 +1,15 @@
+{
+  "name": "fapi-member",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Jan Daniel Dolezal <dan@jandaniel.cz>",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "sass": "^1.32.5"
+  }
+}
