@@ -70,7 +70,9 @@ $okText: #00e800;
 
 		display: flex;
 
-		a {
+		a,
+		span
+		{
 			height: 40px;
 			padding: 0 32px;
 			line-height: 40px;

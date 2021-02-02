@@ -54,12 +54,14 @@
   grid-row: 1/2;
   display: flex;
 }
-.baseGrid .submenu a {
+.baseGrid .submenu a,
+.baseGrid .submenu span {
   height: 40px;
   padding: 0 32px;
   line-height: 40px;
 }
-.baseGrid .submenu a.active {
+.baseGrid .submenu a.active,
+.baseGrid .submenu span.active {
   background-color: white;
   color: #0074e2;
 }

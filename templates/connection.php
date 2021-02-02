@@ -1,34 +1,24 @@
-
+<?php include(__DIR__ . '/functions.php') ?>
 
 <div class="baseGrid">
-    <h1>Fapi Member</h1>
-    <nav>
-        <span class="disabled">
-            <span class="a">Nástěnka</span>
-            <span class="b">Přehled</span>
-        </span>
-        <span href="#" class="disabled">
-            <span class="a">Nastavení</span>
-            <span class="b">Členské sekce</span>
-        </span>
-        <a href="#" class="active">
-            <span class="a">Propojení</span>
-            <span class="b">Připojení k FAPI</span>
-        </a>
-    </nav>
-    <div class="submenu">
-        <a href="" class="active">Propojení</a>
-    </div>
+    <?= h1() ?>
+    <?= nav($subpage, $areApiCredentialsSet) ?>
+    <?= submenu($subpage) ?>
     <div class="page">
         <h3>Propojení s Vaším účtem FAPI</h3>
-        <form action="">
+        <?php echo showErrors(); ?>
+        <form method="post" action="<?php echo admin_url('admin-post.php'); ?>">
+            <input type="hidden" name="action" value="fapi_member_api_credentials_submit">
+            <input type="hidden" name="fapi_member_api_credentials_submit_nonce" value="<?php echo wp_create_nonce('fapi_member_api_credentials_submit_nonce') ?>">
             <div class="row">
-                <label for="">Uživatelské jméno (e-mail)</label>
-                <input type="text" name="" id="" placeholder="me@example.com">
+                <label for="fapiMemberApiEmail">Uživatelské jméno (e-mail)</label>
+                <input type="text" name="fapiMemberApiEmail" id="fapiMemberApiEmail" placeholder="me@example.com"
+                       value="<?php echo get_option('fapiMemberApiEmail', '') ?>">
             </div>
             <div class="row">
-                <label for="">API klíč</label>
-                <input type="text" name="" id="" placeholder="">
+                <label for="fapiMemberApiKey">API klíč</label>
+                <input type="text" name="fapiMemberApiKey" id="fapiMemberApiKey" placeholder=""
+                       value="<?php echo get_option('fapiMemberApiKey', '') ?>">
             </div>
             <div class="row controls">
                 <input type="submit" class="primary" name="" id="" value="Propojit s FAPI">
@@ -38,16 +28,5 @@
             Stav propojení: <span class="ok">propojeno</span>.
         </p>
     </div>
-    <div class="help">
-        <h3>Nápověda</h3>
-        <div class="inner">
-            <?php for ($x = 0; $x < 5; $x++) { ?>
-            <div>
-                <h4>Jak vytvořit členskou sekci</h4>
-                <p>Nevíte si rady, podívejte se na náš fantastický návod kudy do toho, pak bude vše jasnější.</p>
-                <a href="" class="btn outline">Přečíst</a>
-            </div>
-            <?php } ?>
-        </div>
-    </div>
+    <?= help() ?>
 </div>
