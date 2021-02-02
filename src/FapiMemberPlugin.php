@@ -16,7 +16,14 @@ class FapiMemberPlugin
         add_action('admin_menu', [$this, 'addAdminMenu'] );
         add_action('admin_enqueue_scripts', [$this, 'addScripts'] );
         add_action('admin_init', [$this, 'registerSettings']);
+
+        add_action('init', [$this, 'registerLevelsTaxonomy']);
+
+        // admin form handling
         add_action('admin_post_fapi_member_api_credentials_submit', [$this, 'handleApiCredentialsSubmit']);
+        add_action('admin_post_fapi_member_new_section', [$this, 'handleNewSection']);
+        add_action('admin_post_fapi_member_new_level', [$this, 'handleNewLevel']);
+
     }
 
     public function showError($type, $message)
@@ -30,17 +37,23 @@ class FapiMemberPlugin
     {
         $p = plugins_url( 'fapi-member/media/fapi-member.css' );
         wp_register_style( 'fapi-member-admin', $p);
+        $p = plugins_url( 'fapi-member/media/font/stylesheet.css' );
+        wp_register_style( 'fapi-member-admin-font', $p);
+    }
+
+    public function registerLevelsTaxonomy()
+    {
+        register_taxonomy('fapi_levels', 'page', [
+            'public' => true, //TODO: change
+            'hierarchical' => true,
+            'show_ui' => true, //TODO: change
+            'show_in_rest' => false,
+        ]);
     }
 
     public function handleApiCredentialsSubmit()
     {
-        if(
-            !isset( $_POST['fapi_member_api_credentials_submit_nonce'] )
-            ||
-            !wp_verify_nonce($_POST['fapi_member_api_credentials_submit_nonce'], 'fapi_member_api_credentials_submit_nonce')
-        ) {
-            wp_die('Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a odeslat znovu.');
-        }
+        $this->verifyNonce('fapi_member_api_credentials_submit_nonce');
 
         $apiEmail = (isset($_POST['fapiMemberApiEmail']) && !empty($_POST['fapiMemberApiEmail'])) ? $_POST['fapiMemberApiEmail'] : null;
         $apiKey = (isset($_POST['fapiMemberApiKey']) && !empty($_POST['fapiMemberApiKey'])) ? $_POST['fapiMemberApiKey'] : null;
@@ -55,6 +68,56 @@ class FapiMemberPlugin
         update_option('fapiMemberApiKey', $apiKey);
 
         $this->redirect('connection', 'apiFormSuccess');
+
+    }
+
+    protected function verifyNonce($key)
+    {
+        if(
+            !isset( $_POST[$key] )
+            ||
+            !wp_verify_nonce($_POST[$key], $key)
+        ) {
+            wp_die('Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a odeslat znovu.');
+        }
+    }
+
+    public function handleNewSection()
+    {
+        $this->verifyNonce('fapi_member_new_section_nonce');
+
+        $name = (isset($_POST['fapiMemberSectionName']) && !empty($_POST['fapiMemberSectionName'])) ? $_POST['fapiMemberSectionName'] : null;
+
+        if ($name === null ) {
+            $this->redirect('settingsSectionNew', 'sectionNameEmpty');
+        }
+
+        wp_insert_term( $name, 'fapi_levels');
+
+        $this->redirect('settingSectionNew');
+
+    }
+
+    public function handleNewLevel()
+    {
+        $this->verifyNonce('fapi_member_new_level_nonce');
+
+        $name = (isset($_POST['fapiMemberLevelName']) && !empty($_POST['fapiMemberLevelName'])) ? $_POST['fapiMemberLevelName'] : null;
+        $parentId = (isset($_POST['fapiMemberLevelParent']) && !empty($_POST['fapiMemberLevelParent'])) ? $_POST['fapiMemberLevelParent'] : null;
+
+        if ($name === null || $parentId === null) {
+            $this->redirect('settingsLevelNew', 'levelNameOrParentEmpty');
+        }
+
+        $parent = get_term($parentId, 'fapi_levels');
+        if ($parent === null) {
+            $this->redirect('settingsLevelNew', 'sectionNotFound');
+        }
+
+        // check parent
+        wp_insert_term( $name, 'fapi_levels', ['parent' => $parentId]);
+
+        $this->redirect('settingsLevelNew');
 
     }
 
@@ -78,6 +141,7 @@ class FapiMemberPlugin
     {
         global $pagenow;
         if ($pagenow === 'options-general.php') {
+            wp_enqueue_style('fapi-member-admin-font');
             wp_enqueue_style('fapi-member-admin');
         }
     }
@@ -114,9 +178,14 @@ class FapiMemberPlugin
         $this->showTemplate('index');
     }
 
-    protected function showSettings()
+    protected function showSettingsSectionNew()
     {
-        $this->showTemplate('settings');
+        $this->showTemplate('settingsSectionNew');
+    }
+
+    protected function showSettingsLevelNew()
+    {
+        $this->showTemplate('settingsLevelNew');
     }
 
     protected function showSettingsContent()

@@ -1,5 +1,6 @@
 $grayText: #838383;
 $grayLine: #eeeeee;
+$graySVG: #b0b0b0;
 $blue: #0074e2;
 $blueBg: #e9f3ff;
 $ngText: #d70100;
@@ -10,6 +11,8 @@ $okText: #00e800;
 	grid-template-columns: 240px 760px 360px;
 	grid-template-rows: 40px 60px auto;
 	margin: 20px;
+	font-family: 'proxima_novaregular', sans-serif;
+	font-size: 15px;
 
 	a {
 		text-decoration: none;
@@ -17,9 +20,18 @@ $okText: #00e800;
 	}
 
 
-	h1 {
+	h1,
+	.h1
+	{
 		grid-column: 1/2;
 		grid-row: 1/3;
+
+		align-self: center;
+		justify-self: center;
+
+		svg {
+			width: 80px;
+		}
 	}
 
 	.ok {
@@ -58,8 +70,30 @@ $okText: #00e800;
 				grid-column: 1/2;
 			}
 
+			svg {
+				grid-row: 1/3;
+				grid-column: 2/3;
+				justify-self: left;
+				align-self: center;
+				width: 24px;
+
+				path {
+					fill: $graySVG;
+				}
+			}
+
 			&.active {
 				background-color: white;
+
+				.a {
+					color: $blue;
+				}
+
+				svg {
+					path {
+						fill: $blue;
+					}
+				}
 			}
 		}
 	}
@@ -93,6 +127,10 @@ $okText: #00e800;
 
 		h3 {
 			margin-bottom: 48px;
+		}
+
+		&.both {
+			grid-column: 2/4;
 		}
 	}
 
@@ -170,10 +208,103 @@ $okText: #00e800;
 				width: 100%;
 			}
 
+			select {
+				background-color: $blueBg;
+				border-radius: 4px;
+				border: none;
+				height: 38px;
+				line-height: 38px;
+				padding: 0 16px;
+				min-width: 100%;
+
+				option {
+					line-height: 38px;
+					margin-bottom: 1px solid $grayLine;
+				}
+			}
+
 			&.controls {
 				display: flex;
 				justify-content: flex-end;
 			}
+		}
+	}
+
+	.withSections {
+		display: grid;
+		grid-template-columns: 360px auto;
+		grid-template-rows: auto;
+
+		.a {
+			grid-row: 1/2;
+			grid-column: 1/2;
+		}
+
+		.b {
+			grid-row: 1/2;
+			grid-column: 2/3;
+			border-left: 1px solid $grayLine;
+			padding: 0 50px;
+		}
+	}
+
+	.subsubmenu {
+		border-bottom: 1px solid $grayLine;
+		display: flex;
+
+		a {
+			flex: 1;
+			display: inline-block;
+			line-height: 50px;
+			height: 50px;
+			text-align: center;
+			border-left: 1px solid $grayLine;
+			font-weight: bold;
+
+			&:first-of-type {
+				border-left: none;
+			}
+
+			&.active {
+				color: $blue;
+			}
+		}
+	}
+
+	.levels {
+
+		ol {
+			list-style-type: none;
+			padding-left: 0;
+			margin: 0;
+		}
+
+		> ol > li {
+			background-image: url("temp-folder.png");
+			background-repeat: no-repeat;
+			padding-left: 36px;
+		}
+
+		> ol ol {
+			margin-left: -36px;
+		}
+
+		> ol > li li {
+			background-image: url("temp-bullet.png");
+			background-repeat: no-repeat;
+			padding-left: 64px;
+		}
+
+		li {
+			line-height: 36px;
+		}
+
+		button {
+			display: inline-block;
+			margin: 0 9px;
+			border: 0;
+			background-color: transparent;
+			cursor: pointer;
 		}
 	}
 }

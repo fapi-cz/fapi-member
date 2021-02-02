@@ -7,6 +7,9 @@ function showErrors() {
     $errorMap = [
         'apiFormEmpty' => ['error', 'Je třeba zadat jak uživatelské jméno, tak API klíč.'],
         'apiFormSuccess' => ['success', 'Údaje pro API uloženy.'],
+        'sectionNameEmpty' => ['error', 'Název sekce je povinný.'],
+        'levelNameOrParentEmpty' => ['error', 'Název úrovně a výběr sekce je povinný.'],
+        'sectionNotFound' => ['error', 'Sekce nenalezena.'],
     ];
 
     if (isset($_GET['e']) && isset($errorMap[$_GET['e']])) {
@@ -16,10 +19,16 @@ function showErrors() {
 }
 
 function h1() {
-    return '<h1>Fapi Member</h1>';
+    $svg = file_get_contents(__DIR__ . '/../_sources/LOGO_FAPI_svg.svg');
+    return sprintf('<div class="h1">%s</div>', $svg);
+    //return '<h1>Fapi Member</h1>';
 }
 
 function nav($subpage, $areApiCredentialsSet) {
+
+    $c = file_get_contents(__DIR__ . '/../_sources/connect.svg');
+    $h = file_get_contents(__DIR__ . '/../_sources/home-solid.svg');
+    $p = file_get_contents(__DIR__ . '/../_sources/padlock.svg');
 
     if (!$areApiCredentialsSet) {
         return '
@@ -27,14 +36,17 @@ function nav($subpage, $areApiCredentialsSet) {
                 <span class="disabled">
                     <span class="a">Nástěnka</span>
                     <span class="b">Přehled</span>
+                    '. $h .'
                 </span>
                 <span href="#" class="disabled">
                     <span class="a">Nastavení</span>
                     <span class="b">Členské sekce</span>
+                    '. $p .'
                 </span>
                 <a href="#" class="active">
                     <span class="a">Propojení</span>
                     <span class="b">Připojení k FAPI</span>
+                    '. $c .'
                 </a>
             </nav>';
     } else {
@@ -43,14 +55,17 @@ function nav($subpage, $areApiCredentialsSet) {
                 <a href="'.fapilink('index').'" '. (($subpage === 'index') ? 'class="active"' : '') .'>
                     <span class="a">Nástěnka</span>
                     <span class="b">Přehled</span>
+                    '. $h .'
                 </a>
-                <a href="'.fapilink('settings').'" '. ((strpos($subpage, 'settings') === 0) ? 'class="active"' : '') .'>
+                <a href="'.fapilink('settingsSectionNew').'" '. ((strpos($subpage, 'settings') === 0) ? 'class="active"' : '') .'>
                     <span class="a">Nastavení</span>
                     <span class="b">Členské sekce</span>
+                    '. $p .'
                 </span>
                 <a href="'.fapilink('connection').'" '. (($subpage === 'connection') ? 'class="active"' : '') .'>
                     <span class="a">Propojení</span>
                     <span class="b">Připojení k FAPI</span>
+                    '. $c .'
                 </a>
             </nav>';
     }
@@ -74,7 +89,7 @@ function submenu($subpage) {
         case (mb_strpos($subpage, 'settings') === 0):
             return '
                 <div class="submenu">
-                    '. submenuItem('settings', 'Sekce / úrovně', $subpage) .'
+                    '. submenuItem('settingsSectionNew', 'Sekce / úrovně', $subpage, ['settingsLevelNew']) .'
                     '. submenuItem('settingsContent', 'Přiřazené stránky', $subpage) .'
                     '. submenuItem('settingsEmails', 'Nastavení e-mailů', $subpage) .'
                     '. submenuItem('settingsPages', 'Ostatní stránky', $subpage) .'
@@ -85,10 +100,13 @@ function submenu($subpage) {
 
 }
 
-function submenuItem($subpage, $label, $activeSubpage) {
+function submenuItem($subpage, $label, $activeSubpage, $otherChildren = null) {
     $classes = [];
 
     if ($activeSubpage === $subpage) {
+        $classes[] = 'active';
+    }
+    if ($otherChildren !== null && in_array($activeSubpage, $otherChildren)) {
         $classes[] = 'active';
     }
 
@@ -112,4 +130,57 @@ function help() {
 
 function fapilink($subpage) {
     return admin_url(sprintf('/options-general.php?page=fapi-member-options&subpage=%s', $subpage));
+}
+
+function levels() {
+
+    $t =  get_terms(
+        [
+            'taxonomy' => 'fapi_levels',
+            'hide_empty' => false,
+        ]
+    );
+
+    $lis = [];
+    $actions = '<button class="edit">E</button><button class="remove">R</button>';
+
+    foreach ($t as $term) {
+        $under = [];
+        if ($term->parent === 0) {
+            foreach ($t as $underTerm) {
+                if ($underTerm->parent === $term->term_id) {
+                    $under[] = sprintf('<li data-id="%s"><span>%s</span>%s</li>', $underTerm->term_id, $underTerm->name, $actions);
+                }
+            }
+            $lis[] = sprintf('<li data-id="%s"><span>%s</span>%s<ol>%s</ol></li>', $term->term_id, $term->name, $actions, join('',$under));
+        }
+    }
+
+    ?>
+    <div class="levels">
+        <ol>
+            <?= join('', $lis) ?>
+        </ol>
+    </div>
+    <?php
+}
+
+function getLevelOptions() {
+
+    $t =  get_terms(
+        [
+            'taxonomy' => 'fapi_levels',
+            'hide_empty' => false,
+        ]
+    );
+
+    $options = [];
+
+    foreach ($t as $term) {
+        if ($term->parent === 0) {
+            $options[] = sprintf('<option value="%s">%s</option>', $term->term_id, $term->name);
+        }
+    }
+
+    return join('', $options);
 }
