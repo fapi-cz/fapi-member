@@ -10,6 +10,8 @@
   "author": "Jan Daniel Dolezal <dan@jandaniel.cz>",
   "license": "UNLICENSED",
   "dependencies": {
-    "sass": "^1.32.5"
+    "promise-polyfill": "^8.2.0",
+    "sass": "^1.32.5",
+    "sweetalert2": "^10.14.0"
   }
 }

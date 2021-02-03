@@ -107,6 +107,9 @@
 .baseGrid .page.both {
   grid-column: 2/4;
 }
+.baseGrid .page.smallerPadding {
+  padding: 48px 0 48px 48px;
+}
 .baseGrid .help {
   grid-column: 3/4;
   grid-row: 2/4;
@@ -224,7 +227,7 @@
   margin: 0;
 }
 .baseGrid .levels > ol > li {
-  background-image: url("temp-folder.png");
+  background-image: url("folder.svg");
   background-repeat: no-repeat;
   padding-left: 36px;
 }
@@ -232,19 +235,76 @@
   margin-left: -36px;
 }
 .baseGrid .levels > ol > li li {
-  background-image: url("temp-bullet.png");
+  background-image: url("bullet.svg");
   background-repeat: no-repeat;
-  padding-left: 64px;
+  padding-left: 72px;
 }
 .baseGrid .levels li {
   line-height: 36px;
+  margin-bottom: 0;
 }
 .baseGrid .levels button {
   display: inline-block;
+  width: 15px;
+  height: 15px;
   margin: 0 9px;
   border: 0;
   background-color: transparent;
   cursor: pointer;
+  outline: none;
+}
+.baseGrid .levels button.edit {
+  background-image: url("pencil.svg");
+}
+.baseGrid .levels button.remove {
+  background-image: url("close.svg");
+}
+.baseGrid .sectionsOverview > div {
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-bottom: 1px solid #eeeeee;
+}
+.baseGrid .sectionsOverview > div .name {
+  grid-row: 1/2;
+  grid-column: 1/4;
+  font-weight: bolder;
+  font-size: 22px;
+  margin: 32px 0 20px 0;
+}
+.baseGrid .sectionsOverview > div .levelCount,
+.baseGrid .sectionsOverview > div .membersCount,
+.baseGrid .sectionsOverview > div .pagesCount {
+  color: #838383;
+  font-size: 14px;
+  margin-bottom: 21px;
+}
+.baseGrid .sectionsOverview > div .levelCount {
+  grid-row: 2/3;
+  grid-column: 1/2;
+}
+.baseGrid .sectionsOverview > div .membersCount {
+  grid-row: 2/3;
+  grid-column: 2/3;
+}
+.baseGrid .sectionsOverview > div .pagesCount {
+  grid-row: 2/3;
+  grid-column: 3/4;
+}
+
+.swal2-actions .removeConfirmButton {
+  background-color: #ff0200 !important;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 20px !important;
+  padding: 0 22px;
+}
+.swal2-actions .removeDenyButton {
+  background-color: #0074e2 !important;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 20px !important;
+  padding: 0 22px;
 }
 
 /*# sourceMappingURL=fapi-member.css.map */

@@ -9,6 +9,7 @@
         <div class="withSections">
             <div class="a">
                 <h3>Struktura uzavřených sekcí a úrovní</h3>
+                <?php echo showErrors(); ?>
                 <?= levels() ?>
             </div>
             <div class="b">
@@ -16,7 +17,6 @@
                     <?= submenuItem('settingsSectionNew', 'Vytvořit novou sekci', $subpage) ?>
                     <?= submenuItem('settingsLevelNew', 'Vytvořit novou úroveň', $subpage) ?>
                 </div>
-                <?php echo showErrors(); ?>
                 <form method="post" action="<?php echo admin_url('admin-post.php'); ?>">
                     <input type="hidden" name="action" value="fapi_member_new_level">
                     <input type="hidden" name="fapi_member_new_level_nonce" value="<?php echo wp_create_nonce('fapi_member_new_level_nonce') ?>">

@@ -4,6 +4,7 @@ $graySVG: #b0b0b0;
 $blue: #0074e2;
 $blueBg: #e9f3ff;
 $ngText: #d70100;
+$red: #ff0200;
 $okText: #00e800;
 
 .baseGrid {
@@ -131,6 +132,10 @@ $okText: #00e800;
 
 		&.both {
 			grid-column: 2/4;
+		}
+
+		&.smallerPadding {
+			padding: 48px 0 48px 48px;
 		}
 	}
 
@@ -280,7 +285,7 @@ $okText: #00e800;
 		}
 
 		> ol > li {
-			background-image: url("temp-folder.png");
+			background-image: url("folder.svg");
 			background-repeat: no-repeat;
 			padding-left: 36px;
 		}
@@ -290,22 +295,97 @@ $okText: #00e800;
 		}
 
 		> ol > li li {
-			background-image: url("temp-bullet.png");
+			background-image: url("bullet.svg");
 			background-repeat: no-repeat;
-			padding-left: 64px;
+			padding-left: 72px;
 		}
 
 		li {
 			line-height: 36px;
+			margin-bottom: 0;
 		}
 
 		button {
 			display: inline-block;
+			width: 15px; height: 15px;
 			margin: 0 9px;
 			border: 0;
 			background-color: transparent;
 			cursor: pointer;
+			outline: none;
+
+			&.edit {
+				background-image: url("pencil.svg");
+			}
+			&.remove {
+				background-image: url("close.svg");
+			}
 		}
 	}
+
+	.sectionsOverview {
+		> div {
+			display: grid;
+			grid-template-rows: auto auto;
+			grid-template-columns: 1fr 1fr 1fr;
+			border-bottom: 1px solid $grayLine;
+
+			.name {
+				grid-row: 1/2;
+				grid-column: 1/4;
+				font-weight: bolder;
+				font-size: 22px;
+				margin: 32px 0 20px 0;
+			}
+
+			.levelCount,
+			.membersCount,
+			.pagesCount
+			{
+				color: $grayText;
+				font-size: 14px;
+				margin-bottom: 21px;
+			}
+
+			.levelCount {
+				grid-row: 2/3;
+				grid-column: 1/2;
+			}
+
+			.membersCount {
+				grid-row: 2/3;
+				grid-column: 2/3;
+			}
+
+			.pagesCount {
+				grid-row: 2/3;
+				grid-column: 3/4;
+			}
+		}
+	}
+
+
 }
+
+// popup styles
+.swal2-actions {
+	.removeConfirmButton {
+		background-color: $red!important;
+		height: 40px;
+		line-height: 40px;
+		border-radius: 20px!important;
+		padding: 0 22px;
+	}
+
+	.removeDenyButton {
+		background-color: $blue!important;
+		height: 40px;
+		line-height: 40px;
+		border-radius: 20px!important;
+		padding: 0 22px;
+	}
+}
+
+
+
 

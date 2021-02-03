@@ -10,6 +10,7 @@ function showErrors() {
         'sectionNameEmpty' => ['error', 'Název sekce je povinný.'],
         'levelNameOrParentEmpty' => ['error', 'Název úrovně a výběr sekce je povinný.'],
         'sectionNotFound' => ['error', 'Sekce nenalezena.'],
+        'removeLevelSuccessful' => ['success', 'Sekce/úroveň smazána.'],
     ];
 
     if (isset($_GET['e']) && isset($errorMap[$_GET['e']])) {
@@ -142,7 +143,7 @@ function levels() {
     );
 
     $lis = [];
-    $actions = '<button class="edit">E</button><button class="remove">R</button>';
+    $actions = '<button class="edit"></button><button class="remove"></button>';
 
     foreach ($t as $term) {
         $under = [];
@@ -162,6 +163,11 @@ function levels() {
             <?= join('', $lis) ?>
         </ol>
     </div>
+    <form method="post" action="<?php echo admin_url('admin-post.php'); ?>" id="LevelRemoveForm">
+        <input type="hidden" name="action" value="fapi_member_remove_level">
+        <input type="hidden" name="fapi_member_remove_level_nonce" value="<?php echo wp_create_nonce('fapi_member_remove_level_nonce') ?>">
+        <input type="hidden" name="level_id" value="">
+    </form>
     <?php
 }
 

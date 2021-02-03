@@ -8,7 +8,8 @@ class FapiMemberPlugin
 
     public function __construct()
     {
-        $this->registerStyle();
+        $this->registerStyles();
+        $this->registerScripts();
     }
 
     public function addHooks()
@@ -24,6 +25,7 @@ class FapiMemberPlugin
         add_action('admin_post_fapi_member_api_credentials_submit', [$this, 'handleApiCredentialsSubmit']);
         add_action('admin_post_fapi_member_new_section', [$this, 'handleNewSection']);
         add_action('admin_post_fapi_member_new_level', [$this, 'handleNewLevel']);
+        add_action('admin_post_fapi_member_remove_level', [$this, 'handleRemoveLevel']);
 
     }
 
@@ -34,12 +36,24 @@ class FapiMemberPlugin
             });
     }
 
-    public function registerStyle()
+    public function registerStyles()
     {
         $p = plugins_url( 'fapi-member/media/fapi-member.css' );
         wp_register_style( 'fapi-member-admin', $p);
         $p = plugins_url( 'fapi-member/media/font/stylesheet.css' );
         wp_register_style( 'fapi-member-admin-font', $p);
+        $p = plugins_url( 'fapi-member/node_modules/sweetalert2/dist/sweetalert2.min.css' );
+        wp_register_style( 'fapi-member-swal-css', $p);
+    }
+
+    public function registerScripts()
+    {
+        $p = plugins_url( 'fapi-member/node_modules/sweetalert2/dist/sweetalert2.js' );
+        wp_register_script( 'fapi-member-swal', $p);
+        $p = plugins_url( 'fapi-member/node_modules/promise-polyfill/dist/polyfill.min.js');
+        wp_register_script( 'fapi-member-swal-promise-polyfill', $p);
+        $p = plugins_url( 'fapi-member/media/fapi.js' );
+        wp_register_script( 'fapi-member-main', $p);
     }
 
     public function registerLevelsTaxonomy()
@@ -184,6 +198,23 @@ class FapiMemberPlugin
 
     }
 
+    public function handleRemoveLevel()
+    {
+        $this->verifyNonce('fapi_member_remove_level_nonce');
+
+        $id = (isset($_POST['level_id']) && !empty($_POST['level_id'])) ? $_POST['level_id'] : null;
+
+        if ($id === null) {
+            $this->redirect('settingsSectionNew');
+        }
+
+        // check parent
+        wp_delete_term($id, 'fapi_levels');
+
+        $this->redirect('settingsLevelNew', 'removeLevelSuccessful');
+
+    }
+
     public function registerSettings()
     {
         register_setting( 'options', 'fapiMemberApiEmail', [
@@ -206,6 +237,10 @@ class FapiMemberPlugin
         if ($pagenow === 'options-general.php') {
             wp_enqueue_style('fapi-member-admin-font');
             wp_enqueue_style('fapi-member-admin');
+            wp_enqueue_style('fapi-member-swal-css');
+            wp_enqueue_script('fapi-member-swal');
+            wp_enqueue_script('fapi-member-swal-promise-polyfill');
+            wp_enqueue_script('fapi-member-main');
         }
     }
 
