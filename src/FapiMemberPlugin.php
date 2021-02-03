@@ -18,6 +18,7 @@ class FapiMemberPlugin
         add_action('admin_init', [$this, 'registerSettings']);
 
         add_action('init', [$this, 'registerLevelsTaxonomy']);
+        add_action('rest_api_init', [$this, 'addRestEndpoints']);
 
         // admin form handling
         add_action('admin_post_fapi_member_api_credentials_submit', [$this, 'handleApiCredentialsSubmit']);
@@ -49,6 +50,68 @@ class FapiMemberPlugin
             'show_ui' => true, //TODO: change
             'show_in_rest' => false,
         ]);
+    }
+
+    public function addRestEndpoints()
+    {
+        register_rest_route(
+            'fapi/v1',
+            '/sections',
+            [
+                'methods' => 'GET',
+                'callback' => [$this, 'handleApiSections'],
+            ]
+        );
+        register_rest_route(
+            'fapi/v1',
+            '/callback',
+            [
+                'methods' => 'POST',
+                'callback' => [$this, 'handleApiCallback'],
+            ]
+        );
+    }
+
+    public function handleApiSections()
+    {
+        $t = get_terms(
+            [
+                'taxonomy' => 'fapi_levels',
+                'hide_empty' => false,
+            ]
+        );
+        $t = array_map(function($one) {
+            return [
+                'id' => $one->term_id,
+                'parent' => $one->parent,
+                'name' => $one->name
+            ];
+        }, $t);
+        $sections = array_reduce($t, function($carry, $one) use ($t) {
+            if ($one['parent'] === 0) {
+                $children = array_values(
+                    array_filter($t, function($i) use ($one) {
+                        return ($i['parent'] === $one['id']);
+                    })
+                );
+                $children = array_map(function($j) {
+                    unset($j['parent']);
+                    return $j;
+                }, $children);
+                $one['levels'] = $children;
+                unset($one['parent']);
+                $carry[] = $one;
+            }
+            return $carry;
+        }, []);
+        return new WP_REST_Response($sections);
+    }
+
+    public function handleApiCallback(WP_REST_Request $request)
+    {
+        $get = $request->get_params();
+        $body = $request->get_body();
+        return null;
     }
 
     public function handleApiCredentialsSubmit()
