@@ -27,6 +27,9 @@ class FapiMemberPlugin
         add_action('init', [$this, 'registerLevelsTaxonomy']);
         add_action('rest_api_init', [$this, 'addRestEndpoints']);
 
+        //user profile
+        add_action('edit_user_profile', [$this, 'addUserProfileForm']);
+
         // admin form handling
         add_action('admin_post_fapi_member_api_credentials_submit', [$this, 'handleApiCredentialsSubmit']);
         add_action('admin_post_fapi_member_new_section', [$this, 'handleNewSection']);
@@ -34,7 +37,8 @@ class FapiMemberPlugin
         add_action('admin_post_fapi_member_remove_level', [$this, 'handleRemoveLevel']);
         add_action('admin_post_fapi_member_add_pages', [$this, 'handleAddPages']);
         add_action('admin_post_fapi_member_remove_pages', [$this, 'handleRemovePages']);
-
+            // user profile save
+        add_action( 'edit_user_profile_update', [$this, 'handleUserProfileSave'] );
     }
 
     public function showError($type, $message)
@@ -48,6 +52,8 @@ class FapiMemberPlugin
     {
         $p = plugins_url( 'fapi-member/media/fapi-member.css' );
         wp_register_style( 'fapi-member-admin', $p);
+        $p = plugins_url( 'fapi-member/media/fapi-user-profile.css' );
+        wp_register_style( 'fapi-member-user-profile', $p);
         $p = plugins_url( 'fapi-member/media/font/stylesheet.css' );
         wp_register_style( 'fapi-member-admin-font', $p);
         $p = plugins_url( 'fapi-member/node_modules/sweetalert2/dist/sweetalert2.min.css' );
@@ -158,6 +164,50 @@ class FapiMemberPlugin
 
         $this->redirect('connection', 'apiFormSuccess');
 
+    }
+
+    public function handleUserProfileSave($userId)
+    {
+        if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'update-user_' . $userId ) ) {
+            return;
+        }
+
+        if ( !current_user_can( 'edit_user', $userId ) ) {
+            return false;
+        }
+
+        $data = $_POST['Levels'];
+
+        $memberships = [];
+        $fl = new FapiLevels();
+        $levels = $fl->loadAsTerms();
+        $levels = array_reduce($levels, function($carry, $one) {
+            $carry[$one->term_id] = $one;
+            return $carry;
+        }, []);
+
+        foreach ($data as $id => $inputs) {
+            if (isset($inputs['check']) && $inputs['check'] === 'on') {
+                if ($levels[$id]->parent === 0) {
+                    if (isset($inputs['registrationDate']) && isset($inputs['registrationTime']) && isset($inputs['membershipUntil'])) {
+
+                        $reg = \DateTime::createFromFormat('Y-m-d\TH:i', $inputs['registrationDate'] . 'T' . $inputs['registrationTime']);
+                        $mem = \DateTime::createFromFormat('Y-m-d\TH:i:s', $inputs['membershipUntil'] . 'T23:59:59');
+                        if ($mem && $reg) {
+                            $memberships[] = [
+                                'level' => $id,
+                                'registered' => $reg->format('Y-m-d\TH:i:s'),
+                                'until' => $mem->format('Y-m-d\TH:i:s'),
+                            ];
+                        }
+                    }
+                } else {
+                    $memberships[] = ['level' => $id];
+                }
+            }
+        }
+
+        update_user_meta( $userId, 'fapi_user_memberships', $memberships );
     }
 
     protected function verifyNonce($key)
@@ -316,12 +366,36 @@ class FapiMemberPlugin
             wp_enqueue_script('fapi-member-swal-promise-polyfill');
             wp_enqueue_script('fapi-member-main');
         }
+        if ($pagenow === 'user-edit.php') {
+            wp_enqueue_style('fapi-member-user-profile');
+        }
     }
 
     public function addAdminMenu()
     {
         add_options_page( 'Fapi Member', 'Fapi Member', 'manage_options', 'fapi-member-options', [$this, 'constructAdminMenu'] );
 
+    }
+
+    public function addUserProfileForm(WP_User $user)
+    {
+        $memberships = get_user_meta($user->ID, 'fapi_user_memberships', true);
+        $memberships = array_reduce($memberships, function($carry, $one) {
+            $carry[$one['level']] = $one;
+            return $carry;
+        }, []);
+        $o[] =  '<h2>Členské sekce</h2>';
+
+        $fl = new FapiLevels();
+        $levels = $fl->loadAsTerms();
+
+        foreach ($levels as $lvl) {
+            if ($lvl->parent === 0) {
+                $o[] = $this->tUserProfileOneSection($lvl, $levels, $memberships);
+            }
+        }
+
+        echo join('', $o);
     }
 
     public function constructAdminMenu()
@@ -413,5 +487,91 @@ class FapiMemberPlugin
         } else {
             return false;
         }
+    }
+
+    /**
+     * @param WP_Term $level
+     * @param WP_Term[] $levels
+     * @param  array $memberships
+     *
+     * @return string
+     */
+    private function tUserProfileOneSection(WP_Term $level, $levels, $memberships)
+    {
+        $lower = array_filter($levels, function($one) use ($level) {
+            return $one->parent === $level->term_id;
+        });
+        $lowerHtml = [];
+        foreach ($lower as $l) {
+            $checked = (isset($memberships[$l->term_id])) ? 'checked' : '';
+            $lowerHtml[] = sprintf(
+                '
+                    <span class="oneLevel">
+                        <input type="checkbox" name="Levels[%s][check]" id="Levels[%s][check]" %s>
+                        <label for="Levels[%s][check]">%s</label>
+                    </span>
+                    ',
+                $l->term_id,
+                $l->term_id,
+                $checked,
+                $l->term_id,
+                $l->name
+            );
+        }
+
+        $checked = (isset($memberships[$level->term_id])) ? 'checked' : '';
+        if (isset($memberships[$level->term_id]['registered'])) {
+            $reg = \DateTime::createFromFormat('Y-m-d\TH:i:s', $memberships[$level->term_id]['registered']);
+            $regDate = sprintf('value="%s"', $reg->format('Y-m-d'));
+            $regTime = sprintf('value="%s"', $reg->format('H:i'));
+        } else {
+            $regDate = '';
+            $regTime = '';
+        }
+        if (isset($memberships[$level->term_id]['until'])) {
+            $reg = \DateTime::createFromFormat('Y-m-d\TH:i:s', $memberships[$level->term_id]['until']);
+            $untilDate = sprintf('value="%s"', $reg->format('Y-m-d'));
+        } else {
+            $untilDate = '';
+        }
+
+        return '
+        <table class="wp-list-table widefat fixed striped fapiMembership">
+            <thead>
+            <tr>
+                <td id="cb" class="manage-column column-cb check-column">
+                    <label class="screen-reader-text" for="Levels['.$level->term_id.'][check]">Vybrat</label>
+                    <input id="Levels['.$level->term_id.'][check]" name="Levels['.$level->term_id.'][check]" type="checkbox" '. $checked .'>
+                </td>
+                <th scope="col" id="title" class="manage-column column-title column-primary">
+                    <span>'.$level->name.'</span>
+                </th>
+                <th scope="col" class="manage-column fields">
+                    <span class="a">Datum registrace</span>
+                    <span class="b">
+                    <input type="date" name="Levels['.$level->term_id.'][registrationDate]" '.$regDate.'>
+                    </span>
+                </th>
+                <th scope="col" class="manage-column fields">
+                    <span class="a">Čas registrace</span>
+                    <span class="b">
+                    <input type="time" name="Levels['.$level->term_id.'][registrationTime]" '.$regTime.'>
+                    </span>
+                </th>
+                <th scope="col" class="manage-column fields">
+                    <span class="a">Členství do</span>
+                    <span class="b">
+                    <input type="date" name="Levels['.$level->term_id.'][membershipUntil]" '.$untilDate.'>
+                    </span>
+                </th>
+            </thead>
+        
+            <tbody id="the-list">
+                <tr><td colspan="5">
+                    '. join('',$lowerHtml) .'
+                </td></tr>
+            </tbody>
+        </table>
+        ';
     }
 }

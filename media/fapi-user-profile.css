@@ -1,0 +1,35 @@
+.fapiMembership {
+  margin-bottom: 1rem;
+}
+.fapiMembership th.fields {
+  max-width: 150px;
+  width: 150px;
+}
+.fapiMembership th.fields .a {
+  color: #838383;
+  font-size: 10px;
+  display: block;
+}
+.fapiMembership th.fields input {
+  margin: 0;
+}
+.fapiMembership tbody td {
+  display: flex;
+}
+.fapiMembership tbody td .oneLevel {
+  flex: 1;
+  margin: 16px 32px 16px 16px;
+  display: grid;
+  grid-template-columns: 24px auto;
+  grid-template-rows: 32px;
+}
+.fapiMembership tbody td .oneLevel input {
+  flex: 1;
+  margin: 0 1px;
+}
+.fapiMembership tbody td .oneLevel label {
+  flex: 1;
+  margin-bottom: -2px;
+}
+
+/*# sourceMappingURL=fapi-user-profile.css.map */
