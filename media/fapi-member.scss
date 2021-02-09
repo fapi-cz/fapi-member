@@ -184,12 +184,28 @@ $okText: #00e800;
 			background-color: white;
 			color: $blue;
 			font-weight: bold;
+
+		&.danger {
+				border: 1px solid $red;
+				color: $red;
+			}
+
+			&[disabled] {
+				border: 1px solid $grayLine;
+				color: $grayText;
+			}
 		}
 
 		&.primary {
 			border: 1px solid $blue;
 			background-color: $blue;
 			color: white;
+
+			&[disabled] {
+				border: 1px solid $grayLine;
+				background-color: $grayLine;
+				color: $grayText;
+			}
 		}
 	}
 
@@ -288,6 +304,10 @@ $okText: #00e800;
 			background-image: url("folder.svg");
 			background-repeat: no-repeat;
 			padding-left: 36px;
+
+			&.selected {
+				background-image: url("folder-selected.svg");
+			}
 		}
 
 		> ol ol {
@@ -298,11 +318,21 @@ $okText: #00e800;
 			background-image: url("bullet.svg");
 			background-repeat: no-repeat;
 			padding-left: 72px;
+
+			&.selected {
+				background-image: url("bullet-selected.svg");
+			}
 		}
 
 		li {
 			line-height: 36px;
 			margin-bottom: 0;
+
+			&.selected {
+				> span, > a {
+					color: $blue;
+				}
+			}
 		}
 
 		button {
@@ -364,7 +394,44 @@ $okText: #00e800;
 		}
 	}
 
+	.todo {
+		background-color: limegreen;
+	}
 
+	.onePage {
+		height: 56px; line-height: 56px;
+		padding-left: 10px;
+		border-bottom: 1px solid $grayLine;
+
+		input {
+			width: 24px;
+			height: 24px;
+			border: 1px solid $grayLine;
+			border-radius: 0;
+
+			&::before {
+				width: 24px;
+				height: 24px;
+			}
+		}
+	}
+
+
+	form.pages {
+		.inner {
+			max-height: 430px;
+			overflow-y: scroll;
+		}
+
+		&.loading {
+			.inner {
+				min-height: 110px;
+				background-image: url('/wp-includes/images/spinner-2x.gif');
+				background-repeat: no-repeat;
+				background-position: 50% 50%;
+			}
+		}
+	}
 }
 
 // popup styles

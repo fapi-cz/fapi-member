@@ -11,6 +11,7 @@ function showErrors() {
         'levelNameOrParentEmpty' => ['error', 'Název úrovně a výběr sekce je povinný.'],
         'sectionNotFound' => ['error', 'Sekce nenalezena.'],
         'removeLevelSuccessful' => ['success', 'Sekce/úroveň smazána.'],
+        'levelIdOrToAddEmpty' => ['error', 'Zvolte prosím úroveň a stránky k přidání.'],
     ];
 
     if (isset($_GET['e']) && isset($errorMap[$_GET['e']])) {
@@ -91,7 +92,7 @@ function submenu($subpage) {
             return '
                 <div class="submenu">
                     '. submenuItem('settingsSectionNew', 'Sekce / úrovně', $subpage, ['settingsLevelNew']) .'
-                    '. submenuItem('settingsContent', 'Přiřazené stránky', $subpage) .'
+                    '. submenuItem('settingsContentRemove', 'Přiřazené stránky', $subpage) .'
                     '. submenuItem('settingsEmails', 'Nastavení e-mailů', $subpage) .'
                     '. submenuItem('settingsPages', 'Ostatní stránky', $subpage) .'
                     '. submenuItem('settingsElements', 'Prvky pro web', $subpage) .'
@@ -171,6 +172,68 @@ function levels() {
     <?php
 }
 
+function oneLevelSelection($id, $link, $name, $children = '', $highlight = false)
+{
+    $c = ($highlight) ? 'class="selected"' : '';
+    $ch = (!empty($children)) ? sprintf('<ol>%s</ol>', $children) : '';
+
+    return sprintf(
+        '<li data-id="%s" %s><a href="%s">%s</a>%s</li>',
+        $id,
+        $c,
+        $link,
+        $name,
+        $ch
+    );
+}
+
+function levelsSelection($subpage) {
+
+    $subpage = ($subpage === 'settingsContentSelect') ? 'settingsContentRemove' : $subpage;
+    $selected = (isset($_GET['level'])) ? (int)$_GET['level'] : null;
+
+    $t =  get_terms(
+        [
+            'taxonomy' => 'fapi_levels',
+            'hide_empty' => false,
+        ]
+    );
+
+    $lis = [];
+
+    foreach ($t as $term) {
+        $under = [];
+        if ($term->parent === 0) {
+            foreach ($t as $underTerm) {
+                if ($underTerm->parent === $term->term_id) {
+                    $under[] = oneLevelSelection(
+                        $underTerm->term_id,
+                        fapilink($subpage) . sprintf('&level=%s', $underTerm->term_id),
+                        $underTerm->name,
+                        '',
+                        ($underTerm->term_id === $selected) ? true : false
+                    );
+                }
+            }
+            $lis[] = oneLevelSelection(
+                $term->term_id,
+                fapilink($subpage) . sprintf('&level=%s', $term->term_id),
+                $term->name,
+                join('',$under),
+                ($term->term_id === $selected) ? true : false
+            );
+        }
+    }
+
+    ?>
+    <div class="levels">
+        <ol>
+            <?= join('', $lis) ?>
+        </ol>
+    </div>
+    <?php
+}
+
 function getLevelOptions() {
 
     $t =  get_terms(
@@ -189,4 +252,40 @@ function getLevelOptions() {
     }
 
     return join('', $options);
+}
+
+function allPagesForForm()
+{
+    $posts = get_posts(['post_type' => 'page', 'post_status' => ['publish']]);
+
+    $o = array_map(function($p) {
+        return sprintf('<div class="onePage"><input type="checkbox" name="toAdd[]" value="%s"> %s</div>', $p->ID, $p->post_title);
+    }, $posts);
+
+    return join('', $o);
+
+}
+
+function levelToPageJson()
+{
+    $levels =  get_terms(
+        [
+            'taxonomy' => 'fapi_levels',
+            'hide_empty' => false,
+        ]
+    );
+    $levels = array_map(function($one) {
+        return [
+                'term_id' => $one->term_id,
+                'name' => $one->name,
+        ];
+    }, $levels);
+
+    $levelToPages = array_reduce($levels, function($carry, $lvl) {
+        $pages = get_term_meta($lvl['term_id'], 'fapi_pages', true);
+        $carry[$lvl['term_id']] = (empty($pages)) ? [] : array_values(json_decode($pages));
+        return $carry;
+    }, []);
+
+    return json_encode($levelToPages);
 }

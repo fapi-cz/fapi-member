@@ -148,11 +148,27 @@
   color: #0074e2;
   font-weight: bold;
 }
+.baseGrid input[type=submit].outline.danger,
+.baseGrid .btn.outline.danger {
+  border: 1px solid #ff0200;
+  color: #ff0200;
+}
+.baseGrid input[type=submit].outline[disabled],
+.baseGrid .btn.outline[disabled] {
+  border: 1px solid #eeeeee;
+  color: #838383;
+}
 .baseGrid input[type=submit].primary,
 .baseGrid .btn.primary {
   border: 1px solid #0074e2;
   background-color: #0074e2;
   color: white;
+}
+.baseGrid input[type=submit].primary[disabled],
+.baseGrid .btn.primary[disabled] {
+  border: 1px solid #eeeeee;
+  background-color: #eeeeee;
+  color: #838383;
 }
 .baseGrid form .row {
   margin-top: 18px;
@@ -231,6 +247,9 @@
   background-repeat: no-repeat;
   padding-left: 36px;
 }
+.baseGrid .levels > ol > li.selected {
+  background-image: url("folder-selected.svg");
+}
 .baseGrid .levels > ol ol {
   margin-left: -36px;
 }
@@ -239,9 +258,15 @@
   background-repeat: no-repeat;
   padding-left: 72px;
 }
+.baseGrid .levels > ol > li li.selected {
+  background-image: url("bullet-selected.svg");
+}
 .baseGrid .levels li {
   line-height: 36px;
   margin-bottom: 0;
+}
+.baseGrid .levels li.selected > span, .baseGrid .levels li.selected > a {
+  color: #0074e2;
 }
 .baseGrid .levels button {
   display: inline-block;
@@ -290,6 +315,35 @@
 .baseGrid .sectionsOverview > div .pagesCount {
   grid-row: 2/3;
   grid-column: 3/4;
+}
+.baseGrid .todo {
+  background-color: limegreen;
+}
+.baseGrid .onePage {
+  height: 56px;
+  line-height: 56px;
+  padding-left: 10px;
+  border-bottom: 1px solid #eeeeee;
+}
+.baseGrid .onePage input {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #eeeeee;
+  border-radius: 0;
+}
+.baseGrid .onePage input::before {
+  width: 24px;
+  height: 24px;
+}
+.baseGrid form.pages .inner {
+  max-height: 430px;
+  overflow-y: scroll;
+}
+.baseGrid form.pages.loading .inner {
+  min-height: 110px;
+  background-image: url("/wp-includes/images/spinner-2x.gif");
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
 }
 
 .swal2-actions .removeConfirmButton {

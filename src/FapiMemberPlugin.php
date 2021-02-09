@@ -26,6 +26,8 @@ class FapiMemberPlugin
         add_action('admin_post_fapi_member_new_section', [$this, 'handleNewSection']);
         add_action('admin_post_fapi_member_new_level', [$this, 'handleNewLevel']);
         add_action('admin_post_fapi_member_remove_level', [$this, 'handleRemoveLevel']);
+        add_action('admin_post_fapi_member_add_pages', [$this, 'handleAddPages']);
+        add_action('admin_post_fapi_member_remove_pages', [$this, 'handleRemovePages']);
 
     }
 
@@ -198,6 +200,68 @@ class FapiMemberPlugin
 
     }
 
+    public function handleAddPages()
+    {
+        $this->verifyNonce('fapi_member_add_pages_nonce');
+
+        $levelId = (isset($_POST['level_id']) && !empty($_POST['level_id'])) ? $_POST['level_id'] : null;
+        $toAdd = (isset($_POST['toAdd']) && !empty($_POST['toAdd'])) ? $_POST['toAdd'] : null;
+
+        if ($levelId === null || $toAdd === null) {
+            $this->redirect('settingsContentAdd', 'levelIdOrToAddEmpty');
+        }
+
+        $parent = get_term($levelId, 'fapi_levels');
+        if ($parent === null) {
+            $this->redirect('settingsContentAdd', 'sectionNotFound');
+        }
+
+        // check parent
+        $old = get_term_meta($parent->term_id, 'fapi_pages', true);
+
+        $old = (empty($old)) ? null : json_decode($old);
+
+        $all = ($old === null) ? $toAdd : array_merge($old, $toAdd);
+        $all = array_values(array_unique($all));
+        $all = array_map('intval', $all);
+        update_term_meta($parent->term_id, 'fapi_pages', json_encode($all));
+
+        $this->redirect('settingsContentRemove', null, ['level' => $levelId]);
+
+    }
+
+    public function handleRemovePages()
+    {
+        $this->verifyNonce('fapi_member_remove_pages_nonce');
+
+        $levelId = (isset($_POST['level_id']) && !empty($_POST['level_id'])) ? $_POST['level_id'] : null;
+        $toRemove = (isset($_POST['toRemove']) && !empty($_POST['toRemove'])) ? $_POST['toRemove'] : null;
+
+        if ($levelId === null || $toRemove === null) {
+            $this->redirect('settingsContentRemove', 'levelIdOrToAddEmpty');
+        }
+
+        $parent = get_term($levelId, 'fapi_levels');
+        if ($parent === null) {
+            $this->redirect('settingsContentRemove', 'sectionNotFound');
+        }
+
+        $toRemove = array_map('intval', $toRemove);
+
+        // check parent
+        $old = get_term_meta($parent->term_id, 'fapi_pages', true);
+
+        $old = (empty($old)) ? [] : json_decode($old);
+
+        $new = array_values(array_filter($old, function($one) use ($toRemove){
+            return !in_array($one, $toRemove);
+        }));
+        update_term_meta($parent->term_id, 'fapi_pages', json_encode($new));
+
+        $this->redirect('settingsContentRemove', null, ['level' => $levelId]);
+
+    }
+
     public function handleRemoveLevel()
     {
         $this->verifyNonce('fapi_member_remove_level_nonce');
@@ -286,9 +350,19 @@ class FapiMemberPlugin
         $this->showTemplate('settingsLevelNew');
     }
 
-    protected function showSettingsContent()
+    protected function showSettingsContentSelect()
     {
-        $this->showTemplate('settingsContent');
+        $this->showTemplate('settingsContentSelect');
+    }
+
+    protected function showSettingsContentRemove()
+    {
+        $this->showTemplate('settingsContentRemove');
+    }
+
+    protected function showSettingsContentAdd()
+    {
+        $this->showTemplate('settingsContentAdd');
     }
 
     protected function showConnection()
@@ -307,11 +381,15 @@ class FapiMemberPlugin
         }
     }
 
-    protected function redirect($subpage, $e = null) {
+    protected function redirect($subpage, $e = null, $other = []) {
+        $tail = '';
+        foreach ($other as $key => $value) {
+            $tail .= sprintf('&%s=%s', $key, urlencode($value));
+        }
         if ($e === null) {
-            wp_redirect(admin_url(sprintf('/options-general.php?page=fapi-member-options&subpage=%s', $subpage)));
+            wp_redirect(admin_url(sprintf('/options-general.php?page=fapi-member-options&subpage=%s%s', $subpage, $tail)));
         } else {
-            wp_redirect(admin_url(sprintf('/options-general.php?page=fapi-member-options&subpage=%s&e=%s', $subpage, $e)));
+            wp_redirect(admin_url(sprintf('/options-general.php?page=fapi-member-options&subpage=%s&e=%s%s', $subpage, $e, $tail)));
         }
         exit;
     }
