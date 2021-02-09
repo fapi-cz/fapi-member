@@ -12,6 +12,12 @@ class FapiMemberPlugin
         $this->registerScripts();
     }
 
+    public static function isDevelopment()
+    {
+        $s = $_SERVER['SERVER_NAME'];
+        return ($s === 'localhost');
+    }
+
     public function addHooks()
     {
         add_action('admin_menu', [$this, 'addAdminMenu'] );
@@ -54,7 +60,11 @@ class FapiMemberPlugin
         wp_register_script( 'fapi-member-swal', $p);
         $p = plugins_url( 'fapi-member/node_modules/promise-polyfill/dist/polyfill.min.js');
         wp_register_script( 'fapi-member-swal-promise-polyfill', $p);
-        $p = plugins_url( 'fapi-member/media/fapi.js' );
+        if (self::isDevelopment()) {
+            $p = plugins_url( 'fapi-member/media/dist/fapi.dev.js' );
+        } else {
+            $p = plugins_url( 'fapi-member/media/dist/fapi.dist.js' );
+        }
         wp_register_script( 'fapi-member-main', $p);
     }
 

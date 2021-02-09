@@ -1,7 +1,5 @@
 <?php
 
-
-
 function showErrors() {
 
     $errorMap = [
@@ -23,7 +21,6 @@ function showErrors() {
 function h1() {
     $svg = file_get_contents(__DIR__ . '/../_sources/LOGO_FAPI_svg.svg');
     return sprintf('<div class="h1">%s</div>', $svg);
-    //return '<h1>Fapi Member</h1>';
 }
 
 function nav($subpage, $areApiCredentialsSet) {
@@ -145,13 +142,8 @@ function fapilink($subpage) {
 }
 
 function levels() {
-
-    $t =  get_terms(
-        [
-            'taxonomy' => 'fapi_levels',
-            'hide_empty' => false,
-        ]
-    );
+    global $fapiLevels;
+    $t = $fapiLevels->loadAsTerms();
 
     $lis = [];
     $actions = '<button class="edit"></button><button class="remove"></button>';
@@ -198,16 +190,12 @@ function oneLevelSelection($id, $link, $name, $children = '', $highlight = false
 }
 
 function levelsSelection($subpage) {
+    global $fapiLevels;
 
     $subpage = ($subpage === 'settingsContentSelect') ? 'settingsContentRemove' : $subpage;
     $selected = (isset($_GET['level'])) ? (int)$_GET['level'] : null;
 
-    $t =  get_terms(
-        [
-            'taxonomy' => 'fapi_levels',
-            'hide_empty' => false,
-        ]
-    );
+    $t = $fapiLevels->loadAsTerms();
 
     $lis = [];
 
@@ -246,12 +234,8 @@ function levelsSelection($subpage) {
 
 function getLevelOptions() {
 
-    $t =  get_terms(
-        [
-            'taxonomy' => 'fapi_levels',
-            'hide_empty' => false,
-        ]
-    );
+    global $fapiLevels;
+    $t = $fapiLevels->loadAsTerms();
 
     $options = [];
 
