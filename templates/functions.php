@@ -92,7 +92,7 @@ function submenu($subpage) {
             return '
                 <div class="submenu">
                     '. submenuItem('settingsSectionNew', 'Sekce / úrovně', $subpage, ['settingsLevelNew']) .'
-                    '. submenuItem('settingsContentRemove', 'Přiřazené stránky', $subpage) .'
+                    '. submenuItem('settingsContentRemove', 'Přiřazené stránky', $subpage, ['settingsContentAdd']) .'
                     '. submenuItem('settingsEmails', 'Nastavení e-mailů', $subpage) .'
                     '. submenuItem('settingsPages', 'Ostatní stránky', $subpage) .'
                     '. submenuItem('settingsElements', 'Prvky pro web', $subpage) .'
@@ -112,7 +112,17 @@ function submenuItem($subpage, $label, $activeSubpage, $otherChildren = null) {
         $classes[] = 'active';
     }
 
-    return sprintf('<a href="%s" class="%s">%s</a>', fapilink($subpage), join(', ', $classes), $label);
+    return sprintf('<a href="%s" class="%s">%s</a>', fapilink($subpage), join(' ', $classes), $label);
+}
+
+function subSubmenuItem($subpage, $label, $activeSubpage) {
+    $classes = ['subsubmenuitem'];
+
+    if ($activeSubpage === $subpage) {
+        $classes[] = 'active';
+    }
+
+    return sprintf('<a href="%s" class="%s">%s</a>', fapilink($subpage), join(' ', $classes), $label);
 }
 
 function help() {

@@ -15,8 +15,8 @@
             </div>
             <div class="b">
                 <div class="subsubmenu">
-                    <?= submenuItem('settingsContentRemove', 'Obsah sekce/Odebírání stránek', $subpage) ?>
-                    <?= submenuItem('settingsContentAdd', 'Přiřazení stránek', $subpage) ?>
+                    <?= subSubmenuItem('settingsContentRemove', 'Obsah sekce/Odebírání stránek', $subpage) ?>
+                    <?= subSubmenuItem('settingsContentAdd', 'Přiřazení stránek', $subpage) ?>
                 </div>
                 <div>
                     <form class="addPagesForm pages" method="post" action="<?php echo admin_url('admin-post.php'); ?>">

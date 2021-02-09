@@ -31,7 +31,6 @@ document.addEventListener('click', (event) => {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                console.log('removing', id)
                 let form = document.getElementById('LevelRemoveForm')
                 form.querySelector('[name="level_id"]').setAttribute('value', id)
                 form.submit()
@@ -44,12 +43,9 @@ document.addEventListener('click', (event) => {
 
 document.addEventListener('click', (event) => {
     if (event.target.matches('form.pages button')) {
-        console.log('JOP')
         event.preventDefault()
         let id = findSelectedLevel()
         let form = event.target.closest('form');
-        console.log(id)
-
         form.querySelector('[name="level_id"]').value = id
         form.submit()
     }
@@ -66,6 +62,7 @@ document.addEventListener('click', (event) => {
         reloadPagesToRemove()
         recheckPagesToAdd()
         reenableAddRemovePagesButton()
+        changeSubSubMenuLinks()
     }
 })
 
@@ -78,6 +75,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
     disableAddRemovePagesButton()
     reenableAddRemovePagesButton()
 })
+
+const changeSubSubMenuLinks = () => {
+    let lvl = findSelectedLevel()
+    Array.from(document.querySelectorAll('.subsubmenuitem')).forEach((one) => {
+        let url = one.getAttribute('href')
+        let lvlR = new RegExp('&level=');
+        if (lvlR.test(url)) {
+            one.setAttribute(
+                'href',
+                url.replace(/(&level=[0-9]*)/, `&level=${lvl}`)
+                )
+        } else {
+            one.setAttribute('href', `${url}&level=${lvl}`)
+        }
+    })
+}
 
 const levelToPages = (lvl) => {
     if (!window.hasOwnProperty('LevelToPage')) {
@@ -123,7 +136,6 @@ const reloadPagesToRemove = () => {
         return
     }
     let pages = levelToPages(findSelectedLevel())
-    console.log(pages)
     let tail = pages.reduce((a, one) => {
         return a + '&include[]=' + one;
     }, '');
@@ -148,10 +160,8 @@ const recheckPagesToAdd = () => {
         return
     }
     let disable = levelToPages(findSelectedLevel())
-    console.log(disable)
     Array.from(addList.querySelectorAll('input[type="checkbox"]')).forEach((one) => {
         let id = parseInt(one.value)
-        console.log(id)
         if (disable.indexOf(id) >= 0) {
             one.readOnly = true
         } else {
