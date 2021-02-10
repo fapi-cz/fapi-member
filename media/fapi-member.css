@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .baseGrid {
   display: grid;
   grid-template-columns: 240px 760px 360px;
@@ -40,6 +41,7 @@
   padding-left: 32px;
   border-top-left-radius: 45px;
   border-bottom-left-radius: 45px;
+  outline: none;
 }
 .baseGrid nav > a .a,
 .baseGrid nav > span .a {
@@ -77,6 +79,10 @@
 .baseGrid nav > a.active svg path,
 .baseGrid nav > span.active svg path {
   fill: #0074e2;
+}
+.baseGrid nav > a:focus,
+.baseGrid nav > span:focus {
+  outline: none;
 }
 .baseGrid .submenu {
   grid-column: 2/4;
@@ -186,6 +192,14 @@
   padding: 0 16px;
   width: 100%;
 }
+.baseGrid form .row textarea {
+  background-color: #e9f3ff;
+  border-radius: 4px;
+  border: none;
+  height: 114px;
+  padding: 8px 16px;
+  width: 100%;
+}
 .baseGrid form .row select {
   background-color: #e9f3ff;
   border-radius: 4px;
@@ -237,37 +251,47 @@
 .baseGrid .subsubmenu a.active {
   color: #0074e2;
 }
+.baseGrid .levelsNonJs ol,
 .baseGrid .levels ol {
   list-style-type: none;
   padding-left: 0;
   margin: 0;
 }
+.baseGrid .levelsNonJs > ol > li,
 .baseGrid .levels > ol > li {
   background-image: url("folder.svg");
   background-repeat: no-repeat;
   padding-left: 36px;
 }
+.baseGrid .levelsNonJs > ol > li.selected,
 .baseGrid .levels > ol > li.selected {
   background-image: url("folder-selected.svg");
 }
+.baseGrid .levelsNonJs > ol ol,
 .baseGrid .levels > ol ol {
   margin-left: -36px;
 }
+.baseGrid .levelsNonJs > ol > li li,
 .baseGrid .levels > ol > li li {
   background-image: url("bullet.svg");
   background-repeat: no-repeat;
   padding-left: 72px;
 }
+.baseGrid .levelsNonJs > ol > li li.selected,
 .baseGrid .levels > ol > li li.selected {
   background-image: url("bullet-selected.svg");
 }
+.baseGrid .levelsNonJs li,
 .baseGrid .levels li {
   line-height: 36px;
   margin-bottom: 0;
 }
-.baseGrid .levels li.selected > span, .baseGrid .levels li.selected > a {
+.baseGrid .levelsNonJs li.selected > span, .baseGrid .levelsNonJs li.selected > a,
+.baseGrid .levels li.selected > span,
+.baseGrid .levels li.selected > a {
   color: #0074e2;
 }
+.baseGrid .levelsNonJs button,
 .baseGrid .levels button {
   display: inline-block;
   width: 15px;
@@ -278,9 +302,11 @@
   cursor: pointer;
   outline: none;
 }
+.baseGrid .levelsNonJs button.edit,
 .baseGrid .levels button.edit {
   background-image: url("pencil.svg");
 }
+.baseGrid .levelsNonJs button.remove,
 .baseGrid .levels button.remove {
   background-image: url("close.svg");
 }
@@ -366,6 +392,51 @@
 .baseGrid .emptyIndex a {
   grid-row: 3/4;
   grid-column: 1/2;
+}
+.baseGrid .oneEmail {
+  border: 1px solid #eeeeee;
+  padding: 22px 22px 0 22px;
+  margin-bottom: 38px;
+}
+.baseGrid .oneEmail .header {
+  position: relative;
+  height: 40px;
+  padding-top: 8px;
+}
+.baseGrid .oneEmail .header h3 {
+  margin: 0;
+}
+.baseGrid .oneEmail .header .carret {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+.baseGrid .oneEmail .header .carret::after {
+  display: block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  content: "";
+  font: normal 20px dashicons;
+}
+.baseGrid .oneEmail .body {
+  display: none;
+}
+.baseGrid .oneEmail.open {
+  padding-bottom: 22px;
+}
+.baseGrid .oneEmail.open .header {
+  border-bottom: 1px solid #eeeeee;
+}
+.baseGrid .oneEmail.open .body {
+  display: block;
+}
+.baseGrid .oneEmail.open .carret::after {
+  content: "";
 }
 
 .swal2-actions .removeConfirmButton {

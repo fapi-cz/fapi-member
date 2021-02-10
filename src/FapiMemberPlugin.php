@@ -234,7 +234,7 @@ class FapiMemberPlugin
 
         wp_insert_term( $name, 'fapi_levels');
 
-        $this->redirect('settingSectionNew');
+        $this->redirect('settingsSectionNew');
 
     }
 
@@ -471,6 +471,11 @@ class FapiMemberPlugin
     protected function showConnection()
     {
         $this->showTemplate('connection');
+    }
+
+    protected function showSettingsEmails()
+    {
+        $this->showTemplate('settingsEmails');
     }
 
     protected function showTemplate($name)

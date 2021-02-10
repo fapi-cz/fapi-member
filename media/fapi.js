@@ -101,6 +101,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
     reenableAddRemovePagesButton()
 })
 
+document.addEventListener('click', (event) => {
+    if (event.target.matches('.oneEmail .carret')) {
+        console.log('O')
+        event.target.closest('.oneEmail').classList.toggle('open');
+    }
+})
+
 const changeSubSubMenuLinks = () => {
     let lvl = findSelectedLevel()
     Array.from(document.querySelectorAll('.subsubmenuitem')).forEach((one) => {

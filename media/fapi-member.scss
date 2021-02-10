@@ -50,6 +50,8 @@
 			padding-left: 32px;
 			border-top-left-radius: 45px;
 			border-bottom-left-radius: 45px;
+			outline: none;
+
 
 			.a {
 				font-weight: bold;
@@ -88,6 +90,10 @@
 						fill: $blue;
 					}
 				}
+			}
+
+			&:focus {
+				outline: none;
 			}
 		}
 	}
@@ -222,6 +228,15 @@
 				width: 100%;
 			}
 
+			textarea {
+				background-color: $blueBg;
+				border-radius: 4px;
+				border: none;
+				height: 114px;
+				padding: 8px 16px;
+				width: 100%;
+			}
+
 			select {
 				background-color: $blueBg;
 				border-radius: 4px;
@@ -285,7 +300,9 @@
 		}
 	}
 
-	.levels {
+	.levelsNonJs,
+	.levels
+	{
 
 		ol {
 			list-style-type: none;
@@ -449,6 +466,66 @@
 		a {
 			grid-row: 3/4;
 			grid-column: 1/2;
+		}
+	}
+
+	.oneEmail {
+
+		border: 1px solid $grayLine;
+		padding: 22px 22px 0 22px;
+		margin-bottom: 38px;
+
+		.header {
+			position: relative;
+			height: 40px;
+			padding-top: 8px;
+
+			h3 {
+				margin: 0;
+			}
+
+			.carret {
+				width: 30px;
+				height: 30px;
+				position: absolute;
+				top: 0; right: 0;
+				cursor: pointer;
+
+				&::after {
+					display: block;
+					width: 30px;
+					height: 30px;
+					line-height: 30px;
+					text-align: center;
+					content: "\f140";
+					font: normal 20px dashicons;
+				}
+
+
+			}
+
+
+		}
+
+		.body {
+			display: none;
+		}
+
+		&.open {
+
+			padding-bottom: 22px;
+
+			.header {
+				border-bottom: 1px solid $grayLine;
+			}
+
+			.body {
+				display: block;
+			}
+
+			.carret::after {
+			content: "\f142";
+			}
 		}
 	}
 }

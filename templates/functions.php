@@ -246,6 +246,49 @@ function levelsSelection($subpage) {
     <?php
 }
 
+function levelsSelectionNonJs($subpage) {
+    global $fapiLevels;
+
+    $subpage = ($subpage === 'settingsContentSelect') ? 'settingsContentRemove' : $subpage;
+    $selected = (isset($_GET['level'])) ? (int)$_GET['level'] : null;
+
+    $t = $fapiLevels->loadAsTerms();
+
+    $lis = [];
+
+    foreach ($t as $term) {
+        $under = [];
+        if ($term->parent === 0) {
+            foreach ($t as $underTerm) {
+                if ($underTerm->parent === $term->term_id) {
+                    $under[] = oneLevelSelection(
+                        $underTerm->term_id,
+                        fapilink($subpage) . sprintf('&level=%s', $underTerm->term_id),
+                        $underTerm->name,
+                        '',
+                        ($underTerm->term_id === $selected) ? true : false
+                    );
+                }
+            }
+            $lis[] = oneLevelSelection(
+                $term->term_id,
+                fapilink($subpage) . sprintf('&level=%s', $term->term_id),
+                $term->name,
+                join('',$under),
+                ($term->term_id === $selected) ? true : false
+            );
+        }
+    }
+
+    ?>
+    <div class="levelsNonJs">
+        <ol>
+            <?= join('', $lis) ?>
+        </ol>
+    </div>
+    <?php
+}
+
 function getLevelOptions() {
 
     global $fapiLevels;
