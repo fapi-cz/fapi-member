@@ -1,0 +1,43 @@
+@import "colors";
+
+.fapiShortcodeLoginForm {
+	width: 290px;
+	padding: 10px;
+
+	.row {
+
+		label {
+			display: inline-block;
+			font-weight: bold;
+			margin: 14px 0 0 0;
+		}
+
+		input[type="text"],
+		input[type="password"]
+		{
+			border: 0;
+			height: 45px;
+			line-height: 45px;
+			width: 100%;
+			background-color: #f3f3f3;
+		}
+
+		input[type="submit"]
+		{
+			display: inline-block;
+			height: 40px;
+			line-height: 40px;
+			border-radius: 20px;
+			padding: 0 22px;
+			border: 1px solid $blue;
+			background-color: $blue;
+			color: white;
+			font-size: 14px;
+		}
+
+		&.controls {
+			margin-top: 14px;
+			text-align: center;
+		}
+	}
+}

@@ -1,0 +1,34 @@
+.fapiShortcodeLoginForm {
+  width: 290px;
+  padding: 10px;
+}
+.fapiShortcodeLoginForm .row label {
+  display: inline-block;
+  font-weight: bold;
+  margin: 14px 0 0 0;
+}
+.fapiShortcodeLoginForm .row input[type=text],
+.fapiShortcodeLoginForm .row input[type=password] {
+  border: 0;
+  height: 45px;
+  line-height: 45px;
+  width: 100%;
+  background-color: #f3f3f3;
+}
+.fapiShortcodeLoginForm .row input[type=submit] {
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 20px;
+  padding: 0 22px;
+  border: 1px solid #0074e2;
+  background-color: #0074e2;
+  color: white;
+  font-size: 14px;
+}
+.fapiShortcodeLoginForm .row.controls {
+  margin-top: 14px;
+  text-align: center;
+}
+
+/*# sourceMappingURL=fapi-member-public.css.map */

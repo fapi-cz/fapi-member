@@ -113,6 +113,9 @@
 .baseGrid .page.both {
   grid-column: 2/4;
 }
+.baseGrid .page.wider {
+  grid-column: 2/4;
+}
 .baseGrid .page.smallerPadding {
   padding: 48px 0 48px 48px;
 }

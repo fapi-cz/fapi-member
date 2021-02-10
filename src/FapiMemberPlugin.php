@@ -22,9 +22,11 @@ class FapiMemberPlugin
     {
         add_action('admin_menu', [$this, 'addAdminMenu'] );
         add_action('admin_enqueue_scripts', [$this, 'addScripts'] );
+        add_action('wp_enqueue_scripts', [$this, 'addPublicScripts'] );
         add_action('admin_init', [$this, 'registerSettings']);
 
         add_action('init', [$this, 'registerLevelsTaxonomy']);
+        add_action('init', [$this, 'addShortcodes']);
         add_action('rest_api_init', [$this, 'addRestEndpoints']);
 
         //user profile
@@ -59,6 +61,8 @@ class FapiMemberPlugin
         wp_register_style( 'fapi-member-admin-font', $p);
         $p = plugins_url( 'fapi-member/node_modules/sweetalert2/dist/sweetalert2.min.css' );
         wp_register_style( 'fapi-member-swal-css', $p);
+        $p = plugins_url( 'fapi-member/media/fapi-member-public.css' );
+        wp_register_style( 'fapi-member-public-style', $p);
     }
 
     public function registerScripts()
@@ -83,6 +87,23 @@ class FapiMemberPlugin
             'show_ui' => true, //TODO: change
             'show_in_rest' => false,
         ]);
+    }
+
+    public function addShortcodes()
+    {
+        add_shortcode('fapi-member-login', [$this, 'shortcodeLogin']);
+        add_shortcode('fapi-member-user', [$this, 'shortcodeUser']);
+    }
+
+    public function shortcodeLogin()
+    {
+        include __DIR__.'/../templates/functions.php';
+        return shortcodeLoginForm();
+    }
+
+    public function shortcodeUser()
+    {
+        return 'USER';
     }
 
     public function addRestEndpoints()
@@ -387,6 +408,11 @@ class FapiMemberPlugin
         }
     }
 
+    public function addPublicScripts()
+    {
+        wp_enqueue_style('fapi-member-public-style');
+    }
+
     public function addAdminMenu()
     {
         add_options_page( 'Fapi Member', 'Fapi Member', 'manage_options', 'fapi-member-options', [$this, 'constructAdminMenu'] );
@@ -476,6 +502,11 @@ class FapiMemberPlugin
     protected function showSettingsEmails()
     {
         $this->showTemplate('settingsEmails');
+    }
+
+    protected function showSettingsElements()
+    {
+        $this->showTemplate('settingsElements');
     }
 
     protected function showTemplate($name)

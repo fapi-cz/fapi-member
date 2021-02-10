@@ -323,3 +323,24 @@ function levelToPageJson()
 
     return json_encode($fapiLevels->levelsToPages());
 }
+
+function shortcodeLoginForm()
+{
+    return '
+        <div class="fapiShortcodeLoginForm">
+            <form method="post" action="/wp-login.php">
+                <div class="row">
+                    <label for="log">Zadejte uživatelské jméno</label>
+                    <input type="text" name="log" id="log">
+                </div>
+                <div class="row">
+                    <label for="pwd">Zadejte heslo</label>
+                    <input type="password" name="pwd" id="pwd">
+                </div>
+                <div class="row controls">
+                    <input type="submit" class="primary" value="Přihlásit se">
+                </div>
+            </form>
+        </div>    
+    ';
+}
