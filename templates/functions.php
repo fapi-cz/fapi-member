@@ -121,7 +121,13 @@ function subSubmenuItem($subpage, $label, $activeSubpage) {
         $classes[] = 'active';
     }
 
-    return sprintf('<a href="%s" class="%s">%s</a>', fapilink($subpage), join(' ', $classes), $label);
+    if (isset($_GET['level'])) {
+        $tail = sprintf('&level=%s', $_GET['level']);
+    } else {
+        $tail = '';
+    }
+
+    return sprintf('<a href="%s%s" class="%s">%s</a>', fapilink($subpage), $tail, join(' ', $classes), $label);
 }
 
 function help() {
