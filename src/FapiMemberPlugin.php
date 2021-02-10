@@ -379,15 +379,18 @@ class FapiMemberPlugin
 
     public function addUserProfileForm(WP_User $user)
     {
+        $fl = new FapiLevels();
+        $levels = $fl->loadAsTerms();
+
         $memberships = get_user_meta($user->ID, 'fapi_user_memberships', true);
+        $memberships = $this->removeMembershipsToRemovedLevels($user->ID, $memberships, $levels);
         $memberships = array_reduce($memberships, function($carry, $one) {
             $carry[$one['level']] = $one;
             return $carry;
         }, []);
         $o[] =  '<h2>Členské sekce</h2>';
 
-        $fl = new FapiLevels();
-        $levels = $fl->loadAsTerms();
+
 
         foreach ($levels as $lvl) {
             if ($lvl->parent === 0) {
@@ -573,5 +576,26 @@ class FapiMemberPlugin
             </tbody>
         </table>
         ';
+    }
+
+    protected function removeMembershipsToRemovedLevels($userId, $memberships, $levels)
+    {
+        $updated = false;
+        $new = [];
+        $levelIds = array_reduce($levels, function($carry, $one) {
+            $carry[] = $one->term_id;
+            return $carry;
+        }, []);
+        foreach ($memberships as $m) {
+            if (in_array($m['level'], $levelIds)) {
+                $new[] = $m;
+            } else {
+                $updated = true;
+            }
+        }
+        if ($updated) {
+            update_user_meta( $userId, 'fapi_user_memberships', $new );
+        }
+        return $new;
     }
 }
