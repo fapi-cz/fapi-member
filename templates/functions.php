@@ -138,7 +138,7 @@ function help() {
             <div>
                 <h4>Jak vytvořit členskou sekci</h4>
                 <p>Nevíte si rady, podívejte se na náš fantastický návod kudy do toho, pak bude vše jasnější.</p>
-                <a href="" class="btn outline">Přečíst</a>
+                <a href="'.fapilink('help').'&topic=createSection" class="btn outline">Přečíst</a>
             </div>
         </div>
     </div>

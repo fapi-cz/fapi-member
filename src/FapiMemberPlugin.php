@@ -510,6 +510,11 @@ class FapiMemberPlugin
         $this->showTemplate('settingsElements');
     }
 
+    protected function showHelp()
+    {
+        $this->showTemplate('help');
+    }
+
     protected function showTemplate($name)
     {
         $areApiCredentialsSet = $this->areApiCredentialsSet();
