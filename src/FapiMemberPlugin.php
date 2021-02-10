@@ -35,6 +35,7 @@ class FapiMemberPlugin
         add_action('admin_post_fapi_member_new_section', [$this, 'handleNewSection']);
         add_action('admin_post_fapi_member_new_level', [$this, 'handleNewLevel']);
         add_action('admin_post_fapi_member_remove_level', [$this, 'handleRemoveLevel']);
+        add_action('admin_post_fapi_member_edit_level', [$this, 'handleEditLevel']);
         add_action('admin_post_fapi_member_add_pages', [$this, 'handleAddPages']);
         add_action('admin_post_fapi_member_remove_pages', [$this, 'handleRemovePages']);
             // user profile save
@@ -337,6 +338,21 @@ class FapiMemberPlugin
 
         $this->redirect('settingsLevelNew', 'removeLevelSuccessful');
 
+    }
+
+    public function handleEditLevel()
+    {
+        $this->verifyNonce('fapi_member_edit_level_nonce');
+
+        $id = (isset($_POST['level_id']) && !empty($_POST['level_id'])) ? $_POST['level_id'] : null;
+        $name = (isset($_POST['name']) && !empty($_POST['name'])) ? $_POST['name'] : null;
+
+        if ($id === null || $name === null) {
+            $this->redirect('settingsSectionNew', 'editLevelNoName');
+        }
+        wp_update_term($id, 'fapi_levels', ['name' => $name]);
+
+        $this->redirect('settingsLevelNew', 'editLevelSuccessful');
     }
 
     public function registerSettings()

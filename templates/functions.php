@@ -9,7 +9,9 @@ function showErrors() {
         'levelNameOrParentEmpty' => ['error', 'Název úrovně a výběr sekce je povinný.'],
         'sectionNotFound' => ['error', 'Sekce nenalezena.'],
         'removeLevelSuccessful' => ['success', 'Sekce/úroveň smazána.'],
+        'editLevelSuccessful' => ['success', 'Sekce/úroveň upravena.'],
         'levelIdOrToAddEmpty' => ['error', 'Zvolte prosím úroveň a stránky k přidání.'],
+        'editLevelNoName' => ['error', 'Chyba změny sekce/úrovně.'],
     ];
 
     if (isset($_GET['e']) && isset($errorMap[$_GET['e']])) {
@@ -169,6 +171,12 @@ function levels() {
     <form method="post" action="<?php echo admin_url('admin-post.php'); ?>" id="LevelRemoveForm">
         <input type="hidden" name="action" value="fapi_member_remove_level">
         <input type="hidden" name="fapi_member_remove_level_nonce" value="<?php echo wp_create_nonce('fapi_member_remove_level_nonce') ?>">
+        <input type="hidden" name="level_id" value="">
+    </form>
+    <form method="post" action="<?php echo admin_url('admin-post.php'); ?>" id="LevelEditForm">
+        <input type="hidden" name="action" value="fapi_member_edit_level">
+        <input type="hidden" name="fapi_member_edit_level_nonce" value="<?php echo wp_create_nonce('fapi_member_edit_level_nonce') ?>">
+        <input type="hidden" name="name" value="">
         <input type="hidden" name="level_id" value="">
     </form>
     <?php

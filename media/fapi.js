@@ -42,6 +42,31 @@ document.addEventListener('click', (event) => {
 })
 
 document.addEventListener('click', (event) => {
+    if (event.target.matches('.levels .edit')) {
+        let name = event.target.parentNode.querySelector('span').innerText;
+        let id = event.target.parentNode.getAttribute('data-id');
+        Swal.fire({
+            input: 'text',
+            inputLabel: 'Nový název',
+            inputValue: name,
+            showDenyButton: true,
+            confirmButtonText: `Přejmenovat`,
+            denyButtonText: `Ponechat`
+
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let form = document.getElementById('LevelEditForm')
+                form.querySelector('[name="level_id"]').setAttribute('value', id)
+                form.querySelector('[name="name"]').setAttribute('value', result.value)
+                form.submit()
+            } else if (result.isDenied) {
+                // none
+            }
+        })
+    }
+})
+
+document.addEventListener('click', (event) => {
     if (event.target.matches('form.pages button')) {
         event.preventDefault()
         let id = findSelectedLevel()
