@@ -344,3 +344,24 @@ function shortcodeLoginForm()
         </div>    
     ';
 }
+
+function shortcodeUser()
+{
+    $u = wp_get_current_user();
+    if ($u instanceof WP_User) {
+        return '
+        <div class="fapiShortcodeUser">
+            <span class="i">IK</span>
+            <span class="h">Uživatel</span>
+            <span class="l">'. $u->user_login .'</span>
+            <div class="submenu">
+                <a href="'.wp_logout_url().'">Odhlásit se</a>
+            </div>
+        </div>    
+    ';
+    } else {
+        return '';
+    }
+
+
+}

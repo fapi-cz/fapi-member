@@ -97,13 +97,14 @@ class FapiMemberPlugin
 
     public function shortcodeLogin()
     {
-        include __DIR__.'/../templates/functions.php';
+        include_once __DIR__.'/../templates/functions.php';
         return shortcodeLoginForm();
     }
 
     public function shortcodeUser()
     {
-        return 'USER';
+        include_once __DIR__.'/../templates/functions.php';
+        return shortcodeUser();
     }
 
     public function addRestEndpoints()
