@@ -32,17 +32,32 @@ global $fapiLevels;
                     return $carry;
                 }, []);
 
+                $empty = true;
 
                 foreach ($topLevels as $level) {
-            ?>
-                    <div>
-                        <div class="name"><?= $level->name ?></div>
-                        <div class="levelCount">Počet úrovní: <?= (isset($levelCount[$level->term_id])) ? $levelCount[$level->term_id] : 0 ?></div>
-                        <div class="membersCount">Počet registrovaných: TODO</div>
-                        <div class="pagesCount">Stránek v celé sekci: <?= (isset($pagesCount[$level->term_id])) ? $pagesCount[$level->term_id] : 0 ?></div>
-                    </div>
-            <?php } ?>
+                    $empty = false;
+                    ?>
+                        <div>
+                            <div class="name"><?= $level->name ?></div>
+                            <div class="levelCount">Počet úrovní: <?= (isset($levelCount[$level->term_id])) ? $levelCount[$level->term_id] : 0 ?></div>
+                            <div class="membersCount">Počet registrovaných: TODO</div>
+                            <div class="pagesCount">Stránek v celé sekci: <?= (isset($pagesCount[$level->term_id])) ? $pagesCount[$level->term_id] : 0 ?></div>
+                        </div>
+                    <?php } ?>
+
         </div>
+        <?php if ($empty) { ?>
+
+            <div class="emptyIndex">
+                <img src="<?= plugin_dir_url(__FILE__) . '../media/membership.svg' ?>">
+                <p class="gray">
+                    Nemáte vytvořenou žádnou členskou sekci.<br>
+                    Novou sekci můžete vytvořit na záložce Sekce / úrovně.
+                </p>
+                <a href="<?= fapilink('settingsSectionNew') ?>" class="btn primary">Přejít do záložky Sekce / úrovně</a>
+            </div>
+
+        <?php } ?>
     </div>
     <?= help() ?>
 </div>

@@ -345,6 +345,28 @@
   background-repeat: no-repeat;
   background-position: 50% 50%;
 }
+.baseGrid .emptyIndex {
+  margin-top: 130px;
+  display: grid;
+  grid-template-rows: 70px 115px 48px;
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-items: center;
+}
+.baseGrid .emptyIndex img {
+  grid-row: 1/2;
+  grid-column: 1/2;
+  width: 100px;
+}
+.baseGrid .emptyIndex p {
+  grid-row: 2/3;
+  grid-column: 1/2;
+  text-align: center;
+}
+.baseGrid .emptyIndex a {
+  grid-row: 3/4;
+  grid-column: 1/2;
+}
 
 .swal2-actions .removeConfirmButton {
   background-color: #ff0200 !important;
