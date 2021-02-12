@@ -16,6 +16,6 @@
 include __DIR__ . '/src/FapiMemberPlugin.php';
 include __DIR__ . '/src/FapiLevels.php';
 
-$plugin = new FapiMemberPlugin();
-$plugin->addHooks();
+$FapiPlugin = new FapiMemberPlugin();
+$FapiPlugin->addHooks();
 $fapiLevels = new FapiLevels();

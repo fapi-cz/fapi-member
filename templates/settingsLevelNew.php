@@ -1,9 +1,8 @@
-<?php include(__DIR__ . '/functions.php') ?>
+<?php
+include(__DIR__ . '/functions.php');
 
-<div class="baseGrid">
-    <?= h1() ?>
-    <?= nav($subpage, $areApiCredentialsSet) ?>
-    <?= submenu($subpage) ?>
+echo heading();
+?>
 
     <div class="page both">
         <div class="withSections">
@@ -17,9 +16,7 @@
                     <?= submenuItem('settingsSectionNew', 'Vytvořit novou sekci', $subpage) ?>
                     <?= submenuItem('settingsLevelNew', 'Vytvořit novou úroveň', $subpage) ?>
                 </div>
-                <form method="post" action="<?php echo admin_url('admin-post.php'); ?>">
-                    <input type="hidden" name="action" value="fapi_member_new_level">
-                    <input type="hidden" name="fapi_member_new_level_nonce" value="<?php echo wp_create_nonce('fapi_member_new_level_nonce') ?>">
+                <?= formStart('new_level') ?>
                     <div class="row">
                         <label for="fapiMemberLevelName">Název členské úrovně</label>
                         <input type="text" name="fapiMemberLevelName" id="fapiMemberLevelName" placeholder=""

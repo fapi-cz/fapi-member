@@ -3,8 +3,8 @@
 
 class FapiMemberPlugin
 {
-
     private $errorBasket = [];
+    private $fapiLevels = null;
 
     public function __construct()
     {
@@ -16,6 +16,14 @@ class FapiMemberPlugin
     {
         $s = $_SERVER['SERVER_NAME'];
         return ($s === 'localhost');
+    }
+
+    public function levels()
+    {
+        if ($this->fapiLevels === null) {
+            $this->fapiLevels = new FapiLevels();
+        }
+        return $this->fapiLevels;
     }
 
     public function addHooks()
@@ -48,47 +56,61 @@ class FapiMemberPlugin
 
     public function showError($type, $message)
     {
-            add_action( 'admin_notices', function($e) {
-                printf('<div class="notice notice-%s is-dismissible"><p>%s</p></div>', $e[0], $e[1]);
-            });
+        add_action( 'admin_notices', function($e) {
+            printf('<div class="notice notice-%s is-dismissible"><p>%s</p></div>', $e[0], $e[1]);
+        });
     }
 
     public function registerStyles()
     {
-        $p = plugins_url( 'fapi-member/media/fapi-member.css' );
-        wp_register_style( 'fapi-member-admin', $p);
-        $p = plugins_url( 'fapi-member/media/fapi-user-profile.css' );
-        wp_register_style( 'fapi-member-user-profile', $p);
-        $p = plugins_url( 'fapi-member/media/font/stylesheet.css' );
-        wp_register_style( 'fapi-member-admin-font', $p);
-        $p = plugins_url( 'fapi-member/node_modules/sweetalert2/dist/sweetalert2.min.css' );
-        wp_register_style( 'fapi-member-swal-css', $p);
-        $p = plugins_url( 'fapi-member/media/fapi-member-public.css' );
-        wp_register_style( 'fapi-member-public-style', $p);
+        wp_register_style(
+            'fapi-member-admin',
+            plugins_url('fapi-member/media/fapi-member.css')
+        );
+        wp_register_style(
+            'fapi-member-user-profile',
+            plugins_url('fapi-member/media/fapi-user-profile.css')
+        );
+        wp_register_style(
+            'fapi-member-admin-font',
+            plugins_url('fapi-member/media/font/stylesheet.css')
+        );
+        wp_register_style(
+            'fapi-member-swal-css',
+            plugins_url('fapi-member/node_modules/sweetalert2/dist/sweetalert2.min.css')
+        );
+        wp_register_style(
+            'fapi-member-public-style',
+            plugins_url('fapi-member/media/fapi-member-public.css')
+        );
     }
 
     public function registerScripts()
     {
-        $p = plugins_url( 'fapi-member/node_modules/sweetalert2/dist/sweetalert2.js' );
-        wp_register_script( 'fapi-member-swal', $p);
-        $p = plugins_url( 'fapi-member/node_modules/promise-polyfill/dist/polyfill.min.js');
-        wp_register_script( 'fapi-member-swal-promise-polyfill', $p);
+        wp_register_script(
+            'fapi-member-swal',
+            plugins_url('fapi-member/node_modules/sweetalert2/dist/sweetalert2.js')
+        );
+        wp_register_script(
+            'fapi-member-swal-promise-polyfill',
+            plugins_url( 'fapi-member/node_modules/promise-polyfill/dist/polyfill.min.js')
+        );
         if (self::isDevelopment()) {
-            $p = plugins_url( 'fapi-member/media/dist/fapi.dev.js' );
+            wp_register_script(
+                'fapi-member-main',
+                plugins_url('fapi-member/media/dist/fapi.dev.js')
+            );
         } else {
-            $p = plugins_url( 'fapi-member/media/dist/fapi.dist.js' );
+            wp_register_script(
+                'fapi-member-main',
+                plugins_url('fapi-member/media/dist/fapi.dist.js')
+            );
         }
-        wp_register_script( 'fapi-member-main', $p);
     }
 
     public function registerLevelsTaxonomy()
     {
-        register_taxonomy('fapi_levels', 'page', [
-            'public' => true, //TODO: change
-            'hierarchical' => true,
-            'show_ui' => true, //TODO: change
-            'show_in_rest' => false,
-        ]);
+        $this->levels()->registerTaxonomy();
     }
 
     public function addShortcodes()
@@ -131,12 +153,7 @@ class FapiMemberPlugin
 
     public function handleApiSections()
     {
-        $t = get_terms(
-            [
-                'taxonomy' => 'fapi_levels',
-                'hide_empty' => false,
-            ]
-        );
+        $t = $this->levels()->loadAsTerms();
         $t = array_map(function($one) {
             return [
                 'id' => $one->term_id,
@@ -173,10 +190,10 @@ class FapiMemberPlugin
 
     public function handleApiCredentialsSubmit()
     {
-        $this->verifyNonce('fapi_member_api_credentials_submit_nonce');
+        $this->verifyNonce('api_credentials_submit');
 
-        $apiEmail = (isset($_POST['fapiMemberApiEmail']) && !empty($_POST['fapiMemberApiEmail'])) ? $_POST['fapiMemberApiEmail'] : null;
-        $apiKey = (isset($_POST['fapiMemberApiKey']) && !empty($_POST['fapiMemberApiKey'])) ? $_POST['fapiMemberApiKey'] : null;
+        $apiEmail = $this->input('fapiMemberApiEmail');
+        $apiKey = $this->input('fapiMemberApiKey');
 
         if ($apiKey === null || $apiEmail === null) {
             $this->redirect('connection', 'apiFormEmpty');
@@ -188,7 +205,6 @@ class FapiMemberPlugin
         update_option('fapiMemberApiKey', $apiKey);
 
         $this->redirect('connection', 'apiFormSuccess');
-
     }
 
     public function handleUserProfileSave($userId)
@@ -196,16 +212,12 @@ class FapiMemberPlugin
         if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'update-user_' . $userId ) ) {
             return;
         }
-
-        if ( !current_user_can( 'edit_user', $userId ) ) {
-            return false;
-        }
+        if (!current_user_can('edit_user', $userId)) { return false; }
 
         $data = $_POST['Levels'];
 
         $memberships = [];
-        $fl = new FapiLevels();
-        $levels = $fl->loadAsTerms();
+        $levels = $this->levels()->loadAsTerms();
         $levels = array_reduce($levels, function($carry, $one) {
             $carry[$one->term_id] = $one;
             return $carry;
@@ -235,39 +247,57 @@ class FapiMemberPlugin
         update_user_meta( $userId, 'fapi_user_memberships', $memberships );
     }
 
-    protected function verifyNonce($key)
+    protected function verifyNonce($hook)
     {
+        $nonce = sprintf('fapi_member_%s_nonce', $hook);
         if(
-            !isset( $_POST[$key] )
+            !isset( $_POST[$nonce] )
             ||
-            !wp_verify_nonce($_POST[$key], $key)
+            !wp_verify_nonce($_POST[$nonce], $nonce)
         ) {
             wp_die('Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a odeslat znovu.');
         }
     }
 
+    protected function input($key, $type = 'string', $method = 'POST')
+    {
+        switch ($method) {
+            case 'POST':
+                $o = (isset($_POST[$key]) && !empty($_POST[$key])) ? $_POST[$key] : null;
+                break;
+            default:
+                throw new \RuntimeException('Not implemented.');
+        }
+
+        switch (true) {
+            case ($type === 'int' && $o !== null):
+                return (int)$o;
+            default:
+                return $o;
+        }
+    }
+
     public function handleNewSection()
     {
-        $this->verifyNonce('fapi_member_new_section_nonce');
+        $this->verifyNonce('new_section');
 
-        $name = (isset($_POST['fapiMemberSectionName']) && !empty($_POST['fapiMemberSectionName'])) ? $_POST['fapiMemberSectionName'] : null;
+        $name = $this->input('fapiMemberSectionName');
 
         if ($name === null ) {
             $this->redirect('settingsSectionNew', 'sectionNameEmpty');
         }
 
-        wp_insert_term( $name, 'fapi_levels');
+        $this->levels()->insert($name);
 
         $this->redirect('settingsSectionNew');
-
     }
 
     public function handleNewLevel()
     {
-        $this->verifyNonce('fapi_member_new_level_nonce');
+        $this->verifyNonce('new_level');
 
-        $name = (isset($_POST['fapiMemberLevelName']) && !empty($_POST['fapiMemberLevelName'])) ? $_POST['fapiMemberLevelName'] : null;
-        $parentId = (isset($_POST['fapiMemberLevelParent']) && !empty($_POST['fapiMemberLevelParent'])) ? $_POST['fapiMemberLevelParent'] : null;
+        $name = $this->input('fapiMemberLevelName');
+        $parentId = $this->input('fapiMemberLevelParent', 'int');
 
         if ($name === null || $parentId === null) {
             $this->redirect('settingsLevelNew', 'levelNameOrParentEmpty');
@@ -279,7 +309,7 @@ class FapiMemberPlugin
         }
 
         // check parent
-        wp_insert_term( $name, 'fapi_levels', ['parent' => $parentId]);
+        $this->levels()->insert($name, $parentId);
 
         $this->redirect('settingsLevelNew');
 
@@ -287,16 +317,16 @@ class FapiMemberPlugin
 
     public function handleAddPages()
     {
-        $this->verifyNonce('fapi_member_add_pages_nonce');
+        $this->verifyNonce('add_pages');
 
-        $levelId = (isset($_POST['level_id']) && !empty($_POST['level_id'])) ? $_POST['level_id'] : null;
-        $toAdd = (isset($_POST['toAdd']) && !empty($_POST['toAdd'])) ? $_POST['toAdd'] : null;
+        $levelId = $this->input('level_id', 'int');
+        $toAdd = $this->input('toAdd');
 
         if ($levelId === null || $toAdd === null) {
             $this->redirect('settingsContentAdd', 'levelIdOrToAddEmpty');
         }
 
-        $parent = get_term($levelId, 'fapi_levels');
+        $parent = $this->levels()->loadById($levelId);
         if ($parent === null) {
             $this->redirect('settingsContentAdd', 'sectionNotFound');
         }
@@ -317,16 +347,16 @@ class FapiMemberPlugin
 
     public function handleRemovePages()
     {
-        $this->verifyNonce('fapi_member_remove_pages_nonce');
+        $this->verifyNonce('remove_pages');
 
-        $levelId = (isset($_POST['level_id']) && !empty($_POST['level_id'])) ? $_POST['level_id'] : null;
-        $toRemove = (isset($_POST['toRemove']) && !empty($_POST['toRemove'])) ? $_POST['toRemove'] : null;
+        $levelId = $this->input('level_id', 'int');
+        $toRemove = $this->input('toRemove');
 
         if ($levelId === null || $toRemove === null) {
             $this->redirect('settingsContentRemove', 'levelIdOrToAddEmpty');
         }
 
-        $parent = get_term($levelId, 'fapi_levels');
+        $parent = $this->levels()->loadById($levelId);
         if ($parent === null) {
             $this->redirect('settingsContentRemove', 'sectionNotFound');
         }
@@ -349,72 +379,77 @@ class FapiMemberPlugin
 
     public function handleRemoveLevel()
     {
-        $this->verifyNonce('fapi_member_remove_level_nonce');
+        $this->verifyNonce('remove_level');
 
-        $id = (isset($_POST['level_id']) && !empty($_POST['level_id'])) ? $_POST['level_id'] : null;
+        $id = $this->input('level_id', 'int');
 
         if ($id === null) {
             $this->redirect('settingsSectionNew');
         }
 
-        // check parent
-        wp_delete_term($id, 'fapi_levels');
+        $this->levels()->remove($id);
 
         $this->redirect('settingsLevelNew', 'removeLevelSuccessful');
-
     }
 
     public function handleEditLevel()
     {
-        $this->verifyNonce('fapi_member_edit_level_nonce');
+        $this->verifyNonce('edit_level');
 
-        $id = (isset($_POST['level_id']) && !empty($_POST['level_id'])) ? $_POST['level_id'] : null;
-        $name = (isset($_POST['name']) && !empty($_POST['name'])) ? $_POST['name'] : null;
+        $id = $this->input('level_id', 'int');
+        $name = $this->input('name');
 
         if ($id === null || $name === null) {
             $this->redirect('settingsSectionNew', 'editLevelNoName');
         }
-        wp_update_term($id, 'fapi_levels', ['name' => $name]);
+
+        $this->levels()->update($id, $name);
 
         $this->redirect('settingsLevelNew', 'editLevelSuccessful');
     }
 
     public function handleEditEmail()
     {
-        $this->verifyNonce('fapi_member_edit_email_nonce');
+        $this->verifyNonce('edit_email');
 
-        $levelId = (isset($_POST['level_id']) && !empty($_POST['level_id'])) ? (int)$_POST['level_id'] : null;
-        $emailType = (isset($_POST['email_type']) && !empty($_POST['email_type'])) ? $_POST['email_type'] : null;
-        $mailSubject = (isset($_POST['mail_subject']) && !empty($_POST['mail_subject'])) ? $_POST['mail_subject'] : null;
-        $mailBody = (isset($_POST['mail_body']) && !empty($_POST['mail_body'])) ? $_POST['mail_body'] : null;
+        $levelId = $this->input('level_id', 'int');
+        $emailType = $this->input('email_type');
+        $mailSubject = $this->input('mail_subject');
+        $mailBody = $this->input('mail_body');
 
         if ($mailSubject === null || $mailBody === null) {
             // remove mail template
-            delete_term_meta($levelId, 'fapi_email_'.$emailType);
+            delete_term_meta(
+                $levelId,
+                $this->levels()->constructEmailTemplateKey($emailType)
+            );
             $this->redirect('settingsEmails', 'editMailsRemoved', ['level' => $levelId]);
         }
 
-        update_term_meta($levelId, 'fapi_email_'.$emailType, ['s' => $mailSubject, 'b' => $mailBody]);
+        update_term_meta(
+            $levelId,
+            $this->levels()->constructEmailTemplateKey($emailType),
+            ['s' => $mailSubject, 'b' => $mailBody]
+        );
 
         $this->redirect('settingsEmails', 'editMailsUpdated', ['level' => $levelId]);
     }
 
     public function handleSetOtherPage()
     {
-        global $fapiLevels;
-        $this->verifyNonce('fapi_member_set_other_page_nonce');
+        $this->verifyNonce('set_other_page');
 
-        $levelId = (isset($_POST['level_id']) && !empty($_POST['level_id'])) ? (int)$_POST['level_id'] : null;
-        $pageType = (isset($_POST['page_type']) && !empty($_POST['page_type'])) ? $_POST['page_type'] : null;
-        $page = (isset($_POST['page']) && !empty($_POST['page'])) ? $_POST['page'] : null;
+        $levelId = $this->input('level_id', 'int');
+        $pageType = $this->input('page_type');
+        $page = $this->input('page');
 
         if ($page === null) {
             // remove mail template
-            delete_term_meta($levelId, $fapiLevels->constructOtherPageKey($pageType));
+            delete_term_meta($levelId, $this->levels()->constructOtherPageKey($pageType));
             $this->redirect('settingsPages', 'editOtherPagesRemoved', ['level' => $levelId]);
         }
 
-        update_term_meta($levelId, $fapiLevels->constructOtherPageKey($pageType), $page);
+        update_term_meta($levelId, $this->levels()->constructOtherPageKey($pageType), $page);
 
         $this->redirect('settingsPages', 'editOtherPagesUpdated', ['level' => $levelId]);
     }
@@ -464,8 +499,7 @@ class FapiMemberPlugin
 
     public function addUserProfileForm(WP_User $user)
     {
-        $fl = new FapiLevels();
-        $levels = $fl->loadAsTerms();
+        $levels = $this->levels()->loadAsTerms();
 
         $memberships = get_user_meta($user->ID, 'fapi_user_memberships', true);
         $memberships = $this->removeMembershipsToRemovedLevels($user->ID, $memberships, $levels);
@@ -499,7 +533,7 @@ class FapiMemberPlugin
         }
     }
 
-    protected function findSubpage()
+    public function findSubpage()
     {
         return (isset($_GET['subpage'])) ? $_GET['subpage'] : 'index';
     }
@@ -586,7 +620,7 @@ class FapiMemberPlugin
         exit;
     }
 
-    protected function areApiCredentialsSet()
+    public function areApiCredentialsSet()
     {
         $apiEmail = get_option('fapiMemberApiEmail', null);
         $apiKey = get_option('fapiMemberApiKey', null);

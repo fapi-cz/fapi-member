@@ -29,7 +29,10 @@ function h1() {
     return sprintf('<div class="h1">%s</div>', $svg);
 }
 
-function nav($subpage, $areApiCredentialsSet) {
+function nav() {
+    global $FapiPlugin;
+    $subpage = $FapiPlugin->findSubpage();
+    $areApiCredentialsSet = $FapiPlugin->areApiCredentialsSet();
 
     $c = file_get_contents(__DIR__ . '/../_sources/connect.svg');
     $h = file_get_contents(__DIR__ . '/../_sources/home-solid.svg');
@@ -77,7 +80,10 @@ function nav($subpage, $areApiCredentialsSet) {
 
 }
 
-function submenu($subpage) {
+function submenu() {
+    global $FapiPlugin;
+    $subpage = $FapiPlugin->findSubpage();
+
     switch (true) {
         case ($subpage === 'index'):
             return '
@@ -154,8 +160,8 @@ function fapilink($subpage) {
 }
 
 function levels() {
-    global $fapiLevels;
-    $t = $fapiLevels->loadAsTerms();
+    global $FapiPlugin;
+    $t = $FapiPlugin->levels()->loadAsTerms();
 
     $lis = [];
     $actions = '<button class="edit"></button><button class="remove"></button>';
@@ -207,13 +213,14 @@ function oneLevelSelection($id, $link, $name, $children = '', $highlight = false
     );
 }
 
-function levelsSelection($subpage) {
-    global $fapiLevels;
+function levelsSelection() {
+    global $FapiPlugin;
+    $subpage = $FapiPlugin->findSubpage();
 
     $subpage = ($subpage === 'settingsContentSelect') ? 'settingsContentRemove' : $subpage;
     $selected = (isset($_GET['level'])) ? (int)$_GET['level'] : null;
 
-    $t = $fapiLevels->loadAsTerms();
+    $t = $FapiPlugin->levels()->loadAsTerms();
 
     $lis = [];
 
@@ -250,13 +257,14 @@ function levelsSelection($subpage) {
     <?php
 }
 
-function levelsSelectionNonJs($subpage) {
-    global $fapiLevels;
+function levelsSelectionNonJs() {
+    global $FapiPlugin;
+    $subpage = $FapiPlugin->findSubpage();
 
     $subpage = ($subpage === 'settingsContentSelect') ? 'settingsContentRemove' : $subpage;
     $selected = (isset($_GET['level'])) ? (int)$_GET['level'] : null;
 
-    $t = $fapiLevels->loadAsTerms();
+    $t = $FapiPlugin->levels()->loadAsTerms();
 
     $lis = [];
 
@@ -295,8 +303,8 @@ function levelsSelectionNonJs($subpage) {
 
 function getLevelOptions() {
 
-    global $fapiLevels;
-    $t = $fapiLevels->loadAsTerms();
+    global $FapiPlugin;
+    $t = $FapiPlugin->levels()->loadAsTerms();
 
     $options = [];
 
@@ -334,9 +342,9 @@ function allPagesAsOptions($currentId)
 
 function levelToPageJson()
 {
-    global $fapiLevels;
+    global $FapiPlugin;
 
-    return json_encode($fapiLevels->levelsToPages());
+    return json_encode($FapiPlugin->levels()->levelsToPages());
 }
 
 function shortcodeLoginForm()
@@ -394,11 +402,19 @@ function shortcodeUser()
 
 }
 
-function formStart($hook) {
+function formStart($hook, $formClasses = []) {
+
+    $class = (empty($formClasses)) ? '' : sprintf(' class="%s"', join(' ', $formClasses));
+
     return '
-    <form method="post" action="'. admin_url('admin-post.php').'">
+    <form '.$class.' method="post" action="'. admin_url('admin-post.php').'">
         <input type="hidden" name="action" value="fapi_member_'.$hook.'">
         <input type="hidden" name="fapi_member_'.$hook.'_nonce"
                value="'. wp_create_nonce('fapi_member_'.$hook.'_nonce') .'">
     ';
+}
+
+function heading()
+{
+    return sprintf('<div class="baseGrid">%s%s%s', h1(), nav(), submenu());
 }

@@ -1,14 +1,10 @@
 <?php
 include(__DIR__ . '/functions.php');
-global $fapiLevels;
+global $FapiPlugin;
+$fapiLevels = $FapiPlugin->levels();
+
+echo heading();
 ?>
-
-
-
-<div class="baseGrid">
-    <?= h1() ?>
-    <?= nav($subpage, $areApiCredentialsSet) ?>
-    <?= submenu($subpage) ?>
 
     <div class="page smallerPadding">
         <h3>Přehled členských sekcí a úrovní</h3>

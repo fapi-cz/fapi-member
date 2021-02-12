@@ -1,16 +1,15 @@
-<?php include(__DIR__ . '/functions.php') ?>
+<?php
+include(__DIR__ . '/functions.php');
 
-<div class="baseGrid">
-    <?= h1() ?>
-    <?= nav($subpage, $areApiCredentialsSet) ?>
-    <?= submenu($subpage) ?>
+echo heading();
+?>
 
     <div class="page both">
         <div class="withSections">
             <div class="a">
                 <h3>Struktura uzavřených sekcí a úrovní</h3>
                 <?php echo showErrors(); ?>
-                <?= levelsSelectionNonJs($subpage) ?>
+                <?= levelsSelectionNonJs() ?>
             </div>
             <div class="b">
                 <div>
@@ -19,7 +18,8 @@
                    if ($level === null) {
                        echo '<p>Zvolte prosím sekci/úroveň vlevo.</p>';
                    } else {
-                       global $fapiLevels;
+                       global $FapiPlugin;
+                       $fapiLevels = $FapiPlugin->levels();
                        $levelTerm = $fapiLevels->loadById($level);
                        $isSection = ($levelTerm->parent === 0) ? true : false;
 
@@ -49,11 +49,8 @@
                                        <?php
                                    }
                                    ?>
-                                   <form method="post" action="<?php echo admin_url('admin-post.php'); ?>">
-                                       <input type="hidden" name="action" value="fapi_member_edit_email">
+                                   <?= formStart('edit_email') ?>
                                        <input type="hidden" name="level_id" value="<?= $level ?>">
-                                       <input type="hidden" name="fapi_member_edit_email_nonce"
-                                              value="<?php echo wp_create_nonce('fapi_member_edit_email_nonce') ?>">
                                        <input type="hidden" name="email_type" value="<?= $key ?>">
                                        <?php if (!$isSection) { ?>
                                        <div class="row">

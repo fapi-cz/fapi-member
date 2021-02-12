@@ -1,9 +1,8 @@
-<?php include(__DIR__ . '/functions.php') ?>
+<?php
+include(__DIR__ . '/functions.php');
 
-<div class="baseGrid">
-    <?= h1() ?>
-    <?= nav($subpage, $areApiCredentialsSet) ?>
-    <?= submenu($subpage) ?>
+echo heading();
+?>
 
     <div class="page wider">
         <h3>Prvky pro web</h3>

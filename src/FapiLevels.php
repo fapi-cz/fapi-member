@@ -21,6 +21,16 @@ class FapiLevels
     private $levels = null;
     private $levelsToPages = null;
 
+    public function registerTaxonomy()
+    {
+        register_taxonomy(self::TAXONOMY, 'page', [
+            'public' => false,
+            'hierarchical' => true,
+            'show_ui' => false,
+            'show_in_rest' => false,
+        ]);
+    }
+
     public function loadAsTerms()
     {
         if ($this->levels === null) {
@@ -99,5 +109,24 @@ class FapiLevels
             }
         }
         return $meta;
+    }
+
+    public function insert($name, $parent = null)
+    {
+        if ($parent === null) {
+            wp_insert_term( $name, self::TAXONOMY);
+        } else {
+            wp_insert_term( $name, self::TAXONOMY, ['parent' => $parent]);
+        }
+    }
+
+    public function remove($id)
+    {
+        wp_delete_term($id, self::TAXONOMY);
+    }
+
+    public function update($id, $name)
+    {
+        wp_update_term($id, self::TAXONOMY, ['name' => $name]);
     }
 }
