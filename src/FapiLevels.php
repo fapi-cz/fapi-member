@@ -9,7 +9,13 @@ class FapiLevels
     public static $emailTypes = [
         'afterRegistration',
         'afterMembershipProlonged',
-        'afterAdding'
+        'afterAdding',
+    ];
+
+    public static $pageTypes = [
+        'afterLogin',
+        'noAccess',
+        'login',
     ];
 
     private $levels = null;
@@ -66,6 +72,11 @@ class FapiLevels
         return sprintf('fapi_email_%s', $type);
     }
 
+    public function constructOtherPageKey($type)
+    {
+        return sprintf('fapi_page_%s', $type);
+    }
+
     public function loadEmailTemplatesForLevel($levelId, $useCascade = false)
     {
         $meta = [];
@@ -73,6 +84,18 @@ class FapiLevels
             $template = get_term_meta($levelId, $this->constructEmailTemplateKey($type), true);
             if (!empty($template)) {
                 $meta[$type] = $template;
+            }
+        }
+        return $meta;
+    }
+
+    public function loadOtherPagesForLevel($levelId, $useCascade = false)
+    {
+        $meta = [];
+        foreach (self::$pageTypes as $type) {
+            $pageId = get_term_meta($levelId, $this->constructOtherPageKey($type), true);
+            if (!empty($pageId)) {
+                $meta[$type] = (int)$pageId;
             }
         }
         return $meta;

@@ -14,6 +14,8 @@ function showErrors() {
         'editLevelNoName' => ['error', 'Chyba změny sekce/úrovně.'],
         'editMailsRemoved' => ['success', 'Šablona emailu byla odebrána.'],
         'editMailsUpdated' => ['success', 'Šablona emailu byla upravena.'],
+        'editOtherPagesRemoved' => ['success', 'Ostatní stránka byla odebrána.'],
+        'editOtherPagesUpdated' => ['success', 'Ostatní stránka byla nastavena.'],
     ];
 
     if (isset($_GET['e']) && isset($errorMap[$_GET['e']])) {
@@ -316,7 +318,18 @@ function allPagesForForm()
     }, $posts);
 
     return join('', $o);
+}
 
+function allPagesAsOptions($currentId)
+{
+    $posts = get_posts(['post_type' => 'page', 'post_status' => ['publish']]);
+
+    $o = array_map(function($p) use ($currentId) {
+        $selected = ($currentId === $p->ID) ? 'selected' : '';
+        return sprintf('<option value="%s" %s>%s</option>', $p->ID, $selected, $p->post_title);
+    }, $posts);
+
+    return join('', $o);
 }
 
 function levelToPageJson()
@@ -379,4 +392,13 @@ function shortcodeUser()
     }
 
 
+}
+
+function formStart($hook) {
+    return '
+    <form method="post" action="'. admin_url('admin-post.php').'">
+        <input type="hidden" name="action" value="fapi_member_'.$hook.'">
+        <input type="hidden" name="fapi_member_'.$hook.'_nonce"
+               value="'. wp_create_nonce('fapi_member_'.$hook.'_nonce') .'">
+    ';
 }

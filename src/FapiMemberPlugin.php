@@ -41,6 +41,7 @@ class FapiMemberPlugin
         add_action('admin_post_fapi_member_add_pages', [$this, 'handleAddPages']);
         add_action('admin_post_fapi_member_remove_pages', [$this, 'handleRemovePages']);
         add_action('admin_post_fapi_member_edit_email', [$this, 'handleEditEmail']);
+        add_action('admin_post_fapi_member_set_other_page', [$this, 'handleSetOtherPage']);
             // user profile save
         add_action( 'edit_user_profile_update', [$this, 'handleUserProfileSave'] );
     }
@@ -398,6 +399,26 @@ class FapiMemberPlugin
         $this->redirect('settingsEmails', 'editMailsUpdated', ['level' => $levelId]);
     }
 
+    public function handleSetOtherPage()
+    {
+        global $fapiLevels;
+        $this->verifyNonce('fapi_member_set_other_page_nonce');
+
+        $levelId = (isset($_POST['level_id']) && !empty($_POST['level_id'])) ? (int)$_POST['level_id'] : null;
+        $pageType = (isset($_POST['page_type']) && !empty($_POST['page_type'])) ? $_POST['page_type'] : null;
+        $page = (isset($_POST['page']) && !empty($_POST['page'])) ? $_POST['page'] : null;
+
+        if ($page === null) {
+            // remove mail template
+            delete_term_meta($levelId, $fapiLevels->constructOtherPageKey($pageType));
+            $this->redirect('settingsPages', 'editOtherPagesRemoved', ['level' => $levelId]);
+        }
+
+        update_term_meta($levelId, $fapiLevels->constructOtherPageKey($pageType), $page);
+
+        $this->redirect('settingsPages', 'editOtherPagesUpdated', ['level' => $levelId]);
+    }
+
     public function registerSettings()
     {
         register_setting( 'options', 'fapiMemberApiEmail', [
@@ -534,6 +555,11 @@ class FapiMemberPlugin
     protected function showHelp()
     {
         $this->showTemplate('help');
+    }
+
+    protected function showSettingsPages()
+    {
+        $this->showTemplate('settingsPages');
     }
 
     protected function showTemplate($name)
