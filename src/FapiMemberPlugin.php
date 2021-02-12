@@ -10,6 +10,7 @@ class FapiMemberPlugin
     {
         $this->registerStyles();
         $this->registerScripts();
+        $this->addHooks();
     }
 
     public static function isDevelopment()
@@ -303,7 +304,7 @@ class FapiMemberPlugin
             $this->redirect('settingsLevelNew', 'levelNameOrParentEmpty');
         }
 
-        $parent = get_term($parentId, 'fapi_levels');
+        $parent = $this->levels()->loadById($parentId);
         if ($parent === null) {
             $this->redirect('settingsLevelNew', 'sectionNotFound');
         }
