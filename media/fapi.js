@@ -102,9 +102,25 @@ document.addEventListener('DOMContentLoaded', (event) => {
 })
 
 document.addEventListener('click', (event) => {
-    if (event.target.matches('.oneEmail .carret')) {
-        console.log('O')
+    if (event.target.matches('.oneEmail .carret') || event.target.matches('.oneEmail .header h3')) {
         event.target.closest('.oneEmail').classList.toggle('open');
+    }
+})
+
+document.addEventListener('click', (event) => {
+    if (event.target.matches('.specifyLevelEmailCheckbox')) {
+
+        let subj = event.target.closest('.oneEmail').querySelector('#mail_subject');
+        let body = event.target.closest('.oneEmail').querySelector('#mail_body');
+        if(event.target.checked) {
+            subj.removeAttribute('readonly')
+            body.removeAttribute('readonly')
+        } else {
+            subj.value = ''
+            body.value = ''
+            subj.setAttribute('readonly', true)
+            body.setAttribute('readonly', true)
+        }
     }
 })
 

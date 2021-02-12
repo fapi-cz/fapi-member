@@ -230,6 +230,10 @@
 				line-height: 38px;
 				padding: 0 16px;
 				width: 100%;
+
+				&[readonly] {
+					background-color: $grayBg;
+				}
 			}
 
 			textarea {
@@ -239,6 +243,9 @@
 				height: 114px;
 				padding: 8px 16px;
 				width: 100%;
+				&[readonly] {
+					background-color: $grayBg;
+				}
 			}
 
 			select {
@@ -486,6 +493,7 @@
 
 			h3 {
 				margin: 0;
+				cursor: pointer;
 			}
 
 			.carret {

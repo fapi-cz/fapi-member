@@ -195,6 +195,9 @@
   padding: 0 16px;
   width: 100%;
 }
+.baseGrid form .row input[type=text][readonly] {
+  background-color: #f3f3f3;
+}
 .baseGrid form .row textarea {
   background-color: #e9f3ff;
   border-radius: 4px;
@@ -202,6 +205,9 @@
   height: 114px;
   padding: 8px 16px;
   width: 100%;
+}
+.baseGrid form .row textarea[readonly] {
+  background-color: #f3f3f3;
 }
 .baseGrid form .row select {
   background-color: #e9f3ff;
@@ -408,6 +414,7 @@
 }
 .baseGrid .oneEmail .header h3 {
   margin: 0;
+  cursor: pointer;
 }
 .baseGrid .oneEmail .header .carret {
   width: 30px;

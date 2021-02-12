@@ -12,6 +12,8 @@ function showErrors() {
         'editLevelSuccessful' => ['success', 'Sekce/úroveň upravena.'],
         'levelIdOrToAddEmpty' => ['error', 'Zvolte prosím úroveň a stránky k přidání.'],
         'editLevelNoName' => ['error', 'Chyba změny sekce/úrovně.'],
+        'editMailsRemoved' => ['success', 'Šablona emailu byla odebrána.'],
+        'editMailsUpdated' => ['success', 'Šablona emailu byla upravena.'],
     ];
 
     if (isset($_GET['e']) && isset($errorMap[$_GET['e']])) {

@@ -40,6 +40,7 @@ class FapiMemberPlugin
         add_action('admin_post_fapi_member_edit_level', [$this, 'handleEditLevel']);
         add_action('admin_post_fapi_member_add_pages', [$this, 'handleAddPages']);
         add_action('admin_post_fapi_member_remove_pages', [$this, 'handleRemovePages']);
+        add_action('admin_post_fapi_member_edit_email', [$this, 'handleEditEmail']);
             // user profile save
         add_action( 'edit_user_profile_update', [$this, 'handleUserProfileSave'] );
     }
@@ -375,6 +376,26 @@ class FapiMemberPlugin
         wp_update_term($id, 'fapi_levels', ['name' => $name]);
 
         $this->redirect('settingsLevelNew', 'editLevelSuccessful');
+    }
+
+    public function handleEditEmail()
+    {
+        $this->verifyNonce('fapi_member_edit_email_nonce');
+
+        $levelId = (isset($_POST['level_id']) && !empty($_POST['level_id'])) ? (int)$_POST['level_id'] : null;
+        $emailType = (isset($_POST['email_type']) && !empty($_POST['email_type'])) ? $_POST['email_type'] : null;
+        $mailSubject = (isset($_POST['mail_subject']) && !empty($_POST['mail_subject'])) ? $_POST['mail_subject'] : null;
+        $mailBody = (isset($_POST['mail_body']) && !empty($_POST['mail_body'])) ? $_POST['mail_body'] : null;
+
+        if ($mailSubject === null || $mailBody === null) {
+            // remove mail template
+            delete_term_meta($levelId, 'fapi_email_'.$emailType);
+            $this->redirect('settingsEmails', 'editMailsRemoved', ['level' => $levelId]);
+        }
+
+        update_term_meta($levelId, 'fapi_email_'.$emailType, ['s' => $mailSubject, 'b' => $mailBody]);
+
+        $this->redirect('settingsEmails', 'editMailsUpdated', ['level' => $levelId]);
     }
 
     public function registerSettings()
