@@ -7,6 +7,7 @@ class FapiMemberPlugin
     private $fapiLevels = null;
 
     const OPTION_KEY_SETTINGS = 'fapiSettings';
+    const REQUIRED_CAPABILITY = 'manage_options';
 
     public function __construct()
     {
@@ -194,7 +195,8 @@ class FapiMemberPlugin
 
     public function handleApiCredentialsSubmit()
     {
-        $this->verifyNonce('api_credentials_submit');
+        $this->verifyNonceAndCapability('api_credentials_submit');
+        if (!current_user_can('edit_user', $userId)) { return false; }
 
         $apiEmail = $this->input('fapiMemberApiEmail');
         $apiKey = $this->input('fapiMemberApiKey');
@@ -216,7 +218,7 @@ class FapiMemberPlugin
         if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'update-user_' . $userId ) ) {
             return;
         }
-        if (!current_user_can('edit_user', $userId)) { return false; }
+        if (!current_user_can(self::REQUIRED_CAPABILITY)) { return false; }
 
         $data = $_POST['Levels'];
 
@@ -251,7 +253,7 @@ class FapiMemberPlugin
         update_user_meta( $userId, 'fapi_user_memberships', $memberships );
     }
 
-    protected function verifyNonce($hook)
+    protected function verifyNonceAndCapability($hook)
     {
         $nonce = sprintf('fapi_member_%s_nonce', $hook);
         if(
@@ -260,6 +262,9 @@ class FapiMemberPlugin
             !wp_verify_nonce($_POST[$nonce], $nonce)
         ) {
             wp_die('Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a odeslat znovu.');
+        }
+        if ( !current_user_can( self::REQUIRED_CAPABILITY ) )  {
+            wp_die('Nemáte potřebná oprvánění.');
         }
     }
 
@@ -283,7 +288,7 @@ class FapiMemberPlugin
 
     public function handleNewSection()
     {
-        $this->verifyNonce('new_section');
+        $this->verifyNonceAndCapability('new_section');
 
         $name = $this->input('fapiMemberSectionName');
 
@@ -298,7 +303,7 @@ class FapiMemberPlugin
 
     public function handleNewLevel()
     {
-        $this->verifyNonce('new_level');
+        $this->verifyNonceAndCapability('new_level');
 
         $name = $this->input('fapiMemberLevelName');
         $parentId = $this->input('fapiMemberLevelParent', 'int');
@@ -321,7 +326,7 @@ class FapiMemberPlugin
 
     public function handleAddPages()
     {
-        $this->verifyNonce('add_pages');
+        $this->verifyNonceAndCapability('add_pages');
 
         $levelId = $this->input('level_id', 'int');
         $toAdd = $this->input('toAdd');
@@ -351,7 +356,7 @@ class FapiMemberPlugin
 
     public function handleRemovePages()
     {
-        $this->verifyNonce('remove_pages');
+        $this->verifyNonceAndCapability('remove_pages');
 
         $levelId = $this->input('level_id', 'int');
         $toRemove = $this->input('toRemove');
@@ -383,7 +388,7 @@ class FapiMemberPlugin
 
     public function handleRemoveLevel()
     {
-        $this->verifyNonce('remove_level');
+        $this->verifyNonceAndCapability('remove_level');
 
         $id = $this->input('level_id', 'int');
 
@@ -398,7 +403,7 @@ class FapiMemberPlugin
 
     public function handleEditLevel()
     {
-        $this->verifyNonce('edit_level');
+        $this->verifyNonceAndCapability('edit_level');
 
         $id = $this->input('level_id', 'int');
         $name = $this->input('name');
@@ -414,7 +419,7 @@ class FapiMemberPlugin
 
     public function handleEditEmail()
     {
-        $this->verifyNonce('edit_email');
+        $this->verifyNonceAndCapability('edit_email');
 
         $levelId = $this->input('level_id', 'int');
         $emailType = $this->input('email_type');
@@ -441,7 +446,7 @@ class FapiMemberPlugin
 
     public function handleSetOtherPage()
     {
-        $this->verifyNonce('set_other_page');
+        $this->verifyNonceAndCapability('set_other_page');
 
         $levelId = $this->input('level_id', 'int');
         $pageType = $this->input('page_type');
@@ -460,7 +465,8 @@ class FapiMemberPlugin
 
     public function handleSetSettings()
     {
-        $this->verifyNonce('set_settings');
+        $this->verifyNonceAndCapability('set_settings');
+
         $currentSettings = get_option(self::OPTION_KEY_SETTINGS);
 
         $loginPageId = $this->input('login_page_id', 'int');
@@ -518,8 +524,7 @@ class FapiMemberPlugin
 
     public function addAdminMenu()
     {
-        add_options_page( 'Fapi Member', 'Fapi Member', 'manage_options', 'fapi-member-options', [$this, 'constructAdminMenu'] );
-
+        add_options_page( 'Fapi Member', 'Fapi Member', self::REQUIRED_CAPABILITY, 'fapi-member-options', [$this, 'constructAdminMenu'] );
     }
 
     public function addUserProfileForm(WP_User $user)
@@ -547,7 +552,7 @@ class FapiMemberPlugin
 
     public function constructAdminMenu()
     {
-        if ( !current_user_can( 'manage_options' ) )  {
+        if ( !current_user_can( self::REQUIRED_CAPABILITY ) )  {
             wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
         }
 
