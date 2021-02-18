@@ -40,6 +40,8 @@ class FapiMemberPlugin
         add_action('init', [$this, 'registerLevelsTaxonomy']);
         add_action('init', [$this, 'addShortcodes']);
         add_action('rest_api_init', [$this, 'addRestEndpoints']);
+        // check if page in fapi level
+        add_action('template_redirect', [$this, 'checkPage']);
 
         //user profile
         add_action('edit_user_profile', [$this, 'addUserProfileForm']);
@@ -792,6 +794,11 @@ class FapiMemberPlugin
             $memberships[$user->ID] = get_user_meta($user->ID, 'fapi_user_memberships', true);
 
         }
+        return $this->flattenMemberships($memberships);
+    }
+
+    protected function flattenMemberships($memberships)
+    {
         $now = new DateTime();
         $memberships = array_filter($memberships, function($one) use ($now) {
             if ($one === '') {
@@ -803,7 +810,8 @@ class FapiMemberPlugin
         foreach ($memberships as $userId => $mem) {
             foreach ($mem as $one) {
                 if (!isset($one['registered']) || !isset($one['until'])) {
-                    continue;
+                    // is level with parent
+                    $flatMemberships[] = $one;
                 }
 
                 $reg = DateTime::createFromFormat('Y-m-d\TH:i:s', $one['registered']);
@@ -817,6 +825,114 @@ class FapiMemberPlugin
             }
         }
 
+        // apply parent reg & until to children
+
+        foreach ($flatMemberships as $f) {
+            if (!isset($f['registered'])) {
+                //is children
+                $term = $this->levels()->loadById($f['level']);
+                $parents = array_filter($flatMemberships, function($one) use ($term) {
+                    return $one['level'] === $term->parent;
+                });
+                if (count($parents) < 1) {
+                    continue;
+                }
+                $f['registered'] = $parents[0]['registered'];
+                $f['until'] = $parents[0]['until'];
+            }
+        }
+
+        $flatMemberships = array_map(function($f) use ($flatMemberships) {
+            if (!isset($f['registered'])) {
+                //is children
+                $term = $this->levels()->loadById($f['level']);
+                $parents = array_filter($flatMemberships, function($one) use ($term) {
+                    return $one['level'] === $term->parent;
+                });
+                if (count($parents) < 1) {
+                    // parent was removed before
+                    return null;
+                }
+                $f['registered'] = $parents[0]['registered'];
+                $f['until'] = $parents[0]['until'];
+                $f['user'] = $parents[0]['user'];
+            }
+            return $f;
+        }, $flatMemberships);
+
+        // remove children without valid parent - parent removed before because of time period
+        $flatMemberships = array_filter($flatMemberships, function($m){
+            return $m !== null;
+        });
+
         return $flatMemberships;
     }
+
+    public function getMembershipsForUser($userId)
+    {
+        $memberships[$userId] = get_user_meta($userId, 'fapi_user_memberships', true);;
+        return $this->flattenMemberships($memberships);
+    }
+
+    public function checkPage()
+    {
+        global $wp_query;
+        if (!isset($wp_query->post) || !($wp_query->post instanceof WP_Post) || $wp_query->post->post_type !== 'page') {
+            return;
+        }
+        $pageId = $wp_query->post->ID;
+        $levelsToPages = $this->levels()->levelsToPages();
+        $levelsForThisPage = [];
+        foreach ($levelsToPages as $levelId => $pageIds) {
+            if (in_array($pageId, $pageIds)) {
+                $levelsForThisPage[] = $levelId;
+            }
+        }
+        if (count($levelsForThisPage) === 0) {
+            // page is not in any level
+            return;
+        }
+
+        // page is protected for users with membership
+
+        if (!is_user_logged_in()) {
+            // user not logged in
+            // we do not know what level to choose, choosing first
+            $firstLevel = $levelsForThisPage[0];
+            $this->redirectToNoAccessPage($firstLevel);
+        }
+
+        // user is logged in
+        if (current_user_can(self::REQUIRED_CAPABILITY)) {
+            // admins can access anything
+            return;
+        }
+
+        $memberships = $this->getMembershipsForUser(get_current_user_id());
+
+        // Does user have membership for any level that page is in
+        foreach ($memberships as $m) {
+            if (in_array($m['level'], $levelsForThisPage)) {
+                return true;
+            }
+        }
+
+        // no, he does not
+        $firstLevel = $levelsForThisPage[0];
+        $this->redirectToNoAccessPage($firstLevel);
+    }
+
+    protected  function redirectToNoAccessPage($levelId)
+    {
+        $otherPages = $this->levels()->loadOtherPagesForLevel($levelId, true);
+        $noAccessPageId = (isset($otherPages['noAccess'])) ? $otherPages['noAccess'] : null;
+        if ($noAccessPageId) {
+            wp_redirect(get_permalink($noAccessPageId));
+            exit;
+        } else {
+            wp_redirect(home_url());
+            exit;
+        }
+    }
+
 }

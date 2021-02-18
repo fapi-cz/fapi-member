@@ -102,10 +102,21 @@ class FapiLevels
     public function loadOtherPagesForLevel($levelId, $useCascade = false)
     {
         $meta = [];
+        $parentMeta = [];
+        if ($useCascade) {
+            $term = $this->loadById($levelId);
+            if ($term->parent !== 0) {
+                $parentMeta = $this->loadOtherPagesForLevel($term->parent);
+            }
+        }
         foreach (self::$pageTypes as $type) {
             $pageId = get_term_meta($levelId, $this->constructOtherPageKey($type), true);
             if (!empty($pageId)) {
                 $meta[$type] = (int)$pageId;
+            } else {
+                 if ($useCascade) {
+                     $meta[$type] = (isset($parentMeta[$type])) ? $parentMeta[$type] : null;
+                 }
             }
         }
         return $meta;
