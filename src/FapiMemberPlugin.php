@@ -760,6 +760,7 @@ class FapiMemberPlugin
             $carry[] = $one->term_id;
             return $carry;
         }, []);
+        $memberships = ($memberships === '') ? [] : $memberships;
         foreach ($memberships as $m) {
             if (in_array($m['level'], $levelIds)) {
                 $new[] = $m;
@@ -780,5 +781,42 @@ class FapiMemberPlugin
             $o = [];
         }
         return (isset($o[$key])) ? $o[$key] : null;
+    }
+
+    public function getAllMemberships()
+    {
+        // it looks utterly inefficient, but users meta should be loaded with get_users to cache
+        $users = get_users(['fields' => ['ID']]);
+        $memberships = [];
+        foreach($users as $user){
+            $memberships[$user->ID] = get_user_meta($user->ID, 'fapi_user_memberships', true);
+
+        }
+        $now = new DateTime();
+        $memberships = array_filter($memberships, function($one) use ($now) {
+            if ($one === '') {
+                return false;
+            }
+            return true;
+        });
+        $flatMemberships = [];
+        foreach ($memberships as $userId => $mem) {
+            foreach ($mem as $one) {
+                if (!isset($one['registered']) || !isset($one['until'])) {
+                    continue;
+                }
+
+                $reg = DateTime::createFromFormat('Y-m-d\TH:i:s', $one['registered']);
+                $until = DateTime::createFromFormat('Y-m-d\TH:i:s', $one['until']);
+                if ($reg >= $now || $until <= $now) {
+                    continue;
+                }
+                $n = $one;
+                $n['user'] = $userId;
+                $flatMemberships[] = $n;
+            }
+        }
+
+        return $flatMemberships;
     }
 }
