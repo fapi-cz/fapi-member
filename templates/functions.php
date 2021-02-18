@@ -396,7 +396,7 @@ function shortcodeUser()
             <span class="h">Uživatel</span>
             <span class="l">'. $u->user_login .'</span>
             <div class="submenu">
-                <a href="'.wp_logout_url().'">Odhlásit se</a>
+                <a href="'.wp_logout_url(get_permalink()).'">Odhlásit se</a>
             </div>
         </div>    
     ';
