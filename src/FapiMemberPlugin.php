@@ -6,6 +6,8 @@ class FapiMemberPlugin
     private $errorBasket = [];
     private $fapiLevels = null;
 
+    const OPTION_KEY_SETTINGS = 'fapiSettings';
+
     public function __construct()
     {
         $this->registerStyles();
@@ -51,6 +53,7 @@ class FapiMemberPlugin
         add_action('admin_post_fapi_member_remove_pages', [$this, 'handleRemovePages']);
         add_action('admin_post_fapi_member_edit_email', [$this, 'handleEditEmail']);
         add_action('admin_post_fapi_member_set_other_page', [$this, 'handleSetOtherPage']);
+        add_action('admin_post_fapi_member_set_settings', [$this, 'handleSetSettings']);
             // user profile save
         add_action( 'edit_user_profile_update', [$this, 'handleUserProfileSave'] );
     }
@@ -455,6 +458,27 @@ class FapiMemberPlugin
         $this->redirect('settingsPages', 'editOtherPagesUpdated', ['level' => $levelId]);
     }
 
+    public function handleSetSettings()
+    {
+        $this->verifyNonce('set_settings');
+        $currentSettings = get_option(self::OPTION_KEY_SETTINGS);
+
+        $loginPageId = $this->input('login_page_id', 'int');
+        if ($loginPageId === null) {
+            unset($currentSettings['login_page_id']);
+            update_option(self::OPTION_KEY_SETTINGS, $currentSettings);
+            $this->redirect('settingsSettings', 'settingsSettingsUpdated');
+        }
+        $page = get_post($loginPageId);
+        if ($page === null) {
+            $this->redirect('settingsSettings', 'settingsSettingsNoValidPage');
+        }
+
+        $currentSettings['login_page_id'] = $loginPageId;
+        update_option(self::OPTION_KEY_SETTINGS, $currentSettings);
+        $this->redirect('settingsSettings', 'settingsSettingsUpdated');
+    }
+
     public function registerSettings()
     {
         register_setting( 'options', 'fapiMemberApiEmail', [
@@ -585,6 +609,11 @@ class FapiMemberPlugin
     protected function showSettingsElements()
     {
         $this->showTemplate('settingsElements');
+    }
+
+    protected function showSettingsSettings()
+    {
+        $this->showTemplate('settingsSettings');
     }
 
     protected function showHelp()
@@ -737,5 +766,14 @@ class FapiMemberPlugin
             update_user_meta( $userId, 'fapi_user_memberships', $new );
         }
         return $new;
+    }
+
+    public function getSetting($key)
+    {
+        $o = get_option(self::OPTION_KEY_SETTINGS);
+        if ($o === false) {
+            $o = [];
+        }
+        return (isset($o[$key])) ? $o[$key] : null;
     }
 }

@@ -16,6 +16,8 @@ function showErrors() {
         'editMailsUpdated' => ['success', 'Šablona emailu byla upravena.'],
         'editOtherPagesRemoved' => ['success', 'Ostatní stránka byla odebrána.'],
         'editOtherPagesUpdated' => ['success', 'Ostatní stránka byla nastavena.'],
+        'settingsSettingsUpdated' => ['success', 'Nastavení uložena.'],
+        'settingsSettingsNoValidPage' => ['error', 'Stránka nenalezena.'],
     ];
 
     if (isset($_GET['e']) && isset($errorMap[$_GET['e']])) {
@@ -105,6 +107,7 @@ function submenu() {
                     '. submenuItem('settingsEmails', 'Nastavení e-mailů', $subpage) .'
                     '. submenuItem('settingsPages', 'Ostatní stránky', $subpage) .'
                     '. submenuItem('settingsElements', 'Prvky pro web', $subpage) .'
+                    '. submenuItem('settingsSettings', 'Nastavení', $subpage) .'
                 </div>
                 ';
     }
