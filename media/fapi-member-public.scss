@@ -97,3 +97,30 @@
 		}
 	}
 }
+
+.FapiLevelSelection {
+	min-height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	#Wrapper {
+		max-width: 640px;
+
+		.pages {
+
+			display: flex;
+			gap: 32px;
+			flex-wrap: wrap;
+
+			> div {
+				width: 180px;
+				display: grid;
+				grid-template-columns: auto;
+				grid-template-rows: 90px auto 90px;
+
+				box-shadow: 2px 2px 2px $grayBg;
+			}
+		}
+
+	}
+}

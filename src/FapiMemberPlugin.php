@@ -42,6 +42,8 @@ class FapiMemberPlugin
         add_action('rest_api_init', [$this, 'addRestEndpoints']);
         // check if page in fapi level
         add_action('template_redirect', [$this, 'checkPage']);
+        // level selection in front-end
+        add_action( 'init', [$this, 'checkIfLevelSelection'] );
 
         //user profile
         add_action('edit_user_profile', [$this, 'addUserProfileForm']);
@@ -59,6 +61,8 @@ class FapiMemberPlugin
         add_action('admin_post_fapi_member_set_settings', [$this, 'handleSetSettings']);
             // user profile save
         add_action( 'edit_user_profile_update', [$this, 'handleUserProfileSave'] );
+
+        add_image_size( 'level-selection', 180, 90, true );
     }
 
     public function showError($type, $message)
@@ -801,7 +805,7 @@ class FapiMemberPlugin
     {
         $now = new DateTime();
         $memberships = array_filter($memberships, function($one) use ($now) {
-            if ($one === '') {
+            if ($one === '' || $one === false) {
                 return false;
             }
             return true;
@@ -827,21 +831,6 @@ class FapiMemberPlugin
 
         // apply parent reg & until to children
 
-        foreach ($flatMemberships as $f) {
-            if (!isset($f['registered'])) {
-                //is children
-                $term = $this->levels()->loadById($f['level']);
-                $parents = array_filter($flatMemberships, function($one) use ($term) {
-                    return $one['level'] === $term->parent;
-                });
-                if (count($parents) < 1) {
-                    continue;
-                }
-                $f['registered'] = $parents[0]['registered'];
-                $f['until'] = $parents[0]['until'];
-            }
-        }
-
         $flatMemberships = array_map(function($f) use ($flatMemberships) {
             if (!isset($f['registered'])) {
                 //is children
@@ -853,12 +842,15 @@ class FapiMemberPlugin
                     // parent was removed before
                     return null;
                 }
-                $f['registered'] = $parents[0]['registered'];
-                $f['until'] = $parents[0]['until'];
-                $f['user'] = $parents[0]['user'];
+                $parent = array_shift($parents);
+                $f['registered'] = $parent['registered'];
+                $f['until'] = $parent['until'];
+                $f['user'] = $parent['user'];
+                $f['parent'] = $parent;
             }
             return $f;
         }, $flatMemberships);
+
 
         // remove children without valid parent - parent removed before because of time period
         $flatMemberships = array_filter($flatMemberships, function($m){
@@ -934,5 +926,38 @@ class FapiMemberPlugin
             exit;
         }
     }
+
+    public function checkIfLevelSelection()
+    {
+        $isFapiLevelSelection = (isset($_GET['fapi-level-selection']) && intval($_GET['fapi-level-selection']) === 1) ? true : false;
+        if (!$isFapiLevelSelection) {
+            return true;
+        }
+        $this->showLevelSelectionPage();
+    }
+
+    protected function showLevelSelectionPage()
+    {
+        $mem = $this->getMembershipsForUser(get_current_user_id());
+        $pages = array_map(function($m) {
+            $p =  $this->levels()->loadOtherPagesForLevel($m['level'], true);
+            return (isset($p['afterLogin'])) ? $p['afterLogin'] : null;
+        }, $mem);
+        $pages = array_unique(array_filter($pages));
+        if (count($pages) === 0) {
+            // no afterLogin page set anywhere
+            return;
+        }
+        if (count($pages) === 1) {
+            // exactly one afterLogin page
+            $f = array_shift($pages);
+            $page = get_post($f);
+            wp_redirect(get_permalink($page));
+            exit;
+        }
+        include(__DIR__ . '/../templates/levelSelection.php');
+        exit;
+    }
+
 
 }

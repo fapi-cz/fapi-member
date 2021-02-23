@@ -79,4 +79,26 @@
   display: block;
 }
 
+.FapiLevelSelection {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.FapiLevelSelection #Wrapper {
+  max-width: 640px;
+}
+.FapiLevelSelection #Wrapper .pages {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.FapiLevelSelection #Wrapper .pages > div {
+  width: 180px;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: 90px auto 90px;
+  box-shadow: 2px 2px 2px #f3f3f3;
+}
+
 /*# sourceMappingURL=fapi-member-public.css.map */
