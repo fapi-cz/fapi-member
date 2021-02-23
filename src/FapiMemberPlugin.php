@@ -63,6 +63,7 @@ class FapiMemberPlugin
         add_action( 'edit_user_profile_update', [$this, 'handleUserProfileSave'] );
 
         add_image_size( 'level-selection', 180, 90, true );
+        add_filter( 'login_redirect', [$this, 'loginRedirect'], 10, 3 );
     }
 
     public function showError($type, $message)
@@ -957,6 +958,27 @@ class FapiMemberPlugin
         }
         include(__DIR__ . '/../templates/levelSelection.php');
         exit;
+    }
+
+    /**
+     *  this is not nice implementation :/
+     * it will append `fapi-level-selection=1` to every after login redirect
+     * for users without memberships id doesn't do anything
+     * for users with memberships it shows list of afterLogin pages from level config
+     * or directly redirect if there is only one
+     *
+     * @see FapiMemberPlugin::showLevelSelectionPage()
+     */
+    public function loginRedirect($redirectTo, $request, $user)
+    {
+        if ((strpos($request, '?') !== false)) {
+            if ((strpos($request, 'fapi-level-selection') !== false)) {
+                return $request;
+            }
+            return $request . '&fapi-level-selection=1';
+        } else {
+            return $request . '?fapi-level-selection=1';
+        }
     }
 
 
