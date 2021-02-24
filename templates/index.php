@@ -35,25 +35,26 @@ echo heading();
                 $empty = true;
 
                 $memberships = $FapiPlugin->getAllMemberships();
-                $levelUsers = array_reduce($memberships, function($carry, $m) use ($mapToParent) {
-                    $levelId = $m['level'];
-                    if (!isset($carry[$levelId])) {
-                        $carry[$levelId] = [];
-                    }
-                    $carry[$levelId][$m['user']] = true;
-
-                    // we do count user to parent level too - if is defined only in sublevel, otherwise is counted just once
-                    if (isset($mapToParent[$levelId]) && $mapToParent[$levelId] !== 0) {
-                        if (!isset($carry[$mapToParent[$levelId]])) {
-                            $carry[$mapToParent[$levelId]] = [];
+                $usersInLevel = [];
+                foreach ($memberships as $userId => $ms) {
+                    /** @var FapiMembership[] $ms */ {
+                        foreach ($ms as $m) {
+                            if (!isset($usersInLevel[$m->levelId])) {
+                                $usersInLevel[$m->levelId] = [];
+                            }
+                            $usersInLevel[$m->levelId][$userId] = true;
+                            if (isset($mapToParent[$m->levelId]) && $mapToParent[$m->levelId] !== 0) {
+                                // is child, count unique to parent too
+                                if (!isset($carry[$mapToParent[$m->levelId]])) {
+                                    $carry[$mapToParent[$m->levelId]] = [];
+                                }
+                                $carry[$mapToParent[$m->levelId]][$userId] = true;
+                            }
                         }
-                        $carry[$mapToParent[$levelId]][$m['user']] = true;
                     }
-
-                    return $carry;
-                }, []);
+                }
                 $levelUsersCount = [];
-                foreach ($levelUsers as $level => $users) {
+                foreach ($usersInLevel as $level => $users) {
                     $levelUsersCount[$level] = count($users);
                 }
 

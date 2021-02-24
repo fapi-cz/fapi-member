@@ -5,11 +5,14 @@ class FapiLevels
 {
     const TAXONOMY = 'fapi_levels';
 
+    const EMAIL_TYPE_AFTER_REGISTRATION = 'afterRegistration';
+    const EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED = 'afterMembershipProlonged';
+    const EMAIL_TYPE_AFTER_ADDING = 'afterAdding';
 
     public static $emailTypes = [
-        'afterRegistration',
-        'afterMembershipProlonged',
-        'afterAdding',
+        self::EMAIL_TYPE_AFTER_REGISTRATION,
+        self::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED,
+        self::EMAIL_TYPE_AFTER_ADDING,
     ];
 
     public static $pageTypes = [

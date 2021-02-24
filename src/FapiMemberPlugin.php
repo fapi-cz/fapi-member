@@ -5,9 +5,12 @@ class FapiMemberPlugin
 {
     private $errorBasket = [];
     private $fapiLevels = null;
+    private $userUtils = null;
+    private $fapiMembershipLoader = null;
 
     const OPTION_KEY_SETTINGS = 'fapiSettings';
     const REQUIRED_CAPABILITY = 'manage_options';
+    const DF = 'Y-m-d\TH:i:s';
 
     public function __construct()
     {
@@ -28,6 +31,22 @@ class FapiMemberPlugin
             $this->fapiLevels = new FapiLevels();
         }
         return $this->fapiLevels;
+    }
+
+    public function userUtils()
+    {
+        if ($this->userUtils === null) {
+            $this->userUtils = new UserUtils();
+        }
+        return $this->userUtils;
+    }
+
+    public function fapiMembershipLoader()
+    {
+        if ($this->fapiMembershipLoader === null) {
+            $this->fapiMembershipLoader = new FapiMembershipLoader($this->levels());
+        }
+        return $this->fapiMembershipLoader;
     }
 
     public function addHooks()
@@ -197,6 +216,30 @@ class FapiMemberPlugin
     {
         $get = $request->get_params();
         $body = $request->get_body();
+        // extract invoice/order id and preform request to find: email, level id, days...
+
+        $props = [];
+        $email = 'max@example.com';
+        $userCreated = $this->userUtils()->createUser($email, $props);
+
+        // create or prolong membership
+        $levelId = 15;
+        $days = 31;
+        $this->createOrProlongMembership($email, $levelId, $days, $props);
+
+
+        // send emails
+        if ($props['new_user']) {
+            $this->sendEmail(FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $props);
+        }
+        if ($props['membership_level_added']) {
+            $this->sendEmail(FapiLevels::EMAIL_TYPE_AFTER_ADDING, $props);
+        }
+        if ($props['membership_prolonged']) {
+            $this->sendEmail(FapiLevels::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED, $props);
+        }
+
+        // TODO: some nice return
         return null;
     }
 
@@ -239,25 +282,22 @@ class FapiMemberPlugin
         foreach ($data as $id => $inputs) {
             if (isset($inputs['check']) && $inputs['check'] === 'on') {
                 if ($levels[$id]->parent === 0) {
+                    // parent level
                     if (isset($inputs['registrationDate']) && isset($inputs['registrationTime']) && isset($inputs['membershipUntil'])) {
 
                         $reg = \DateTime::createFromFormat('Y-m-d\TH:i', $inputs['registrationDate'] . 'T' . $inputs['registrationTime']);
-                        $mem = \DateTime::createFromFormat('Y-m-d\TH:i:s', $inputs['membershipUntil'] . 'T23:59:59');
-                        if ($mem && $reg) {
-                            $memberships[] = [
-                                'level' => $id,
-                                'registered' => $reg->format('Y-m-d\TH:i:s'),
-                                'until' => $mem->format('Y-m-d\TH:i:s'),
-                            ];
+                        $until = \DateTime::createFromFormat('Y-m-d\TH:i:s', $inputs['membershipUntil'] . 'T23:59:59');
+                        if ($until && $reg) {
+                            $memberships[] = new FapiMembership($id, $reg, $until);
                         }
                     }
                 } else {
-                    $memberships[] = ['level' => $id];
+                    // child level
+                    $memberships[] = new FapiMembership($id);
                 }
             }
         }
-
-        update_user_meta( $userId, 'fapi_user_memberships', $memberships );
+        $this->fapiMembershipLoader()->saveForUser($userId, $memberships);
     }
 
     protected function verifyNonceAndCapability($hook)
@@ -538,10 +578,9 @@ class FapiMemberPlugin
     {
         $levels = $this->levels()->loadAsTerms();
 
-        $memberships = get_user_meta($user->ID, 'fapi_user_memberships', true);
-        $memberships = $this->removeMembershipsToRemovedLevels($user->ID, $memberships, $levels);
+        $memberships = $this->fapiMembershipLoader()->loadForUser($user->ID);
         $memberships = array_reduce($memberships, function($carry, $one) {
-            $carry[$one['level']] = $one;
+            $carry[$one->levelId] = $one;
             return $carry;
         }, []);
         $o[] =  '<h2>Členské sekce</h2>';
@@ -676,7 +715,7 @@ class FapiMemberPlugin
     /**
      * @param WP_Term $level
      * @param WP_Term[] $levels
-     * @param  array $memberships
+     * @param  FapiMembership[] $memberships
      *
      * @return string
      */
@@ -704,17 +743,16 @@ class FapiMemberPlugin
         }
 
         $checked = (isset($memberships[$level->term_id])) ? 'checked' : '';
-        if (isset($memberships[$level->term_id]['registered'])) {
-            $reg = \DateTime::createFromFormat('Y-m-d\TH:i:s', $memberships[$level->term_id]['registered']);
+        if ($memberships[$level->term_id]->registered !== null) {
+            $reg = $memberships[$level->term_id]->registered;
             $regDate = sprintf('value="%s"', $reg->format('Y-m-d'));
             $regTime = sprintf('value="%s"', $reg->format('H:i'));
         } else {
             $regDate = '';
             $regTime = '';
         }
-        if (isset($memberships[$level->term_id]['until'])) {
-            $reg = \DateTime::createFromFormat('Y-m-d\TH:i:s', $memberships[$level->term_id]['until']);
-            $untilDate = sprintf('value="%s"', $reg->format('Y-m-d'));
+        if ($memberships[$level->term_id]->until !== null) {
+            $untilDate = sprintf('value="%s"', $memberships[$level->term_id]->until->format('Y-m-d'));
         } else {
             $untilDate = '';
         }
@@ -759,28 +797,6 @@ class FapiMemberPlugin
         ';
     }
 
-    protected function removeMembershipsToRemovedLevels($userId, $memberships, $levels)
-    {
-        $updated = false;
-        $new = [];
-        $levelIds = array_reduce($levels, function($carry, $one) {
-            $carry[] = $one->term_id;
-            return $carry;
-        }, []);
-        $memberships = ($memberships === '') ? [] : $memberships;
-        foreach ($memberships as $m) {
-            if (in_array($m['level'], $levelIds)) {
-                $new[] = $m;
-            } else {
-                $updated = true;
-            }
-        }
-        if ($updated) {
-            update_user_meta( $userId, 'fapi_user_memberships', $new );
-        }
-        return $new;
-    }
-
     public function getSetting($key)
     {
         $o = get_option(self::OPTION_KEY_SETTINGS);
@@ -796,75 +812,10 @@ class FapiMemberPlugin
         $users = get_users(['fields' => ['ID']]);
         $memberships = [];
         foreach($users as $user){
-            $memberships[$user->ID] = get_user_meta($user->ID, 'fapi_user_memberships', true);
+            $memberships[$user->ID] = $this->fapiMembershipLoader()->loadForUser($user->ID);
 
         }
-        return $this->flattenMemberships($memberships);
-    }
-
-    protected function flattenMemberships($memberships)
-    {
-        $now = new DateTime();
-        $memberships = array_filter($memberships, function($one) use ($now) {
-            if ($one === '' || $one === false) {
-                return false;
-            }
-            return true;
-        });
-        $flatMemberships = [];
-        foreach ($memberships as $userId => $mem) {
-            foreach ($mem as $one) {
-                if (!isset($one['registered']) || !isset($one['until'])) {
-                    // is level with parent
-                    $flatMemberships[] = $one;
-                }
-
-                $reg = DateTime::createFromFormat('Y-m-d\TH:i:s', $one['registered']);
-                $until = DateTime::createFromFormat('Y-m-d\TH:i:s', $one['until']);
-                if ($reg >= $now || $until <= $now) {
-                    continue;
-                }
-                $n = $one;
-                $n['user'] = $userId;
-                $flatMemberships[] = $n;
-            }
-        }
-
-        // apply parent reg & until to children
-
-        $flatMemberships = array_map(function($f) use ($flatMemberships) {
-            if (!isset($f['registered'])) {
-                //is children
-                $term = $this->levels()->loadById($f['level']);
-                $parents = array_filter($flatMemberships, function($one) use ($term) {
-                    return $one['level'] === $term->parent;
-                });
-                if (count($parents) < 1) {
-                    // parent was removed before
-                    return null;
-                }
-                $parent = array_shift($parents);
-                $f['registered'] = $parent['registered'];
-                $f['until'] = $parent['until'];
-                $f['user'] = $parent['user'];
-                $f['parent'] = $parent;
-            }
-            return $f;
-        }, $flatMemberships);
-
-
-        // remove children without valid parent - parent removed before because of time period
-        $flatMemberships = array_filter($flatMemberships, function($m){
-            return $m !== null;
-        });
-
-        return $flatMemberships;
-    }
-
-    public function getMembershipsForUser($userId)
-    {
-        $memberships[$userId] = get_user_meta($userId, 'fapi_user_memberships', true);;
-        return $this->flattenMemberships($memberships);
+        return $memberships;
     }
 
     public function checkPage()
@@ -901,11 +852,11 @@ class FapiMemberPlugin
             return;
         }
 
-        $memberships = $this->getMembershipsForUser(get_current_user_id());
+        $memberships = $this->fapiMembershipLoader()->loadForUser(get_current_user_id());
 
         // Does user have membership for any level that page is in
         foreach ($memberships as $m) {
-            if (in_array($m['level'], $levelsForThisPage)) {
+            if (in_array($m->levelId, $levelsForThisPage)) {
                 return true;
             }
         }
@@ -939,9 +890,9 @@ class FapiMemberPlugin
 
     protected function showLevelSelectionPage()
     {
-        $mem = $this->getMembershipsForUser(get_current_user_id());
+        $mem = $this->fapiMembershipLoader()->loadForUser(get_current_user_id());
         $pages = array_map(function($m) {
-            $p =  $this->levels()->loadOtherPagesForLevel($m['level'], true);
+            $p =  $this->levels()->loadOtherPagesForLevel($m->levelId, true);
             return (isset($p['afterLogin'])) ? $p['afterLogin'] : null;
         }, $mem);
         $pages = array_unique(array_filter($pages));
@@ -981,5 +932,14 @@ class FapiMemberPlugin
         }
     }
 
-
+    protected function createOrProlongMembership($email, $levelId, $days, &$props)
+    {
+        $user = get_user_by('email', $email);
+        if ($user === false) {
+            return;
+        }
+        $fm = new FapiMembershipLoader($this->levels());
+        $current = $fm->loadForUser($user->ID);
+        return true;
+    }
 }
