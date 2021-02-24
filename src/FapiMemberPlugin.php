@@ -223,24 +223,50 @@ class FapiMemberPlugin
         $userCreated = $this->userUtils()->createUser($email, $props);
 
         // create or prolong membership
-        $levelId = 15;
+        $levelId = 11;
+        $child = 13;
         $days = 31;
-        $this->createOrProlongMembership($email, $levelId, $days, $props);
+        $this->createOrProlongMembership($email, $levelId, $days, $props, $child);
 
+        $this->enhanceProps($props);
 
         // send emails
-        if ($props['new_user']) {
-            $this->sendEmail(FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $props);
+        if (isset($props['new_user']) && $props['new_user']) {
+            $this->sendEmail(FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $levelId, $props, $child);
         }
-        if ($props['membership_level_added']) {
-            $this->sendEmail(FapiLevels::EMAIL_TYPE_AFTER_ADDING, $props);
+        if (isset($props['membership_level_added']) && $props['membership_level_added']) {
+            $this->sendEmail(FapiLevels::EMAIL_TYPE_AFTER_ADDING, $levelId, $props, $child);
         }
-        if ($props['membership_prolonged']) {
-            $this->sendEmail(FapiLevels::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED, $props);
+        if (isset($props['membership_prolonged']) && $props['membership_prolonged']) {
+            $this->sendEmail(FapiLevels::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED, $levelId, $props, $child);
         }
 
         // TODO: some nice return
         return null;
+    }
+
+    protected function enhanceProps(&$props)
+    {
+        if (isset($props['membership_level_added_level'])) {
+            $props['membership_level_added_level_name'] = $this->levels()->loadById($props['membership_level_added_level'])->name;
+        }
+        if (isset($props['membership_child_level_added_level'])) {
+            $props['membership_child_level_added_level_name'] = $this->levels()->loadById($props['membership_child_level_added_level'])->name;
+        }
+        if (isset($props['membership_prolonged_level'])) {
+            $props['membership_prolonged_level_name'] = $this->levels()->loadById($props['membership_prolonged_level'])->name;
+        }
+        $props['login_link'] = sprintf('<a href="%s">zde</a>', $this->getLoginUrl());
+    }
+
+    protected function getLoginUrl()
+    {
+        $setLoginPageId = $this->getSetting('login_page_id');
+        if ($setLoginPageId === null) {
+            return wp_login_url();
+        } else {
+            return get_permalink($setLoginPageId);
+        }
     }
 
     public function handleApiCredentialsSubmit()
@@ -932,14 +958,114 @@ class FapiMemberPlugin
         }
     }
 
-    protected function createOrProlongMembership($email, $levelId, $days, &$props)
+    protected function createOrProlongMembership($email, $levelId, $days, &$props, $childLevel = null)
     {
         $user = get_user_by('email', $email);
         if ($user === false) {
             return;
         }
         $fm = new FapiMembershipLoader($this->levels());
-        $current = $fm->loadForUser($user->ID);
+        $memberships = $fm->loadForUser($user->ID);
+        $level = array_filter($memberships, function($one) use ($levelId) {
+            return $one->levelId === $levelId;
+        });
+        if (count($level) === 1) {
+            // level is there, we are prolonging
+            $props['membership_prolonged'] = true;
+            $level = array_shift($level);
+            $level->until = $level->until->modify(sprintf('+ %s days', $days));
+            $props['membership_prolonged_days'] = $days;
+            $props['membership_prolonged_level'] = $levelId;
+            $props['membership_prolonged_until'] = $level->until;
+            $this->fapiMembershipLoader()->saveForUser($user->ID, $memberships);
+
+        } else {
+            // new level membership
+            $props['membership_level_added'] = true;
+            $props['membership_level_added_level'] = $levelId;
+            $registered = new DateTime();
+            $until = new DateTime();
+            $until->modify(sprintf('+ %s days', $days));
+            $props['membership_level_added_until'] = $until;
+            $props['membership_level_added_days'] = $days;
+            $memberships[] = new FapiMembership($levelId, $registered, $until);
+            $this->fapiMembershipLoader()->saveForUser($user->ID, $memberships);
+        }
+        $currentLevelIds = array_reduce($memberships, function($carry, $one) {
+            $carry[] = $one->levelId;
+            return $carry;
+        }, []);
+        if ($childLevel) {
+            if (!in_array($childLevel, $currentLevelIds)) {
+                $props['membership_child_level_added'] = true;
+                $props['membership_child_level_added_level'] = $childLevel;
+                $memberships[] = new FapiMembership($childLevel);
+                $this->fapiMembershipLoader()->saveForUser($user->ID, $memberships);
+            }
+        }
         return true;
+    }
+
+    protected function sendEmail($type, $levelId, $props, $childLevelId = null)
+    {
+        $id = ($childLevelId === null) ? $levelId : $childLevelId;
+        $emails = $this->levels()->loadEmailTemplatesForLevel($id, true);
+        if (count($emails) === 0) {
+            // No emails defined
+            return false;
+        }
+        if (!isset($emails[$type])) {
+            // No emails of this type defined
+            return false;
+        }
+
+        $subject = $emails[$type]['s'];
+        $body = $emails[$type]['b'];
+        $subject = $this->applyEmailShortcodes($subject, $props);
+        $body = $this->applyEmailShortcodes($body, $props);
+
+        return true;
+    }
+
+    protected function applyEmailShortcodes($text, $props)
+    {
+        $map = [
+            '%%SEKCE%%' => function($props) {
+                if (isset($props['membership_prolonged_level_name'])) {
+                    return $props['membership_prolonged_level_name'];
+                } elseif (isset($props['membership_level_added_level_name'])) {
+                    return $props['membership_level_added_level_name'];
+                } else {
+                    return '';
+                }
+            },
+            '%%DAYS%%'=> function($props) {
+                if (isset($props['membership_prolonged_days'])) {
+                    return $props['membership_prolonged_days'];
+                } elseif (isset($props['membership_level_added_days'])) {
+                    return $props['membership_level_added_days'];
+                } else {
+                    return '';
+                }
+            },
+            '%%CLENSTVI_DO%%'=> function($props) {
+                if (isset($props['membership_prolonged_until'])) {
+                    return $props['membership_prolonged_until']->format('j. n. Y H:i');
+                } elseif (isset($props['membership_level_added_until'])) {
+                    return $props['membership_level_added_until']->format('j. n. Y H:i');
+                } else {
+                    return '';
+                }
+            },
+            '%%LOGIN_LINK%%' => function($props) {
+                return $props['login_link'];
+            }
+        ];
+
+        foreach ($map as $key => $func) {
+            $text = str_replace($key, $func($props), $text);
+        }
+
+        return $text;
     }
 }
