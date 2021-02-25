@@ -124,6 +124,12 @@ document.addEventListener('click', (event) => {
     }
 })
 
+document.addEventListener('click', (event) => {
+    if (event.target.matches('.shortcodes h3') || event.target.matches('.shortcodes h3 .carret')) {
+        event.target.closest('.shortcodes').classList.toggle('open');
+    }
+})
+
 const changeSubSubMenuLinks = () => {
     let lvl = findSelectedLevel()
     Array.from(document.querySelectorAll('.subsubmenuitem')).forEach((one) => {

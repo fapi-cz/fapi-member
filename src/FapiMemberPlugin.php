@@ -257,6 +257,7 @@ class FapiMemberPlugin
             $props['membership_prolonged_level_name'] = $this->levels()->loadById($props['membership_prolonged_level'])->name;
         }
         $props['login_link'] = sprintf('<a href="%s">zde</a>', $this->getLoginUrl());
+        $props['login_link_url'] = $this->getLoginUrl();
     }
 
     protected function getLoginUrl()
@@ -1039,7 +1040,14 @@ class FapiMemberPlugin
                     return '';
                 }
             },
-            '%%DAYS%%'=> function($props) {
+            '%%UROVEN%%' => function($props) {
+                if (isset($props['membership_child_level_added_level_name'])) {
+                    return $props['membership_child_level_added_level_name'];
+                } else {
+                    return '';
+                }
+            },
+            '%%DNI%%'=> function($props) {
                 if (isset($props['membership_prolonged_days'])) {
                     return $props['membership_prolonged_days'];
                 } elseif (isset($props['membership_level_added_days'])) {
@@ -1057,8 +1065,25 @@ class FapiMemberPlugin
                     return '';
                 }
             },
-            '%%LOGIN_LINK%%' => function($props) {
+            '%%PRIHLASENI_ODKAZ_ZDE%%' => function($props) {
                 return $props['login_link'];
+            },
+            '%%PRIHLASENI_ODKAZ%%' => function($props) {
+                return $props['login_link_url'];
+            },
+            '%%PRIHLASOVACI_JMENO%%' => function($props) {
+                if (isset($props['login'])) {
+                    return $props['login'];
+                } else {
+                    return '';
+                }
+            },
+            '%%HESLO%%' => function($props) {
+                if (isset($props['password'])) {
+                    return $props['password'];
+                } else {
+                    return '';
+                }
             }
         ];
 

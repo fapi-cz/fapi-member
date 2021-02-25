@@ -470,6 +470,49 @@
   border-bottom: 1px solid #eeeeee;
   padding-bottom: 18px;
 }
+.baseGrid .shortcodes {
+  margin-top: 64px;
+  grid-column: 1/3;
+  grid-row: 2/3;
+}
+.baseGrid .shortcodes h3 {
+  cursor: pointer;
+}
+.baseGrid .shortcodes h3 .carret {
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  cursor: pointer;
+}
+.baseGrid .shortcodes h3 .carret::after {
+  display: block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  content: "";
+  font: normal 20px dashicons;
+}
+.baseGrid .shortcodes .tableBox {
+  height: 0;
+  overflow-y: hidden;
+  transition: height 600ms;
+}
+.baseGrid .shortcodes.open .tableBox {
+  height: 500px;
+}
+.baseGrid .shortcodes.open h3 .carret::after {
+  content: "";
+}
+.baseGrid .shortcodes table {
+  width: 100%;
+}
+.baseGrid .shortcodes table tbody td:nth-child(3) {
+  font-style: italic;
+}
+.baseGrid .shortcodes table tbody td:nth-child(n+4) {
+  text-align: center;
+}
 
 .swal2-actions .removeConfirmButton {
   background-color: #ff0200 !important;

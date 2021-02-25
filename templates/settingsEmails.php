@@ -84,6 +84,94 @@ echo heading();
                        }
 
                     ?>
+
+                </div>
+
+            </div>
+            <div class="shortcodes">
+                <h3>Dostupné proměnné <span class="carret"></span></h3>
+                <div class="tableBox">
+                    <table class="wp-list-table widefat fixed striped">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" style="width: 200px">Kód</th>
+                                <th rowspan="2">Popis</th>
+                                <th rowspan="2">Příklad</th>
+                                <th colspan="3" style="width:300px">Dostupné pro</th>
+                            </tr>
+                            <tr>
+                                <th>registrace</th>
+                                <th>prodloužení</th>
+                                <th>přidání úrovně</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>%%SEKCE%%</code></td>
+                                <td>Název sekce</td>
+                                <td>Italská kuchyně</td>
+                                <td>&checkmark;</td>
+                                <td>&checkmark;</td>
+                                <td>&checkmark;</td>
+                            </tr>
+                            <tr>
+                                <td><code>%%UROVEN%%</code></td>
+                                <td>Název úrovně</td>
+                                <td>Začátečník</td>
+                                <td>&checkmark;</td>
+                                <td>&checkmark;</td>
+                                <td>&checkmark;</td>
+                            </tr>
+                            <tr>
+                                <td><code>%%DNI%%</code></td>
+                                <td>Počet zakoupených dní</td>
+                                <td>31</td>
+                                <td>&checkmark;</td>
+                                <td>&checkmark;</td>
+                                <td>&checkmark;</td>
+                            </tr>
+                            <tr>
+                                <td><code>%%CLENSTVI_DO%%</code></td>
+                                <td>Datum konce členství</td>
+                                <td>12. 1. 2022</td>
+                                <td>&checkmark;</td>
+                                <td>&checkmark;</td>
+                                <td>&checkmark;</td>
+                            </tr>
+                            <tr>
+                                <td><code>%%PRIHLASENI_ODKAZ_ZDE%%</code></td>
+                                <td>Odkaz na přihlášení (z nastavení) s&nbsp;textem &bdquo;zde&ldquo;</td>
+                                <td>zde</td>
+                                <td>&checkmark;</td>
+                                <td>&checkmark;</td>
+                                <td>&checkmark;</td>
+                            </tr>
+                            <tr>
+                                <td><code>%%PRIHLASENI_ODKAZ%%</code></td>
+                                <td>Odkaz na přihlášení (z nastavení) pouze URL</td>
+                                <td>https://www.example.com/login</td>
+                                <td>&checkmark;</td>
+                                <td>&checkmark;</td>
+                                <td>&checkmark;</td>
+                            </tr>
+                            <tr>
+                                <td><code>%%PRIHLASOVACI_JMENO%%</code></td>
+                                <td>Přihlašovací jméno uživatele</td>
+                                <td>jan@example.com</td>
+                                <td>&checkmark;</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><code>%%HESLO%%</code></td>
+                                <td>Přihlašovací heslo uživatele</td>
+                                <td>)7PQll6Pw)HN7%w8ddES!ues</td>
+                                <td>&checkmark;</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
