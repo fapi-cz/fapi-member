@@ -5,10 +5,6 @@ class FapiMembershipLoader
 {
     const MEMBERSHIP_META_KEY = 'fapi_user_memberships';
 
-    public $levelId;
-    public $registered;
-    public $until;
-
     protected $fapiLevels;
     protected $levels;
 
@@ -31,14 +27,16 @@ class FapiMembershipLoader
      */
     public function saveForUser($userId, $memberships)
     {
+        if (count($memberships) === 0) {
+            return;
+        }
         $meta = [];
         $meta = array_map(function($one) {
-            /** @var FapiMembership $one */
-            $t = [
-                'level' => $one->levelId,
-            ];
+            $t = (array)$one;
             if ($one->registered instanceof DateTimeInterface) {
                 $t['registered'] = $one->registered->format(FapiMemberPlugin::DF);
+            }
+            if ($one->until instanceof DateTimeInterface) {
                 $t['until'] = $one->until->format(FapiMemberPlugin::DF);
             }
             return $t;
@@ -63,12 +61,8 @@ class FapiMembershipLoader
         });
         $meta = array_filter($meta, function($one) use ($removeFuture) {
             $now = new DateTime();
-            if (!isset($one['until'])) {
-                // is child level
-                return true;
-            }
             $until = DateTime::createFromFormat(FapiMemberPlugin::DF, $one['until']);
-            if ($until < $now) {
+            if ($until < $now && !$one['isUnlimited']) {
                 return false;
             }
             $registered = DateTime::createFromFormat(FapiMemberPlugin::DF, $one['registered']);
@@ -76,22 +70,6 @@ class FapiMembershipLoader
                 return false;
             }
             return true;
-        });
-        // remove orphaned children
-        $levels = $this->levels();
-        $metaLevelsId = array_reduce($meta, function($carry, $one) {
-            $carry[] = $one['level'];
-            return $carry;
-        }, []);
-        $meta = array_filter($meta, function($one) use ($levels, $metaLevelsId) {
-            if (isset($one['registered'])) {
-                // is parent level
-                return true;
-            }
-            $levelKey = array_search($one['level'], array_column($levels, 'term_id'));
-            $level = $levels[$levelKey];
-            $parentId = $level->parent;
-            return in_array($parentId, $metaLevelsId);
         });
         $atEnd = count($meta);
         $memberships = array_map(function($one) {
@@ -103,6 +81,7 @@ class FapiMembershipLoader
             $t->until = (isset($one['until'])) ?
                 DateTime::createFromFormat(FapiMemberPlugin::DF, $one['until']) :
                 null;
+            $t->isUnlimited = $one['isUnlimited'];
 
             return $t;
         }, $meta);

@@ -3,14 +3,16 @@
 
 class FapiMembership
 {
-    public $levelId;
+    public $level;
     public $registered;
     public $until;
+    public $isUnlimited = false;
 
-    public function __construct($levelId, $registered = null, $until = null)
+    public function __construct($level, $registered = null, $until = null, $isUnlimited = false)
     {
-        $this->levelId = $levelId;
+        $this->level = $level;
         $this->registered = $registered;
         $this->until = $until;
+        $this->isUnlimited = $isUnlimited;
     }
 }

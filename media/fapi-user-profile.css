@@ -13,23 +13,66 @@
 .fapiMembership th.fields input {
   margin: 0;
 }
-.fapiMembership tbody td {
-  display: flex;
-}
 .fapiMembership tbody td .oneLevel {
-  flex: 1;
-  margin: 16px 32px 16px 16px;
+  margin-top: 10px;
   display: grid;
-  grid-template-columns: 24px auto;
-  grid-template-rows: 32px;
+  grid-template-columns: 24px auto 170px 170px 170px 100px;
+  grid-template-rows: 20px 32px;
+  border-bottom: 1px solid #eeeeee;
+  padding-bottom: 10px;
+  padding-left: 20px;
 }
-.fapiMembership tbody td .oneLevel input {
-  flex: 1;
-  margin: 0 1px;
+.fapiMembership tbody td .oneLevel:last-child {
+  border-bottom: none;
 }
 .fapiMembership tbody td .oneLevel label {
-  flex: 1;
-  margin-bottom: -2px;
+  color: #838383;
+  font-size: 10px;
+  display: block;
+}
+.fapiMembership tbody td .oneLevel .check {
+  grid-row: 1/3;
+  align-self: center;
+}
+.fapiMembership tbody td .oneLevel .levelName {
+  grid-row: 1/3;
+  color: #32373c;
+  font-size: 14px;
+  align-self: center;
+}
+.fapiMembership tbody td .oneLevel .registrationDate {
+  grid-row: 1/2;
+  grid-column: 3/4;
+}
+.fapiMembership tbody td .oneLevel .registrationDateInput {
+  grid-row: 2/3;
+  grid-column: 3/4;
+}
+.fapiMembership tbody td .oneLevel .registrationTime {
+  grid-row: 1/2;
+  grid-column: 4/5;
+}
+.fapiMembership tbody td .oneLevel .registrationTimeInput {
+  grid-row: 2/3;
+  grid-column: 4/5;
+}
+.fapiMembership tbody td .oneLevel .membershipUntil {
+  grid-row: 1/2;
+  grid-column: 5/6;
+}
+.fapiMembership tbody td .oneLevel .membershipUntilInput {
+  grid-row: 2/3;
+  grid-column: 5/6;
+}
+.fapiMembership tbody td .oneLevel .isUnlimited {
+  grid-row: 1/2;
+  grid-column: 6/7;
+}
+.fapiMembership tbody td .oneLevel .isUnlimitedInput {
+  grid-row: 2/3;
+  grid-column: 6/7;
+  align-self: center;
+  margin-left: 10px;
 }
 
 /*# sourceMappingURL=fapi-user-profile.css.map */

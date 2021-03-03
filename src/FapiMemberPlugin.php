@@ -372,19 +372,26 @@ class FapiMemberPlugin
 
         foreach ($data as $id => $inputs) {
             if (isset($inputs['check']) && $inputs['check'] === 'on') {
-                if ($levels[$id]->parent === 0) {
-                    // parent level
-                    if (isset($inputs['registrationDate']) && isset($inputs['registrationTime']) && isset($inputs['membershipUntil'])) {
-
-                        $reg = \DateTime::createFromFormat('Y-m-d\TH:i', $inputs['registrationDate'] . 'T' . $inputs['registrationTime']);
+                if (
+                    isset($inputs['registrationDate'])
+                    &&
+                    isset($inputs['registrationTime'])
+                    &&
+                    (isset($inputs['membershipUntil']) || (isset($inputs['isUnlimited']) && $inputs['isUnlimited'] === 'on'))
+                ) {
+                    $reg = \DateTime::createFromFormat('Y-m-d\TH:i', $inputs['registrationDate'] . 'T' . $inputs['registrationTime']);
+                    if (isset($inputs['membershipUntil']) && $inputs['membershipUntil'] !== '') {
                         $until = \DateTime::createFromFormat('Y-m-d\TH:i:s', $inputs['membershipUntil'] . 'T23:59:59');
-                        if ($until && $reg) {
-                            $memberships[] = new FapiMembership($id, $reg, $until);
-                        }
+                    } else {
+                        $until = null;
                     }
-                } else {
-                    // child level
-                    $memberships[] = new FapiMembership($id);
+                    if (isset($inputs['isUnlimited']) && $inputs['isUnlimited'] === 'on') {
+                        $isUnlimited = true;
+                    } else {
+                        $isUnlimited = false;
+                    }
+
+                    $memberships[] = new FapiMembership($id, $reg, $until, $isUnlimited);
                 }
             }
         }
@@ -671,7 +678,7 @@ class FapiMemberPlugin
 
         $memberships = $this->fapiMembershipLoader()->loadForUser($user->ID);
         $memberships = array_reduce($memberships, function($carry, $one) {
-            $carry[$one->levelId] = $one;
+            $carry[$one->level] = $one;
             return $carry;
         }, []);
         $o[] =  '<h2>Členské sekce</h2>';
@@ -817,22 +824,57 @@ class FapiMemberPlugin
         $lowerHtml = [];
         foreach ($lower as $l) {
             $checked = (isset($memberships[$l->term_id])) ? 'checked' : '';
+            if ($memberships[$l->term_id]->registered !== null) {
+                $reg = $memberships[$l->term_id]->registered;
+                $regDate = sprintf('value="%s"', $reg->format('Y-m-d'));
+                $regTime = sprintf('value="%s"', $reg->format('H:i'));
+            } else {
+                $regDate = '';
+                $regTime = '';
+            }
+            if ($memberships[$level->term_id]->until !== null) {
+                $untilDate = sprintf('value="%s"', $memberships[$level->term_id]->until->format('Y-m-d'));
+            } else {
+                $untilDate = '';
+            }
+
             $lowerHtml[] = sprintf(
                 '
-                    <span class="oneLevel">
-                        <input type="checkbox" name="Levels[%s][check]" id="Levels[%s][check]" %s>
-                        <label for="Levels[%s][check]">%s</label>
-                    </span>
+                    <div class="oneLevel">
+                        <input class="check" type="checkbox" name="Levels[%s][check]" id="Levels[%s][check]" %s>
+                        <label class="levelName"  for="Levels[%s][check]">%s</label>
+                        <label class="registrationDate" for="Levels[%s][registrationDate]">Datum registrace</label>
+                        <input class="registrationDateInput" type="date" name="Levels[%s][registrationDate]" %s>
+                        <label class="registrationTime" for="Levels[%s][registrationTime]">Čas registrace</label>
+                        <input class="registrationTimeInput" type="time" name="Levels[%s][registrationTime]" %s>
+                        <label class="membershipUntil" for="Levels[%s][membershipUntil]">Členství do</label>
+                        <input class="membershipUntilInput" type="date" name="Levels[%s][membershipUntil]" %s>
+                        <label class="isUnlimited" for="Levels[%s][isUnlimited]">Je neomezené?</label>
+                        <input class="isUnlimitedInput" type="checkbox" name="Levels[%s][isUnlimited]" %s>
+                    </div>
                     ',
                 $l->term_id,
                 $l->term_id,
                 $checked,
                 $l->term_id,
-                $l->name
+                $l->name,
+                $l->term_id,
+                $l->term_id,
+                $regDate,
+                $l->term_id,
+                $l->term_id,
+                $regTime,
+                $l->term_id,
+                $l->term_id,
+                $untilDate,
+                $l->term_id,
+                $l->term_id,
+                ($memberships[$l->term_id]->isUnlimited) ? 'checked':''
             );
         }
 
         $checked = (isset($memberships[$level->term_id])) ? 'checked' : '';
+        $isUnlimited = (isset($memberships[$level->term_id]) && $memberships[$level->term_id]->isUnlimited) ? 'checked' : '';
         if ($memberships[$level->term_id]->registered !== null) {
             $reg = $memberships[$level->term_id]->registered;
             $regDate = sprintf('value="%s"', $reg->format('Y-m-d'));
@@ -876,10 +918,16 @@ class FapiMemberPlugin
                     <input type="date" name="Levels['.$level->term_id.'][membershipUntil]" '.$untilDate.'>
                     </span>
                 </th>
+                <th scope="col" class="manage-column fields">
+                    <span class="a">Je neomezené?</span>
+                    <span class="b">
+                    <input type="checkbox" name="Levels['.$level->term_id.'][isUnlimited]" '.$isUnlimited.'>
+                    </span>
+                </th>
             </thead>
         
             <tbody id="the-list">
-                <tr><td colspan="5">
+                <tr><td colspan="6">
                     '. join('',$lowerHtml) .'
                 </td></tr>
             </tbody>
