@@ -95,7 +95,7 @@ class FapiMemberPlugin
             // user profile save
         add_action( 'edit_user_profile_update', [$this, 'handleUserProfileSave'] );
 
-        add_image_size( 'level-selection', 180, 90, true );
+        add_image_size( 'level-selection', 300, 164, true );
         add_filter( 'login_redirect', [$this, 'loginRedirect'], 10, 3 );
     }
 
@@ -994,7 +994,7 @@ class FapiMemberPlugin
 
         // Does user have membership for any level that page is in
         foreach ($memberships as $m) {
-            if (in_array($m->levelId, $levelsForThisPage)) {
+            if (in_array($m->level, $levelsForThisPage)) {
                 return true;
             }
         }
@@ -1030,7 +1030,7 @@ class FapiMemberPlugin
     {
         $mem = $this->fapiMembershipLoader()->loadForUser(get_current_user_id());
         $pages = array_map(function($m) {
-            $p =  $this->levels()->loadOtherPagesForLevel($m->levelId, true);
+            $p =  $this->levels()->loadOtherPagesForLevel($m->level, true);
             return (isset($p['afterLogin'])) ? $p['afterLogin'] : null;
         }, $mem);
         $pages = array_unique(array_filter($pages));
@@ -1079,7 +1079,7 @@ class FapiMemberPlugin
         $fm = new FapiMembershipLoader($this->levels());
         $memberships = $fm->loadForUser($user->ID);
         $level = array_filter($memberships, function($one) use ($levelId) {
-            return $one->levelId === $levelId;
+            return $one->level === $levelId;
         });
         if (count($level) === 1) {
             // level is there, we are prolonging
@@ -1104,7 +1104,7 @@ class FapiMemberPlugin
             $this->fapiMembershipLoader()->saveForUser($user->ID, $memberships);
         }
         $currentLevelIds = array_reduce($memberships, function($carry, $one) {
-            $carry[] = $one->levelId;
+            $carry[] = $one->level;
             return $carry;
         }, []);
         if ($childLevel) {

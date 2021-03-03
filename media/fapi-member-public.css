@@ -80,25 +80,70 @@
 }
 
 .FapiLevelSelection {
+  font-family: "Roboto", sans-serif;
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 .FapiLevelSelection #Wrapper {
-  max-width: 640px;
+  margin-top: 100px;
+  max-width: 980px;
+}
+.FapiLevelSelection #Wrapper h1 {
+  text-align: center;
+  font-size: 50px;
+}
+.FapiLevelSelection #Wrapper > p {
+  text-align: center;
+  font-size: 22px;
+  color: #6b7280;
 }
 .FapiLevelSelection #Wrapper .pages {
+  margin-top: 40px;
   display: flex;
-  gap: 32px;
+  gap: 40px;
   flex-wrap: wrap;
 }
 .FapiLevelSelection #Wrapper .pages > div {
-  width: 180px;
+  width: 300px;
   display: grid;
   grid-template-columns: auto;
-  grid-template-rows: 90px auto 90px;
+  grid-template-rows: 164px auto auto 100px;
+  border-radius: 4px;
   box-shadow: 2px 2px 2px #f3f3f3;
+}
+.FapiLevelSelection #Wrapper .pages > div .thumbPlaceholder {
+  width: 300px;
+  height: 164px;
+  background-color: #f3f3f3;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.FapiLevelSelection #Wrapper .pages > div img {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.FapiLevelSelection #Wrapper .pages > div h3 {
+  text-align: center;
+  margin: 20px 16px;
+}
+.FapiLevelSelection #Wrapper .pages > div p {
+  margin: 0 16px;
+  text-align: center;
+  color: #6b7280;
+}
+.FapiLevelSelection #Wrapper .pages > div .actions a {
+  display: block;
+  background-color: #0074e2;
+  color: white;
+  width: 198px;
+  height: 46px;
+  line-height: 46px;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  margin: 27px auto;
+  font-size: 15px;
 }
 
 /*# sourceMappingURL=fapi-member-public.css.map */
