@@ -18,5 +18,6 @@ include __DIR__ . '/src/FapiLevels.php';
 include __DIR__ . '/src/UserUtils.php';
 include __DIR__ . '/src/FapiMembership.php';
 include __DIR__ . '/src/FapiMembershipLoader.php';
+include __DIR__ . '/src/FapiApi.php';
 
 $FapiPlugin = new FapiMemberPlugin();

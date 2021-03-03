@@ -1,5 +1,6 @@
 <?php
 include(__DIR__ . '/functions.php');
+global $FapiPlugin;
 
 echo heading();
 ?>
@@ -22,7 +23,8 @@ echo heading();
             </div>
         </form>
         <p>
-            Stav propojení: <span class="ok">propojeno</span>.
+            Stav propojení:
+            <?= ($FapiPlugin->recheckApiCredentials()) ? '<span class="ok">propojeno</span>' : '<span class="ng">nepropojeno</span>' ?>.
         </p>
     </div>
     <?= help() ?>

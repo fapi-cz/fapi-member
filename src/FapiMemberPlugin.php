@@ -7,8 +7,12 @@ class FapiMemberPlugin
     private $fapiLevels = null;
     private $userUtils = null;
     private $fapiMembershipLoader = null;
+    private $fapiApi = null;
 
     const OPTION_KEY_SETTINGS = 'fapiSettings';
+    const OPTION_KEY_API_USER = 'fapiMemberApiEmail';
+    const OPTION_KEY_API_KEY = 'fapiMemberApiKey';
+    const OPTION_KEY_API_CHECKED = 'fapiMemberApiChecked';
     const REQUIRED_CAPABILITY = 'manage_options';
     const DF = 'Y-m-d\TH:i:s';
 
@@ -47,6 +51,16 @@ class FapiMemberPlugin
             $this->fapiMembershipLoader = new FapiMembershipLoader($this->levels());
         }
         return $this->fapiMembershipLoader;
+    }
+
+    public function fapiApi()
+    {
+        if ($this->fapiApi === null) {
+            $apiUser = get_option(self::OPTION_KEY_API_USER, null);
+            $apiKey = get_option(self::OPTION_KEY_API_KEY, null);
+            $this->fapiApi = new FapiApi($apiUser, $apiKey);
+        }
+        return $this->fapiApi;
     }
 
     public function addHooks()
@@ -217,29 +231,72 @@ class FapiMemberPlugin
         $get = $request->get_params();
         $body = $request->get_body();
         // extract invoice/order id and preform request to find: email, level id, days...
+        // temp
+        $get = [
+            'level' => ['12', '13'],
+            'days' => '31',
+        ];
+        $body = 'id=187034262&time=1614239639&security=9edbc14e1907b61af468217f60d2406d160c4fdf';
+        $d = [];
+        parse_str($body, $d);
+        $invoiceId = $d['id'];
+
+        $invoice = $this->fapiApi()->getInvoice($invoiceId);
+
+        if (!isset($get['level']) || !isset($get['days'])) {
+            return false;
+        }
+        if (!isset($invoice['paid']) || $invoice['paid'] !== true) {
+            return false;
+        }
+        if (!isset($invoice['customer']) || !isset($invoice['customer']['email'])) {
+            return false;
+        }
 
         $props = [];
-        $email = 'max@example.com';
+        $email = $invoice['customer']['email'];
         $userCreated = $this->userUtils()->createUser($email, $props);
 
         // create or prolong membership
-        $levelId = 11;
-        $child = 13;
-        $days = 31;
-        $this->createOrProlongMembership($email, $levelId, $days, $props, $child);
+        if (!is_array($get['level'])) {
+            $levelIds = [(int)[$get['level']]];
+        } else {
+            $levelIds = array_map('intval', $get['level']);
+        }
+        $days = (int)$get['days'];
 
-        $this->enhanceProps($props);
+        $levelTerms = $this->levels()->loadAsTerms();
+        foreach ($levelIds as $id) {
 
-        // send emails
-        if (isset($props['new_user']) && $props['new_user']) {
-            $this->sendEmail(FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $levelId, $props, $child);
+            $mainLevel = $this->levels()->loadById($id);
+            if (!$mainLevel) {
+                continue;
+            }
+
+            if ($mainLevel->parent === 0) {
+                $levelId = $id;
+                $child = null;
+            } else {
+                $levelId = $mainLevel->parent;
+                $child = $id;
+            }
+
+            $this->createOrProlongMembership($email, $levelId, $days, $props, $child);
+            $this->enhanceProps($props);
+
+            // send emails
+            if (isset($props['new_user']) && $props['new_user']) {
+                $this->sendEmail($email, FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $levelId, $props, $child);
+            }
+            if (isset($props['membership_level_added']) && $props['membership_level_added']) {
+                $this->sendEmail($email, FapiLevels::EMAIL_TYPE_AFTER_ADDING, $levelId, $props, $child);
+            }
+            if (isset($props['membership_prolonged']) && $props['membership_prolonged']) {
+                $this->sendEmail($email, FapiLevels::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED, $levelId, $props, $child);
+            }
         }
-        if (isset($props['membership_level_added']) && $props['membership_level_added']) {
-            $this->sendEmail(FapiLevels::EMAIL_TYPE_AFTER_ADDING, $levelId, $props, $child);
-        }
-        if (isset($props['membership_prolonged']) && $props['membership_prolonged']) {
-            $this->sendEmail(FapiLevels::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED, $levelId, $props, $child);
-        }
+
+
 
         // TODO: some nice return
         return null;
@@ -273,21 +330,28 @@ class FapiMemberPlugin
     public function handleApiCredentialsSubmit()
     {
         $this->verifyNonceAndCapability('api_credentials_submit');
-        if (!current_user_can('edit_user', $userId)) { return false; }
 
-        $apiEmail = $this->input('fapiMemberApiEmail');
-        $apiKey = $this->input('fapiMemberApiKey');
+        $apiEmail = $this->input(self::OPTION_KEY_API_USER);
+        $apiKey = $this->input(self::OPTION_KEY_API_KEY);
 
         if ($apiKey === null || $apiEmail === null) {
             $this->redirect('connection', 'apiFormEmpty');
         }
 
-        //TODO: api request - verify
+        update_option(self::OPTION_KEY_API_USER, $apiEmail);
+        update_option(self::OPTION_KEY_API_KEY, $apiKey);
 
-        update_option('fapiMemberApiEmail', $apiEmail);
-        update_option('fapiMemberApiKey', $apiKey);
+        $credentialsOk = $this->fapiApi()->checkCredentials();
+        if ($credentialsOk) {
+            update_option(self::OPTION_KEY_API_CHECKED, true);
+            $this->redirect('connection', 'apiFormSuccess');
+        } else {
+            update_option(self::OPTION_KEY_API_CHECKED, false);
+            $this->redirect('connection', 'apiFormError');
+        }
 
-        $this->redirect('connection', 'apiFormSuccess');
+
+
     }
 
     public function handleUserProfileSave($userId)
@@ -730,13 +794,12 @@ class FapiMemberPlugin
 
     public function areApiCredentialsSet()
     {
-        $apiEmail = get_option('fapiMemberApiEmail', null);
-        $apiKey = get_option('fapiMemberApiKey', null);
-        if ($apiKey && $apiEmail && !empty($apiKey) && !empty($apiEmail)) {
-            return true;
-        } else {
-            return false;
-        }
+        return get_option(self::OPTION_KEY_API_CHECKED, false);
+    }
+
+    public function recheckApiCredentials()
+    {
+        return $this->fapiApi()->checkCredentials();
     }
 
     /**
@@ -1007,7 +1070,7 @@ class FapiMemberPlugin
         return true;
     }
 
-    protected function sendEmail($type, $levelId, $props, $childLevelId = null)
+    protected function sendEmail($email, $type, $levelId, $props, $childLevelId = null)
     {
         $id = ($childLevelId === null) ? $levelId : $childLevelId;
         $emails = $this->levels()->loadEmailTemplatesForLevel($id, true);
@@ -1025,7 +1088,7 @@ class FapiMemberPlugin
         $subject = $this->applyEmailShortcodes($subject, $props);
         $body = $this->applyEmailShortcodes($body, $props);
 
-        return true;
+        return wp_mail($email, $subject, $body);
     }
 
     protected function applyEmailShortcodes($text, $props)

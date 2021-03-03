@@ -5,6 +5,7 @@ function showErrors() {
     $errorMap = [
         'apiFormEmpty' => ['error', 'Je třeba zadat jak uživatelské jméno, tak API klíč.'],
         'apiFormSuccess' => ['success', 'Údaje pro API uloženy.'],
+        'apiFormError' => ['error', 'Neplatné údaje pro API.'],
         'sectionNameEmpty' => ['error', 'Název sekce je povinný.'],
         'levelNameOrParentEmpty' => ['error', 'Název úrovně a výběr sekce je povinný.'],
         'sectionNotFound' => ['error', 'Sekce nenalezena.'],
