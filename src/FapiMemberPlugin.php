@@ -1176,9 +1176,6 @@ class FapiMemberPlugin
                     return '';
                 }
             },
-            '%%PRIHLASENI_ODKAZ_ZDE%%' => function($props) {
-                return $props['login_link'];
-            },
             '%%PRIHLASENI_ODKAZ%%' => function($props) {
                 return $props['login_link_url'];
             },

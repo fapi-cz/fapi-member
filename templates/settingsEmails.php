@@ -139,14 +139,6 @@ echo heading();
                                 <td>&checkmark;</td>
                             </tr>
                             <tr>
-                                <td><code>%%PRIHLASENI_ODKAZ_ZDE%%</code></td>
-                                <td>Odkaz na přihlášení (z nastavení) s&nbsp;textem &bdquo;zde&ldquo;</td>
-                                <td>zde</td>
-                                <td>&checkmark;</td>
-                                <td>&checkmark;</td>
-                                <td>&checkmark;</td>
-                            </tr>
-                            <tr>
                                 <td><code>%%PRIHLASENI_ODKAZ%%</code></td>
                                 <td>Odkaz na přihlášení (z nastavení) pouze URL</td>
                                 <td>https://www.example.com/login</td>
