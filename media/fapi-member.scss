@@ -1,5 +1,21 @@
 @import "colors";
 
+.resolutionAlert {
+	margin-left: 260px;
+	background-color: #ca4a1f;
+	color: white;
+	max-width: 1120px;
+	box-sizing: border-box;
+	padding: .5rem 2rem;
+
+}
+
+@media screen and (min-width: 1580px){
+	.resolutionAlert {
+		display: none;
+	}
+}
+
 .baseGrid {
 	display: grid;
 	grid-template-columns: 240px 760px 360px;

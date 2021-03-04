@@ -436,7 +436,12 @@ function formStart($hook, $formClasses = []) {
     ';
 }
 
+function resolutionMessage()
+{
+    return '<p class="resolutionAlert">Tento doplněk není optimalizován pro telefony a malé monitory.</p>';
+}
+
 function heading()
 {
-    return sprintf('<div class="baseGrid">%s%s%s', h1(), nav(), submenu());
+    return sprintf('%s<div class="baseGrid">%s%s%s', resolutionMessage(), h1(), nav(), submenu());
 }
