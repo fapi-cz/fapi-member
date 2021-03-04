@@ -233,8 +233,8 @@ class FapiMemberPlugin
         // extract invoice/order id and preform request to find: email, level id, days...
         // temp
         $get = [
-            'level' => ['12', '13'],
-            'days' => '31',
+            'level' => ['13'],
+            'days' => '30',
         ];
         $body = 'id=187034262&time=1614239639&security=9edbc14e1907b61af468217f60d2406d160c4fdf';
         $d = [];
@@ -243,7 +243,7 @@ class FapiMemberPlugin
 
         $invoice = $this->fapiApi()->getInvoice($invoiceId);
 
-        if (!isset($get['level']) || !isset($get['days'])) {
+        if (!isset($get['level'])) {
             return false;
         }
         if (!isset($invoice['paid']) || $invoice['paid'] !== true) {
@@ -263,7 +263,23 @@ class FapiMemberPlugin
         } else {
             $levelIds = array_map('intval', $get['level']);
         }
-        $days = (int)$get['days'];
+        if (!isset($get['days'])) {
+            $days = false;
+            $isUnlimited = true;
+        } else {
+            $days = (int)$get['days'];
+            $isUnlimited = false;
+        }
+
+        // add parents where needed
+        $added = [];
+        for ($i = 0; $i < count($levelIds); $i++) {
+            $l = $this->levels()->loadById($levelIds[$i]);
+            if ($l->parent !== 0 && !in_array($l->parent, $levelIds)) {
+                $added[] = $l->parent;
+            }
+        }
+        $levelIds = array_values(array_merge($levelIds, $added));
 
         $levelTerms = $this->levels()->loadAsTerms();
         foreach ($levelIds as $id) {
@@ -273,15 +289,7 @@ class FapiMemberPlugin
                 continue;
             }
 
-            if ($mainLevel->parent === 0) {
-                $levelId = $id;
-                $child = null;
-            } else {
-                $levelId = $mainLevel->parent;
-                $child = $id;
-            }
-
-            $this->createOrProlongMembership($email, $levelId, $days, $props, $child);
+            $this->createOrProlongMembership($email, $id, $days, $isUnlimited, $props);
             $this->enhanceProps($props);
 
             // send emails
@@ -832,8 +840,8 @@ class FapiMemberPlugin
                 $regDate = '';
                 $regTime = '';
             }
-            if ($memberships[$level->term_id]->until !== null) {
-                $untilDate = sprintf('value="%s"', $memberships[$level->term_id]->until->format('Y-m-d'));
+            if ($memberships[$l->term_id]->until !== null) {
+                $untilDate = sprintf('value="%s"', $memberships[$l->term_id]->until->format('Y-m-d'));
             } else {
                 $untilDate = '';
             }
@@ -1070,7 +1078,7 @@ class FapiMemberPlugin
         }
     }
 
-    protected function createOrProlongMembership($email, $levelId, $days, &$props, $childLevel = null)
+    protected function createOrProlongMembership($email, $levelId, $days, $isUnlimited, &$props)
     {
         $user = get_user_by('email', $email);
         if ($user === false) {
@@ -1078,17 +1086,37 @@ class FapiMemberPlugin
         }
         $fm = new FapiMembershipLoader($this->levels());
         $memberships = $fm->loadForUser($user->ID);
-        $level = array_filter($memberships, function($one) use ($levelId) {
-            return $one->level === $levelId;
-        });
-        if (count($level) === 1) {
+        $membershipKey = null;
+        foreach ($memberships as $k => $m) {
+            /** @var FapiMembership $m */
+            if ($m->level === $levelId) {
+                $membershipKey = $k;
+                break;
+            }
+        }
+
+        if ($membershipKey !== null) {
             // level is there, we are prolonging
-            $props['membership_prolonged'] = true;
-            $level = array_shift($level);
-            $level->until = $level->until->modify(sprintf('+ %s days', $days));
-            $props['membership_prolonged_days'] = $days;
-            $props['membership_prolonged_level'] = $levelId;
-            $props['membership_prolonged_until'] = $level->until;
+            /** @var FapiMembership $levelMembership */
+            $levelMembership = $memberships[$membershipKey];
+            if (!$levelMembership->isUnlimited) {
+                $props['membership_prolonged'] = true;
+                $props['membership_prolonged_level'] = $levelId;
+                $wasUnlimitedBefore = false;
+            } else {
+                $wasUnlimitedBefore = true;
+            }
+            if ($isUnlimited || $levelMembership->isUnlimited) {
+                $levelMembership->isUnlimited = true;
+                if (!$wasUnlimitedBefore) {
+                    $props['membership_prolonged_to_unlimited'] = true;
+                }
+            } else {
+                $levelMembership->until = $levelMembership->until->modify(sprintf('+ %s days', $days));
+                $props['membership_prolonged_days'] = $days;
+                $props['membership_prolonged_until'] = $levelMembership->until;
+            }
+
             $this->fapiMembershipLoader()->saveForUser($user->ID, $memberships);
 
         } else {
@@ -1096,24 +1124,18 @@ class FapiMemberPlugin
             $props['membership_level_added'] = true;
             $props['membership_level_added_level'] = $levelId;
             $registered = new DateTime();
-            $until = new DateTime();
-            $until->modify(sprintf('+ %s days', $days));
-            $props['membership_level_added_until'] = $until;
-            $props['membership_level_added_days'] = $days;
-            $memberships[] = new FapiMembership($levelId, $registered, $until);
-            $this->fapiMembershipLoader()->saveForUser($user->ID, $memberships);
-        }
-        $currentLevelIds = array_reduce($memberships, function($carry, $one) {
-            $carry[] = $one->level;
-            return $carry;
-        }, []);
-        if ($childLevel) {
-            if (!in_array($childLevel, $currentLevelIds)) {
-                $props['membership_child_level_added'] = true;
-                $props['membership_child_level_added_level'] = $childLevel;
-                $memberships[] = new FapiMembership($childLevel);
-                $this->fapiMembershipLoader()->saveForUser($user->ID, $memberships);
+            if ($isUnlimited) {
+                $props['membership_level_added_unlimited'] = true;
+                $until = null;
+            } else {
+                $until = new DateTime();
+                $until->modify(sprintf('+ %s days', $days));
+                $props['membership_level_added_until'] = $until;
+                $props['membership_level_added_days'] = $days;
             }
+
+            $memberships[] = new FapiMembership($levelId, $registered, $until, $isUnlimited);
+            $this->fapiMembershipLoader()->saveForUser($user->ID, $memberships);
         }
         return true;
     }

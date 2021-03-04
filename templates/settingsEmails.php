@@ -124,7 +124,7 @@ echo heading();
                             </tr>
                             <tr>
                                 <td><code>%%DNI%%</code></td>
-                                <td>Počet zakoupených dní</td>
+                                <td>Počet zakoupených dní nebo 'neomezeně'</td>
                                 <td>31</td>
                                 <td>&checkmark;</td>
                                 <td>&checkmark;</td>
@@ -132,7 +132,7 @@ echo heading();
                             </tr>
                             <tr>
                                 <td><code>%%CLENSTVI_DO%%</code></td>
-                                <td>Datum konce členství</td>
+                                <td>Datum konce členství nebo 'neomezené'</td>
                                 <td>12. 1. 2022</td>
                                 <td>&checkmark;</td>
                                 <td>&checkmark;</td>
