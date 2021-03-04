@@ -4,6 +4,7 @@
 class FapiMembershipLoader
 {
     const MEMBERSHIP_META_KEY = 'fapi_user_memberships';
+    const MEMBERSHIP_HISTORY_META_KEY = 'fapi_user_memberships_history';
 
     protected $fapiLevels;
     protected $levels;
@@ -89,5 +90,30 @@ class FapiMembershipLoader
             $this->saveForUser($userId, $memberships);
         }
         return $memberships;
+    }
+
+    public function saveMembershipToHistory($userId, FapiMembership $membership)
+    {
+        $meta = get_user_meta($userId, self::MEMBERSHIP_HISTORY_META_KEY, true);
+        if ($meta === '') {
+            $meta =  [];
+        }
+        $meta[] = $membership;
+        update_user_meta($userId, self::MEMBERSHIP_HISTORY_META_KEY, $meta);
+    }
+
+    public function didUserHadLevelMembershipBefore($userId, $levelId)
+    {
+        $memberships = get_user_meta($userId, self::MEMBERSHIP_HISTORY_META_KEY, true);
+        if ($memberships === '') {
+            $memberships =  [];
+        }
+        foreach ($memberships as $m) {
+            /** @var FapiMembership $m */
+            if ($m->level === $levelId) {
+                return true;
+            }
+        }
+        return false;
     }
 }

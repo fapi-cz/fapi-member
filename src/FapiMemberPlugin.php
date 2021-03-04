@@ -233,7 +233,7 @@ class FapiMemberPlugin
         // extract invoice/order id and preform request to find: email, level id, days...
         // temp
         $get = [
-            'level' => ['13'],
+            'level' => ['12'],
             'days' => '30',
         ];
         $body = 'id=187034262&time=1614239639&security=9edbc14e1907b61af468217f60d2406d160c4fdf';
@@ -293,18 +293,44 @@ class FapiMemberPlugin
             $this->enhanceProps($props);
 
             // send emails
+            // Pokud je uživatel úplně nový, pošli REG email
             if (isset($props['new_user']) && $props['new_user']) {
-                $this->sendEmail($email, FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $levelId, $props, $child);
+                $this->sendEmail($email, FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $id, $props);
+                continue;
             }
-            if (isset($props['membership_level_added']) && $props['membership_level_added']) {
-                $this->sendEmail($email, FapiLevels::EMAIL_TYPE_AFTER_ADDING, $levelId, $props, $child);
+            // Pokud uživatel získal sekci, kterou ještě neměl, pošli REG email
+            if (
+                (isset($props['membership_level_added']) && $props['membership_level_added'])
+                &&
+                (isset($props['membership_level_added_is_section']) && $props['membership_level_added_is_section'] === true)
+                &&
+                (!isset($props['did_user_had_this_level_before']) || $props['did_user_had_this_level_before'] === false)
+            ) {
+                $this->sendEmail($email, FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $id, $props);
+                continue;
             }
-            if (isset($props['membership_prolonged']) && $props['membership_prolonged']) {
-                $this->sendEmail($email, FapiLevels::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED, $levelId, $props, $child);
+            // Pokud uživatel získal úroveň v sekci co už měl, pošli Při přidání
+            if (
+                (isset($props['membership_level_added']) && $props['membership_level_added'])
+            ) {
+                $l = $this->levels()->loadById($props['membership_level_added_level']);
+                if ($l->parent !== 0) {
+                    $sectionLevel = $this->levels()->loadById($l->parent);
+                    if ($this->fapiMembershipLoader()->didUserHadLevelMembershipBefore($props['user_id'], $sectionLevel->term_id)) {
+                        $this->sendEmail($email, FapiLevels::EMAIL_TYPE_AFTER_ADDING, $id, $props);
+                        continue;
+                    }
+                }
+            }
+            // Pokud uživatel koupil sekce nebo úroveň kterou již měl, pokud nebyla neomezená
+            if (
+            (isset($props['membership_prolonged']) && $props['membership_prolonged'])
+            ) {
+
+                $this->sendEmail($email, FapiLevels::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED, $id, $props);
+                continue;
             }
         }
-
-
 
         // TODO: some nice return
         return null;
@@ -1116,13 +1142,24 @@ class FapiMemberPlugin
                 $props['membership_prolonged_days'] = $days;
                 $props['membership_prolonged_until'] = $levelMembership->until;
             }
-
+            $this->fapiMembershipLoader()->saveMembershipToHistory($user->ID, $levelMembership);
             $this->fapiMembershipLoader()->saveForUser($user->ID, $memberships);
 
         } else {
             // new level membership
             $props['membership_level_added'] = true;
             $props['membership_level_added_level'] = $levelId;
+            $levelTerm = $this->levels()->loadById($levelId);
+            if ($levelTerm->parent === 0) {
+                $props['membership_level_added_is_section'] = true;
+            } else {
+                $props['membership_level_added_is_section'] = false;
+            }
+            $props['did_user_had_this_level_before'] = $this->fapiMembershipLoader()->didUserHadLevelMembershipBefore(
+                $user->ID,
+                $levelId
+            );
+
             $registered = new DateTime();
             if ($isUnlimited) {
                 $props['membership_level_added_unlimited'] = true;
@@ -1133,17 +1170,17 @@ class FapiMemberPlugin
                 $props['membership_level_added_until'] = $until;
                 $props['membership_level_added_days'] = $days;
             }
-
-            $memberships[] = new FapiMembership($levelId, $registered, $until, $isUnlimited);
+            $new = new FapiMembership($levelId, $registered, $until, $isUnlimited);
+            $memberships[] = $new;
+            $this->fapiMembershipLoader()->saveMembershipToHistory($user->ID, $new);
             $this->fapiMembershipLoader()->saveForUser($user->ID, $memberships);
         }
         return true;
     }
 
-    protected function sendEmail($email, $type, $levelId, $props, $childLevelId = null)
+    protected function sendEmail($email, $type, $levelId, $props)
     {
-        $id = ($childLevelId === null) ? $levelId : $childLevelId;
-        $emails = $this->levels()->loadEmailTemplatesForLevel($id, true);
+        $emails = $this->levels()->loadEmailTemplatesForLevel($levelId, true);
         if (count($emails) === 0) {
             // No emails defined
             return false;
@@ -1185,6 +1222,8 @@ class FapiMemberPlugin
                     return $props['membership_prolonged_days'];
                 } elseif (isset($props['membership_level_added_days'])) {
                     return $props['membership_level_added_days'];
+                } elseif (isset($props['membership_prolonged_to_unlimited']) || isset($props['membership_level_added_unlimited'])) {
+                    return 'neomezeně';
                 } else {
                     return '';
                 }
@@ -1194,6 +1233,8 @@ class FapiMemberPlugin
                     return $props['membership_prolonged_until']->format('j. n. Y H:i');
                 } elseif (isset($props['membership_level_added_until'])) {
                     return $props['membership_level_added_until']->format('j. n. Y H:i');
+                } elseif (isset($props['membership_prolonged_to_unlimited']) || isset($props['membership_level_added_unlimited'])) {
+                    return 'neomezené';
                 } else {
                     return '';
                 }
