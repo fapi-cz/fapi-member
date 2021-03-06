@@ -31,7 +31,6 @@ class FapiMembershipLoader
         if (count($memberships) === 0) {
             return;
         }
-        $meta = [];
         $meta = array_map(function($one) {
             $t = (array)$one;
             if ($one->registered instanceof DateTimeInterface) {

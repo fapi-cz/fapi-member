@@ -232,11 +232,13 @@ class FapiMemberPlugin
         $body = $request->get_body();
         // extract invoice/order id and preform request to find: email, level id, days...
         // temp
+        /*
         $get = [
             'level' => ['12'],
             'days' => '30',
         ];
         $body = 'id=187034262&time=1614239639&security=9edbc14e1907b61af468217f60d2406d160c4fdf';
+        */
         $d = [];
         parse_str($body, $d);
         $invoiceId = $d['id'];
@@ -281,7 +283,6 @@ class FapiMemberPlugin
         }
         $levelIds = array_values(array_merge($levelIds, $added));
 
-        $levelTerms = $this->levels()->loadAsTerms();
         foreach ($levelIds as $id) {
 
             $mainLevel = $this->levels()->loadById($id);
@@ -331,9 +332,6 @@ class FapiMemberPlugin
                 continue;
             }
         }
-
-        // TODO: some nice return
-        return null;
     }
 
     protected function enhanceProps(&$props)
@@ -1005,7 +1003,7 @@ class FapiMemberPlugin
             }
         }
         if (count($levelsForThisPage) === 0) {
-            // page is not in any level
+            // page is not in any level, not protecting
             return;
         }
 
