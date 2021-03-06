@@ -1,179 +1,179 @@
 @import "colors";
 
 .fapiShortcodeLoginForm {
-	width: 350px;
-	padding: 10px;
+	width: 350px!important;
+	padding: 10px!important;
 
 	.row {
 
 		label {
-			display: inline-block;
-			font-weight: normal;
-			font-size: 14px;
-			color: #4c5567;
-			margin: 14px 0 0 0;
+			display: inline-block!important;
+			font-weight: normal!important;
+			font-size: 14px!important;
+			color: #4c5567!important;
+			margin: 14px 0 0 0!important;
 		}
 
 		input[type="text"],
 		input[type="password"]
 		{
-			border: 1px solid $grayLine;
-			height: 45px;
-			padding: 10px;
-			line-height: 45px;
-			width: 100%;
-			background-color: #ffffff;
-			border-radius: 6px;
-			margin: 0;
+			border: 1px solid $grayLine!important;
+			height: 45px!important;
+			padding: 10px!important;
+			line-height: 45px!important;
+			width: 100%!important;
+			background-color: #ffffff!important;
+			border-radius: 6px!important;
+			margin: 0!important;
 		}
 
 		input[type="submit"]
 		{
-			display: block;
-			background-color: $blue;
-			color: white;
-			width: 100%;
-			border-radius: 4px;
-			text-align: center;
-			text-decoration: none;
-			font-size: 15px;
-			padding: 14px;
-			border: none;
+			display: block!important;
+			background-color: $blue!important;
+			color: white!important;
+			width: 100%!important;
+			border-radius: 4px!important;
+			text-align: center!important;
+			text-decoration: none!important;
+			font-size: 15px!important;
+			padding: 14px!important;
+			border: none!important;
 		}
 
 		&.controls {
-			margin-top: 25px;
-			text-align: center;
+			margin-top: 25px!important;
+			text-align: center!important;
 		}
 	}
 }
 
 .fapiShortcodeUser {
-	width: 200px; height: 40px;
-	display: grid;
-	grid-template-columns: 32px auto;
-	grid-template-rows: 20px 20px;
-	position: relative;
+	width: 200px!important; height: 40px!important;
+	display: grid!important;
+	grid-template-columns: 32px auto!important;
+	grid-template-rows: 20px 20px!important;
+	position: relative!important;
 
 	.i {
-		grid-row: 1/3;
-		grid-column: 1/2;
-		display: flex;
-		align-content: center;
+		grid-row: 1/3!important;
+		grid-column: 1/2!important;
+		display: flex!important;
+		align-content: center!important;
 
 		svg {
-			width: 24px;
+			width: 24px!important;
 		}
 	}
 
 	.h {
-		grid-row: 1/2;
-		grid-column: 2/3;
-		font-weight: bold;
-		font-size: 14px;
+		grid-row: 1/2!important;
+		grid-column: 2/3!important;
+		font-weight: bold!important;
+		font-size: 14px!important;
 	}
 
 	.l {
-		grid-row: 2/3;
-		grid-column: 2/3;
-		font-size: 14px;
+		grid-row: 2/3!important;
+		grid-column: 2/3!important;
+		font-size: 14px!important;
 	}
 
 	.submenu {
-		display: none;
-		position: absolute;
-		top: 40px;
-		left:0;
-		width: 200px;
-		border-top: 1px solid $grayLine;
-		text-align: right;
-		background-color: white;
+		display: none!important;
+		position: absolute!important;
+		top: 40px!important;
+		left:0!important;
+		width: 200px!important;
+		border-top: 1px solid $grayLine!important;
+		text-align: right!important;
+		background-color: white!important;
 
 		a {
-			font-size: 14px;
-			color: $red;
-			text-decoration: none;
-			margin-right: 10px;
+			font-size: 14px!important;
+			color: $red!important;
+			text-decoration: none!important;
+			margin-right: 10px!important;
 		}
 	}
 
 	&:hover {
 		.submenu {
-			display: block;
+			display: block!important;
 		}
 	}
 }
 
 .FapiLevelSelection {
-	font-family: 'Roboto', sans-serif;
-	min-height: 100vh;
-	display: flex;
-	justify-content: center;
+	font-family: 'Roboto', sans-serif!important;
+	min-height: 100vh!important;
+	display: flex!important;
+	justify-content: center!important;
 
 	#Wrapper {
-		margin-top: 100px;
-		max-width: 980px;
+		margin-top: 100px!important;
+		max-width: 980px!important;
 
 		h1 {
-			text-align: center;
-			font-size: 50px;
+			text-align: center!important;
+			font-size: 50px!important;
 		}
 
 		> p {
-			text-align: center;
-			font-size: 22px;
-			color: #6b7280;
+			text-align: center!important;
+			font-size: 22px!important;
+			color: #6b7280!important;
 		}
 
 		.pages {
-			margin-top: 40px;
-			display: flex;
-			gap: 40px;
-			flex-wrap: wrap;
+			margin-top: 40px!important;
+			display: flex!important;
+			gap: 40px!important;
+			flex-wrap: wrap!important;
 
 			> div {
-				width: 300px;
-				display: grid;
-				grid-template-columns: auto;
-				grid-template-rows: 164px auto auto 100px;
-				border-radius: 4px;
-				box-shadow: 2px 2px 2px $grayBg;
+				width: 300px!important;
+				display: grid!important;
+				grid-template-columns: auto!important;
+				grid-template-rows: 164px auto auto 100px!important;
+				border-radius: 4px!important;
+				box-shadow: 2px 2px 2px $grayBg!important;
 
 				.thumbPlaceholder {
-					width: 300px;
-					height: 164px;
-					background-color: $grayBg;
-					border-top-left-radius: 4px;
-					border-top-right-radius: 4px;
+					width: 300px!important;
+					height: 164px!important;
+					background-color: $grayBg!important;
+					border-top-left-radius: 4px!important;
+					border-top-right-radius: 4px!important;
 				}
 
 				img {
-					border-top-left-radius: 4px;
-					border-top-right-radius: 4px;
+					border-top-left-radius: 4px!important;
+					border-top-right-radius: 4px!important;
 				}
 
 				h3 {
-					text-align: center;
-					margin: 20px 16px;
+					text-align: center!important;
+					margin: 20px 16px!important;
 				}
 
 				p {
-					margin: 0 16px;
-					text-align: center;
-					color: #6b7280;
+					margin: 0 16px!important;
+					text-align: center!important;
+					color: #6b7280!important;
 				}
 
 				.actions a {
-					display: block;
-					background-color: $blue;
-					color: white;
-					width: 198px; height: 46px;
-					line-height: 46px;
-					border-radius: 4px;
-					text-align: center;
-					text-decoration: none;
-					margin: ((100px-46px)/2) auto;
-					font-size: 15px;
+					display: block!important;
+					background-color: $blue!important;
+					color: white!important;
+					width: 198px!important; height: 46px!important;
+					line-height: 46px!important;
+					border-radius: 4px!important;
+					text-align: center!important;
+					text-decoration: none!important;
+					margin: ((100px-46px)/2) auto!important;
+					font-size: 15px!important;
 				}
 			}
 		}
