@@ -641,6 +641,17 @@
 			}
 		}
 	}
+
+	.showcase {
+
+		display: flex;
+		justify-content: center;
+
+		img {
+			margin: 24px;
+			border: 1px solid $grayLine;
+		}
+	}
 }
 
 // popup styles

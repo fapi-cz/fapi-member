@@ -10,8 +10,8 @@ echo heading();
         <p>Formulář vložte do svého webu na požadovaná místa pomocí shortcode <code>[fapi-member-login]</code>.</p>
         <p>Formulář se zobrazí pro znovu načtení stránky.</p>
 
-        <div class="showcase todo" >
-            FORM screen
+        <div class="showcase" >
+            <img src="<?= plugins_url('fapi-member/media/login.png') ?>" alt="Snímek obrazovky">
         </div>
 
         <hr>
@@ -20,8 +20,8 @@ echo heading();
         <p>Okénko vložte do svého webu na požadovaná místa pomocí shortcode <code>[fapi-member-user]</code>.</p>
         <p>Uživatelské okénko bude funkční pro uživatele všech členských sekcí a úrovní.</p>
 
-        <div class="showcase todo">
-            USER screen
+        <div class="showcase">
+            <img src="<?= plugins_url('fapi-member/media/user-window-both.png') ?>" alt="Snímek obrazovky">
         </div>
     </div>
 </div>
