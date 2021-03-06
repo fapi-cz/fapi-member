@@ -78,3 +78,10 @@ V těle požadavku očekávám url encoded string jako:
 id=187034262&time=1614239639&security=9edbc14e1905b61af468217f60d2406d160c4fdf
 ~~~
 kde `id` použiju na načtení objednávky.
+
+## Odinstalace pluginu
+
+Plugin při deaktivaci nedělá nic. Při smazání pluginu před administraci WP se:
+ - odebere taxonomie
+ - odeberou options
+ - odeberou user_meta všech uživatelů 
