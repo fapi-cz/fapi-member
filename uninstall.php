@@ -20,6 +20,11 @@ foreach ($options as $o) {
     delete_option($o);
 }
 
+// unregistering taxonomy does not remote its terms and their meta
+$terms = get_terms([ 'taxonomy' => self::TAXONOMY, 'hide_empty' => false,]);
+foreach ($terms as $term) {
+    wp_delete_term($term->term_id, FapiLevels::TAXONOMY);
+}
 unregister_taxonomy(FapiLevels::TAXONOMY);
 
 $users = get_users();
