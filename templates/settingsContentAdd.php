@@ -16,8 +16,9 @@ echo heading();
             </div>
             <div class="b">
                 <div class="subsubmenu">
-                    <?= subSubmenuItem('settingsContentRemove', 'Obsah sekce/Odebírání stránek', $subpage) ?>
+
                     <?= subSubmenuItem('settingsContentAdd', 'Přiřazení stránek', $subpage) ?>
+                    <?= subSubmenuItem('settingsContentRemove', 'Obsah sekce/Odebírání stránek', $subpage) ?>
                 </div>
                 <div>
                     <?= formStart('add_pages', ['addPagesForm', 'pages']) ?>

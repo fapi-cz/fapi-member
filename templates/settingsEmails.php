@@ -62,20 +62,22 @@ echo heading();
                                             </label>
                                         </div>
                                         <?php } ?>
-                                       <div class="row">
-                                           <label for="mail_subject">Předmět e-mailu</label>
-                                           <input type="text" name="mail_subject" id="mail_subject"
-                                            <?= ($emailIsCascaded) ? 'readonly':'' ?>
-                                            <?= ($hasContentSet) ? sprintf('value="%s"', $templates[$key]['s']) : '' ?>
-                                           >
-                                       </div>
-                                       <div class="row">
-                                           <label for="mail_body">Obsah e-mailu</label>
-                                           <textarea name="mail_body" id="mail_body" <?= ($emailIsCascaded) ? 'readonly':'' ?>><?= ($hasContentSet) ? $templates[$key]['b'] : '' ?></textarea>
-                                       </div>
-                                       <div class="row controls">
-                                           <input type="submit" class="primary" value="Uložit">
-                                       </div>
+                                        <div class="inputs <?= ($hasContentSet) ? '' : 'collapsed' ?>">
+                                           <div class="row">
+                                               <label for="mail_subject">Předmět e-mailu</label>
+                                               <input type="text" name="mail_subject" id="mail_subject"
+                                                <?= ($emailIsCascaded) ? 'readonly':'' ?>
+                                                <?= ($hasContentSet) ? sprintf('value="%s"', $templates[$key]['s']) : '' ?>
+                                               >
+                                           </div>
+                                           <div class="row">
+                                               <label for="mail_body">Obsah e-mailu</label>
+                                               <textarea name="mail_body" id="mail_body" <?= ($emailIsCascaded) ? 'readonly':'' ?>><?= ($hasContentSet) ? $templates[$key]['b'] : '' ?></textarea>
+                                           </div>
+                                           <div class="row controls">
+                                               <input type="submit" class="primary" value="Uložit">
+                                           </div>
+                                        </div>
                                    </form>
                                </div>
                            </div>

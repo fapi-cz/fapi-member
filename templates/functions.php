@@ -104,7 +104,7 @@ function submenu() {
             return '
                 <div class="submenu">
                     '. submenuItem('settingsSectionNew', 'Sekce / úrovně', $subpage, ['settingsLevelNew']) .'
-                    '. submenuItem('settingsContentRemove', 'Přiřazené stránky', $subpage, ['settingsContentAdd']) .'
+                    '. submenuItem('settingsContentAdd', 'Přiřazené stránky', $subpage, ['settingsContentRemove']) .'
                     '. submenuItem('settingsEmails', 'Nastavení e-mailů', $subpage) .'
                     '. submenuItem('settingsPages', 'Ostatní stránky', $subpage) .'
                     '. submenuItem('settingsElements', 'Prvky pro web', $subpage) .'

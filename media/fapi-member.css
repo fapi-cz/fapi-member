@@ -407,6 +407,8 @@
 .baseGrid .onePage input::before {
   width: 24px;
   height: 24px;
+  margin: -2px 0 0 -3px;
+  border: 1px solid transparent;
 }
 .baseGrid form.pages .inner {
   max-height: 430px;
@@ -474,6 +476,9 @@
 .baseGrid .oneEmail .body {
   display: none;
 }
+.baseGrid .oneEmail .body textarea {
+  height: 120px;
+}
 .baseGrid .oneEmail.open {
   padding-bottom: 22px;
 }
@@ -485,6 +490,15 @@
 }
 .baseGrid .oneEmail.open .carret::after {
   content: "";
+}
+.baseGrid .oneEmail .inputs {
+  overflow: hidden;
+  height: 350px;
+  transition-property: height;
+  transition-duration: 200ms;
+}
+.baseGrid .oneEmail .inputs.collapsed {
+  height: 0;
 }
 .baseGrid .onePageOther {
   border-bottom: 1px solid #eeeeee;

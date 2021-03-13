@@ -16,8 +16,8 @@ echo heading();
             </div>
             <div class="b">
                 <div class="subsubmenu">
-                    <?= subSubmenuItem('settingsContentRemove', 'Obsah sekce/Odebírání stránek', $subpage) ?>
                     <?= subSubmenuItem('settingsContentAdd', 'Přiřazení stránek', $subpage) ?>
+                    <?= subSubmenuItem('settingsContentRemove', 'Obsah sekce/Odebírání stránek', $subpage) ?>
                 </div>
                 <?= formStart('remove_pages', ['removePagesForm', 'pages']) ?>
                     <input type="hidden" name="level_id" value="">

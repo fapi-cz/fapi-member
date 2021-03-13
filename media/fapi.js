@@ -116,14 +116,17 @@ document.addEventListener('click', (event) => {
 
         let subj = event.target.closest('.oneEmail').querySelector('#mail_subject');
         let body = event.target.closest('.oneEmail').querySelector('#mail_body');
+        let inputs = event.target.closest('.oneEmail').querySelector('.inputs');
         if(event.target.checked) {
             subj.removeAttribute('readonly')
             body.removeAttribute('readonly')
+            inputs.classList.remove('collapsed')
         } else {
             subj.value = ''
             body.value = ''
             subj.setAttribute('readonly', true)
             body.setAttribute('readonly', true)
+            inputs.classList.add('collapsed')
         }
     }
 })

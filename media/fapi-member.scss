@@ -478,6 +478,8 @@
 			&::before {
 				width: 24px;
 				height: 24px;
+				margin: -2px 0 0 -3px;
+				border: 1px solid transparent;
 			}
 		}
 	}
@@ -566,6 +568,10 @@
 
 		.body {
 			display: none;
+
+			textarea {
+				height: 120px;
+			}
 		}
 
 		&.open {
@@ -584,6 +590,20 @@
 			content: "\f142";
 			}
 		}
+
+
+		.inputs {
+			overflow: hidden;
+			height: 350px;
+			transition-property: height;
+			transition-duration: 200ms;
+
+			&.collapsed {
+				height: 0;
+			}
+
+		}
+
 	}
 
 	.onePageOther {
