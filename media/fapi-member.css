@@ -8,14 +8,14 @@
   padding: 0.5rem 2rem;
 }
 
-@media screen and (min-width: 1580px) {
+@media screen and (min-width: 1200px) {
   .resolutionAlert {
     display: none;
   }
 }
 .baseGrid {
   display: grid;
-  grid-template-columns: min-content 760px 360px;
+  grid-template-columns: min-content auto min-content;
   grid-template-rows: 40px 60px auto;
   margin: 20px;
   font-family: "proxima_novaregular", sans-serif;
@@ -144,7 +144,8 @@
   grid-column: 3/4;
   grid-row: 2/4;
   background-color: white;
-  padding: 36px;
+  padding: 36px 36px 36px 0;
+  min-width: 280px;
 }
 .baseGrid .help h3,
 .baseGrid .spacer h3 {
@@ -271,18 +272,19 @@
 }
 .baseGrid .withSections {
   display: grid;
-  grid-template-columns: 360px auto;
+  grid-template-columns: min-content auto;
   grid-template-rows: auto;
 }
 .baseGrid .withSections .a {
   grid-row: 1/2;
   grid-column: 1/2;
+  margin-right: 16px;
 }
 .baseGrid .withSections .b {
   grid-row: 1/2;
   grid-column: 2/3;
   border-left: 1px solid #eeeeee;
-  padding: 0 0 0 48px;
+  padding: 0 0 0 16px;
 }
 .baseGrid .subsubmenu {
   border-bottom: 1px solid #eeeeee;
@@ -308,6 +310,10 @@
   list-style-type: none;
   padding-left: 0;
   margin: 0;
+}
+.baseGrid .levelsNonJs li,
+.baseGrid .levels li {
+  white-space: nowrap;
 }
 .baseGrid .levelsNonJs > ol > li,
 .baseGrid .levels > ol > li {
@@ -361,6 +367,7 @@
 .baseGrid .levelsNonJs button.remove,
 .baseGrid .levels button.remove {
   background-image: url("close.svg");
+  margin-left: 0;
 }
 .baseGrid .sectionsOverview > div {
   display: grid;
@@ -535,10 +542,9 @@
 .baseGrid .shortcodes .tableBox {
   height: 0;
   overflow-y: hidden;
-  transition: height 600ms;
 }
 .baseGrid .shortcodes.open .tableBox {
-  height: 500px;
+  height: auto;
 }
 .baseGrid .shortcodes.open h3 .carret::after {
   content: "";
