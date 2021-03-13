@@ -160,7 +160,7 @@ function help() {
 }
 
 function fapilink($subpage) {
-    return admin_url(sprintf('/options-general.php?page=fapi-member-options&subpage=%s', $subpage));
+    return admin_url(sprintf('/admin.php?page=fapi-member-options&subpage=%s', $subpage));
 }
 
 function levels() {

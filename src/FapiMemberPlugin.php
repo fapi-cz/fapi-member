@@ -832,9 +832,9 @@ class FapiMemberPlugin
             $tail .= sprintf('&%s=%s', $key, urlencode($value));
         }
         if ($e === null) {
-            wp_redirect(admin_url(sprintf('/options-general.php?page=fapi-member-options&subpage=%s%s', $subpage, $tail)));
+            wp_redirect(admin_url(sprintf('/admin.php?page=fapi-member-options&subpage=%s%s', $subpage, $tail)));
         } else {
-            wp_redirect(admin_url(sprintf('/options-general.php?page=fapi-member-options&subpage=%s&e=%s%s', $subpage, $e, $tail)));
+            wp_redirect(admin_url(sprintf('/admin.php?page=fapi-member-options&subpage=%s&e=%s%s', $subpage, $e, $tail)));
         }
         exit;
     }

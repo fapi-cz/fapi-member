@@ -51,7 +51,11 @@ document.addEventListener('click', (event) => {
             inputValue: name,
             showDenyButton: true,
             confirmButtonText: `Přejmenovat`,
-            denyButtonText: `Ponechat`
+            denyButtonText: `Ponechat`,
+            customClass: {
+                confirmButton: 'renameConfirmButton',
+                denyButton: 'renameDenyButton',
+            }
 
         }).then((result) => {
             if (result.isConfirmed) {
