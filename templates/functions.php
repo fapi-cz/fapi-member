@@ -150,9 +150,19 @@ function help() {
         <h3>Nápověda</h3>
         <div class="inner">
             <div>
-                <h4>Jak vytvořit členskou sekci</h4>
-                <p>Nevíte si rady, podívejte se na náš fantastický návod kudy do toho, pak bude vše jasnější.</p>
-                <a href="'.fapilink('help').'&topic=createSection" class="btn outline">Přečíst</a>
+                <h4>Jak získám API klíč?</h4>
+                <p>Přečtěte si naší nápovědu, kde se dozvíte, jak si můžete vygenerovat API klíč v aplikaci FAPI.</p>
+                <a href="###" class="btn outline">Přečíst</a>
+            </div>
+            <div>
+                <h4>Jak vytvořit členskou sekci?</h4>
+                <p>Podívejte se na základní kroky v pluginu FAPI Member, abyste si mohli vytvořit svou členskou sekci.</p>
+                <a href="###" class="btn outline">Přečíst</a>
+            </div>
+            <div>
+                <h4>Jak vygeneruji přístupy?</h4>
+                <p>Podívejte se, jak si nastavit prodejní formulář FAPI, aby dokázal komunikovat s pluginem a vytvářel přístupy vašim klientům.</p>
+                <a href="###" class="btn outline">Přečíst</a>
             </div>
         </div>
     </div>
@@ -411,11 +421,10 @@ function shortcodeUser()
         }
 
         return '
-        <div class="fapiShortcodeUser">
+        <div class="fapiShortcodeUser notLogged">
             <span class="i">
                 <svg id="bold" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="m18.75 9h-.75v-3c0-3.309-2.691-6-6-6s-6 2.691-6 6v3h-.75c-1.24 0-2.25 1.009-2.25 2.25v10.5c0 1.241 1.01 2.25 2.25 2.25h13.5c1.24 0 2.25-1.009 2.25-2.25v-10.5c0-1.241-1.01-2.25-2.25-2.25zm-10.75-3c0-2.206 1.794-4 4-4s4 1.794 4 4v3h-8zm5 10.722v2.278c0 .552-.447 1-1 1s-1-.448-1-1v-2.278c-.595-.347-1-.985-1-1.722 0-1.103.897-2 2-2s2 .897 2 2c0 .737-.405 1.375-1 1.722z"/></svg>
             </span>
-            <span class="h">Uživatel</span>
             <span class="l"><a href="'.$url.'">Přihlásit se</a></span>
         </div>
         ';

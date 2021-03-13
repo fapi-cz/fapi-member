@@ -41,6 +41,7 @@ class FapiLevels
                 [
                     'taxonomy' => self::TAXONOMY,
                     'hide_empty' => false,
+                    'orderby' => 'ID'
                 ]
             );
         }

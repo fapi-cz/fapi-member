@@ -84,6 +84,16 @@
 .fapiShortcodeUser:hover .submenu {
   display: block !important;
 }
+.fapiShortcodeUser.notLogged {
+  grid-template-rows: 40px !important;
+}
+.fapiShortcodeUser.notLogged .i {
+  grid-row: 1/2 !important;
+}
+.fapiShortcodeUser.notLogged .l {
+  grid-row: 1/2 !important;
+  grid-column: 2/3 !important;
+}
 
 .FapiLevelSelection {
   font-family: "Roboto", sans-serif !important;

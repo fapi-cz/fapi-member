@@ -5,10 +5,9 @@ echo heading();
 ?>
 
     <div class="page wider">
-        <h3>Prvky pro web</h3>
         <h4>Formulář pro přihlášení</h4>
         <p>Formulář vložte do svého webu na požadovaná místa pomocí shortcode <code>[fapi-member-login]</code>.</p>
-        <p>Formulář se zobrazí pro znovu načtení stránky.</p>
+        <p>Formulář se zobrazí po znovu načtení stránky.</p>
 
         <div class="showcase" >
             <img src="<?= plugins_url('fapi-member/media/login.png') ?>" alt="Snímek obrazovky">

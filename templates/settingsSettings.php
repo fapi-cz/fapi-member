@@ -9,9 +9,8 @@ $currentPageId = $FapiPlugin->getSetting('login_page_id');
 ?>
 
     <div class="page wider">
-        <h3>Nastavení</h3>
         <?php echo showErrors(); ?>
-        <div class="onePageOther">
+        <div class="onePageOther" style="max-width: 36rem">
             <h3>Stránka pro přihlášení</h3>
             <p>Stránka je společná pro všechny sekce/úrovně.</p>
 

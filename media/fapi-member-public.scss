@@ -102,6 +102,19 @@
 			display: block!important;
 		}
 	}
+
+	&.notLogged {
+		grid-template-rows: 40px!important;
+
+		.i {
+			grid-row: 1/2 !important;
+		}
+
+		.l {
+			grid-row: 1/2!important;
+			grid-column: 2/3!important;
+		}
+	}
 }
 
 .FapiLevelSelection {
