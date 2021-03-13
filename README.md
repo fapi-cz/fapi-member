@@ -85,3 +85,15 @@ Plugin při deaktivaci nedělá nic. Při smazání pluginu před administraci W
  - odebere taxonomie
  - odeberou options
  - odeberou user_meta všech uživatelů 
+ 
+## Transpilace JS a CSS
+ 
+Css je zapsáno v scss (https://sass-lang.com/documentation/cli/dart-sass), pro kompilaci do css:
+~~~
+npm run css
+~~~
+
+Javascript je transpilován webpackem, pro kompilaci po úpravách:
+~~~
+npx webpack
+~~~

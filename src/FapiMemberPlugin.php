@@ -681,7 +681,7 @@ class FapiMemberPlugin
     public function addScripts()
     {
         global $pagenow;
-        if ($pagenow === 'options-general.php') {
+        if ($pagenow === 'admin.php') {
             wp_enqueue_style('fapi-member-admin-font');
             wp_enqueue_style('fapi-member-admin');
             wp_enqueue_style('fapi-member-swal-css');
@@ -701,7 +701,15 @@ class FapiMemberPlugin
 
     public function addAdminMenu()
     {
-        add_options_page( 'Fapi Member', 'Fapi Member', self::REQUIRED_CAPABILITY, 'fapi-member-options', [$this, 'constructAdminMenu'] );
+        add_menu_page(
+            'FAPI Member',
+            'FAPI Member',
+            self::REQUIRED_CAPABILITY,
+            'fapi-member-options',
+            [$this, 'constructAdminMenu'],
+            '',
+            81
+        );
     }
 
     public function addUserProfileForm(WP_User $user)
