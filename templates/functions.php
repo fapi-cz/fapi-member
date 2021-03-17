@@ -333,7 +333,7 @@ function getLevelOptions() {
 
 function allPagesForForm()
 {
-    $posts = get_posts(['post_type' => 'page', 'post_status' => ['publish']]);
+    $posts = get_posts(['post_type' => 'page', 'post_status' => ['publish'], 'numberposts' => -1]);
 
     $o = array_map(function($p) {
         return sprintf('<div class="onePage"><input type="checkbox" name="toAdd[]" value="%s"> %s</div>', $p->ID, $p->post_title);
@@ -344,7 +344,7 @@ function allPagesForForm()
 
 function allPagesAsOptions($currentId)
 {
-    $posts = get_posts(['post_type' => 'page', 'post_status' => ['publish']]);
+    $posts = get_posts(['post_type' => 'page', 'post_status' => ['publish'], 'numberposts' => -1]);
 
     $o = array_map(function($p) use ($currentId) {
         $selected = ($currentId === $p->ID) ? 'selected' : '';
