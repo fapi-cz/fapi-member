@@ -224,9 +224,9 @@ const recheckPagesToAdd = () => {
     Array.from(addList.querySelectorAll('input[type="checkbox"]')).forEach((one) => {
         let id = parseInt(one.value)
         if (disable.indexOf(id) >= 0) {
-            one.readOnly = true
+            one.disabled = true
         } else {
-            one.readOnly = false
+            one.disabled = false
         }
     })
 

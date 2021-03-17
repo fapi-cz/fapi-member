@@ -18,8 +18,7 @@ class FapiMemberPlugin
 
     public function __construct()
     {
-        $this->registerStyles();
-        $this->registerScripts();
+
         $this->addHooks();
     }
 
@@ -124,6 +123,14 @@ class FapiMemberPlugin
             'fapi-member-swal-css',
             plugins_url('fapi-member/node_modules/sweetalert2/dist/sweetalert2.min.css')
         );
+        wp_register_style(
+            'fapi-member-public-style',
+            plugins_url('fapi-member/media/fapi-member-public.css')
+        );
+    }
+
+    public function registerPublicStyles()
+    {
         wp_register_style(
             'fapi-member-public-style',
             plugins_url('fapi-member/media/fapi-member-public.css')
@@ -680,6 +687,8 @@ class FapiMemberPlugin
 
     public function addScripts()
     {
+        $this->registerStyles();
+        $this->registerScripts();
         global $pagenow;
         if ($pagenow === 'admin.php') {
             wp_enqueue_style('fapi-member-admin-font');
@@ -696,6 +705,8 @@ class FapiMemberPlugin
 
     public function addPublicScripts()
     {
+        $this->registerPublicStyles();
+
         wp_enqueue_style('fapi-member-public-style');
     }
 
