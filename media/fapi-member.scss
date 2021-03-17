@@ -19,7 +19,7 @@
 .baseGrid {
 	display: grid;
 	grid-template-columns: min-content auto min-content;
-	grid-template-rows: 40px 60px auto;
+	grid-template-rows: min-content 60px auto;
 	margin: 20px;
 	font-family: 'proxima_novaregular', sans-serif;
 	font-size: 15px;
@@ -128,9 +128,9 @@
 		a,
 		span
 		{
-			height: 40px;
-			padding: 0 32px;
-			line-height: 40px;
+			padding: 8px 24px;
+			line-height: 20px;
+			text-align: center;
 			border-top-left-radius: 0.25rem;
 			border-top-right-radius: 0.25rem;
 
