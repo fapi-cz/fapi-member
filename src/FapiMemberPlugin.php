@@ -251,7 +251,7 @@ class FapiMemberPlugin
         $invoiceId = $d['id'];
 
         $invoice = $this->fapiApi()->getInvoice($invoiceId);
-
+        file_put_contents(__DIR__ . '/t.txt', var_export($invoice, true));
         if (!isset($get['level'])) {
             return false;
         }
@@ -690,7 +690,7 @@ class FapiMemberPlugin
         $this->registerStyles();
         $this->registerScripts();
         global $pagenow;
-        if ($pagenow === 'admin.php') {
+        if ($pagenow === 'admin.php' || $pagenow === 'options-general.php') {
             wp_enqueue_style('fapi-member-admin-font');
             wp_enqueue_style('fapi-member-admin');
             wp_enqueue_style('fapi-member-swal-css');

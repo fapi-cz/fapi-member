@@ -278,7 +278,7 @@
 .baseGrid .withSections .a {
   grid-row: 1/2;
   grid-column: 1/2;
-  margin-right: 16px;
+  margin-right: 48px;
 }
 .baseGrid .withSections .b {
   grid-row: 1/2;
