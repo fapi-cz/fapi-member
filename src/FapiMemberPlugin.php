@@ -251,7 +251,6 @@ class FapiMemberPlugin
         $invoiceId = $d['id'];
 
         $invoice = $this->fapiApi()->getInvoice($invoiceId);
-        file_put_contents(__DIR__ . '/t.txt', var_export($invoice, true));
         if (!isset($get['level'])) {
             return false;
         }

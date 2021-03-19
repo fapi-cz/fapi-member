@@ -23,11 +23,9 @@ class FapiApi
                 'headers' => $this->createHeaders()
             ]
         );
-        file_put_contents(__DIR__ . '/resp-1.txt', var_export($resp, true), FILE_APPEND);
         if ($resp instanceof WP_Error || $resp['response']['code'] !== 200) {
             return false;
         }
-        file_put_contents(__DIR__ . '/resp.txt', $resp['body'], FILE_APPEND);
         return json_decode($resp['body'], true);
 
     }
