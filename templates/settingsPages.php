@@ -30,7 +30,7 @@ echo heading();
                            'afterLogin' => [
                                't' => 'Stránka po přihlášení',
                                'd' => 'Nastavte stránku, která se zobrazí uživatelům po přihlášení do členské 
-                                        sekce nebo úrovně.<br>Stránka nesmí být zařazena jako členská.',
+                                        sekce nebo úrovně.',
                            ],
                            'noAccess'   => [
                                't' => 'Stránka, když uživatel nemá přístup',
@@ -40,7 +40,7 @@ echo heading();
                            'login'      => [
                                't' => 'Přihlašovací stránka (nepovinné)',
                                'd' => 'Zvolte stránku, kde budete mít umístěný přihlašovací formulář. 
-                                        Toto pole nijak neovlivní funkčnost členské sekce. Slouží především pro Váš přehled.',
+                                        Toto pole nijak neovlivní funkčnost členské sekce. Slouží především pro Váš přehled.<br>Stránka nesmí být zařazena jako členská.',
                            ],
                        ];
 

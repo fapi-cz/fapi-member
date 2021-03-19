@@ -49,7 +49,7 @@
                             <?= $excerpt ?>
                         </p>
                         <div class="actions">
-                            <a href="<?= get_permalink($post) ?>">Číst dále</a>
+                            <a href="<?= get_permalink($post) ?>">Vstoupit</a>
                         </div>
                     </div>
                 <?php } ?>
