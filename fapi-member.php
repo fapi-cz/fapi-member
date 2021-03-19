@@ -1,7 +1,6 @@
 <?php
 /**
  * Plugin Name:       FAPI Member
- * Plugin URI:        https://fapi.cz/
  * Description:       FAPI plugin for membership management and access control.
  * Version:           1.0.0
  * Requires at least: 5.2
