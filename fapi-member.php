@@ -5,10 +5,10 @@
  * Description:       FAPI plugin for membership management and access control.
  * Version:           1.0.0
  * Requires at least: 5.2
- * Requires PHP:      7.2
+ * Requires PHP:      5.6
  * Author:            FAPI
  * Author URI:        https://fapi.cz/
- * License:           proprietary
+ * License:           GPLv2 or later
  * Text Domain:       fapi
  * Domain Path:       /languages
  */

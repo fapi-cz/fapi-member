@@ -121,7 +121,7 @@ class FapiMemberPlugin
         );
         wp_register_style(
             'fapi-member-swal-css',
-            plugins_url('fapi-member/node_modules/sweetalert2/dist/sweetalert2.min.css')
+            plugins_url('fapi-member/media/dist/sweetalert2.min.css')
         );
         wp_register_style(
             'fapi-member-public-style',
@@ -141,11 +141,11 @@ class FapiMemberPlugin
     {
         wp_register_script(
             'fapi-member-swal',
-            plugins_url('fapi-member/node_modules/sweetalert2/dist/sweetalert2.js')
+            plugins_url('fapi-member/media/dist/sweetalert2.js')
         );
         wp_register_script(
             'fapi-member-swal-promise-polyfill',
-            plugins_url( 'fapi-member/node_modules/promise-polyfill/dist/polyfill.min.js')
+            plugins_url( 'fapi-member/media/dist/polyfill.min.js')
         );
         if (self::isDevelopment()) {
             wp_register_script(

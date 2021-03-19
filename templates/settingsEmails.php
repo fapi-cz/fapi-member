@@ -26,11 +26,20 @@ echo heading();
 
                        $templates = $fapiLevels->loadEmailTemplatesForLevel($level);
 
-                       $emails = [
+                       if ($isSection) {
+                           $emails = [
+                               'afterRegistration' => 'Nastavení emailu po registraci do sekce',
+                               'afterMembershipProlonged' => 'Nastavení emailu při prodloužení členství v sekci',
+                               'afterAdding' => 'Nastavení emailu při přidání do členské sekce',
+                           ];
+                       } else {
+                           $emails = [
                                'afterRegistration' => 'Nastavení emailu po registraci do úrovně',
                                'afterMembershipProlonged' => 'Nastavení emailu při prodloužení členství v úrovni',
                                'afterAdding' => 'Nastavení emailu při přidání do členské úrovně',
-                       ];
+                           ];
+                       }
+
                        foreach ($emails as $key => $title) {
                            $hasContentSet = (isset($templates[$key])) ? true : false;
                            $emailIsCascaded = ($levelTerm->parent !== 0 && !$hasContentSet) ? true : false;
@@ -62,7 +71,7 @@ echo heading();
                                             </label>
                                         </div>
                                         <?php } ?>
-                                        <div class="inputs <?= ($hasContentSet) ? '' : 'collapsed' ?>">
+                                        <div class="inputs <?= ($hasContentSet || $isSection) ? '' : 'collapsed' ?>">
                                            <div class="row">
                                                <label for="mail_subject">Předmět e-mailu</label>
                                                <input type="text" name="mail_subject" id="mail_subject"

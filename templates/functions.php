@@ -152,17 +152,17 @@ function help() {
             <div>
                 <h4>Jak získám API klíč?</h4>
                 <p>Přečtěte si naší nápovědu, kde se dozvíte, jak si můžete vygenerovat API klíč v aplikaci FAPI.</p>
-                <a href="###" class="btn outline">Přečíst</a>
+                <a href="https://fapi.cz/plugin/napoveda-1" target="_blank" class="btn outline">Přečíst</a>
             </div>
             <div>
                 <h4>Jak vytvořit členskou sekci?</h4>
                 <p>Podívejte se na základní kroky v pluginu FAPI Member, abyste si mohli vytvořit svou členskou sekci.</p>
-                <a href="###" class="btn outline">Přečíst</a>
+                <a href="https://fapi.cz/plugin/napoveda-2" target="_blank" class="btn outline">Přečíst</a>
             </div>
             <div>
                 <h4>Jak vygeneruji přístupy?</h4>
                 <p>Podívejte se, jak si nastavit prodejní formulář FAPI, aby dokázal komunikovat s pluginem a vytvářel přístupy vašim klientům.</p>
-                <a href="###" class="btn outline">Přečíst</a>
+                <a href="https://fapi.cz/plugin/napoveda-3" target="_blank" class="btn outline">Přečíst</a>
             </div>
         </div>
     </div>
