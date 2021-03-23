@@ -4,12 +4,12 @@ include( __DIR__ . '/functions.php' );
 global $FapiPlugin;
 $fapiLevels = $FapiPlugin->levels();
 
-echo heading();
+echo FapiMemberTools::heading();
 ?>
 
 <div class="page smallerPadding">
     <h3>Přehled členských sekcí a úrovní</h3>
-	<?php echo showErrors(); ?>
+	<?php echo FapiMemberTools::showErrors(); ?>
     <div class="sectionsOverview">
 		<?php
 		$levels      = $fapiLevels->loadAsTerms();
@@ -91,10 +91,10 @@ echo heading();
                 Nemáte vytvořenou žádnou členskou sekci.<br>
                 Novou sekci můžete vytvořit na záložce Sekce / úrovně.
             </p>
-            <a href="<?php echo  fapilink( 'settingsSectionNew' ) ?>" class="btn primary">Přejít do záložky Sekce / úrovně</a>
+            <a href="<?php echo FapiMemberTools::fapilink( 'settingsSectionNew' ) ?>" class="btn primary">Přejít do záložky Sekce / úrovně</a>
         </div>
 
 	<?php } ?>
 </div>
-<?php echo  help() ?>
+<?php echo FapiMemberTools::help() ?>
 </div>

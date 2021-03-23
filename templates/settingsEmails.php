@@ -2,15 +2,15 @@
 
 include( __DIR__ . '/functions.php' );
 
-echo heading();
+echo FapiMemberTools::heading();
 ?>
 
 <div class="page both">
     <div class="withSections">
         <div class="a">
             <h3>Struktura uzavřených sekcí a úrovní</h3>
-			<?php echo showErrors(); ?>
-			<?php echo  levelsSelectionNonJs() ?>
+			<?php echo FapiMemberTools::showErrors(); ?>
+			<?php echo FapiMemberTools::levelsSelectionNonJs() ?>
         </div>
         <div class="b">
             <div>
@@ -59,7 +59,7 @@ echo heading();
 									<?php
 								}
 								?>
-								<?php echo  formStart( 'edit_email' ) ?>
+								<?php echo FapiMemberTools::formStart( 'edit_email' ) ?>
                                 <input type="hidden" name="level_id" value="<?php echo  $level ?>">
                                 <input type="hidden" name="email_type" value="<?php echo  $key ?>">
 								<?php if ( ! $isSection ) { ?>

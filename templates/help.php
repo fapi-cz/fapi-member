@@ -2,7 +2,7 @@
 
 include( __DIR__ . '/functions.php' );
 
-echo heading();
+echo FapiMemberTools::heading();
 
 $topic = ( isset( $_GET['topic'] ) ) ? $_GET['topic'] : null;
 $path  = ( $topic ) ? sprintf( '%s/help/%s.php', __DIR__, $topic ) : null;
@@ -12,6 +12,6 @@ if ( $path && file_exists( $path ) ) {
 	include __DIR__ . '/help/_none.php';
 }
 
-echo help();
+echo FapiMemberTools::help();
 ?>
 </div>

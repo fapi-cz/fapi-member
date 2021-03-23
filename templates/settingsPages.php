@@ -2,15 +2,15 @@
 
 include( __DIR__ . '/functions.php' );
 
-echo heading();
+echo FapiMemberTools::heading();
 ?>
 
 <div class="page both">
     <div class="withSections">
         <div class="a">
             <h3>Struktura uzavřených sekcí a úrovní</h3>
-			<?php echo showErrors(); ?>
-			<?php echo  levelsSelectionNonJs() ?>
+			<?php echo FapiMemberTools::showErrors(); ?>
+			<?php echo FapiMemberTools::levelsSelectionNonJs() ?>
         </div>
         <div class="b">
             <div>
@@ -54,14 +54,14 @@ echo heading();
                             <h3><?php echo  $setting['t'] ?></h3>
                             <p><?php echo  $setting['d'] ?></p>
 
-							<?php echo  formStart( 'set_other_page' ) ?>
+							<?php echo FapiMemberTools::formStart( 'set_other_page' ) ?>
                             <input type="hidden" name="level_id" value="<?php echo  $level ?>">
                             <input type="hidden" name="page_type" value="<?php echo  $key ?>">
                             <div class="row submitInline">
                                 <label for="page">Vyberte stránku</label>
                                 <select type="text" name="page" id="page">
                                     <option value="">-- nevybírat</option>
-									<?php echo  allPagesAsOptions( $currentPageId ) ?>
+									<?php echo FapiMemberTools::allPagesAsOptions( $currentPageId ) ?>
                                 </select>
                                 <input type="submit" class="primary" value="Uložit">
                             </div>

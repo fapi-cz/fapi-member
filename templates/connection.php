@@ -3,12 +3,12 @@
 include( __DIR__ . '/functions.php' );
 global $FapiPlugin;
 
-echo heading();
+echo FapiMemberTools::heading();
 ?>
 <div class="page">
     <h3>Propojení s Vaším účtem FAPI</h3>
-	<?php echo showErrors(); ?>
-	<?php echo  formStart( 'api_credentials_submit' ) ?>
+	<?php echo FapiMemberTools::showErrors(); ?>
+	<?php echo FapiMemberTools::formStart( 'api_credentials_submit' ) ?>
     <div class="row">
         <label for="fapiMemberApiEmail">Uživatelské jméno (e-mail)</label>
         <input type="text" name="fapiMemberApiEmail" id="fapiMemberApiEmail" placeholder="me@example.com"
@@ -29,5 +29,5 @@ echo heading();
         .
     </p>
 </div>
-<?php echo  help() ?>
+<?php echo FapiMemberTools::help() ?>
 </div>

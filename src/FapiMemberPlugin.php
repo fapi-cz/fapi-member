@@ -165,13 +165,13 @@ class FapiMemberPlugin {
 	public function shortcodeLogin() {
 		include_once __DIR__ . '/../templates/functions.php';
 
-		return shortcodeLoginForm();
+		return FapiMemberTools::shortcodeLoginForm();
 	}
 
 	public function shortcodeUser() {
 		include_once __DIR__ . '/../templates/functions.php';
 
-		return shortcodeUser();
+		return FapiMemberTools::shortcodeUser();
 	}
 
 	public function addRestEndpoints() {

@@ -2,7 +2,7 @@
 
 include( __DIR__ . '/functions.php' );
 
-echo heading();
+echo FapiMemberTools::heading();
 ?>
 
 <div class="page wider">

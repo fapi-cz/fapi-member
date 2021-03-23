@@ -1,49 +1,45 @@
 <?php
 
-function showErrors() {
-	$errorMap = [
-		'apiFormEmpty'                => [ 'error', 'Je třeba zadat jak uživatelské jméno, tak API klíč.' ],
-		'apiFormSuccess'              => [ 'success', 'Údaje pro API uloženy.' ],
-		'apiFormError'                => [ 'error', 'Neplatné údaje pro API.' ],
-		'sectionNameEmpty'            => [ 'error', 'Název sekce je povinný.' ],
-		'levelNameOrParentEmpty'      => [ 'error', 'Název úrovně a výběr sekce je povinný.' ],
-		'sectionNotFound'             => [ 'error', 'Sekce nenalezena.' ],
-		'removeLevelSuccessful'       => [ 'success', 'Sekce/úroveň smazána.' ],
-		'editLevelSuccessful'         => [ 'success', 'Sekce/úroveň upravena.' ],
-		'levelIdOrToAddEmpty'         => [ 'error', 'Zvolte prosím úroveň a stránky k přidání.' ],
-		'editLevelNoName'             => [ 'error', 'Chyba změny sekce/úrovně.' ],
-		'editMailsRemoved'            => [ 'success', 'Šablona emailu byla odebrána.' ],
-		'editMailsUpdated'            => [ 'success', 'Šablona emailu byla upravena.' ],
-		'editOtherPagesRemoved'       => [ 'success', 'Ostatní stránka byla odebrána.' ],
-		'editOtherPagesUpdated'       => [ 'success', 'Ostatní stránka byla nastavena.' ],
-		'settingsSettingsUpdated'     => [ 'success', 'Nastavení uložena.' ],
-		'settingsSettingsNoValidPage' => [ 'error', 'Stránka nenalezena.' ],
-	];
+class FapiMemberTools {
 
-	if ( isset( $_GET['e'] ) && isset( $errorMap[ $_GET['e'] ] ) ) {
-		$e = $errorMap[ $_GET['e'] ];
+	public static function showErrors() {
+		$errorMap = [
+			'apiFormEmpty'                => [ 'error', 'Je třeba zadat jak uživatelské jméno, tak API klíč.' ],
+			'apiFormSuccess'              => [ 'success', 'Údaje pro API uloženy.' ],
+			'apiFormError'                => [ 'error', 'Neplatné údaje pro API.' ],
+			'sectionNameEmpty'            => [ 'error', 'Název sekce je povinný.' ],
+			'levelNameOrParentEmpty'      => [ 'error', 'Název úrovně a výběr sekce je povinný.' ],
+			'sectionNotFound'             => [ 'error', 'Sekce nenalezena.' ],
+			'removeLevelSuccessful'       => [ 'success', 'Sekce/úroveň smazána.' ],
+			'editLevelSuccessful'         => [ 'success', 'Sekce/úroveň upravena.' ],
+			'levelIdOrToAddEmpty'         => [ 'error', 'Zvolte prosím úroveň a stránky k přidání.' ],
+			'editLevelNoName'             => [ 'error', 'Chyba změny sekce/úrovně.' ],
+			'editMailsRemoved'            => [ 'success', 'Šablona emailu byla odebrána.' ],
+			'editMailsUpdated'            => [ 'success', 'Šablona emailu byla upravena.' ],
+			'editOtherPagesRemoved'       => [ 'success', 'Ostatní stránka byla odebrána.' ],
+			'editOtherPagesUpdated'       => [ 'success', 'Ostatní stránka byla nastavena.' ],
+			'settingsSettingsUpdated'     => [ 'success', 'Nastavení uložena.' ],
+			'settingsSettingsNoValidPage' => [ 'error', 'Stránka nenalezena.' ],
+		];
 
-		return sprintf( '<div class="notice notice-%s is-dismissible"><p>%s</p></div>', $e[0], $e[1] );
+		if ( isset( $_GET['e'] ) && isset( $errorMap[ $_GET['e'] ] ) ) {
+			$e = $errorMap[ $_GET['e'] ];
+
+			return sprintf( '<div class="notice notice-%s is-dismissible"><p>%s</p></div>', $e[0], $e[1] );
+		}
 	}
-}
 
-function h1() {
-	$svg = file_get_contents( __DIR__ . '/../_sources/LOGO_FAPI_svg.svg' );
+	public static function nav() {
+		global $FapiPlugin;
+		$subpage              = $FapiPlugin->findSubpage();
+		$areApiCredentialsSet = $FapiPlugin->areApiCredentialsSet();
 
-	return sprintf( '<div class="h1">%s</div>', $svg );
-}
+		$c = file_get_contents( __DIR__ . '/../_sources/connect.svg' );
+		$h = file_get_contents( __DIR__ . '/../_sources/home-solid.svg' );
+		$p = file_get_contents( __DIR__ . '/../_sources/padlock.svg' );
 
-function nav() {
-	global $FapiPlugin;
-	$subpage              = $FapiPlugin->findSubpage();
-	$areApiCredentialsSet = $FapiPlugin->areApiCredentialsSet();
-
-	$c = file_get_contents( __DIR__ . '/../_sources/connect.svg' );
-	$h = file_get_contents( __DIR__ . '/../_sources/home-solid.svg' );
-	$p = file_get_contents( __DIR__ . '/../_sources/padlock.svg' );
-
-	if ( ! $areApiCredentialsSet ) {
-		return '
+		if ( ! $areApiCredentialsSet ) {
+			return '
             <nav>
                 <span class="disabled">
                     <span class="a">Nástěnka</span>
@@ -61,94 +57,98 @@ function nav() {
                     ' . $c . '
                 </a>
             </nav>';
-	} else {
-		return '
+		} else {
+			return '
             <nav>
-                <a href="' . fapilink( 'index' ) . '" ' . ( ( $subpage === 'index' ) ? 'class="active"' : '' ) . '>
+                <a href="' . self::fapilink( 'index' ) . '" ' . ( ( $subpage === 'index' ) ? 'class="active"' : '' ) . '>
                     <span class="a">Nástěnka</span>
                     <span class="b">Přehled</span>
                     ' . $h . '
                 </a>
-                <a href="' . fapilink( 'settingsSectionNew' ) . '" ' . ( ( strpos( $subpage,
-		                                                                           'settings' ) === 0 ) ? 'class="active"' : '' ) . '>
+                <a href="' . self::fapilink( 'settingsSectionNew' ) . '" ' . ( ( strpos( $subpage,
+			                                                                             'settings' ) === 0 ) ? 'class="active"' : '' ) . '>
                     <span class="a">Nastavení</span>
                     <span class="b">Členské sekce</span>
                     ' . $p . '
                 </span>
-                <a href="' . fapilink( 'connection' ) . '" ' . ( ( $subpage === 'connection' ) ? 'class="active"' : '' ) . '>
+                <a href="' . self::fapilink( 'connection' ) . '" ' . ( ( $subpage === 'connection' ) ? 'class="active"' : '' ) . '>
                     <span class="a">Propojení</span>
                     <span class="b">Připojení k FAPI</span>
                     ' . $c . '
                 </a>
             </nav>';
+		}
 	}
-}
 
-function submenu() {
-	global $FapiPlugin;
-	$subpage = $FapiPlugin->findSubpage();
+	public static function submenu() {
+		global $FapiPlugin;
+		$subpage = $FapiPlugin->findSubpage();
 
-	switch ( true ) {
-		case ( $subpage === 'index' ):
-			return '
+		switch ( true ) {
+			case ( $subpage === 'index' ):
+				return '
                 <div class="submenu">
                     <span class="active">Přehled</a>
                 </div>
                 ';
-		case ( $subpage === 'connection' ):
-			return '
+			case ( $subpage === 'connection' ):
+				return '
                 <div class="submenu">
                     <span class="active">Propojení</a>
                 </div>
                 ';
-		case ( mb_strpos( $subpage, 'settings' ) === 0 ):
-			return '
+			case ( mb_strpos( $subpage, 'settings' ) === 0 ):
+				return '
                 <div class="submenu">
-                    ' . submenuItem( 'settingsSectionNew', 'Sekce / úrovně', $subpage, [ 'settingsLevelNew' ] ) . '
-                    ' . submenuItem( 'settingsContentAdd',
-			                         'Přiřazené stránky',
-			                         $subpage,
-			                         [ 'settingsContentRemove' ] ) . '
-                    ' . submenuItem( 'settingsEmails', 'Nastavení e-mailů', $subpage ) . '
-                    ' . submenuItem( 'settingsPages', 'Ostatní stránky', $subpage ) . '
-                    ' . submenuItem( 'settingsElements', 'Prvky pro web', $subpage ) . '
-                    ' . submenuItem( 'settingsSettings', 'Nastavení', $subpage ) . '
+                    ' . self::submenuItem( 'settingsSectionNew', 'Sekce / úrovně', $subpage, [ 'settingsLevelNew' ] ) . '
+                    ' . self::submenuItem( 'settingsContentAdd',
+				                           'Přiřazené stránky',
+				                           $subpage,
+				                           [ 'settingsContentRemove' ] ) . '
+                    ' . self::submenuItem( 'settingsEmails', 'Nastavení e-mailů', $subpage ) . '
+                    ' . self::submenuItem( 'settingsPages', 'Ostatní stránky', $subpage ) . '
+                    ' . self::submenuItem( 'settingsElements', 'Prvky pro web', $subpage ) . '
+                    ' . self::submenuItem( 'settingsSettings', 'Nastavení', $subpage ) . '
                 </div>
                 ';
-	}
-}
-
-function submenuItem( $subpage, $label, $activeSubpage, $otherChildren = null ) {
-	$classes = [];
-
-	if ( $activeSubpage === $subpage ) {
-		$classes[] = 'active';
-	}
-	if ( $otherChildren !== null && in_array( $activeSubpage, $otherChildren ) ) {
-		$classes[] = 'active';
+		}
 	}
 
-	return sprintf( '<a href="%s" class="%s">%s</a>', fapilink( $subpage ), join( ' ', $classes ), $label );
-}
+	public static function submenuItem( $subpage, $label, $activeSubpage, $otherChildren = null ) {
+		$classes = [];
 
-function subSubmenuItem( $subpage, $label, $activeSubpage ) {
-	$classes = [ 'subsubmenuitem' ];
+		if ( $activeSubpage === $subpage ) {
+			$classes[] = 'active';
+		}
+		if ( $otherChildren !== null && in_array( $activeSubpage, $otherChildren ) ) {
+			$classes[] = 'active';
+		}
 
-	if ( $activeSubpage === $subpage ) {
-		$classes[] = 'active';
+		return sprintf( '<a href="%s" class="%s">%s</a>', self::fapilink( $subpage ), join( ' ', $classes ), $label );
 	}
 
-	if ( isset( $_GET['level'] ) ) {
-		$tail = sprintf( '&level=%s', $_GET['level'] );
-	} else {
-		$tail = '';
+	public static function subSubmenuItem( $subpage, $label, $activeSubpage ) {
+		$classes = [ 'subsubmenuitem' ];
+
+		if ( $activeSubpage === $subpage ) {
+			$classes[] = 'active';
+		}
+
+		if ( isset( $_GET['level'] ) ) {
+			$tail = sprintf( '&level=%s', $_GET['level'] );
+		} else {
+			$tail = '';
+		}
+
+		return sprintf( '<a href="%s%s" class="%s">%s</a>',
+		                self::fapilink( $subpage ),
+		                $tail,
+		                join( ' ', $classes ),
+		                $label );
 	}
 
-	return sprintf( '<a href="%s%s" class="%s">%s</a>', fapilink( $subpage ), $tail, join( ' ', $classes ), $label );
-}
-
-function help() {
-	return '
+	public static function help() {
+		return '
     <div class="help">
         <h3>Nápověda</h3>
         <div class="inner">
@@ -170,211 +170,211 @@ function help() {
         </div>
     </div>
     ';
-}
+	}
 
-function fapilink( $subpage ) {
-	return admin_url( sprintf( '/admin.php?page=fapi-member-options&subpage=%s', $subpage ) );
-}
+	public static function fapilink( $subpage ) {
+		return admin_url( sprintf( '/admin.php?page=fapi-member-options&subpage=%s', $subpage ) );
+	}
 
-function levels() {
-	global $FapiPlugin;
-	$t = $FapiPlugin->levels()->loadAsTerms();
+	public static function levels() {
+		global $FapiPlugin;
+		$t = $FapiPlugin->levels()->loadAsTerms();
 
-	$lis     = [];
-	$actions = '<button class="edit"></button><button class="remove"></button>';
+		$lis     = [];
+		$actions = '<button class="edit"></button><button class="remove"></button>';
 
-	foreach ( $t as $term ) {
-		$under = [];
-		if ( $term->parent === 0 ) {
-			foreach ( $t as $underTerm ) {
-				if ( $underTerm->parent === $term->term_id ) {
-					$under[] = sprintf( '<li data-id="%s"><span>%s</span>%s</li>',
-					                    $underTerm->term_id,
-					                    $underTerm->name,
-					                    $actions );
+		foreach ( $t as $term ) {
+			$under = [];
+			if ( $term->parent === 0 ) {
+				foreach ( $t as $underTerm ) {
+					if ( $underTerm->parent === $term->term_id ) {
+						$under[] = sprintf( '<li data-id="%s"><span>%s</span>%s</li>',
+						                    $underTerm->term_id,
+						                    $underTerm->name,
+						                    $actions );
+					}
 				}
+				$lis[] = sprintf( '<li data-id="%s"><span>%s</span>%s<ol>%s</ol></li>',
+				                  $term->term_id,
+				                  $term->name,
+				                  $actions,
+				                  join( '', $under ) );
 			}
-			$lis[] = sprintf( '<li data-id="%s"><span>%s</span>%s<ol>%s</ol></li>',
-			                  $term->term_id,
-			                  $term->name,
-			                  $actions,
-			                  join( '', $under ) );
 		}
+
+		?>
+        <div class="levels">
+            <ol>
+				<?php echo join( '', $lis ) ?>
+            </ol>
+        </div>
+        <form method="post" action="<?php echo admin_url( 'admin-post.php' ); ?>" id="LevelRemoveForm">
+            <input type="hidden" name="action" value="fapi_member_remove_level">
+            <input type="hidden" name="fapi_member_remove_level_nonce"
+                   value="<?php echo wp_create_nonce( 'fapi_member_remove_level_nonce' ) ?>">
+            <input type="hidden" name="level_id" value="">
+        </form>
+        <form method="post" action="<?php echo admin_url( 'admin-post.php' ); ?>" id="LevelEditForm">
+            <input type="hidden" name="action" value="fapi_member_edit_level">
+            <input type="hidden" name="fapi_member_edit_level_nonce"
+                   value="<?php echo wp_create_nonce( 'fapi_member_edit_level_nonce' ) ?>">
+            <input type="hidden" name="name" value="">
+            <input type="hidden" name="level_id" value="">
+        </form>
+		<?php
 	}
 
-	?>
-    <div class="levels">
-        <ol>
-			<?php echo  join( '', $lis ) ?>
-        </ol>
-    </div>
-    <form method="post" action="<?php echo admin_url( 'admin-post.php' ); ?>" id="LevelRemoveForm">
-        <input type="hidden" name="action" value="fapi_member_remove_level">
-        <input type="hidden" name="fapi_member_remove_level_nonce"
-               value="<?php echo wp_create_nonce( 'fapi_member_remove_level_nonce' ) ?>">
-        <input type="hidden" name="level_id" value="">
-    </form>
-    <form method="post" action="<?php echo admin_url( 'admin-post.php' ); ?>" id="LevelEditForm">
-        <input type="hidden" name="action" value="fapi_member_edit_level">
-        <input type="hidden" name="fapi_member_edit_level_nonce"
-               value="<?php echo wp_create_nonce( 'fapi_member_edit_level_nonce' ) ?>">
-        <input type="hidden" name="name" value="">
-        <input type="hidden" name="level_id" value="">
-    </form>
-	<?php
-}
+	public static function oneLevelSelection( $id, $link, $name, $children = '', $highlight = false ) {
+		$c  = ( $highlight ) ? 'class="selected"' : '';
+		$ch = ( ! empty( $children ) ) ? sprintf( '<ol>%s</ol>', $children ) : '';
 
-function oneLevelSelection( $id, $link, $name, $children = '', $highlight = false ) {
-	$c  = ( $highlight ) ? 'class="selected"' : '';
-	$ch = ( ! empty( $children ) ) ? sprintf( '<ol>%s</ol>', $children ) : '';
+		return sprintf(
+			'<li data-id="%s" %s><a href="%s">%s</a>%s</li>',
+			$id,
+			$c,
+			$link,
+			$name,
+			$ch
+		);
+	}
 
-	return sprintf(
-		'<li data-id="%s" %s><a href="%s">%s</a>%s</li>',
-		$id,
-		$c,
-		$link,
-		$name,
-		$ch
-	);
-}
+	public static function levelsSelection() {
+		global $FapiPlugin;
+		$subpage = $FapiPlugin->findSubpage();
 
-function levelsSelection() {
-	global $FapiPlugin;
-	$subpage = $FapiPlugin->findSubpage();
+		$subpage  = ( $subpage === 'settingsContentSelect' ) ? 'settingsContentRemove' : $subpage;
+		$selected = ( isset( $_GET['level'] ) ) ? (int) $_GET['level'] : null;
 
-	$subpage  = ( $subpage === 'settingsContentSelect' ) ? 'settingsContentRemove' : $subpage;
-	$selected = ( isset( $_GET['level'] ) ) ? (int) $_GET['level'] : null;
+		$t = $FapiPlugin->levels()->loadAsTerms();
 
-	$t = $FapiPlugin->levels()->loadAsTerms();
+		$lis = [];
 
-	$lis = [];
-
-	foreach ( $t as $term ) {
-		$under = [];
-		if ( $term->parent === 0 ) {
-			foreach ( $t as $underTerm ) {
-				if ( $underTerm->parent === $term->term_id ) {
-					$under[] = oneLevelSelection(
-						$underTerm->term_id,
-						fapilink( $subpage ) . sprintf( '&level=%s', $underTerm->term_id ),
-						$underTerm->name,
-						'',
-						( $underTerm->term_id === $selected ) ? true : false
-					);
+		foreach ( $t as $term ) {
+			$under = [];
+			if ( $term->parent === 0 ) {
+				foreach ( $t as $underTerm ) {
+					if ( $underTerm->parent === $term->term_id ) {
+						$under[] = FapiMemberTools::oneLevelSelection(
+							$underTerm->term_id,
+							FapiMemberTools::fapilink( $subpage ) . sprintf( '&level=%s', $underTerm->term_id ),
+							$underTerm->name,
+							'',
+							( $underTerm->term_id === $selected ) ? true : false
+						);
+					}
 				}
+				$lis[] = FapiMemberTools::oneLevelSelection(
+					$term->term_id,
+					FapiMemberTools::fapilink( $subpage ) . sprintf( '&level=%s', $term->term_id ),
+					$term->name,
+					join( '', $under ),
+					( $term->term_id === $selected ) ? true : false
+				);
 			}
-			$lis[] = oneLevelSelection(
-				$term->term_id,
-				fapilink( $subpage ) . sprintf( '&level=%s', $term->term_id ),
-				$term->name,
-				join( '', $under ),
-				( $term->term_id === $selected ) ? true : false
-			);
 		}
+
+		?>
+        <div class="levels">
+            <ol>
+				<?php echo join( '', $lis ) ?>
+            </ol>
+        </div>
+		<?php
 	}
 
-	?>
-    <div class="levels">
-        <ol>
-			<?php echo  join( '', $lis ) ?>
-        </ol>
-    </div>
-	<?php
-}
+	public static function levelsSelectionNonJs() {
+		global $FapiPlugin;
+		$subpage = $FapiPlugin->findSubpage();
 
-function levelsSelectionNonJs() {
-	global $FapiPlugin;
-	$subpage = $FapiPlugin->findSubpage();
+		$subpage  = ( $subpage === 'settingsContentSelect' ) ? 'settingsContentRemove' : $subpage;
+		$selected = ( isset( $_GET['level'] ) ) ? (int) $_GET['level'] : null;
 
-	$subpage  = ( $subpage === 'settingsContentSelect' ) ? 'settingsContentRemove' : $subpage;
-	$selected = ( isset( $_GET['level'] ) ) ? (int) $_GET['level'] : null;
+		$t = $FapiPlugin->levels()->loadAsTerms();
 
-	$t = $FapiPlugin->levels()->loadAsTerms();
+		$lis = [];
 
-	$lis = [];
-
-	foreach ( $t as $term ) {
-		$under = [];
-		if ( $term->parent === 0 ) {
-			foreach ( $t as $underTerm ) {
-				if ( $underTerm->parent === $term->term_id ) {
-					$under[] = oneLevelSelection(
-						$underTerm->term_id,
-						fapilink( $subpage ) . sprintf( '&level=%s', $underTerm->term_id ),
-						$underTerm->name,
-						'',
-						( $underTerm->term_id === $selected ) ? true : false
-					);
+		foreach ( $t as $term ) {
+			$under = [];
+			if ( $term->parent === 0 ) {
+				foreach ( $t as $underTerm ) {
+					if ( $underTerm->parent === $term->term_id ) {
+						$under[] = FapiMemberTools::oneLevelSelection(
+							$underTerm->term_id,
+							FapiMemberTools::fapilink( $subpage ) . sprintf( '&level=%s', $underTerm->term_id ),
+							$underTerm->name,
+							'',
+							( $underTerm->term_id === $selected ) ? true : false
+						);
+					}
 				}
+				$lis[] = FapiMemberTools::oneLevelSelection(
+					$term->term_id,
+					FapiMemberTools::fapilink( $subpage ) . sprintf( '&level=%s', $term->term_id ),
+					$term->name,
+					join( '', $under ),
+					( $term->term_id === $selected ) ? true : false
+				);
 			}
-			$lis[] = oneLevelSelection(
-				$term->term_id,
-				fapilink( $subpage ) . sprintf( '&level=%s', $term->term_id ),
-				$term->name,
-				join( '', $under ),
-				( $term->term_id === $selected ) ? true : false
-			);
 		}
+
+		?>
+        <div class="levelsNonJs">
+            <ol>
+				<?php echo join( '', $lis ) ?>
+            </ol>
+        </div>
+		<?php
 	}
 
-	?>
-    <div class="levelsNonJs">
-        <ol>
-			<?php echo  join( '', $lis ) ?>
-        </ol>
-    </div>
-	<?php
-}
+	public static function getLevelOptions() {
+		global $FapiPlugin;
+		$t = $FapiPlugin->levels()->loadAsTerms();
 
-function getLevelOptions() {
-	global $FapiPlugin;
-	$t = $FapiPlugin->levels()->loadAsTerms();
+		$options = [];
 
-	$options = [];
-
-	foreach ( $t as $term ) {
-		if ( $term->parent === 0 ) {
-			$options[] = sprintf( '<option value="%s">%s</option>', $term->term_id, $term->name );
+		foreach ( $t as $term ) {
+			if ( $term->parent === 0 ) {
+				$options[] = sprintf( '<option value="%s">%s</option>', $term->term_id, $term->name );
+			}
 		}
+
+		return join( '', $options );
 	}
 
-	return join( '', $options );
-}
+	public static function allPagesForForm() {
+		$posts = get_posts( [ 'post_type' => 'page', 'post_status' => [ 'publish' ], 'numberposts' => - 1 ] );
 
-function allPagesForForm() {
-	$posts = get_posts( [ 'post_type' => 'page', 'post_status' => [ 'publish' ], 'numberposts' => - 1 ] );
+		$o = array_map( function ( $p ) {
+			return sprintf( '<div class="onePage"><input type="checkbox" name="toAdd[]" value="%s"> %s</div>',
+			                $p->ID,
+			                $p->post_title );
+		},
+			$posts );
 
-	$o = array_map( function ( $p ) {
-		return sprintf( '<div class="onePage"><input type="checkbox" name="toAdd[]" value="%s"> %s</div>',
-		                $p->ID,
-		                $p->post_title );
-	},
-		$posts );
+		return join( '', $o );
+	}
 
-	return join( '', $o );
-}
+	public static function allPagesAsOptions( $currentId ) {
+		$posts = get_posts( [ 'post_type' => 'page', 'post_status' => [ 'publish' ], 'numberposts' => - 1 ] );
 
-function allPagesAsOptions( $currentId ) {
-	$posts = get_posts( [ 'post_type' => 'page', 'post_status' => [ 'publish' ], 'numberposts' => - 1 ] );
+		$o = array_map( function ( $p ) use ( $currentId ) {
+			$selected = ( $currentId === $p->ID ) ? 'selected' : '';
 
-	$o = array_map( function ( $p ) use ( $currentId ) {
-		$selected = ( $currentId === $p->ID ) ? 'selected' : '';
+			return sprintf( '<option value="%s" %s>%s</option>', $p->ID, $selected, $p->post_title );
+		},
+			$posts );
 
-		return sprintf( '<option value="%s" %s>%s</option>', $p->ID, $selected, $p->post_title );
-	},
-		$posts );
+		return join( '', $o );
+	}
 
-	return join( '', $o );
-}
+	public static function levelToPageJson() {
+		global $FapiPlugin;
 
-function levelToPageJson() {
-	global $FapiPlugin;
+		return json_encode( $FapiPlugin->levels()->levelsToPages() );
+	}
 
-	return json_encode( $FapiPlugin->levels()->levelsToPages() );
-}
-
-function shortcodeLoginForm() {
-	return '
+	public static function shortcodeLoginForm() {
+		return '
         <div class="fapiShortcodeLoginForm">
             <form method="post" action="/wp-login.php">
                 <div class="row">
@@ -391,14 +391,14 @@ function shortcodeLoginForm() {
             </form>
         </div>    
     ';
-}
+	}
 
-function shortcodeUser() {
-	global $FapiPlugin;
+	public static function shortcodeUser() {
+		global $FapiPlugin;
 
-	$u = wp_get_current_user();
-	if ( $u instanceof WP_User && is_user_logged_in() ) {
-		return '
+		$u = wp_get_current_user();
+		if ( $u instanceof WP_User && is_user_logged_in() ) {
+			return '
         <div class="fapiShortcodeUser">
             <span class="i">
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -421,15 +421,15 @@ function shortcodeUser() {
             </div>
         </div>    
     ';
-	} else {
-		$setLoginPageId = $FapiPlugin->getSetting( 'login_page_id' );
-		if ( $setLoginPageId === null ) {
-			$url = wp_login_url();
 		} else {
-			$url = get_permalink( $setLoginPageId );
-		}
+			$setLoginPageId = $FapiPlugin->getSetting( 'login_page_id' );
+			if ( $setLoginPageId === null ) {
+				$url = wp_login_url();
+			} else {
+				$url = get_permalink( $setLoginPageId );
+			}
 
-		return '
+			return '
         <div class="fapiShortcodeUser notLogged">
             <span class="i">
                 <svg id="bold" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="m18.75 9h-.75v-3c0-3.309-2.691-6-6-6s-6 2.691-6 6v3h-.75c-1.24 0-2.25 1.009-2.25 2.25v10.5c0 1.241 1.01 2.25 2.25 2.25h13.5c1.24 0 2.25-1.009 2.25-2.25v-10.5c0-1.241-1.01-2.25-2.25-2.25zm-10.75-3c0-2.206 1.794-4 4-4s4 1.794 4 4v3h-8zm5 10.722v2.278c0 .552-.447 1-1 1s-1-.448-1-1v-2.278c-.595-.347-1-.985-1-1.722 0-1.103.897-2 2-2s2 .897 2 2c0 .737-.405 1.375-1 1.722z"/></svg>
@@ -437,24 +437,35 @@ function shortcodeUser() {
             <span class="l"><a href="' . $url . '">Přihlásit se</a></span>
         </div>
         ';
+		}
 	}
-}
 
-function formStart( $hook, $formClasses = [] ) {
-	$class = ( empty( $formClasses ) ) ? '' : sprintf( ' class="%s"', join( ' ', $formClasses ) );
+	public static function formStart( $hook, $formClasses = [] ) {
+		$class = ( empty( $formClasses ) ) ? '' : sprintf( ' class="%s"', join( ' ', $formClasses ) );
 
-	return '
+		return '
     <form ' . $class . ' method="post" action="' . admin_url( 'admin-post.php' ) . '">
         <input type="hidden" name="action" value="fapi_member_' . $hook . '">
         <input type="hidden" name="fapi_member_' . $hook . '_nonce"
                value="' . wp_create_nonce( 'fapi_member_' . $hook . '_nonce' ) . '">
     ';
-}
+	}
 
-function resolutionMessage() {
-	return '<p class="resolutionAlert">Tento doplněk není optimalizován pro telefony a malé monitory.</p>';
-}
+	public static function resolutionMessage() {
+		return '<p class="resolutionAlert">Tento doplněk není optimalizován pro telefony a malé monitory.</p>';
+	}
 
-function heading() {
-	return sprintf( '%s<div class="baseGrid">%s%s%s', resolutionMessage(), h1(), nav(), submenu() );
+	public static function heading() {
+		return sprintf( '%s<div class="baseGrid">%s%s%s',
+		                FapiMemberTools::resolutionMessage(),
+		                self::h1(),
+		                FapiMemberTools::nav(),
+		                FapiMemberTools::submenu() );
+	}
+
+	public static function h1() {
+		$svg = file_get_contents( __DIR__ . '/../_sources/LOGO_FAPI_svg.svg' );
+
+		return sprintf( '<div class="h1">%s</div>', $svg );
+	}
 }
