@@ -72,13 +72,13 @@ echo FapiMemberTools::heading();
 			$empty = false;
 			?>
             <div>
-                <div class="name"><?php echo  $level->name ?></div>
+                <div class="name"><?php echo $level->name ?></div>
                 <div class="levelCount">Počet
-                    úrovní: <?php echo  ( isset( $levelCount[ $level->term_id ] ) ) ? $levelCount[ $level->term_id ] : 0 ?></div>
+                    úrovní: <?php echo ( isset( $levelCount[ $level->term_id ] ) ) ? $levelCount[ $level->term_id ] : 0 ?></div>
                 <div class="membersCount">Počet
-                    registrovaných: <?php echo  ( isset( $levelUsersCount[ $level->term_id ] ) ) ? $levelUsersCount[ $level->term_id ] : 0 ?></div>
+                    registrovaných: <?php echo ( isset( $levelUsersCount[ $level->term_id ] ) ) ? $levelUsersCount[ $level->term_id ] : 0 ?></div>
                 <div class="pagesCount">Stránek v celé
-                    sekci: <?php echo  ( isset( $pagesCount[ $level->term_id ] ) ) ? $pagesCount[ $level->term_id ] : 0 ?></div>
+                    sekci: <?php echo ( isset( $pagesCount[ $level->term_id ] ) ) ? $pagesCount[ $level->term_id ] : 0 ?></div>
             </div>
 		<?php } ?>
 
@@ -86,12 +86,13 @@ echo FapiMemberTools::heading();
 	<?php if ( $empty ) { ?>
 
         <div class="emptyIndex">
-            <img src="<?php echo  plugin_dir_url( __FILE__ ) . '../media/membership.svg' ?>">
+            <img src="<?php echo plugin_dir_url( __FILE__ ) . '../media/membership.svg' ?>">
             <p class="gray">
                 Nemáte vytvořenou žádnou členskou sekci.<br>
                 Novou sekci můžete vytvořit na záložce Sekce / úrovně.
             </p>
-            <a href="<?php echo FapiMemberTools::fapilink( 'settingsSectionNew' ) ?>" class="btn primary">Přejít do záložky Sekce / úrovně</a>
+            <a href="<?php echo FapiMemberTools::fapilink( 'settingsSectionNew' ) ?>" class="btn primary">Přejít do
+                záložky Sekce / úrovně</a>
         </div>
 
 	<?php } ?>

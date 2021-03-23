@@ -15,7 +15,7 @@ echo FapiMemberTools::heading();
         <div class="b">
             <div>
 				<?php
-				$level = ( isset( $_GET['level'] ) ) ? FapiMemberTools::sanitizeLevelId($_GET['level']) : null;
+				$level = ( isset( $_GET['level'] ) ) ? FapiMemberTools::sanitizeLevelId( $_GET['level'] ) : null;
 				if ( $level === null ) {
 					echo '<p>Zvolte prosím sekci/úroveň vlevo.</p>';
 				} else {
@@ -47,7 +47,7 @@ echo FapiMemberTools::heading();
 						?>
                         <div class="oneEmail">
                             <div class="header">
-                                <h3><?php echo  $title ?></h3>
+                                <h3><?php echo $title ?></h3>
                                 <span class="carret"></span>
                             </div>
                             <div class="body">
@@ -60,32 +60,32 @@ echo FapiMemberTools::heading();
 								}
 								?>
 								<?php echo FapiMemberTools::formStart( 'edit_email' ) ?>
-                                <input type="hidden" name="level_id" value="<?php echo  $level ?>">
-                                <input type="hidden" name="email_type" value="<?php echo  $key ?>">
+                                <input type="hidden" name="level_id" value="<?php echo $level ?>">
+                                <input type="hidden" name="email_type" value="<?php echo $key ?>">
 								<?php if ( ! $isSection ) { ?>
                                     <div class="row">
-                                        <label for="SpecifyLevelEmails[<?php echo  $key ?>]">
-                                            <input type="checkbox" id="SpecifyLevelEmails[<?php echo  $key ?>]"
+                                        <label for="SpecifyLevelEmails[<?php echo $key ?>]">
+                                            <input type="checkbox" id="SpecifyLevelEmails[<?php echo $key ?>]"
                                                    class="specifyLevelEmailCheckbox"
-												<?php echo  ( $hasContentSet ) ? 'checked' : '' ?>
+												<?php echo ( $hasContentSet ) ? 'checked' : '' ?>
                                             >
                                             Nastavit vlastní e-mail pro úroveň
                                         </label>
                                     </div>
 								<?php } ?>
-                                <div class="inputs <?php echo  ( $hasContentSet || $isSection ) ? '' : 'collapsed' ?>">
+                                <div class="inputs <?php echo ( $hasContentSet || $isSection ) ? '' : 'collapsed' ?>">
                                     <div class="row">
                                         <label for="mail_subject">Předmět e-mailu</label>
                                         <input type="text" name="mail_subject" id="mail_subject"
-											<?php echo  ( $emailIsCascaded ) ? 'readonly' : '' ?>
-											<?php echo  ( $hasContentSet ) ? sprintf( 'value="%s"',
-											                                  $templates[ $key ]['s'] ) : '' ?>
+											<?php echo ( $emailIsCascaded ) ? 'readonly' : '' ?>
+											<?php echo ( $hasContentSet ) ? sprintf( 'value="%s"',
+											                                         $templates[ $key ]['s'] ) : '' ?>
                                         >
                                     </div>
                                     <div class="row">
                                         <label for="mail_body">Obsah e-mailu</label>
                                         <textarea name="mail_body"
-                                                  id="mail_body" <?php echo  ( $emailIsCascaded ) ? 'readonly' : '' ?>><?php echo  ( $hasContentSet ) ? $templates[ $key ]['b'] : '' ?></textarea>
+                                                  id="mail_body" <?php echo ( $emailIsCascaded ) ? 'readonly' : '' ?>><?php echo ( $hasContentSet ) ? $templates[ $key ]['b'] : '' ?></textarea>
                                     </div>
                                     <div class="row controls">
                                         <input type="submit" class="primary" value="Uložit">

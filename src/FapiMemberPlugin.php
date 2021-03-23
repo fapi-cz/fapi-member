@@ -389,7 +389,7 @@ class FapiMemberPlugin {
 			return false;
 		}
 
-		$data = $this->sanitizeLevels($_POST['Levels']);
+		$data = $this->sanitizeLevels( $_POST['Levels'] );
 
 		$memberships = [];
 		$levels      = $this->levels()->loadAsTerms();
@@ -431,56 +431,59 @@ class FapiMemberPlugin {
 		$this->fapiMembershipLoader()->saveForUser( $userId, $memberships );
 	}
 
-	protected function sanitizeLevels($levels)
-	{
-		if (!is_array($levels)) {
-			wp_die('Unknown input structure.');
+	protected function sanitizeLevels( $levels ) {
+		if ( ! is_array( $levels ) ) {
+			wp_die( 'Unknown input structure.' );
 		}
-		$levels = array_filter($levels, function ($one) {
-			return (isset( $one['check'] ) && $one['check'] === 'on');
-		});
-		$levels = array_filter($levels, function ($one) {
-			return (isset( $one['registrationDate'] ) && isset( $one['registrationTime'] ) && isset($one['membershipUntil']));
-		});
-		$levels = array_map(function($one) {
-			$n = [];
-			$n['registrationDate'] = $this->sanitizeDate($one['registrationDate']);
-			$n['membershipUntil'] = $this->sanitizeDate($one['membershipUntil']);
-			$n['registrationTime'] = $this->sanitizeTime($one['registrationTime']);
+		$levels = array_filter( $levels,
+			function ( $one ) {
+				return ( isset( $one['check'] ) && $one['check'] === 'on' );
+			} );
+		$levels = array_filter( $levels,
+			function ( $one ) {
+				return ( isset( $one['registrationDate'] ) && isset( $one['registrationTime'] ) && isset( $one['membershipUntil'] ) );
+			} );
+		$levels = array_map( function ( $one ) {
+			$n                     = [];
+			$n['registrationDate'] = $this->sanitizeDate( $one['registrationDate'] );
+			$n['membershipUntil']  = $this->sanitizeDate( $one['membershipUntil'] );
+			$n['registrationTime'] = $this->sanitizeTime( $one['registrationTime'] );
+
 			return $one;
-		}, $levels);
+		},
+			$levels );
 
 		return $levels;
 	}
 
-	protected function sanitizeDate($dateStr)
-	{
+	protected function sanitizeDate( $dateStr ) {
 		$f = 'Y-m-d';
-		$d = \DateTime::createFromFormat($f, $dateStr);
-		if ($d === false) {
+		$d = \DateTime::createFromFormat( $f, $dateStr );
+		if ( $d === false ) {
 			return null;
 		}
-		return $d->format($f);
+
+		return $d->format( $f );
 	}
 
-	protected function sanitizeTime($timeStr)
-	{
+	protected function sanitizeTime( $timeStr ) {
 		// expects 07:00 HH:MM
-		if (strpos($timeStr, ':') < 1) {
+		if ( strpos( $timeStr, ':' ) < 1 ) {
 			return null;
 		}
-		$parts = explode(':', $timeStr);
-		if (count($parts) !== 2) {
+		$parts = explode( ':', $timeStr );
+		if ( count( $parts ) !== 2 ) {
 			return null;
 		}
-		if (!is_numeric($parts[0]) || !is_numeric($parts[1])) {
+		if ( ! is_numeric( $parts[0] ) || ! is_numeric( $parts[1] ) ) {
 			return null;
 		}
-		$h = (int)$parts[0];
-		$m = (int)$parts[1];
-		if ($h < 0 || $h > 23 || $m < 0 || $m > 59) {
+		$h = (int) $parts[0];
+		$m = (int) $parts[1];
+		if ( $h < 0 || $h > 23 || $m < 0 || $m > 59 ) {
 			return null;
 		}
+
 		return $timeStr;
 	}
 
@@ -742,14 +745,13 @@ class FapiMemberPlugin {
 	public function addPublicScripts() {
 		$this->registerPublicStyles();
 		wp_enqueue_style( 'fapi-member-public-style' );
-		if (defined('FAPI_SHOWING_LEVEL_SELECTON')) {
+		if ( defined( 'FAPI_SHOWING_LEVEL_SELECTON' ) ) {
 			wp_register_style(
 				'fapi-member-public-levelselection-font',
 				'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap'
 			);
 			wp_enqueue_style( 'fapi-member-public-levelselection-font' );
 		}
-
 	}
 
 	public function addAdminMenu() {
@@ -759,7 +761,8 @@ class FapiMemberPlugin {
 			self::REQUIRED_CAPABILITY,
 			'fapi-member-options',
 			[ $this, 'constructAdminMenu' ],
-			sprintf('data:image/svg+xml;base64,%s', base64_encode(file_get_contents(__DIR__.'/../_sources/F_fapi.svg'))),
+			sprintf( 'data:image/svg+xml;base64,%s',
+			         base64_encode( file_get_contents( __DIR__ . '/../_sources/F_fapi.svg' ) ) ),
 			81
 		);
 	}
@@ -800,21 +803,22 @@ class FapiMemberPlugin {
 	}
 
 	public function findSubpage() {
-		$subpage = (isset($_GET['subpage'])) ? $this->sanitizeSubpage($_GET['subpage']) : null;
-		if (!$subpage) {
+		$subpage = ( isset( $_GET['subpage'] ) ) ? $this->sanitizeSubpage( $_GET['subpage'] ) : null;
+		if ( ! $subpage ) {
 			return 'index';
 		}
+
 		return $subpage;
 	}
 
-	protected function sanitizeSubpage($subpage)
-	{
-		if (!is_string($subpage) || strlen($subpage) < 1) {
+	protected function sanitizeSubpage( $subpage ) {
+		if ( ! is_string( $subpage ) || strlen( $subpage ) < 1 ) {
 			return null;
 		}
-		if (!method_exists( $this, sprintf( 'show%s', ucfirst( $subpage ) ) )) {
+		if ( ! method_exists( $this, sprintf( 'show%s', ucfirst( $subpage ) ) ) ) {
 			return null;
 		}
+
 		return $subpage;
 	}
 
@@ -914,7 +918,7 @@ class FapiMemberPlugin {
 		$lowerHtml = [];
 		foreach ( $lower as $l ) {
 			$checked = ( isset( $memberships[ $l->term_id ] ) ) ? 'checked' : '';
-			if ( isset($memberships[ $l->term_id ]) && $memberships[ $l->term_id ]->registered !== null ) {
+			if ( isset( $memberships[ $l->term_id ] ) && $memberships[ $l->term_id ]->registered !== null ) {
 				$reg     = $memberships[ $l->term_id ]->registered;
 				$regDate = sprintf( 'value="%s"', $reg->format( 'Y-m-d' ) );
 				$regTime = sprintf( 'value="%s"', $reg->format( 'H:i' ) );
@@ -922,7 +926,7 @@ class FapiMemberPlugin {
 				$regDate = '';
 				$regTime = '';
 			}
-			if ( isset($memberships[ $l->term_id ]->until) && $memberships[ $l->term_id ]->until !== null ) {
+			if ( isset( $memberships[ $l->term_id ]->until ) && $memberships[ $l->term_id ]->until !== null ) {
 				$untilDate = sprintf( 'value="%s"', $memberships[ $l->term_id ]->until->format( 'Y-m-d' ) );
 			} else {
 				$untilDate = '';
@@ -959,13 +963,13 @@ class FapiMemberPlugin {
 				$untilDate,
 				$l->term_id,
 				$l->term_id,
-				( isset($memberships[ $l->term_id ]->isUnlimited) && $memberships[ $l->term_id ]->isUnlimited ) ? 'checked' : ''
+				( isset( $memberships[ $l->term_id ]->isUnlimited ) && $memberships[ $l->term_id ]->isUnlimited ) ? 'checked' : ''
 			);
 		}
 
 		$checked     = ( isset( $memberships[ $level->term_id ] ) ) ? 'checked' : '';
 		$isUnlimited = ( isset( $memberships[ $level->term_id ] ) && $memberships[ $level->term_id ]->isUnlimited ) ? 'checked' : '';
-		if ( isset($memberships[ $level->term_id ]->registered) && $memberships[ $level->term_id ]->registered !== null ) {
+		if ( isset( $memberships[ $level->term_id ]->registered ) && $memberships[ $level->term_id ]->registered !== null ) {
 			$reg     = $memberships[ $level->term_id ]->registered;
 			$regDate = sprintf( 'value="%s"', $reg->format( 'Y-m-d' ) );
 			$regTime = sprintf( 'value="%s"', $reg->format( 'H:i' ) );
@@ -973,7 +977,7 @@ class FapiMemberPlugin {
 			$regDate = '';
 			$regTime = '';
 		}
-		if ( isset($memberships[ $level->term_id ]->until) && $memberships[ $level->term_id ]->until !== null ) {
+		if ( isset( $memberships[ $level->term_id ]->until ) && $memberships[ $level->term_id ]->until !== null ) {
 			$untilDate = sprintf( 'value="%s"', $memberships[ $level->term_id ]->until->format( 'Y-m-d' ) );
 		} else {
 			$untilDate = '';
@@ -1132,7 +1136,7 @@ class FapiMemberPlugin {
 			wp_redirect( get_permalink( $page ) );
 			exit;
 		}
-		define('FAPI_SHOWING_LEVEL_SELECTON', 1);
+		define( 'FAPI_SHOWING_LEVEL_SELECTON', 1 );
 		include( __DIR__ . '/../templates/levelSelection.php' );
 		exit;
 	}

@@ -2,44 +2,42 @@
 
 class FapiMemberTools {
 
-    private static $errorMap = [
-	    'apiFormEmpty'                => [ 'error', 'Je třeba zadat jak uživatelské jméno, tak API klíč.' ],
-	    'apiFormSuccess'              => [ 'success', 'Údaje pro API uloženy.' ],
-	    'apiFormError'                => [ 'error', 'Neplatné údaje pro API.' ],
-	    'sectionNameEmpty'            => [ 'error', 'Název sekce je povinný.' ],
-	    'levelNameOrParentEmpty'      => [ 'error', 'Název úrovně a výběr sekce je povinný.' ],
-	    'sectionNotFound'             => [ 'error', 'Sekce nenalezena.' ],
-	    'removeLevelSuccessful'       => [ 'success', 'Sekce/úroveň smazána.' ],
-	    'editLevelSuccessful'         => [ 'success', 'Sekce/úroveň upravena.' ],
-	    'levelIdOrToAddEmpty'         => [ 'error', 'Zvolte prosím úroveň a stránky k přidání.' ],
-	    'editLevelNoName'             => [ 'error', 'Chyba změny sekce/úrovně.' ],
-	    'editMailsRemoved'            => [ 'success', 'Šablona emailu byla odebrána.' ],
-	    'editMailsUpdated'            => [ 'success', 'Šablona emailu byla upravena.' ],
-	    'editOtherPagesRemoved'       => [ 'success', 'Ostatní stránka byla odebrána.' ],
-	    'editOtherPagesUpdated'       => [ 'success', 'Ostatní stránka byla nastavena.' ],
-	    'settingsSettingsUpdated'     => [ 'success', 'Nastavení uložena.' ],
-	    'settingsSettingsNoValidPage' => [ 'error', 'Stránka nenalezena.' ],
-    ];
+	private static $errorMap = [
+		'apiFormEmpty'                => [ 'error', 'Je třeba zadat jak uživatelské jméno, tak API klíč.' ],
+		'apiFormSuccess'              => [ 'success', 'Údaje pro API uloženy.' ],
+		'apiFormError'                => [ 'error', 'Neplatné údaje pro API.' ],
+		'sectionNameEmpty'            => [ 'error', 'Název sekce je povinný.' ],
+		'levelNameOrParentEmpty'      => [ 'error', 'Název úrovně a výběr sekce je povinný.' ],
+		'sectionNotFound'             => [ 'error', 'Sekce nenalezena.' ],
+		'removeLevelSuccessful'       => [ 'success', 'Sekce/úroveň smazána.' ],
+		'editLevelSuccessful'         => [ 'success', 'Sekce/úroveň upravena.' ],
+		'levelIdOrToAddEmpty'         => [ 'error', 'Zvolte prosím úroveň a stránky k přidání.' ],
+		'editLevelNoName'             => [ 'error', 'Chyba změny sekce/úrovně.' ],
+		'editMailsRemoved'            => [ 'success', 'Šablona emailu byla odebrána.' ],
+		'editMailsUpdated'            => [ 'success', 'Šablona emailu byla upravena.' ],
+		'editOtherPagesRemoved'       => [ 'success', 'Ostatní stránka byla odebrána.' ],
+		'editOtherPagesUpdated'       => [ 'success', 'Ostatní stránka byla nastavena.' ],
+		'settingsSettingsUpdated'     => [ 'success', 'Nastavení uložena.' ],
+		'settingsSettingsNoValidPage' => [ 'error', 'Stránka nenalezena.' ],
+	];
 
 	public static function showErrors() {
-
-
 		$errorKey = self::findValidErrorKey();
 
 		if ( $errorKey ) {
-			$e = self::$errorMap[ $errorKey];
+			$e = self::$errorMap[ $errorKey ];
 
 			return sprintf( '<div class="notice notice-%s is-dismissible"><p>%s</p></div>', $e[0], $e[1] );
 		}
 	}
 
-	protected static function findValidErrorKey()
-    {
-        if (isset($_GET['e']) && is_string($_GET['e']) && isset(self::$errorMap[$_GET['e']])) {
-            return $_GET['e'];
-        }
-        return null;
-    }
+	protected static function findValidErrorKey() {
+		if ( isset( $_GET['e'] ) && is_string( $_GET['e'] ) && isset( self::$errorMap[ $_GET['e'] ] ) ) {
+			return $_GET['e'];
+		}
+
+		return null;
+	}
 
 	public static function nav() {
 		global $FapiPlugin;
@@ -146,7 +144,7 @@ class FapiMemberTools {
 			$classes[] = 'active';
 		}
 
-		$level = (isset( $_GET['level'])) ? self::sanitizeLevelId($_GET['level']) : null;
+		$level = ( isset( $_GET['level'] ) ) ? self::sanitizeLevelId( $_GET['level'] ) : null;
 
 		if ( $level ) {
 			$tail = sprintf( '&level=%s', $level );
@@ -161,18 +159,18 @@ class FapiMemberTools {
 		                $label );
 	}
 
-	public static function sanitizeLevelId($levelId)
-    {
-	    global $FapiPlugin;
-        if (!is_numeric($levelId)) {
-            return null;
-        }
-	    $t = $FapiPlugin->levels()->loadById($levelId);
-        if (!$t) {
-            return null;
-        }
-        return $levelId;
-    }
+	public static function sanitizeLevelId( $levelId ) {
+		global $FapiPlugin;
+		if ( ! is_numeric( $levelId ) ) {
+			return null;
+		}
+		$t = $FapiPlugin->levels()->loadById( $levelId );
+		if ( ! $t ) {
+			return null;
+		}
+
+		return $levelId;
+	}
 
 	public static function help() {
 		return '
@@ -270,7 +268,7 @@ class FapiMemberTools {
 		$subpage = $FapiPlugin->findSubpage();
 
 		$subpage  = ( $subpage === 'settingsContentSelect' ) ? 'settingsContentRemove' : $subpage;
-		$selected = ( isset( $_GET['level'] ) ) ? self::sanitizeLevelId($_GET['level']) : null;
+		$selected = ( isset( $_GET['level'] ) ) ? self::sanitizeLevelId( $_GET['level'] ) : null;
 
 		$t = $FapiPlugin->levels()->loadAsTerms();
 
@@ -314,7 +312,7 @@ class FapiMemberTools {
 		$subpage = $FapiPlugin->findSubpage();
 
 		$subpage  = ( $subpage === 'settingsContentSelect' ) ? 'settingsContentRemove' : $subpage;
-		$selected = ( isset( $_GET['level'] ) ) ? self::sanitizeLevelId($_GET['level']) : null;
+		$selected = ( isset( $_GET['level'] ) ) ? self::sanitizeLevelId( $_GET['level'] ) : null;
 
 		$t = $FapiPlugin->levels()->loadAsTerms();
 

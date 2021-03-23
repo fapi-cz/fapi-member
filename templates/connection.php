@@ -25,7 +25,7 @@ echo FapiMemberTools::heading();
     </form>
     <p>
         Stav propojení:
-		<?php echo  ( $FapiPlugin->recheckApiCredentials() ) ? '<span class="ok">propojeno</span>' : '<span class="ng">nepropojeno</span>' ?>
+		<?php echo ( $FapiPlugin->recheckApiCredentials() ) ? '<span class="ok">propojeno</span>' : '<span class="ng">nepropojeno</span>' ?>
         .
     </p>
 </div>

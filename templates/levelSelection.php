@@ -5,9 +5,9 @@
         <meta name="viewport"
               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title><?php echo  bloginfo( 'name' ) ?> Výběr úrovně</title>
+        <title><?php echo bloginfo( 'name' ) ?> Výběr úrovně</title>
         <link rel="preconnect" href="https://fonts.gstatic.com">
-        <?php wp_head() ?>
+		<?php wp_head() ?>
     </head>
     <body class="FapiLevelSelection">
         <div id="Wrapper">
@@ -42,12 +42,12 @@
 							echo '<div class="thumbPlaceholder"></div>';
 						}
 						?>
-                        <h3><?php echo  get_the_title( $post ) ?></h3>
+                        <h3><?php echo get_the_title( $post ) ?></h3>
                         <p>
-							<?php echo  $excerpt ?>
+							<?php echo $excerpt ?>
                         </p>
                         <div class="actions">
-                            <a href="<?php echo  get_permalink( $post ) ?>">Vstoupit</a>
+                            <a href="<?php echo get_permalink( $post ) ?>">Vstoupit</a>
                         </div>
                     </div>
 				<?php } ?>

@@ -15,7 +15,7 @@ echo FapiMemberTools::heading();
         <div class="b">
             <div>
 				<?php
-				$level = ( isset( $_GET['level'] ) ) ? FapiMemberTools::sanitizeLevelId($_GET['level']) : null;
+				$level = ( isset( $_GET['level'] ) ) ? FapiMemberTools::sanitizeLevelId( $_GET['level'] ) : null;
 				if ( $level === null ) {
 					echo '<p>Zvolte prosím sekci/úroveň vlevo.</p>';
 				} else {
@@ -51,12 +51,12 @@ echo FapiMemberTools::heading();
 						$currentPageId = isset( $currentOtherPages[ $key ] ) ? $currentOtherPages[ $key ] : null;
 						?>
                         <div class="onePageOther">
-                            <h3><?php echo  $setting['t'] ?></h3>
-                            <p><?php echo  $setting['d'] ?></p>
+                            <h3><?php echo $setting['t'] ?></h3>
+                            <p><?php echo $setting['d'] ?></p>
 
 							<?php echo FapiMemberTools::formStart( 'set_other_page' ) ?>
-                            <input type="hidden" name="level_id" value="<?php echo  $level ?>">
-                            <input type="hidden" name="page_type" value="<?php echo  $key ?>">
+                            <input type="hidden" name="level_id" value="<?php echo $level ?>">
+                            <input type="hidden" name="page_type" value="<?php echo $key ?>">
                             <div class="row submitInline">
                                 <label for="page">Vyberte stránku</label>
                                 <select type="text" name="page" id="page">
