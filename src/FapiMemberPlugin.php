@@ -861,10 +861,6 @@ class FapiMemberPlugin {
 		$this->showTemplate( 'settingsSettings' );
 	}
 
-	protected function showHelp() {
-		$this->showTemplate( 'help' );
-	}
-
 	protected function showSettingsPages() {
 		$this->showTemplate( 'settingsPages' );
 	}
