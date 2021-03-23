@@ -15,7 +15,7 @@ echo FapiMemberTools::heading();
         <div class="b">
             <div>
 				<?php
-				$level = ( isset( $_GET['level'] ) ) ? $_GET['level'] : null;
+				$level = ( isset( $_GET['level'] ) ) ? FapiMemberTools::sanitizeLevelId($_GET['level']) : null;
 				if ( $level === null ) {
 					echo '<p>Zvolte prosím sekci/úroveň vlevo.</p>';
 				} else {

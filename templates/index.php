@@ -48,16 +48,16 @@ echo FapiMemberTools::heading();
 			/** @var FapiMembership[] $ms */
 			{
 				foreach ( $ms as $m ) {
-					if ( ! isset( $usersInLevel[ $m->levelId ] ) ) {
-						$usersInLevel[ $m->levelId ] = [];
+					if ( ! isset( $usersInLevel[ $m->level ] ) ) {
+						$usersInLevel[ $m->level ] = [];
 					}
-					$usersInLevel[ $m->levelId ][ $userId ] = true;
-					if ( isset( $mapToParent[ $m->levelId ] ) && $mapToParent[ $m->levelId ] !== 0 ) {
+					$usersInLevel[ $m->level ][ $userId ] = true;
+					if ( isset( $mapToParent[ $m->level ] ) && $mapToParent[ $m->level ] !== 0 ) {
 						// is child, count unique to parent too
-						if ( ! isset( $carry[ $mapToParent[ $m->levelId ] ] ) ) {
-							$carry[ $mapToParent[ $m->levelId ] ] = [];
+						if ( ! isset( $carry[ $mapToParent[ $m->level ] ] ) ) {
+							$carry[ $mapToParent[ $m->level ] ] = [];
 						}
-						$carry[ $mapToParent[ $m->levelId ] ][ $userId ] = true;
+						$carry[ $mapToParent[ $m->level ] ][ $userId ] = true;
 					}
 				}
 			}
