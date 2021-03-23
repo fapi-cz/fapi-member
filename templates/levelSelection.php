@@ -7,8 +7,7 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title><?= bloginfo( 'name' ) ?> Výběr úrovně</title>
         <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="<?= plugin_dir_url( __DIR__ ) . '/../media/fapi-member-public.css' ?>">
+        <?php wp_head() ?>
     </head>
     <body class="FapiLevelSelection">
         <div id="Wrapper">

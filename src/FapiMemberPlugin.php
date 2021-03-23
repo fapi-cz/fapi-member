@@ -688,8 +688,15 @@ class FapiMemberPlugin {
 
 	public function addPublicScripts() {
 		$this->registerPublicStyles();
-
 		wp_enqueue_style( 'fapi-member-public-style' );
+		if (defined('FAPI_SHOWING_LEVEL_SELECTON')) {
+			wp_register_style(
+				'fapi-member-public-levelselection-font',
+				'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap'
+			);
+			wp_enqueue_style( 'fapi-member-public-levelselection-font' );
+		}
+
 	}
 
 	public function addAdminMenu() {
@@ -1050,17 +1057,18 @@ class FapiMemberPlugin {
 		},
 			$mem );
 		$pages = array_unique( array_filter( $pages ) );
-		if ( count( $pages ) === 0 ) {
+		if ( false && count( $pages ) === 0 ) {
 			// no afterLogin page set anywhere
 			return;
 		}
-		if ( count( $pages ) === 1 ) {
+		if ( false && count( $pages ) === 1 ) {
 			// exactly one afterLogin page
 			$f    = array_shift( $pages );
 			$page = get_post( $f );
 			wp_redirect( get_permalink( $page ) );
 			exit;
 		}
+		define('FAPI_SHOWING_LEVEL_SELECTON', 1);
 		include( __DIR__ . '/../templates/levelSelection.php' );
 		exit;
 	}
