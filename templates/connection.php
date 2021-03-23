@@ -8,7 +8,7 @@ echo heading();
 <div class="page">
     <h3>Propojení s Vaším účtem FAPI</h3>
 	<?php echo showErrors(); ?>
-	<?= formStart( 'api_credentials_submit' ) ?>
+	<?php echo  formStart( 'api_credentials_submit' ) ?>
     <div class="row">
         <label for="fapiMemberApiEmail">Uživatelské jméno (e-mail)</label>
         <input type="text" name="fapiMemberApiEmail" id="fapiMemberApiEmail" placeholder="me@example.com"
@@ -25,9 +25,9 @@ echo heading();
     </form>
     <p>
         Stav propojení:
-		<?= ( $FapiPlugin->recheckApiCredentials() ) ? '<span class="ok">propojeno</span>' : '<span class="ng">nepropojeno</span>' ?>
+		<?php echo  ( $FapiPlugin->recheckApiCredentials() ) ? '<span class="ok">propojeno</span>' : '<span class="ng">nepropojeno</span>' ?>
         .
     </p>
 </div>
-<?= help() ?>
+<?php echo  help() ?>
 </div>

@@ -10,7 +10,7 @@ echo heading();
         <div class="a">
             <h3>Struktura uzavřených sekcí a úrovní</h3>
 			<?php echo showErrors(); ?>
-			<?= levelsSelectionNonJs() ?>
+			<?php echo  levelsSelectionNonJs() ?>
         </div>
         <div class="b">
             <div>
@@ -51,17 +51,17 @@ echo heading();
 						$currentPageId = isset( $currentOtherPages[ $key ] ) ? $currentOtherPages[ $key ] : null;
 						?>
                         <div class="onePageOther">
-                            <h3><?= $setting['t'] ?></h3>
-                            <p><?= $setting['d'] ?></p>
+                            <h3><?php echo  $setting['t'] ?></h3>
+                            <p><?php echo  $setting['d'] ?></p>
 
-							<?= formStart( 'set_other_page' ) ?>
-                            <input type="hidden" name="level_id" value="<?= $level ?>">
-                            <input type="hidden" name="page_type" value="<?= $key ?>">
+							<?php echo  formStart( 'set_other_page' ) ?>
+                            <input type="hidden" name="level_id" value="<?php echo  $level ?>">
+                            <input type="hidden" name="page_type" value="<?php echo  $key ?>">
                             <div class="row submitInline">
                                 <label for="page">Vyberte stránku</label>
                                 <select type="text" name="page" id="page">
                                     <option value="">-- nevybírat</option>
-									<?= allPagesAsOptions( $currentPageId ) ?>
+									<?php echo  allPagesAsOptions( $currentPageId ) ?>
                                 </select>
                                 <input type="submit" class="primary" value="Uložit">
                             </div>

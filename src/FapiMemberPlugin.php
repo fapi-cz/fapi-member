@@ -1057,11 +1057,11 @@ class FapiMemberPlugin {
 		},
 			$mem );
 		$pages = array_unique( array_filter( $pages ) );
-		if ( false && count( $pages ) === 0 ) {
+		if ( count( $pages ) === 0 ) {
 			// no afterLogin page set anywhere
 			return;
 		}
-		if ( false && count( $pages ) === 1 ) {
+		if ( count( $pages ) === 1 ) {
 			// exactly one afterLogin page
 			$f    = array_shift( $pages );
 			$page = get_post( $f );

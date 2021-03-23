@@ -9,7 +9,7 @@ echo heading();
         <div class="a">
             <h3>Struktura uzavřených sekcí a úrovní</h3>
 			<?php echo showErrors(); ?>
-			<?= levelsSelection() ?>
+			<?php echo  levelsSelection() ?>
         </div>
         <div class="b">
         </div>

@@ -205,7 +205,7 @@ function levels() {
 	?>
     <div class="levels">
         <ol>
-			<?= join( '', $lis ) ?>
+			<?php echo  join( '', $lis ) ?>
         </ol>
     </div>
     <form method="post" action="<?php echo admin_url( 'admin-post.php' ); ?>" id="LevelRemoveForm">
@@ -276,7 +276,7 @@ function levelsSelection() {
 	?>
     <div class="levels">
         <ol>
-			<?= join( '', $lis ) ?>
+			<?php echo  join( '', $lis ) ?>
         </ol>
     </div>
 	<?php
@@ -320,7 +320,7 @@ function levelsSelectionNonJs() {
 	?>
     <div class="levelsNonJs">
         <ol>
-			<?= join( '', $lis ) ?>
+			<?php echo  join( '', $lis ) ?>
         </ol>
     </div>
 	<?php
