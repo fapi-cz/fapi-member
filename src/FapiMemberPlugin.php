@@ -389,7 +389,7 @@ class FapiMemberPlugin {
 			return false;
 		}
 
-		$data = $_POST['Levels'];
+		$data = $this->sanitizeLevels($_POST['Levels']);
 
 		$memberships = [];
 		$levels      = $this->levels()->loadAsTerms();
@@ -429,6 +429,59 @@ class FapiMemberPlugin {
 			}
 		}
 		$this->fapiMembershipLoader()->saveForUser( $userId, $memberships );
+	}
+
+	protected function sanitizeLevels($levels)
+	{
+		if (!is_array($levels)) {
+			wp_die('Unknown input structure.');
+		}
+		$levels = array_filter($levels, function ($one) {
+			return (isset( $one['check'] ) && $one['check'] === 'on');
+		});
+		$levels = array_filter($levels, function ($one) {
+			return (isset( $one['registrationDate'] ) && isset( $one['registrationTime'] ) && isset($one['membershipUntil']));
+		});
+		$levels = array_map(function($one) {
+			$n = [];
+			$n['registrationDate'] = $this->sanitizeDate($one['registrationDate']);
+			$n['membershipUntil'] = $this->sanitizeDate($one['membershipUntil']);
+			$n['registrationTime'] = $this->sanitizeTime($one['registrationTime']);
+			return $one;
+		}, $levels);
+
+		return $levels;
+	}
+
+	protected function sanitizeDate($dateStr)
+	{
+		$f = 'Y-m-d';
+		$d = \DateTime::createFromFormat($f, $dateStr);
+		if ($d === false) {
+			return null;
+		}
+		return $d->format($f);
+	}
+
+	protected function sanitizeTime($timeStr)
+	{
+		// expects 07:00 HH:MM
+		if (strpos($timeStr, ':') < 1) {
+			return null;
+		}
+		$parts = explode(':', $timeStr);
+		if (count($parts) !== 2) {
+			return null;
+		}
+		if (!is_numeric($parts[0]) || !is_numeric($parts[1])) {
+			return null;
+		}
+		$h = (int)$parts[0];
+		$m = (int)$parts[1];
+		if ($h < 0 || $h > 23 || $m < 0 || $m > 59) {
+			return null;
+		}
+		return $timeStr;
 	}
 
 	protected function verifyNonceAndCapability( $hook ) {
@@ -850,7 +903,7 @@ class FapiMemberPlugin {
 		$lowerHtml = [];
 		foreach ( $lower as $l ) {
 			$checked = ( isset( $memberships[ $l->term_id ] ) ) ? 'checked' : '';
-			if ( $memberships[ $l->term_id ]->registered !== null ) {
+			if ( isset($memberships[ $l->term_id ]) && $memberships[ $l->term_id ]->registered !== null ) {
 				$reg     = $memberships[ $l->term_id ]->registered;
 				$regDate = sprintf( 'value="%s"', $reg->format( 'Y-m-d' ) );
 				$regTime = sprintf( 'value="%s"', $reg->format( 'H:i' ) );
@@ -858,7 +911,7 @@ class FapiMemberPlugin {
 				$regDate = '';
 				$regTime = '';
 			}
-			if ( $memberships[ $l->term_id ]->until !== null ) {
+			if ( isset($memberships[ $l->term_id ]->until) && $memberships[ $l->term_id ]->until !== null ) {
 				$untilDate = sprintf( 'value="%s"', $memberships[ $l->term_id ]->until->format( 'Y-m-d' ) );
 			} else {
 				$untilDate = '';
@@ -895,13 +948,13 @@ class FapiMemberPlugin {
 				$untilDate,
 				$l->term_id,
 				$l->term_id,
-				( $memberships[ $l->term_id ]->isUnlimited ) ? 'checked' : ''
+				( isset($memberships[ $l->term_id ]->isUnlimited) && $memberships[ $l->term_id ]->isUnlimited ) ? 'checked' : ''
 			);
 		}
 
 		$checked     = ( isset( $memberships[ $level->term_id ] ) ) ? 'checked' : '';
 		$isUnlimited = ( isset( $memberships[ $level->term_id ] ) && $memberships[ $level->term_id ]->isUnlimited ) ? 'checked' : '';
-		if ( $memberships[ $level->term_id ]->registered !== null ) {
+		if ( isset($memberships[ $level->term_id ]->registered) && $memberships[ $level->term_id ]->registered !== null ) {
 			$reg     = $memberships[ $level->term_id ]->registered;
 			$regDate = sprintf( 'value="%s"', $reg->format( 'Y-m-d' ) );
 			$regTime = sprintf( 'value="%s"', $reg->format( 'H:i' ) );
@@ -909,7 +962,7 @@ class FapiMemberPlugin {
 			$regDate = '';
 			$regTime = '';
 		}
-		if ( $memberships[ $level->term_id ]->until !== null ) {
+		if ( isset($memberships[ $level->term_id ]->until) && $memberships[ $level->term_id ]->until !== null ) {
 			$untilDate = sprintf( 'value="%s"', $memberships[ $level->term_id ]->until->format( 'Y-m-d' ) );
 		} else {
 			$untilDate = '';
