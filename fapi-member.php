@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       FAPI Member
  * Description:       FAPI plugin for membership management and access control.
- * Version:           1.1.1
+ * Version:           1.1.2
  * Requires at least: 5.2
  * Requires PHP:      5.6
  * Author:            FAPI
@@ -14,9 +14,10 @@
 
 include __DIR__ . '/src/FapiMemberPlugin.php';
 include __DIR__ . '/src/FapiLevels.php';
-include __DIR__ . '/src/UserUtils.php';
+include __DIR__ . '/src/FapiUserUtils.php';
 include __DIR__ . '/src/FapiMembership.php';
 include __DIR__ . '/src/FapiMembershipLoader.php';
 include __DIR__ . '/src/FapiApi.php';
+include __DIR__ . '/src/FapiSanitization.php';
 
 $FapiPlugin = new FapiMemberPlugin();

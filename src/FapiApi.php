@@ -29,7 +29,7 @@ class FapiApi {
 
 	public function checkCredentials() {
 		$resp = wp_remote_request(
-			sprintf( '%s/', self::FAPI_API_URL ),
+			sprintf( '%s', self::FAPI_API_URL ),
 			[
 				'method'  => 'GET',
 				'headers' => $this->createHeaders()

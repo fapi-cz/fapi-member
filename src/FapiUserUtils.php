@@ -1,7 +1,7 @@
 <?php
 
 
-class UserUtils {
+class FapiUserUtils {
 	public function createUser( $email, &$props ) {
 		$user = get_user_by( 'email', $email );
 		if ( $user !== false ) {

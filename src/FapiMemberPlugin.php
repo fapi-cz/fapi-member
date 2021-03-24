@@ -4,7 +4,8 @@
 class FapiMemberPlugin {
 	private $errorBasket = [];
 	private $fapiLevels = null;
-	private $userUtils = null;
+	private $fapiSanitization = null;
+	private $fapiUserUtils = null;
 	private $fapiMembershipLoader = null;
 	private $fapiApi = null;
 
@@ -33,12 +34,20 @@ class FapiMemberPlugin {
 		return $this->fapiLevels;
 	}
 
-	public function userUtils() {
-		if ( $this->userUtils === null ) {
-			$this->userUtils = new UserUtils();
+	public function sanitization() {
+		if ( $this->fapiSanitization === null ) {
+			$this->fapiSanitization = new FapiSanitization( $this->levels() );
 		}
 
-		return $this->userUtils;
+		return $this->fapiSanitization;
+	}
+
+	public function userUtils() {
+		if ( $this->fapiUserUtils === null ) {
+			$this->fapiUserUtils = new FapiUserUtils();
+		}
+
+		return $this->fapiUserUtils;
 	}
 
 	public function fapiMembershipLoader() {
@@ -361,8 +370,10 @@ class FapiMemberPlugin {
 	public function handleApiCredentialsSubmit() {
 		$this->verifyNonceAndCapability( 'api_credentials_submit' );
 
-		$apiEmail = $this->sanitizeSingleInput( self::OPTION_KEY_API_USER );
-		$apiKey   = $this->sanitizeSingleInput( self::OPTION_KEY_API_KEY );
+		$apiEmail = $this->sanitization()->loadPostValue( self::OPTION_KEY_API_USER,
+		                                                  [ $this->sanitization(), FapiSanitization::ANY_STRING ] );
+		$apiKey   = $this->sanitization()->loadPostValue( self::OPTION_KEY_API_KEY,
+		                                                  [ $this->sanitization(), FapiSanitization::ANY_STRING ] );
 
 		if ( $apiKey === null || $apiEmail === null ) {
 			$this->redirect( 'connection', 'apiFormEmpty' );
@@ -501,27 +512,11 @@ class FapiMemberPlugin {
 		}
 	}
 
-	protected function sanitizeSingleInput( $key, $type = 'string', $method = 'POST' ) {
-		switch ( $method ) {
-			case 'POST':
-				$o = ( isset( $_POST[ $key ] ) && ! empty( $_POST[ $key ] ) ) ? $_POST[ $key ] : null;
-				break;
-			default:
-				throw new \RuntimeException( 'Not implemented.' );
-		}
-
-		switch ( true ) {
-			case ( $type === 'int' && $o !== null ):
-				return (int) $o;
-			default:
-				return $o;
-		}
-	}
-
 	public function handleNewSection() {
 		$this->verifyNonceAndCapability( 'new_section' );
 
-		$name = $this->sanitizeSingleInput( 'fapiMemberSectionName' );
+		$name = $this->sanitization()->loadPostValue( 'fapiMemberSectionName',
+		                                              [ $this->sanitization(), FapiSanitization::ANY_STRING ] );
 
 		if ( $name === null ) {
 			$this->redirect( 'settingsSectionNew', 'sectionNameEmpty' );
@@ -535,8 +530,10 @@ class FapiMemberPlugin {
 	public function handleNewLevel() {
 		$this->verifyNonceAndCapability( 'new_level' );
 
-		$name     = $this->sanitizeSingleInput( 'fapiMemberLevelName' );
-		$parentId = $this->sanitizeSingleInput( 'fapiMemberLevelParent', 'int' );
+		$name     = $this->sanitization()->loadPostValue( 'fapiMemberLevelName',
+		                                                  [ $this->sanitization(), FapiSanitization::ANY_STRING ] );
+		$parentId = $this->sanitization()->loadPostValue( 'fapiMemberLevelParent',
+		                                                  [ $this->sanitization(), FapiSanitization::VALID_LEVEL_ID ] );
 
 		if ( $name === null || $parentId === null ) {
 			$this->redirect( 'settingsLevelNew', 'levelNameOrParentEmpty' );
@@ -556,8 +553,10 @@ class FapiMemberPlugin {
 	public function handleAddPages() {
 		$this->verifyNonceAndCapability( 'add_pages' );
 
-		$levelId = $this->sanitizeSingleInput( 'level_id', 'int' );
-		$toAdd   = $this->sanitizeSingleInput( 'toAdd' );
+		$levelId = $this->sanitization()->loadPostValue( 'level_id',
+		                                                 [ $this->sanitization(), FapiSanitization::VALID_LEVEL_ID ] );
+		$toAdd   = $this->sanitization()->loadPostValue( 'toAdd',
+		                                                 [ $this->sanitization(), FapiSanitization::VALID_PAGE_IDS ] );
 
 		if ( $levelId === null || $toAdd === null ) {
 			$this->redirect( 'settingsContentAdd', 'levelIdOrToAddEmpty' );
@@ -584,8 +583,10 @@ class FapiMemberPlugin {
 	public function handleRemovePages() {
 		$this->verifyNonceAndCapability( 'remove_pages' );
 
-		$levelId  = $this->sanitizeSingleInput( 'level_id', 'int' );
-		$toRemove = $this->sanitizeSingleInput( 'toRemove' );
+		$levelId  = $this->sanitization()->loadPostValue( 'level_id',
+		                                                  [ $this->sanitization(), FapiSanitization::VALID_LEVEL_ID ] );
+		$toRemove = $this->sanitization()->loadPostValue( 'toRemove',
+		                                                  [ $this->sanitization(), FapiSanitization::VALID_PAGE_IDS ] );
 
 		if ( $levelId === null || $toRemove === null ) {
 			$this->redirect( 'settingsContentRemove', 'levelIdOrToAddEmpty' );
@@ -615,7 +616,8 @@ class FapiMemberPlugin {
 	public function handleRemoveLevel() {
 		$this->verifyNonceAndCapability( 'remove_level' );
 
-		$id = $this->sanitizeSingleInput( 'level_id', 'int' );
+		$id = $this->sanitization()->loadPostValue( 'level_id',
+		                                            [ $this->sanitization(), FapiSanitization::VALID_LEVEL_ID ] );
 
 		if ( $id === null ) {
 			$this->redirect( 'settingsSectionNew' );
@@ -629,8 +631,9 @@ class FapiMemberPlugin {
 	public function handleEditLevel() {
 		$this->verifyNonceAndCapability( 'edit_level' );
 
-		$id   = $this->sanitizeSingleInput( 'level_id', 'int' );
-		$name = $this->sanitizeSingleInput( 'name' );
+		$id   = $this->sanitization()->loadPostValue( 'level_id',
+		                                              [ $this->sanitization(), FapiSanitization::VALID_LEVEL_ID ] );
+		$name = $this->sanitization()->loadPostValue( 'name', [ $this->sanitization(), FapiSanitization::ANY_STRING ] );
 
 		if ( $id === null || $name === null ) {
 			$this->redirect( 'settingsSectionNew', 'editLevelNoName' );
@@ -644,10 +647,20 @@ class FapiMemberPlugin {
 	public function handleEditEmail() {
 		$this->verifyNonceAndCapability( 'edit_email' );
 
-		$levelId     = $this->sanitizeSingleInput( 'level_id', 'int' );
-		$emailType   = $this->sanitizeSingleInput( 'email_type' );
-		$mailSubject = $this->sanitizeSingleInput( 'mail_subject' );
-		$mailBody    = $this->sanitizeSingleInput( 'mail_body' );
+		$levelId     = $this->sanitization()->loadPostValue( 'level_id',
+		                                                     [
+			                                                     $this->sanitization(),
+			                                                     FapiSanitization::VALID_LEVEL_ID
+		                                                     ] );
+		$emailType   = $this->sanitization()->loadPostValue( 'email_type',
+		                                                     [
+			                                                     $this->sanitization(),
+			                                                     FapiSanitization::VALID_EMAIL_TYPE
+		                                                     ] );
+		$mailSubject = $this->sanitization()->loadPostValue( 'mail_subject',
+		                                                     [ $this->sanitization(), FapiSanitization::ANY_STRING ] );
+		$mailBody    = $this->sanitization()->loadPostValue( 'mail_body',
+		                                                     [ $this->sanitization(), FapiSanitization::ANY_STRING ] );
 
 		if ( $mailSubject === null || $mailBody === null ) {
 			// remove mail template
@@ -670,9 +683,15 @@ class FapiMemberPlugin {
 	public function handleSetOtherPage() {
 		$this->verifyNonceAndCapability( 'set_other_page' );
 
-		$levelId  = $this->sanitizeSingleInput( 'level_id', 'int' );
-		$pageType = $this->sanitizeSingleInput( 'page_type' );
-		$page     = $this->sanitizeSingleInput( 'page' );
+		$levelId  = $this->sanitization()->loadPostValue( 'level_id',
+		                                                  [ $this->sanitization(), FapiSanitization::VALID_LEVEL_ID ] );
+		$pageType = $this->sanitization()->loadPostValue( 'page_type',
+		                                                  [
+			                                                  $this->sanitization(),
+			                                                  FapiSanitization::VALID_OTHER_PAGE_TYPE
+		                                                  ] );
+		$page     = $this->sanitization()->loadPostValue( 'page',
+		                                                  [ $this->sanitization(), FapiSanitization::VALID_PAGE_ID ] );
 
 		if ( $page === null ) {
 			// remove mail template
@@ -690,7 +709,12 @@ class FapiMemberPlugin {
 
 		$currentSettings = get_option( self::OPTION_KEY_SETTINGS );
 
-		$loginPageId = $this->sanitizeSingleInput( 'login_page_id', 'int' );
+		$loginPageId = $this->sanitization()->loadPostValue( 'login_page_id',
+		                                                     [
+			                                                     $this->sanitization(),
+			                                                     FapiSanitization::VALID_PAGE_ID
+		                                                     ] );
+
 		if ( $loginPageId === null ) {
 			unset( $currentSettings['login_page_id'] );
 			update_option( self::OPTION_KEY_SETTINGS, $currentSettings );

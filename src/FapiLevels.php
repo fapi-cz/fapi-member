@@ -48,6 +48,19 @@ class FapiLevels {
 		return $this->levels;
 	}
 
+	public function allIds() {
+		$terms = $this->loadAsTerms();
+
+		return array_reduce( $terms,
+			function ( $carry, $one ) {
+				/** @var WP_Term $one */
+				$carry[] = $one->term_id;
+
+				return $carry;
+			},
+			                 [] );
+	}
+
 	public function loadById( $id ) {
 		if ( $this->levels === null ) {
 			return get_term_by( 'ID', $id, self::TAXONOMY );
