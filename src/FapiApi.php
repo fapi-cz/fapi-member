@@ -27,6 +27,21 @@ class FapiApi {
 		return json_decode( $resp['body'], true );
 	}
 
+	public function getVoucher( $id ) {
+		$resp = wp_remote_request(
+			sprintf( '%svouchers/%s', self::FAPI_API_URL, $id ),
+			[
+				'method'  => 'GET',
+				'headers' => $this->createHeaders()
+			]
+		);
+		if ( $resp instanceof WP_Error || $resp['response']['code'] !== 200 ) {
+			return false;
+		}
+
+		return json_decode( $resp['body'], true );
+	}
+
 	public function checkCredentials() {
 		$resp = wp_remote_request(
 			sprintf( '%s', self::FAPI_API_URL ),

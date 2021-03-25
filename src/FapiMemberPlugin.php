@@ -253,24 +253,43 @@ class FapiMemberPlugin {
 		*/
 		$d = [];
 		parse_str( $body, $d );
-		$invoiceId = $d['id'];
 
-		$invoice = $this->fapiApi()->getInvoice( $invoiceId );
+		if ( isset( $d['voucher'] ) ) {
+			$voucherId = $d['voucher'];
+			$voucher   = $this->fapiApi()->getVoucher( $voucherId );
+			if ( ! isset( $voucher['status'] ) || $voucher['status'] !== 'applied' ) {
+				return false;
+			}
+			if ( ! isset( $voucher['applicant'] ) || ( $voucher['applicant'] === null ) || ! isset( $voucher['applicant']['email'] ) ) {
+				return false;
+			}
+			$email = $voucher['applicant']['email'];
+		} else {
+			$invoiceId = $d['id'];
+			$invoice   = $this->fapiApi()->getInvoice( $invoiceId );
+			if ( $invoice === false ) {
+				return false;
+			}
+			if ( ! isset( $invoice['paid'] ) || $invoice['paid'] !== true ) {
+				return false;
+			}
+			// https://web.fapi.cz/api-doc/#api-Invoices
+			// some invoices are notified twice
+			if ( in_array( $invoice['type'], [ 'invoice', 'simplified_invoice' ], true ) ) {
+				return false;
+			}
+			if ( ! isset( $invoice['customer'] ) || ! isset( $invoice['customer']['email'] ) ) {
+				return false;
+			}
+			$email = $invoice['customer']['email'];
+		}
+
 		if ( ! isset( $get['level'] ) ) {
 			return false;
 		}
-		if ( ! isset( $invoice['paid'] ) || $invoice['paid'] !== true ) {
-			return false;
-		}
-		if ( in_array($invoice['type'], ['invoice', 'simplified_invoice'], true)) {
-			return false;
-		}
-		if ( ! isset( $invoice['customer'] ) || ! isset( $invoice['customer']['email'] ) ) {
-			return false;
-		}
+
 
 		$props       = [];
-		$email       = $invoice['customer']['email'];
 		$userCreated = $this->userUtils()->createUser( $email, $props );
 
 		// create or prolong membership
@@ -279,6 +298,15 @@ class FapiMemberPlugin {
 		} else {
 			$levelIds = array_map( 'intval', $get['level'] );
 		}
+
+		$existingLevels = $this->levels()->allIds();
+		foreach ( $levelIds as $oneLevelid ) {
+			if ( ! in_array( $oneLevelid, $existingLevels ) ) {
+				$this->callbackError( sprintf( 'Section or level with ID %s, does not exist.', $oneLevelid ) );
+				exit;
+			}
+		}
+
 		if ( ! isset( $get['days'] ) ) {
 			$days        = false;
 			$isUnlimited = true;
@@ -345,6 +373,12 @@ class FapiMemberPlugin {
 				continue;
 			}
 		}
+	}
+
+	protected function callbackError( $message ) {
+		http_response_code( 400 );
+		echo json_encode( [ 'error' => $message ] );
+		exit;
 	}
 
 	protected function enhanceProps( &$props ) {

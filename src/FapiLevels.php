@@ -118,7 +118,7 @@ class FapiLevels {
 		if ( $useCascade && count( $meta ) !== count( self::$emailTypes ) ) {
 			$level        = $this->loadById( $levelId );
 			$parent       = ( $level->parent === 0 ) ? null : $this->loadById( $level->parent );
-			$parentEmails = $this->loadEmailTemplatesForLevel( $parent->term_id, false );
+			$parentEmails = ( $parent === null ) ? [] : $this->loadEmailTemplatesForLevel( $parent->term_id, false );
 			foreach ( self::$emailTypes as $type ) {
 				if ( ! isset( $meta[ $type ] ) && isset( $parentEmails[ $type ] ) ) {
 					$meta[ $type ] = $parentEmails[ $type ];
