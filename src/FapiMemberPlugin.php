@@ -257,10 +257,19 @@ class FapiMemberPlugin {
 		if ( isset( $d['voucher'] ) ) {
 			$voucherId = $d['voucher'];
 			$voucher   = $this->fapiApi()->getVoucher( $voucherId );
+			if ( $voucher === false ) {
+				$this->callbackError( sprintf( 'Error getting voucher: %s', $this->fapiApi()->lastError ) );
+
+				return false;
+			}
 			if ( ! isset( $voucher['status'] ) || $voucher['status'] !== 'applied' ) {
+				$this->callbackError( sprintf( 'Voucher status is not applied.' ) );
+
 				return false;
 			}
 			if ( ! isset( $voucher['applicant'] ) || ( $voucher['applicant'] === null ) || ! isset( $voucher['applicant']['email'] ) ) {
+				$this->callbackError( sprintf( 'Cannot find applicant email in API response.' ) );
+
 				return false;
 			}
 			$email = $voucher['applicant']['email'];
@@ -268,9 +277,13 @@ class FapiMemberPlugin {
 			$invoiceId = $d['id'];
 			$invoice   = $this->fapiApi()->getInvoice( $invoiceId );
 			if ( $invoice === false ) {
+				$this->callbackError( sprintf( 'Error getting invoice: %s', $this->fapiApi()->lastError ) );
+
 				return false;
 			}
 			if ( ! isset( $invoice['paid'] ) || $invoice['paid'] !== true ) {
+				$this->callbackError( sprintf( 'Invoice status is not paid.' ) );
+
 				return false;
 			}
 			// https://web.fapi.cz/api-doc/#api-Invoices
@@ -279,12 +292,16 @@ class FapiMemberPlugin {
 				return false;
 			}
 			if ( ! isset( $invoice['customer'] ) || ! isset( $invoice['customer']['email'] ) ) {
+				$this->callbackError( sprintf( 'Cannot find customer email in API response.' ) );
+
 				return false;
 			}
 			$email = $invoice['customer']['email'];
 		}
 
 		if ( ! isset( $get['level'] ) ) {
+			$this->callbackError( sprintf( 'Level parameter missing in get params.' ) );
+
 			return false;
 		}
 
@@ -303,7 +320,8 @@ class FapiMemberPlugin {
 		foreach ( $levelIds as $oneLevelid ) {
 			if ( ! in_array( $oneLevelid, $existingLevels ) ) {
 				$this->callbackError( sprintf( 'Section or level with ID %s, does not exist.', $oneLevelid ) );
-				exit;
+
+				return false;
 			}
 		}
 

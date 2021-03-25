@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       FAPI Member
  * Description:       FAPI plugin for membership management and access control.
- * Version:           1.1.2
+ * Version:           1.2.0
  * Requires at least: 5.2
  * Requires PHP:      5.6
  * Author:            FAPI

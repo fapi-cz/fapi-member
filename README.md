@@ -79,6 +79,17 @@ id=187034262&time=1614239639&security=9edbc14e1905b61af468217f60d2406d160c4fdf
 ~~~
 kde `id` použiju na načtení objednávky.
 
+#### Chybové kódy
+
+Callback vrací při chybě status code `400` a chybový text, jsou "ošetřeny" následující stavy:
+
+- Nepodařilo se načíst invoice/voucher z API
+- Voucher status není `applied` 
+- Invoice status není `paid`
+- Nelze najít email zákazníka v API response
+- V get parametrech callbacku chybý proměnná `level`
+- Některá sekce/úroveň z callbacku neexistuje ve WordPressu
+
 ## Odinstalace pluginu
 
 Plugin při deaktivaci nedělá nic. Při smazání pluginu před administraci WP se:

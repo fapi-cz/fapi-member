@@ -5,7 +5,7 @@ Requires at least: 5.7
 Tested up to: 5.7
 Requires PHP: 5.6
 License: GPLv2 or later
-Stable tag: 1.1.2
+Stable tag: 1.2.0
 
 FAPI plugin for membership management and access control.
 

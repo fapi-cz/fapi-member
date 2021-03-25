@@ -2,6 +2,8 @@
 
 
 class FapiApi {
+	public $lastError = null;
+
 	private $apiUser;
 	private $apiKey;
 
@@ -21,6 +23,8 @@ class FapiApi {
 			]
 		);
 		if ( $resp instanceof WP_Error || $resp['response']['code'] !== 200 ) {
+			$this->lastError = $resp['body'];
+
 			return false;
 		}
 
@@ -36,6 +40,8 @@ class FapiApi {
 			]
 		);
 		if ( $resp instanceof WP_Error || $resp['response']['code'] !== 200 ) {
+			$this->lastError = $resp['body'];
+
 			return false;
 		}
 
