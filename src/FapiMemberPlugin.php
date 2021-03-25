@@ -262,6 +262,9 @@ class FapiMemberPlugin {
 		if ( ! isset( $invoice['paid'] ) || $invoice['paid'] !== true ) {
 			return false;
 		}
+		if ( in_array($invoice['type'], ['invoice', 'simplified_invoice'], true)) {
+			return false;
+		}
 		if ( ! isset( $invoice['customer'] ) || ! isset( $invoice['customer']['email'] ) ) {
 			return false;
 		}
