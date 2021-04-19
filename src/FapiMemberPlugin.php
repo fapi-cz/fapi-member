@@ -841,7 +841,7 @@ class FapiMemberPlugin {
 			'fapi-member-options',
 			[ $this, 'constructAdminMenu' ],
 			sprintf( 'data:image/svg+xml;base64,%s',
-			         base64_encode( file_get_contents( __DIR__ . '/../_sources/F_fapi.svg' ) ) ),
+			         base64_encode( file_get_contents( __DIR__ . '/../_sources/F_fapi2.svg' ) ) ),
 			81
 		);
 	}

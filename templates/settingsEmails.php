@@ -8,7 +8,7 @@ echo FapiMemberTools::heading();
 <div class="page both">
     <div class="withSections">
         <div class="a">
-            <h3>Struktura uzavřených sekcí a úrovní</h3>
+            <h3>Členské sekce/úrovně</h3>
 			<?php echo FapiMemberTools::showErrors(); ?>
 			<?php echo FapiMemberTools::levelsSelectionNonJs() ?>
         </div>
@@ -29,15 +29,15 @@ echo FapiMemberTools::heading();
 
 					if ( $isSection ) {
 						$emails = [
-							'afterRegistration'        => 'Nastavení emailu po registraci do sekce',
-							'afterMembershipProlonged' => 'Nastavení emailu při prodloužení členství v sekci',
-							'afterAdding'              => 'Nastavení emailu při přidání do členské sekce',
+							'afterRegistration'        => 'E-mail po registraci do sekce',
+							'afterMembershipProlonged' => 'E-mail po prodloužení členství v sekci',
+							'afterAdding'              => 'E-mail po přidání do sekce',
 						];
 					} else {
 						$emails = [
-							'afterRegistration'        => 'Nastavení emailu po registraci do úrovně',
-							'afterMembershipProlonged' => 'Nastavení emailu při prodloužení členství v úrovni',
-							'afterAdding'              => 'Nastavení emailu při přidání do členské úrovně',
+							'afterRegistration'        => 'E-mail po registraci do úrovně',
+							'afterMembershipProlonged' => 'E-mail po prodloužení členství v úrovni',
+							'afterAdding'              => 'E-mail po přidání do úrovně',
 						];
 					}
 

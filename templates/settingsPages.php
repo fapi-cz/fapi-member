@@ -8,7 +8,7 @@ echo FapiMemberTools::heading();
 <div class="page both">
     <div class="withSections">
         <div class="a">
-            <h3>Struktura uzavřených sekcí a úrovní</h3>
+            <h3>Členské sekce/úrovně</h3>
 			<?php echo FapiMemberTools::showErrors(); ?>
 			<?php echo FapiMemberTools::levelsSelectionNonJs() ?>
         </div>
@@ -30,18 +30,19 @@ echo FapiMemberTools::heading();
 					$pages = [
 						'afterLogin' => [
 							't' => 'Stránka po přihlášení',
-							'd' => 'Nastavte stránku, která se zobrazí uživatelům po přihlášení do členské 
+							'd' => 'Vyberte stránku, která se zobrazí uživatelům po přihlášení do členské 
                                         sekce nebo úrovně.',
 						],
 						'noAccess'   => [
 							't' => 'Stránka, když uživatel nemá přístup',
-							'd' => 'Nastavte stránku, která se zobrazí uživateli, pokud nemá přístup na uzamčenou stránku.<br>
+							'd' => 'Vyberte stránku, která se zobrazí uživateli, pokud nemá přístup na uzamčenou stránku.<br>
                                         Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství.',
 						],
 						'login'      => [
 							't' => 'Přihlašovací stránka',
-							'd' => 'Zvolte stránku, kde budete mít umístěný přihlašovací formulář. 
-                                        Toto pole nijak neovlivní funkčnost členské sekce. Slouží především pro Váš přehled.<br>Stránka nesmí být zařazena jako členská.',
+							'd' => 'Vyberte stránku, kde je umístěn přihlašovací formulář. 
+                                        Toto nastavení nemá vliv na funkčnost členské sekce, slouží pouze pro váš přehled.
+                                        <br>Stránka nesmí být zařazena jako členská.',
 						],
 					];
 

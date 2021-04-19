@@ -8,7 +8,7 @@ echo FapiMemberTools::heading();
 <div class="page wider">
     <h4>Formulář pro přihlášení</h4>
     <p>Formulář vložte do svého webu na požadovaná místa pomocí shortcode <code>[fapi-member-login]</code>.</p>
-    <p>Formulář se zobrazí po znovu načtení stránky.</p>
+    <p>Formulář se zobrazí po znovunačtení stránky.</p>
 
     <div class="showcase">
         <img src="<?php echo plugins_url( 'fapi-member/media/login.png' ) ?>" alt="Snímek obrazovky">

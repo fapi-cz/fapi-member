@@ -6,7 +6,7 @@ global $FapiPlugin;
 echo FapiMemberTools::heading();
 ?>
 <div class="page">
-    <h3>Propojení s Vaším účtem FAPI</h3>
+    <h3>Propojený účet FAPI</h3>
 	<?php echo FapiMemberTools::showErrors(); ?>
 	<?php echo FapiMemberTools::formStart( 'api_credentials_submit' ) ?>
     <div class="row">
@@ -26,7 +26,6 @@ echo FapiMemberTools::heading();
     <p>
         Stav propojení:
 		<?php echo ( $FapiPlugin->recheckApiCredentials() ) ? '<span class="ok">propojeno</span>' : '<span class="ng">nepropojeno</span>' ?>
-        .
     </p>
 </div>
 <?php echo FapiMemberTools::help() ?>

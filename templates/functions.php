@@ -115,10 +115,10 @@ class FapiMemberTools {
 				                           'Přiřazené stránky',
 				                           $subpage,
 				                           [ 'settingsContentRemove' ] ) . '
-                    ' . self::submenuItem( 'settingsEmails', 'Nastavení e-mailů', $subpage ) . '
+                    ' . self::submenuItem( 'settingsEmails', 'E-maily', $subpage ) . '
                     ' . self::submenuItem( 'settingsPages', 'Servisní stránky', $subpage ) . '
                     ' . self::submenuItem( 'settingsElements', 'Prvky pro web', $subpage ) . '
-                    ' . self::submenuItem( 'settingsSettings', 'Nastavení', $subpage ) . '
+                    ' . self::submenuItem( 'settingsSettings', 'Společné', $subpage ) . '
                 </div>
                 ';
 		}
