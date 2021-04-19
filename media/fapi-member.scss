@@ -315,6 +315,23 @@
 					grid-column: 2/3;
 				}
 			}
+
+			&.submitInline.noLabel {
+				display: grid;
+				grid-template-rows: auto;
+				grid-template-columns: auto 81px;
+				gap: 0 10px;
+
+				select {
+					grid-row: 1/2;
+					grid-column: 1/2;
+				}
+
+				.input[type="submit"] {
+					grid-row: 1/2;
+					grid-column: 2/3;
+				}
+			}
 		}
 	}
 
@@ -392,11 +409,7 @@
 		> ol > li li {
 			background-image: url("bullet.svg");
 			background-repeat: no-repeat;
-			padding-left: 72px;
-
-			&.selected {
-				background-image: url("bullet-selected.svg");
-			}
+			padding-left: 52px;
 		}
 
 		li {
@@ -427,6 +440,11 @@
 				margin-left: 0;
 			}
 		}
+
+		a
+		{
+			text-decoration: underline;
+		}
 	}
 
 	.sectionsOverview {
@@ -451,6 +469,10 @@
 				color: $grayText;
 				font-size: 14px;
 				margin-bottom: 21px;
+
+				span {
+					color: black;
+				}
 			}
 
 			.levelCount {

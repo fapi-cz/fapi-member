@@ -74,11 +74,11 @@ echo FapiMemberTools::heading();
             <div>
                 <div class="name"><?php echo $level->name ?></div>
                 <div class="levelCount">Počet
-                    úrovní: <?php echo ( isset( $levelCount[ $level->term_id ] ) ) ? $levelCount[ $level->term_id ] : 0 ?></div>
+                    úrovní: <span><?php echo ( isset( $levelCount[ $level->term_id ] ) ) ? $levelCount[ $level->term_id ] : 0 ?></span></div>
                 <div class="membersCount">Počet
-                    registrovaných: <?php echo ( isset( $levelUsersCount[ $level->term_id ] ) ) ? $levelUsersCount[ $level->term_id ] : 0 ?></div>
+                    registrovaných: <span><?php echo ( isset( $levelUsersCount[ $level->term_id ] ) ) ? $levelUsersCount[ $level->term_id ] : 0 ?></span></div>
                 <div class="pagesCount">Stránek v celé
-                    sekci: <?php echo ( isset( $pagesCount[ $level->term_id ] ) ) ? $pagesCount[ $level->term_id ] : 0 ?></div>
+                    sekci: <span><?php echo ( isset( $pagesCount[ $level->term_id ] ) ) ? $pagesCount[ $level->term_id ] : 0 ?></span></div>
             </div>
 		<?php } ?>
 

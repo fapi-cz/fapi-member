@@ -15,8 +15,8 @@ class FapiMemberTools {
 		'editLevelNoName'             => [ 'error', 'Chyba změny sekce/úrovně.' ],
 		'editMailsRemoved'            => [ 'success', 'Šablona emailu byla odebrána.' ],
 		'editMailsUpdated'            => [ 'success', 'Šablona emailu byla upravena.' ],
-		'editOtherPagesRemoved'       => [ 'success', 'Ostatní stránka byla odebrána.' ],
-		'editOtherPagesUpdated'       => [ 'success', 'Ostatní stránka byla nastavena.' ],
+		'editOtherPagesRemoved'       => [ 'success', 'Stránka byla nastavena.' ],
+		'editOtherPagesUpdated'       => [ 'success', 'Stránka byla nastavena..' ],
 		'settingsSettingsUpdated'     => [ 'success', 'Nastavení uložena.' ],
 		'settingsSettingsNoValidPage' => [ 'error', 'Stránka nenalezena.' ],
 	];
@@ -116,7 +116,7 @@ class FapiMemberTools {
 				                           $subpage,
 				                           [ 'settingsContentRemove' ] ) . '
                     ' . self::submenuItem( 'settingsEmails', 'Nastavení e-mailů', $subpage ) . '
-                    ' . self::submenuItem( 'settingsPages', 'Ostatní stránky', $subpage ) . '
+                    ' . self::submenuItem( 'settingsPages', 'Servisní stránky', $subpage ) . '
                     ' . self::submenuItem( 'settingsElements', 'Prvky pro web', $subpage ) . '
                     ' . self::submenuItem( 'settingsSettings', 'Nastavení', $subpage ) . '
                 </div>
@@ -412,11 +412,11 @@ class FapiMemberTools {
         <div class="fapiShortcodeLoginForm">
             <form method="post" action="/wp-login.php">
                 <div class="row">
-                    <label for="log">Zadejte uživatelské jméno</label>
+                    <label for="log">Přihlašovací jméno</label>
                     <input type="text" name="log" id="log">
                 </div>
                 <div class="row">
-                    <label for="pwd">Zadejte heslo</label>
+                    <label for="pwd">Heslo</label>
                     <input type="password" name="pwd" id="pwd">
                 </div>
                 <div class="row controls">

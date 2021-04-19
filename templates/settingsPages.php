@@ -39,7 +39,7 @@ echo FapiMemberTools::heading();
                                         Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství.',
 						],
 						'login'      => [
-							't' => 'Přihlašovací stránka (nepovinné)',
+							't' => 'Přihlašovací stránka',
 							'd' => 'Zvolte stránku, kde budete mít umístěný přihlašovací formulář. 
                                         Toto pole nijak neovlivní funkčnost členské sekce. Slouží především pro Váš přehled.<br>Stránka nesmí být zařazena jako členská.',
 						],
@@ -57,10 +57,9 @@ echo FapiMemberTools::heading();
 							<?php echo FapiMemberTools::formStart( 'set_other_page' ) ?>
                             <input type="hidden" name="level_id" value="<?php echo $level ?>">
                             <input type="hidden" name="page_type" value="<?php echo $key ?>">
-                            <div class="row submitInline">
-                                <label for="page">Vyberte stránku</label>
+                            <div class="row submitInline noLabel">
                                 <select type="text" name="page" id="page">
-                                    <option value="">-- nevybírat</option>
+                                    <option value="">-- nevybrána --</option>
 									<?php echo FapiMemberTools::allPagesAsOptions( $currentPageId ) ?>
                                 </select>
                                 <input type="submit" class="primary" value="Uložit">
