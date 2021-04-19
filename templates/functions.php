@@ -169,7 +169,7 @@ class FapiMemberTools {
 			return null;
 		}
 
-		return $levelId;
+		return (int)$levelId;
 	}
 
 	public static function help() {
@@ -335,7 +335,7 @@ class FapiMemberTools {
 						$under[] = FapiMemberTools::oneLevelSelection(
 							$underTerm->term_id,
 							FapiMemberTools::fapilink( $subpage ) . sprintf( '&level=%s', $underTerm->term_id ),
-							$underTerm->name,
+							self::trimName($underTerm->name),
 							'',
 							( $underTerm->term_id === $selected ) ? true : false
 						);
@@ -344,7 +344,7 @@ class FapiMemberTools {
 				$lis[] = FapiMemberTools::oneLevelSelection(
 					$term->term_id,
 					FapiMemberTools::fapilink( $subpage ) . sprintf( '&level=%s', $term->term_id ),
-					$term->name,
+					self::trimName($term->name),
 					join( '', $under ),
 					( $term->term_id === $selected ) ? true : false
 				);
