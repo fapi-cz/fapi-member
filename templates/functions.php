@@ -201,6 +201,15 @@ class FapiMemberTools {
 		return admin_url( sprintf( '/admin.php?page=fapi-member-options&subpage=%s', $subpage ) );
 	}
 
+	public static function trimName($name)
+    {
+        $chars = 30;
+        if (mb_strlen($name) > $chars) {
+            return sprintf('%s&hellip;', mb_substr($name, 0, $chars - 1));
+        }
+        return $name;
+    }
+
 	public static function levels() {
 		global $FapiPlugin;
 		$t = $FapiPlugin->levels()->loadAsTerms();
@@ -215,13 +224,13 @@ class FapiMemberTools {
 					if ( $underTerm->parent === $term->term_id ) {
 						$under[] = sprintf( '<li data-id="%s"><span>%s</span>%s</li>',
 						                    $underTerm->term_id,
-						                    $underTerm->name,
+						                    self::trimName($underTerm->name),
 						                    $actions );
 					}
 				}
 				$lis[] = sprintf( '<li data-id="%s"><span>%s</span>%s<ol>%s</ol></li>',
 				                  $term->term_id,
-				                  $term->name,
+				                  self::trimName($term->name),
 				                  $actions,
 				                  join( '', $under ) );
 			}
