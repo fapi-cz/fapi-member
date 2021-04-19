@@ -53,17 +53,14 @@ class FapiMemberTools {
             <nav>
                 <span class="disabled">
                     <span class="a">Přehled</span>
-                    <span class="b">Přehled</span>
                     ' . $h . '
                 </span>
-                <span href="#" class="disabled">
-                    <span class="a">Správa členských sekcí/úrovní</span>
-                    <span class="b">Členské sekce</span>
+                <span class="disabled">
+                    <span class="a">Členské sekce</span>
                     ' . $p . '
                 </span>
                 <a href="#" class="active">
                     <span class="a">Propojení s FAPI</span>
-                    <span class="b">Připojení k FAPI</span>
                     ' . $c . '
                 </a>
             </nav>';
@@ -72,18 +69,15 @@ class FapiMemberTools {
             <nav>
                 <a href="' . self::fapilink( 'index' ) . '" ' . ( ( $subpage === 'index' ) ? 'class="active"' : '' ) . '>
                     <span class="a">Přehled</span>
-                    <span class="b">Přehled</span>
                     ' . $h . '
                 </a>
                 <a href="' . self::fapilink( 'settingsSectionNew' ) . '" ' . ( ( strpos( $subpage,
                         'settings' ) === 0 ) ? 'class="active"' : '' ) . '>
-                    <span class="a">Správa členských sekcí/úrovní</span>
-                    <span class="b">Členské sekce</span>
+                    <span class="a">Členské sekce</span>
                     ' . $p . '
-                </span>
+                </a>
                 <a href="' . self::fapilink( 'connection' ) . '" ' . ( ( $subpage === 'connection' ) ? 'class="active"' : '' ) . '>
                     <span class="a">Propojení s FAPI</span>
-                    <span class="b">Připojení k FAPI</span>
                     ' . $c . '
                 </a>
             </nav>';
