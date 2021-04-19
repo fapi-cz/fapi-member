@@ -1,7 +1,5 @@
 <?php
 
-include( __DIR__ . '/functions.php' );
-
 echo FapiMemberTools::heading();
 ?>
 
@@ -87,9 +85,10 @@ echo FapiMemberTools::heading();
                                         <textarea name="mail_body"
                                                   id="mail_body" <?php echo ( $emailIsCascaded ) ? 'readonly' : '' ?>><?php echo ( $hasContentSet ) ? $templates[ $key ]['b'] : '' ?></textarea>
                                     </div>
-                                    <div class="row controls">
-                                        <input type="submit" class="primary" value="Uložit">
-                                    </div>
+
+                                </div>
+                                <div class="row controls">
+                                    <input type="submit" class="primary" value="Uložit">
                                 </div>
                                 </form>
                             </div>

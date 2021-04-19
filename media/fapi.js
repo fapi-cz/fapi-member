@@ -258,3 +258,35 @@ const insertLoader = (el) => {
 const removeLoader = (el) => {
     el.classList.remove('loading')
 }
+
+const doHideMembershipUntil = () => {
+    let tables = document.querySelectorAll('.fapiMembership')
+    if (tables.length <= 0) {
+        return
+    }
+    Array.from(tables).forEach((table) => {
+        let unlimitedInputs = table.querySelectorAll('.isUnlimitedInput')
+        Array.from(unlimitedInputs).forEach((one) => {
+            let name = one.getAttribute('name')
+            let membershipDateName = name.replace('isUnlimited', 'membershipUntil')
+            let mu = table.querySelector('[name="'+membershipDateName+'"]')
+            let muLabel = table.querySelector('[data-for="'+membershipDateName+'"]')
+            if (one.checked) {
+                mu.classList.add('contentHidden')
+                muLabel.classList.add('contentHidden')
+            } else {
+                mu.classList.remove('contentHidden')
+                muLabel.classList.remove('contentHidden')
+            }
+
+        })
+    })
+}
+
+document.addEventListener('click', (event) => {
+    if (event.target.matches('.fapiMembership .isUnlimitedInput')) {
+        doHideMembershipUntil()
+    }
+})
+
+document.addEventListener('DOMContentLoaded', doHideMembershipUntil)

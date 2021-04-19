@@ -172,14 +172,10 @@ class FapiMemberPlugin {
 	}
 
 	public function shortcodeLogin() {
-		include_once __DIR__ . '/../templates/functions.php';
-
 		return FapiMemberTools::shortcodeLoginForm();
 	}
 
 	public function shortcodeUser() {
-		include_once __DIR__ . '/../templates/functions.php';
-
 		return FapiMemberTools::shortcodeUser();
 	}
 
@@ -818,6 +814,7 @@ class FapiMemberPlugin {
 		}
 		if ( $pagenow === 'user-edit.php' ) {
 			wp_enqueue_style( 'fapi-member-user-profile' );
+			wp_enqueue_script( 'fapi-member-main' );
 		}
 	}
 
@@ -1020,7 +1017,7 @@ class FapiMemberPlugin {
                         <input class="registrationDateInput" type="date" name="Levels[%s][registrationDate]" %s>
                         <label class="registrationTime" for="Levels[%s][registrationTime]">Čas registrace</label>
                         <input class="registrationTimeInput" type="time" name="Levels[%s][registrationTime]" %s>
-                        <label class="membershipUntil" for="Levels[%s][membershipUntil]">Členství do</label>
+                        <label class="membershipUntil" data-for="Levels[%s][membershipUntil]" for="Levels[%s][membershipUntil]">Členství do</label>
                         <input class="membershipUntilInput" type="date" name="Levels[%s][membershipUntil]" %s>
                         <label class="isUnlimited" for="Levels[%s][isUnlimited]">Je neomezené?</label>
                         <input class="isUnlimitedInput" type="checkbox" name="Levels[%s][isUnlimited]" %s>
@@ -1037,6 +1034,7 @@ class FapiMemberPlugin {
 				$l->term_id,
 				$l->term_id,
 				$regTime,
+				$l->term_id,
 				$l->term_id,
 				$l->term_id,
 				$untilDate,
@@ -1086,7 +1084,7 @@ class FapiMemberPlugin {
                     </span>
                 </th>
                 <th scope="col" class="manage-column fields">
-                    <span class="a">Členství do</span>
+                    <span class="a" data-for="Levels[' . $level->term_id . '][membershipUntil]">Členství do</span>
                     <span class="b">
                     <input type="date" name="Levels[' . $level->term_id . '][membershipUntil]" ' . $untilDate . '>
                     </span>
@@ -1094,7 +1092,7 @@ class FapiMemberPlugin {
                 <th scope="col" class="manage-column fields">
                     <span class="a">Je neomezené?</span>
                     <span class="b">
-                    <input type="checkbox" name="Levels[' . $level->term_id . '][isUnlimited]" ' . $isUnlimited . '>
+                    <input class="isUnlimitedInput" type="checkbox" name="Levels[' . $level->term_id . '][isUnlimited]" ' . $isUnlimited . '>
                     </span>
                 </th>
             </thead>

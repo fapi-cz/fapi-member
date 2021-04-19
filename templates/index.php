@@ -1,6 +1,5 @@
 <?php
 
-include( __DIR__ . '/functions.php' );
 global $FapiPlugin;
 $fapiLevels = $FapiPlugin->levels();
 
