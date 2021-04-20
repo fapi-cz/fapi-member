@@ -23,7 +23,7 @@ class FapiApi {
 			]
 		);
 		if ( $resp instanceof WP_Error || $resp['response']['code'] !== 200 ) {
-			$this->lastError = $resp['body'];
+			$this->lastError = $this->findErrorMessage($resp);
 
 			return false;
 		}
@@ -40,7 +40,7 @@ class FapiApi {
 			]
 		);
 		if ( $resp instanceof WP_Error || $resp['response']['code'] !== 200 ) {
-			$this->lastError = $resp['body'];
+			$this->lastError = $this->findErrorMessage($resp);;
 
 			return false;
 		}
@@ -57,7 +57,7 @@ class FapiApi {
             ]
         );
         if ( $resp instanceof WP_Error || $resp['response']['code'] !== 200 ) {
-            $this->lastError = $resp['body'];
+            $this->lastError = $this->findErrorMessage($resp);;
 
             return false;
         }
@@ -130,5 +130,16 @@ class FapiApi {
         $itemSecurityHash = \md5($itemTemplateId . $itemTemplateCode);
 
         return $expectedSecurity === \sha1($time . $voucherId . $voucherCode . $itemSecurityHash);
+    }
+
+    public function findErrorMessage($response)
+    {
+        if ($response instanceof WP_Error) {
+            return $response->get_error_message();
+        }
+        if (isset($response['body'])) {
+            return $response['body'];
+        }
+        return '';
     }
 }
