@@ -113,15 +113,17 @@ document.addEventListener('click', (event) => {
 
 document.addEventListener('click', (event) => {
     if (event.target.matches('.specifyLevelEmailCheckbox')) {
-
-        let subj = event.target.closest('.oneEmail').querySelector('#mail_subject');
-        let body = event.target.closest('.oneEmail').querySelector('#mail_body');
-        let inputs = event.target.closest('.oneEmail').querySelector('.inputs');
+        let label = event.target.closest('.oneEmail').querySelector('.body > p')
+        let subj = event.target.closest('.oneEmail').querySelector('#mail_subject')
+        let body = event.target.closest('.oneEmail').querySelector('#mail_body')
+        let inputs = event.target.closest('.oneEmail').querySelector('.inputs')
         if(event.target.checked) {
+            label.classList.add('hidden')
             subj.removeAttribute('readonly')
             body.removeAttribute('readonly')
             inputs.classList.remove('collapsed')
         } else {
+            label.classList.remove('hidden')
             subj.value = ''
             body.value = ''
             subj.setAttribute('readonly', true)
