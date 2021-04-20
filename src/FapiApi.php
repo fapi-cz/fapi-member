@@ -48,6 +48,27 @@ class FapiApi {
 		return json_decode( $resp['body'], true );
 	}
 
+    public function getItemTemplate( $code ) {
+        $resp = wp_remote_request(
+            sprintf( '%sitem_templates/?code=%s', self::FAPI_API_URL, $code ),
+            [
+                'method'  => 'GET',
+                'headers' => $this->createHeaders()
+            ]
+        );
+        if ( $resp instanceof WP_Error || $resp['response']['code'] !== 200 ) {
+            $this->lastError = $resp['body'];
+
+            return false;
+        }
+
+        $res = json_decode( $resp['body'], true );
+        if (!isset($res['item_templates']) || count($res['item_templates']) <= 0) {
+            return false;
+        }
+        return $res['item_templates'][0];
+    }
+
 	public function checkCredentials() {
 		$resp = wp_remote_request(
 			sprintf( '%s', self::FAPI_API_URL ),
@@ -81,7 +102,7 @@ class FapiApi {
 		];
 	}
 
-    protected function isInvoiceSecurityValid(array $invoice, int $time, string $expectedSecurity)
+    public function isInvoiceSecurityValid(array $invoice, int $time, string $expectedSecurity)
     {
         $id = (isset($invoice['id'])) ? $invoice['id'] : null;
         $number = (isset($invoice['number'])) ? $invoice['number'] : null;
@@ -100,7 +121,7 @@ class FapiApi {
         return ($expectedSecurity === \sha1($time . $id . $number . $itemsSecurityHash));
     }
 
-    public static function isVoucherSecurityValid(array $voucher, array $itemTemplate, int $time, string $expectedSecurity)
+    public function isVoucherSecurityValid(array $voucher, array $itemTemplate, int $time, string $expectedSecurity)
     {
         $voucherId = (isset($voucher['id'])) ? $voucher['id'] : '';
         $voucherCode = (isset($voucher['code'])) ? $voucher['code'] : '';

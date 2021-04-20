@@ -77,7 +77,7 @@ V těle požadavku očekávám url encoded string jako:
 ~~~
 id=187034262&time=1614239639&security=9edbc14e1905b61af468217f60d2406d160c4fdf
 ~~~
-kde `id` použiju na načtení objednávky.
+kde `id` použiju na načtení objednávky, `time` a `security` pro validaci 
 
 #### Chybové kódy
 
@@ -89,6 +89,7 @@ Callback vrací při chybě status code `400` a chybový text, jsou "ošetřeny"
 - Nelze najít email zákazníka v API response
 - V get parametrech callbacku chybý proměnná `level`
 - Některá sekce/úroveň z callbacku neexistuje ve WordPressu
+- Invoice / voucher security hash nesedí
 
 ## Odinstalace pluginu
 

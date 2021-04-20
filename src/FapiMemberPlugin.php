@@ -253,11 +253,19 @@ class FapiMemberPlugin {
 		if ( isset( $d['voucher'] ) ) {
 			$voucherId = $d['voucher'];
 			$voucher   = $this->fapiApi()->getVoucher( $voucherId );
+			$voucherItemTemplateCode = $voucher['item_template_code'];
+			$itemTemplate = $this->fapiApi()->getItemTemplate( $voucherItemTemplateCode );
 			if ( $voucher === false ) {
 				$this->callbackError( sprintf( 'Error getting voucher: %s', $this->fapiApi()->lastError ) );
 
 				return false;
 			}
+			$itemTemplate = ($itemTemplate === false) ? [] : $itemTemplate;
+            if ( !$this->fapiApi()->isVoucherSecurityValid($voucher, $itemTemplate, $d['time'], $d['security']) ) {
+                $this->callbackError( sprintf( 'Invoice security is not valid.' ) );
+
+                return false;
+            }
 			if ( ! isset( $voucher['status'] ) || $voucher['status'] !== 'applied' ) {
 				$this->callbackError( sprintf( 'Voucher status is not applied.' ) );
 
@@ -277,6 +285,11 @@ class FapiMemberPlugin {
 
 				return false;
 			}
+			if ( !$this->fapiApi()->isInvoiceSecurityValid($invoice, $d['time'], $d['security']) ) {
+                $this->callbackError( sprintf( 'Invoice security is not valid.' ) );
+
+                return false;
+            }
 			if ( ! isset( $invoice['paid'] ) || $invoice['paid'] !== true ) {
 				$this->callbackError( sprintf( 'Invoice status is not paid.' ) );
 
