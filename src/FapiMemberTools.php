@@ -383,12 +383,41 @@ class FapiMemberTools {
         return join( '', $options );
     }
 
-    public static function allPagesForForm() {
+    public static function allPagesForForm($levelId) {
+        global $FapiPlugin;
         $posts = get_posts( [ 'post_type' => 'page', 'post_status' => [ 'publish' ], 'numberposts' => - 1 ] );
+        $levelTerm = $FapiPlugin->levels()->loadById($levelId);
+        $postsInLevel = $FapiPlugin->levels()->pageIdsForLevel($levelTerm);
+        $o = array_map( function ( $p ) use ($postsInLevel) {
+            $checked = (in_array($p->ID, $postsInLevel)) ? ' checked ' : '';
+            return sprintf( '<div class="onePage"><input type="checkbox" name="selection[]" value="%s" %s> %s</div>',
+                $p->ID,
+                $checked,
+                $p->post_title );
+        },
+            $posts );
+
+        return join( '', $o );
+    }
+
+    public static function allPagesInLevel($levelId) {
+        global $FapiPlugin;
+        $levelTerm = $FapiPlugin->levels()->loadById($levelId);
+        $pageIds = $FapiPlugin->levels()->pageIdsForLevel($levelTerm);
+        if (count($pageIds) === 0) {
+            return '';
+        }
+        $posts = get_posts(
+            [
+                'post_type' => 'page',
+                'post_status' => [ 'publish' ],
+                'numberposts' => - 1,
+                'include'     => $pageIds,
+            ]
+        );
 
         $o = array_map( function ( $p ) {
-            return sprintf( '<div class="onePage"><input type="checkbox" name="toAdd[]" value="%s"> %s</div>',
-                $p->ID,
+            return sprintf( '<div class="onePage">%s</div>',
                 $p->post_title );
         },
             $posts );

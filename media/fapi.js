@@ -81,31 +81,6 @@ document.addEventListener('click', (event) => {
 })
 
 document.addEventListener('click', (event) => {
-    if (event.target.matches('.levels a')) {
-        event.preventDefault()
-        let li = event.target.parentNode
-        Array.from(document.querySelectorAll('.levels li.selected')).forEach((one) => {
-            one.classList.remove('selected')
-        })
-        li.classList.add('selected')
-        reloadPagesToRemove()
-        recheckPagesToAdd()
-        reenableAddRemovePagesButton()
-        changeSubSubMenuLinks()
-    }
-})
-
-document.addEventListener('DOMContentLoaded', (event) => {
-
-    if (findSelectedLevel()) {
-        reloadPagesToRemove()
-    }
-    recheckPagesToAdd()
-    disableAddRemovePagesButton()
-    reenableAddRemovePagesButton()
-})
-
-document.addEventListener('click', (event) => {
     if (event.target.matches('.oneEmail .carret') || event.target.matches('.oneEmail .header h3')) {
         event.target.closest('.oneEmail').classList.toggle('open');
     }

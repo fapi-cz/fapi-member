@@ -1,6 +1,7 @@
 <?php
 
 echo FapiMemberTools::heading();
+$selectedLevel = (isset($_GET['level'])) ? (int)$_GET['level'] : null;
 ?>
 
 <script id="LevelToPage" type="application/json"><?php echo FapiMemberTools::levelToPageJson() ?></script>
@@ -16,21 +17,21 @@ echo FapiMemberTools::heading();
         <div class="b">
             <div class="subsubmenu">
 
-				<?php echo FapiMemberTools::subSubmenuItem( 'settingsContentAdd', 'Přiřazení stránek', $subpage ) ?>
+				<?php echo FapiMemberTools::subSubmenuItem( 'settingsContentAdd', 'Přiřazené stránky', $subpage ) ?>
 				<?php echo FapiMemberTools::subSubmenuItem( 'settingsContentRemove',
-				                                            'Obsah sekce/Odebírání stránek',
+				                                            'Úpravy přiřazení',
 				                                            $subpage ) ?>
             </div>
             <div>
-				<?php echo FapiMemberTools::formStart( 'add_pages', [ 'addPagesForm', 'pages' ] ) ?>
-                <input type="hidden" name="level_id" value="">
+                <?php if ($selectedLevel): ?>
                 <div class="inner">
-					<?php echo FapiMemberTools::allPagesForForm() ?>
+					<?php echo FapiMemberTools::allPagesInLevel($selectedLevel) ?>
                 </div>
-                <div class="row controls">
-                    <button class="btn primary">Přiřadit vybrané</button>
-                </div>
-                </form>
+                <?php else: ?>
+                    <div class="inner">
+                        <p class="pleaseSelectLevel">Prosím zvolte sekci/úroveň.</p>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>

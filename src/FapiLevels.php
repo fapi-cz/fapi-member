@@ -140,6 +140,13 @@ class FapiLevels {
 		return $this->levelsToPages;
 	}
 
+    public function pageIdsForLevel($levelTerm) {
+        $lvlToPages = $this->levelsToPages();
+        $levelId = $levelTerm->term_id;
+
+        return (isset($lvlToPages[$levelId])) ? $lvlToPages[$levelId] : [];
+    }
+
 	public function constructEmailTemplateKey( $type ) {
 		return sprintf( 'fapi_email_%s', $type );
 	}

@@ -594,6 +594,10 @@
   margin: 24px;
   border: 1px solid #eeeeee;
 }
+.baseGrid .pleaseSelectLevel {
+  margin-top: 3rem;
+  text-align: center;
+}
 
 .swal2-actions .renameConfirmButton,
 .swal2-actions .removeConfirmButton {

@@ -651,10 +651,10 @@ class FapiMemberPlugin {
 
 		$levelId  = $this->sanitization()->loadPostValue( 'level_id',
 		                                                  [ $this->sanitization(), FapiSanitization::VALID_LEVEL_ID ] );
-		$toRemove = $this->sanitization()->loadPostValue( 'toRemove',
+		$selection = $this->sanitization()->loadPostValue( 'selection',
 		                                                  [ $this->sanitization(), FapiSanitization::VALID_PAGE_IDS ] );
 
-		if ( $levelId === null || $toRemove === null ) {
+		if ( $levelId === null || $selection === null ) {
 			$this->redirect( 'settingsContentRemove', 'levelIdOrToAddEmpty' );
 		}
 
@@ -663,20 +663,11 @@ class FapiMemberPlugin {
 			$this->redirect( 'settingsContentRemove', 'sectionNotFound' );
 		}
 
-		$toRemove = array_map( 'intval', $toRemove );
+		$selection = array_map( 'intval', $selection );
 
-		// check parent
-		$old = get_term_meta( $parent->term_id, 'fapi_pages', true );
+		update_term_meta( $parent->term_id, 'fapi_pages', json_encode( $selection ) );
 
-		$old = ( empty( $old ) ) ? [] : json_decode( $old );
-
-		$new = array_values( array_filter( $old,
-			function ( $one ) use ( $toRemove ) {
-				return ! in_array( $one, $toRemove );
-			} ) );
-		update_term_meta( $parent->term_id, 'fapi_pages', json_encode( $new ) );
-
-		$this->redirect( 'settingsContentRemove', null, [ 'level' => $levelId ] );
+		$this->redirect( 'settingsContentAdd', null, [ 'level' => $levelId ] );
 	}
 
 	public function handleRemoveLevel() {

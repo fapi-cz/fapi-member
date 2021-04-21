@@ -1,10 +1,8 @@
 <?php
 
 echo FapiMemberTools::heading();
+$selectedLevel = (isset($_GET['level'])) ? (int)$_GET['level'] : null;
 ?>
-
-<script id="LevelToPage" type="application/json"><?php echo FapiMemberTools::levelToPageJson() ?></script>
-
 
 <div class="page both">
     <div class="withSections">
@@ -15,20 +13,28 @@ echo FapiMemberTools::heading();
         </div>
         <div class="b">
             <div class="subsubmenu">
-				<?php echo FapiMemberTools::subSubmenuItem( 'settingsContentAdd', 'Přiřazení stránek', $subpage ) ?>
+				<?php echo FapiMemberTools::subSubmenuItem( 'settingsContentAdd', 'Přiřazené stránky', $subpage ) ?>
 				<?php echo FapiMemberTools::subSubmenuItem( 'settingsContentRemove',
-				                                            'Obsah sekce/Odebírání stránek',
+				                                            'Úpravy přiřazení',
 				                                            $subpage ) ?>
             </div>
-			<?php echo FapiMemberTools::formStart( 'remove_pages', [ 'removePagesForm', 'pages' ] ) ?>
-            <input type="hidden" name="level_id" value="">
-            <div class="inner">
-                <p>Prosím zvolte sekci/úroveň.</p>
-            </div>
-            <div class="row controls">
-                <button class="btn danger outline">Odstranit vybrané</button>
-            </div>
-            </form>
+
+            <?php if ($selectedLevel): ?>
+                <?php echo FapiMemberTools::formStart( 'remove_pages', [ 'removePagesForm', 'pages' ] ) ?>
+                    <input type="hidden" name="level_id" value="<?php echo $selectedLevel ?>">
+                    <div class="inner">
+                        <?php echo FapiMemberTools::allPagesForForm($selectedLevel) ?>
+                    </div>
+                    <div class="row controls">
+                        <button class="btn outline">Uložit</button>
+                    </div>
+                </form>
+            <?php else: ?>
+                <div class="inner">
+                    <p class="pleaseSelectLevel">Prosím zvolte sekci/úroveň.</p>
+                </div>
+            <?php endif; ?>
+
         </div>
     </div>
 </div>
