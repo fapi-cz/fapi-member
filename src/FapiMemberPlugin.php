@@ -91,6 +91,7 @@ class FapiMemberPlugin {
 		add_action( 'admin_post_fapi_member_new_level', [ $this, 'handleNewLevel' ] );
 		add_action( 'admin_post_fapi_member_remove_level', [ $this, 'handleRemoveLevel' ] );
 		add_action( 'admin_post_fapi_member_edit_level', [ $this, 'handleEditLevel' ] );
+		add_action( 'admin_post_fapi_member_order_level', [ $this, 'handleOrderLevel' ] );
 		add_action( 'admin_post_fapi_member_add_pages', [ $this, 'handleAddPages' ] );
 		add_action( 'admin_post_fapi_member_remove_pages', [ $this, 'handleRemovePages' ] );
 		add_action( 'admin_post_fapi_member_edit_email', [ $this, 'handleEditEmail' ] );
@@ -708,6 +709,22 @@ class FapiMemberPlugin {
 
 		$this->redirect( 'settingsLevelNew', 'editLevelSuccessful' );
 	}
+
+    public function handleOrderLevel() {
+        $this->verifyNonceAndCapability( 'order_level' );
+
+        $id   = $this->sanitization()->loadPostValue( 'id',
+            [ $this->sanitization(), FapiSanitization::VALID_LEVEL_ID ] );
+        $direction = $this->sanitization()->loadPostValue( 'direction', [ $this->sanitization(), FapiSanitization::VALID_DIRECTION ] );
+
+        if ( $id === null || $direction === null ) {
+            $this->redirect( 'settingsSectionNew', 'editLevelNoName' );
+        }
+
+        $this->levels()->order( $id, $direction );
+
+        $this->redirect( 'settingsLevelNew', 'editLevelSuccessful' );
+    }
 
 	public function handleEditEmail() {
 		$this->verifyNonceAndCapability( 'edit_email' );

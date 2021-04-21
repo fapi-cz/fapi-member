@@ -292,3 +292,16 @@ document.addEventListener('click', (event) => {
 })
 
 document.addEventListener('DOMContentLoaded', doHideMembershipUntil)
+
+document.addEventListener('click', (event) => {
+    if (event.target.matches('.levels .up') || event.target.matches('.levels .down')) {
+        let direction = (event.target.matches('.levels .up')) ? 'up' : 'down';
+        let id = event.target.parentNode.getAttribute('data-id');
+        console.log(id)
+        console.log(direction)
+        let form = document.getElementById('LevelOrderForm')
+        form.querySelector('[name="id"]').setAttribute('value', id)
+        form.querySelector('[name="direction"]').setAttribute('value', direction)
+        form.submit()
+    }
+})

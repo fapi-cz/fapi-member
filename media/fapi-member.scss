@@ -419,7 +419,7 @@
 		button {
 			display: inline-block;
 			width: 15px; height: 15px;
-			margin: 0 9px;
+			margin: 0 3px;
 			border: 0;
 			background-color: transparent;
 			cursor: pointer;
@@ -430,7 +430,14 @@
 			}
 			&.remove {
 				background-image: url("close.svg");
-				margin-left: 0;
+			}
+			&.up {
+				background-image: url("up.svg");
+				margin-right: 0;
+			}
+			&.down {
+				background-image: url("down.svg");
+				margin:0;
 			}
 		}
 

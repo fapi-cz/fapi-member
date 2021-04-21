@@ -209,7 +209,7 @@ class FapiMemberTools {
         $envelopes = $FapiPlugin->levels()->loadAsTermEnvelopes();
 
         $lis     = [];
-        $actions = '<button class="edit"></button><button class="remove"></button>';
+        $actions = '<button class="edit"></button><button class="remove"></button><button class="up"></button><button class="down"></button>';
 
         foreach ( $envelopes as $envelope ) {
             $term = $envelope->getTerm();
@@ -250,6 +250,13 @@ class FapiMemberTools {
                    value="<?php echo wp_create_nonce( 'fapi_member_edit_level_nonce' ) ?>">
             <input type="hidden" name="name" value="">
             <input type="hidden" name="level_id" value="">
+        </form>
+        <form method="post" action="<?php echo admin_url( 'admin-post.php' ); ?>" id="LevelOrderForm">
+            <input type="hidden" name="action" value="fapi_member_order_level">
+            <input type="hidden" name="fapi_member_order_level_nonce"
+                   value="<?php echo wp_create_nonce( 'fapi_member_order_level_nonce' ) ?>">
+            <input type="hidden" name="direction" value="">
+            <input type="hidden" name="id" value="">
         </form>
         <?php
     }

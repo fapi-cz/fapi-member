@@ -12,6 +12,7 @@ class FapiSanitization {
 	const ANY_STRING = 'anyString';
 	const VALID_EMAIL_TYPE = 'validEmailType';
 	const VALID_OTHER_PAGE_TYPE = 'validOtherPageType';
+	const VALID_DIRECTION = 'validDirection';
 
 	public $fapiLevels;
 
@@ -108,6 +109,14 @@ class FapiSanitization {
 
 		return $default;
 	}
+
+    public function validDirection( $input, $default ) {
+        if ( in_array( $input, ['up', 'down'] ) ) {
+            return $input;
+        }
+
+        return $default;
+    }
 
 	public function validPageId( $input, $default ) {
 		$pages = get_posts( [ 'post_type'   => 'page',

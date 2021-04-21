@@ -75,12 +75,15 @@ class FapiLevels {
      */
     protected function termsToEnvelopes($terms)
     {
-        $ordering = get_option( self::OPTION_KEY_LEVELS_ORDER, [] );
+        $ordering = get_option( self::OPTION_KEY_LEVELS_ORDER, (new stdClass()) );
         $envelopes = array_map(function($term) use ($ordering) {
-            $o = (isset($ordering[$term->term_id])) ? $ordering[$term->term_id] : 1245;
+            $o = (isset($ordering->{$term->term_id})) ? $ordering->{$term->term_id} : 1245;
             return new FapiTermEnvelope($term, $o);
         }, $terms);
         usort($envelopes, function($a, $b) {
+            if ($a->getOrder() === $b->getOrder()) {
+                return (int)$a->getTerm()->term_id - (int)$b->getTerm()->term_id;
+            }
             return $a->getOrder() - $b->getOrder();
         });
         return $envelopes;
@@ -205,4 +208,72 @@ class FapiLevels {
 	public function update( $id, $name ) {
 		wp_update_term( $id, self::TAXONOMY, [ 'name' => $name ] );
 	}
+
+    public function order( $id, $direction ) {
+
+        $envelopes = $this->loadAsTermEnvelopes();
+        $modified = array_filter($envelopes, function($envelope) use ($id) {
+            return ($envelope->getTerm()->term_id === $id);
+        });
+        if (count($modified) !== 1) {
+            return false;
+        }
+        $modified = array_shift($modified);
+        $parentId = $modified->getTerm()->parent;
+        $sameParentEnvelopes = array_filter($envelopes, function($envelope) use ($parentId) {
+            return ($envelope->getTerm()->parent === $parentId);
+        });
+        $currentPosition = -1;
+        $lastPosition = null;
+        foreach ($sameParentEnvelopes as $envelope) {
+            $currentPosition++;
+            if ($envelope->getTerm()->term_id === $modified->getTerm()->term_id) {
+                $lastPosition = $currentPosition;
+            }
+        }
+        if ($direction === 'up') {
+            $newPosition = max(0, ($lastPosition-1));
+        } else {
+            $newPosition = min((count($sameParentEnvelopes) - 1), ($lastPosition+1));
+        }
+        $newOrder = [];
+        $siblings = array_filter($sameParentEnvelopes, function($envelope) use ($modified) {
+            return $envelope->getTerm()->term_id !== $modified->getTerm()->term_id;
+        });
+        $curr = 0;
+        foreach ($siblings as $siblingEnvelope) {
+            if ($newPosition === $curr) {
+                $newOrder[] = (string)$modified->getTerm()->term_id;
+            }
+            $newOrder[] = (string)$siblingEnvelope->getTerm()->term_id;
+            $curr++;
+        }
+        if ($newPosition === $curr) {
+            $newOrder[] = (string)$modified->getTerm()->term_id;
+        }
+        $orderingPatch = new stdClass();
+        foreach ($newOrder as $order => $id) {
+            $orderingPatch->{$id} = $order;
+        }
+        $oldOrdering = get_option(self::OPTION_KEY_LEVELS_ORDER, (new stdClass()));
+        $ordering = $this->mergeOrderings($oldOrdering, $orderingPatch);
+
+
+        update_option(self::OPTION_KEY_LEVELS_ORDER, $ordering);
+        return true;
+    }
+
+    /**
+     * @param stdClass $old
+     * @param stdClass $patch
+     * @return stdClass
+     */
+    protected function mergeOrderings($old, $patch)
+    {
+        $new = clone $old;
+        foreach (get_object_vars($patch) as $key => $val) {
+            $new->{$key} = $val;
+        }
+        return $new;
+    }
 }
