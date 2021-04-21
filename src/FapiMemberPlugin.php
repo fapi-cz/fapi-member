@@ -199,8 +199,9 @@ class FapiMemberPlugin {
 	}
 
 	public function handleApiSections() {
-		$t        = $this->levels()->loadAsTerms();
-		$t        = array_map( function ( $one ) {
+		$t        = $this->levels()->loadAsTermEnvelopes();
+		$t        = array_map( function ( $oneEnvelope ) {
+		    $one = $oneEnvelope->getTerm();
 			return [
 				'id'     => $one->term_id,
 				'parent' => $one->parent,
@@ -467,10 +468,10 @@ class FapiMemberPlugin {
 		$data = $this->sanitizeLevels( $_POST['Levels'] );
 
 		$memberships = [];
-		$levels      = $this->levels()->loadAsTerms();
-		$levels      = array_reduce( $levels,
+		$levelEvelopes      = $this->levels()->loadAsTermEnvelopes();
+		$levels      = array_reduce( $levelEvelopes,
 			function ( $carry, $one ) {
-				$carry[ $one->term_id ] = $one;
+				$carry[ $one->getTerm()->term_id ] = $one->getTerm();
 
 				return $carry;
 			},
@@ -857,7 +858,7 @@ class FapiMemberPlugin {
 	}
 
 	public function addUserProfileForm( WP_User $user ) {
-		$levels = $this->levels()->loadAsTerms();
+		$levels = $this->levels()->loadAsTermEnvelopes();
 
 		$memberships = $this->fapiMembershipLoader()->loadForUser( $user->ID );
 		$memberships = array_reduce( $memberships,
@@ -871,8 +872,8 @@ class FapiMemberPlugin {
 
 
 		foreach ( $levels as $lvl ) {
-			if ( $lvl->parent === 0 ) {
-				$o[] = $this->tUserProfileOneSection( $lvl, $levels, $memberships );
+			if ( $lvl->getTerm()->parent === 0 ) {
+				$o[] = $this->tUserProfileOneSection( $lvl->getTerm(), $levels, $memberships );
 			}
 		}
 
@@ -1002,10 +1003,11 @@ class FapiMemberPlugin {
 	private function tUserProfileOneSection( WP_Term $level, $levels, $memberships ) {
 		$lower     = array_filter( $levels,
 			function ( $one ) use ( $level ) {
-				return $one->parent === $level->term_id;
+				return $one->getTerm()->parent === $level->term_id;
 			} );
 		$lowerHtml = [];
-		foreach ( $lower as $l ) {
+		foreach ( $lower as $envelope ) {
+		    $l = $envelope->getTerm();
 			$checked = ( isset( $memberships[ $l->term_id ] ) ) ? 'checked' : '';
 			if ( isset( $memberships[ $l->term_id ] ) && $memberships[ $l->term_id ]->registered !== null ) {
 				$reg     = $memberships[ $l->term_id ]->registered;

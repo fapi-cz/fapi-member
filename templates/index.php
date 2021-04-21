@@ -11,23 +11,25 @@ echo FapiMemberTools::heading();
 	<?php echo FapiMemberTools::showErrors(); ?>
     <div class="sectionsOverview">
 		<?php
-		$levels      = $fapiLevels->loadAsTerms();
-		$mapToParent = array_reduce( $levels,
-			function ( $carry, $l ) {
-				$carry[ $l->term_id ] = $l->parent;
+		//$levels      = $fapiLevels->loadAsTerms();
+		$envelopes = $fapiLevels->loadAsTermEnvelopes();
+		$mapToParent = array_reduce( $envelopes,
+			function ( $carry, $envelope ) {
+				$carry[ $envelope->getTerm()->term_id ] = $envelope->getTerm()->parent;
 
 				return $carry;
 			},
 			                         [] );
 
-		$topLevels     = array_filter( $levels,
-			function ( $l ) {
-				return $l->parent === 0;
+		$topEnvelopes     = array_filter( $envelopes,
+			function ( $envelope ) {
+				return $envelope->getTerm()->parent === 0;
 			} );
 		$pagesCount    = [];
 		$levelsToPages = $fapiLevels->levelsToPages();
-		$levelCount    = array_reduce( $levels,
-			function ( $carry, $one ) use ( &$pagesCount, $levelsToPages ) {
+		$levelCount    = array_reduce( $envelopes,
+			function ( $carry, $envelope ) use ( &$pagesCount, $levelsToPages ) {
+		    $one = $envelope->getTerm();
 				$carry[ $one->parent ] = ( isset( $carry[ $one->parent ] ) ) ? $carry[ $one->parent ] + 1 : 1;
 				if ( $one->parent === 0 ) {
 					$pagesCount[ $one->term_id ] = isset( $pagesCount[ $one->term_id ] ) ? $pagesCount[ $one->term_id ] + count( $levelsToPages[ $one->term_id ] ) : count( $levelsToPages[ $one->term_id ] );
@@ -67,7 +69,8 @@ echo FapiMemberTools::heading();
 		}
 
 
-		foreach ( $topLevels as $level ) {
+		foreach ( $topEnvelopes as $envelope ) {
+		    $level = $envelope->getTerm();
 			$empty = false;
 			?>
             <div>

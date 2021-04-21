@@ -3,6 +3,7 @@
 
 class FapiLevels {
 	const TAXONOMY = 'fapi_levels';
+	const OPTION_KEY_LEVELS_ORDER = 'fapi_levels_order';
 
 	const EMAIL_TYPE_AFTER_REGISTRATION = 'afterRegistration';
 	const EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED = 'afterMembershipProlonged';
@@ -21,6 +22,7 @@ class FapiLevels {
 	];
 
 	private $levels = null;
+	private $levelEnvelopes = null;
 	private $levelsToPages = null;
 
 	public function registerTaxonomy() {
@@ -34,6 +36,10 @@ class FapiLevels {
 		                   ] );
 	}
 
+    /**
+     * @deprecated
+     * @see FapiLevels::loadAsTermEnvelopes()
+     */
 	public function loadAsTerms() {
 		if ( $this->levels === null ) {
 			$this->levels = get_terms(
@@ -47,6 +53,38 @@ class FapiLevels {
 
 		return $this->levels;
 	}
+
+    public function loadAsTermEnvelopes() {
+        if ( $this->levelEnvelopes === null ) {
+            $terms = get_terms(
+                [
+                    'taxonomy'   => self::TAXONOMY,
+                    'hide_empty' => false,
+                    'orderby'    => 'ID'
+                ]
+            );
+            $this->levelEnvelopes = $this->termsToEnvelopes($terms);
+        }
+
+        return $this->levelEnvelopes;
+    }
+
+    /**
+     * @param WP_Term[] $terms
+     * @return FapiTermEnvelope[]
+     */
+    protected function termsToEnvelopes($terms)
+    {
+        $ordering = get_option( self::OPTION_KEY_LEVELS_ORDER, [] );
+        $envelopes = array_map(function($term) use ($ordering) {
+            $o = (isset($ordering[$term->term_id])) ? $ordering[$term->term_id] : 1245;
+            return new FapiTermEnvelope($term, $o);
+        }, $terms);
+        usort($envelopes, function($a, $b) {
+            return $a->getOrder() - $b->getOrder();
+        });
+        return $envelopes;
+    }
 
 	public function allIds() {
 		$terms = $this->loadAsTerms();

@@ -206,15 +206,17 @@ class FapiMemberTools {
 
     public static function levels() {
         global $FapiPlugin;
-        $t = $FapiPlugin->levels()->loadAsTerms();
+        $envelopes = $FapiPlugin->levels()->loadAsTermEnvelopes();
 
         $lis     = [];
         $actions = '<button class="edit"></button><button class="remove"></button>';
 
-        foreach ( $t as $term ) {
+        foreach ( $envelopes as $envelope ) {
+            $term = $envelope->getTerm();
             $under = [];
             if ( $term->parent === 0 ) {
-                foreach ( $t as $underTerm ) {
+                foreach ( $envelopes as $underEnvelope ) {
+                    $underTerm = $underEnvelope->getTerm();
                     if ( $underTerm->parent === $term->term_id ) {
                         $under[] = sprintf( '<li data-id="%s"><span>%s</span>%s</li>',
                             $underTerm->term_id,
@@ -273,14 +275,16 @@ class FapiMemberTools {
         $subpage  = ( $subpage === 'settingsContentSelect' ) ? 'settingsContentRemove' : $subpage;
         $selected = ( isset( $_GET['level'] ) ) ? self::sanitizeLevelId( $_GET['level'] ) : null;
 
-        $t = $FapiPlugin->levels()->loadAsTerms();
+        $envelopes = $FapiPlugin->levels()->loadAsTermEnvelopes();
 
         $lis = [];
 
-        foreach ( $t as $term ) {
+        foreach ( $envelopes as $envelope ) {
+            $term = $envelope->getTerm();
             $under = [];
             if ( $term->parent === 0 ) {
-                foreach ( $t as $underTerm ) {
+                foreach ( $envelopes as $underEnvelope ) {
+                    $underTerm = $underEnvelope->getTerm();
                     if ( $underTerm->parent === $term->term_id ) {
                         $under[] = FapiMemberTools::oneLevelSelection(
                             $underTerm->term_id,
@@ -317,14 +321,16 @@ class FapiMemberTools {
         $subpage  = ( $subpage === 'settingsContentSelect' ) ? 'settingsContentRemove' : $subpage;
         $selected = ( isset( $_GET['level'] ) ) ? self::sanitizeLevelId( $_GET['level'] ) : null;
 
-        $t = $FapiPlugin->levels()->loadAsTerms();
+        $evnelopes = $FapiPlugin->levels()->loadAsTermEnvelopes();
 
         $lis = [];
 
-        foreach ( $t as $term ) {
+        foreach ( $evnelopes as $envelope ) {
+            $term = $envelope->getTerm();
             $under = [];
             if ( $term->parent === 0 ) {
-                foreach ( $t as $underTerm ) {
+                foreach ( $evnelopes as $underEnvelope ) {
+                    $underTerm = $underEnvelope->getTerm();
                     if ( $underTerm->parent === $term->term_id ) {
                         $under[] = FapiMemberTools::oneLevelSelection(
                             $underTerm->term_id,
@@ -356,11 +362,12 @@ class FapiMemberTools {
 
     public static function getLevelOptions() {
         global $FapiPlugin;
-        $t = $FapiPlugin->levels()->loadAsTerms();
+        $t = $FapiPlugin->levels()->loadAsTermEnvelopes();
 
         $options = [];
 
-        foreach ( $t as $term ) {
+        foreach ( $t as $termEnvelope ) {
+            $term = $termEnvelope->getTerm();
             if ( $term->parent === 0 ) {
                 $options[] = sprintf( '<option value="%s">%s</option>', $term->term_id, $term->name );
             }

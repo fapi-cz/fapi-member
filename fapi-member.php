@@ -12,6 +12,7 @@
  * Domain Path:       /languages
  */
 
+include __DIR__ . '/src/FapiTermEnvelope.php';
 include __DIR__ . '/src/FapiMemberTools.php';
 include __DIR__ . '/src/FapiMemberPlugin.php';
 include __DIR__ . '/src/FapiLevels.php';
