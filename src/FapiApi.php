@@ -77,8 +77,12 @@ class FapiApi {
 				'headers' => $this->createHeaders()
 			]
 		);
+        if ( $resp instanceof WP_Error || $resp['response']['code'] !== 200 ) {
+            $this->lastError = $this->findErrorMessage($resp);;
 
-		return ( $resp['response']['code'] === 200 );
+            return false;
+        }
+		return true;
 	}
 
 	protected function createAuthHeader() {
