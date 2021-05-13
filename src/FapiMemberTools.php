@@ -195,9 +195,8 @@ class FapiMemberTools {
         return admin_url( sprintf( '/admin.php?page=fapi-member-options&subpage=%s', $subpage ) );
     }
 
-    public static function trimName($name)
+    public static function trimName($name, $chars = 30)
     {
-        $chars = 30;
         if (mb_strlen($name) > $chars) {
             return sprintf('%s&hellip;', mb_substr($name, 0, $chars - 1));
         }
@@ -486,7 +485,7 @@ class FapiMemberTools {
                 </svg>
             </span>
             <span class="h">Uživatel</span>
-            <span class="l">' . $u->user_login . '</span>
+            <span class="l">' . self::trimName($u->user_login, 8    ) . '</span>
             <div class="submenu">
                 <a href="' . wp_logout_url( get_permalink() ) . '">Odhlásit se</a>
             </div>

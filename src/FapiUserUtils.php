@@ -2,7 +2,8 @@
 
 
 class FapiUserUtils {
-	public function createUser( $email, &$props ) {
+
+    public function createUser( $email, &$props ) {
 		$user = get_user_by( 'email', $email );
 		if ( $user !== false ) {
 			// is duplicate
@@ -17,7 +18,7 @@ class FapiUserUtils {
 			'user_login'    => $email,
 			'user_nicename' => str_replace( '@', '_', $email ),
 			'user_email'    => $email,
-			'user_role'     => 'subscriber'
+			'user_role'     => 'member'
 		];
 		$res      = wp_insert_user( $userData );
 

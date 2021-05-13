@@ -75,6 +75,7 @@ class FapiMemberPlugin {
 		add_action( 'admin_init', [ $this, 'registerSettings' ] );
 
 		add_action( 'init', [ $this, 'registerLevelsTaxonomy' ] );
+        add_action( 'init', [ $this, 'registerRoles' ] );
 		add_action( 'init', [ $this, 'addShortcodes' ] );
 		add_action( 'rest_api_init', [ $this, 'addRestEndpoints' ] );
 		// check if page in fapi level
@@ -102,7 +103,16 @@ class FapiMemberPlugin {
 
 		add_image_size( 'level-selection', 300, 164, true );
 		add_filter( 'login_redirect', [ $this, 'loginRedirect' ], 10, 3 );
+        add_filter( 'show_admin_bar' , [ $this, 'hideAdminBar' ]);
 	}
+
+	public function hideAdminBar($original) {
+        $user = wp_get_current_user();
+        if (in_array( 'member', (array) $user->roles )) {
+            return false;
+        }
+        return $original;
+    }
 
 	public function showError( $type, $message ) {
 		add_action( 'admin_notices',
@@ -110,6 +120,12 @@ class FapiMemberPlugin {
 				printf( '<div class="notice notice-%s is-dismissible"><p>%s</p></div>', $e[0], $e[1] );
 			} );
 	}
+
+	public function registerRoles() {
+        if (get_role('member') === null) {
+            add_role( 'member', 'Člen', get_role( 'subscriber' )->capabilities );
+        }
+    }
 
 	public function registerStyles() {
 		wp_register_style(
