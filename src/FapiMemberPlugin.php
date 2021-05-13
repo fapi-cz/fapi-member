@@ -1033,7 +1033,7 @@ class FapiMemberPlugin {
 		foreach ( $lower as $envelope ) {
 		    $l = $envelope->getTerm();
 			$checked = ( isset( $memberships[ $l->term_id ] ) ) ? 'checked' : '';
-			if ( isset( $memberships[ $l->term_id ] ) && $memberships[ $l->term_id ]->registered !== null ) {
+			if ( isset( $memberships[ $l->term_id ] ) && $memberships[ $l->term_id ]->registered !== null &&  $memberships[ $l->term_id ]->registered !== false) {
 				$reg     = $memberships[ $l->term_id ]->registered;
 				$regDate = sprintf( 'value="%s"', $reg->format( 'Y-m-d' ) );
 				$regTime = sprintf( 'value="%s"', $reg->format( 'H:i' ) );
