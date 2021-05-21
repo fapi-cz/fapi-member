@@ -302,14 +302,8 @@ class FapiMemberPlugin {
                 $this->callbackError( sprintf( 'Invoice security is not valid.' ) );
                 return false;
             }
-			if ( ! isset( $invoice['paid'] ) || $invoice['paid'] !== true ) {
-				$this->callbackError( sprintf( 'Invoice status is not paid.' ) );
-				return false;
-			}
-			// https://web.fapi.cz/api-doc/#api-Invoices
-			// some invoices are notified twice
-			if ( in_array( $invoice['type'], [ 'invoice', 'simplified_invoice' ], true ) ) {
-                $this->callbackError( sprintf( 'Different type than invoice or simplified_invoice.' ) );
+			if ( isset($invoice['parent']) && $invoice['parent'] !== null ) {
+                $this->callbackError( sprintf( 'Invoice parent is set and not null.' ) );
 				return false;
 			}
 			if ( ! isset( $invoice['customer'] ) || ! isset( $invoice['customer']['email'] ) ) {
