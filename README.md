@@ -84,12 +84,12 @@ kde `id` použiju na načtení objednávky, `time` a `security` pro validaci
 Callback vrací při chybě status code `400` a chybový text, jsou "ošetřeny" následující stavy:
 
 - Nepodařilo se načíst invoice/voucher z API
-- Voucher status není `applied` 
-- Invoice status není `paid`
+- Voucher status není `applied`
 - Nelze najít email zákazníka v API response
 - V get parametrech callbacku chybý proměnná `level`
 - Některá sekce/úroveň z callbacku neexistuje ve WordPressu
 - Invoice / voucher security hash nesedí
+- a další
 
 ## Odinstalace pluginu
 
