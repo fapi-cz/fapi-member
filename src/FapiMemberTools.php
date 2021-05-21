@@ -172,19 +172,19 @@ class FapiMemberTools {
         <h3>Nápověda</h3>
         <div class="inner">
             <div>
-                <h4>Jak získám API klíč?</h4>
-                <p>Přečtěte si naší nápovědu, kde se dozvíte, jak si můžete vygenerovat API klíč v aplikaci FAPI.</p>
-                <a href="https://fapi.cz/plugin/napoveda-1" target="_blank" class="btn outline">Přečíst</a>
+                <h4>Jak propojit plugin s FAPI?</h4>
+                <p>Prvním krokem ke zprovoznění členských sekcí je propojení pluginu s vaším účtem FAPI.</p>
+                <a href="https://napoveda.fapi.cz/article/97-fapi-member-propojeni-s-fapi" target="_blank" class="btn outline">Přečíst</a>
             </div>
             <div>
                 <h4>Jak vytvořit členskou sekci?</h4>
-                <p>Podívejte se na základní kroky v pluginu FAPI Member, abyste si mohli vytvořit svou členskou sekci.</p>
-                <a href="https://fapi.cz/plugin/napoveda-2" target="_blank" class="btn outline">Přečíst</a>
+                <p>Zde se dozvíte, co je to členská sekce nebo úroveň a jak ji správně nastavit.</p>
+                <a href="https://napoveda.fapi.cz/article/98-fapi-member-nastaveni-clenske-sekce" target="_blank" class="btn outline">Přečíst</a>
             </div>
             <div>
-                <h4>Jak vygeneruji přístupy?</h4>
-                <p>Podívejte se, jak si nastavit prodejní formulář FAPI, aby dokázal komunikovat s pluginem a vytvářel přístupy vašim klientům.</p>
-                <a href="https://fapi.cz/plugin/napoveda-3" target="_blank" class="btn outline">Přečíst</a>
+                <h4>Jak přidat uživatele do členské sekce?</h4>
+                <p>Zjistěte, jak nastavit prodejní formulář FAPI, aby automaticky zakládal členství vašim klientům.</p>
+                <a href="https://napoveda.fapi.cz/article/99-fapi-member-zakladani-clenstvi" target="_blank" class="btn outline">Přečíst</a>
             </div>
         </div>
     </div>
@@ -217,14 +217,16 @@ class FapiMemberTools {
                 foreach ( $envelopes as $underEnvelope ) {
                     $underTerm = $underEnvelope->getTerm();
                     if ( $underTerm->parent === $term->term_id ) {
-                        $under[] = sprintf( '<li data-id="%s"><span>%s</span>%s</li>',
+                        $under[] = sprintf( '<li data-id="%s" data-name="%s"><span>%s</span>%s</li>',
                             $underTerm->term_id,
+                            $underTerm->name,
                             self::trimName($underTerm->name),
                             $actions );
                     }
                 }
-                $lis[] = sprintf( '<li data-id="%s"><span>%s</span>%s<ol>%s</ol></li>',
+                $lis[] = sprintf( '<li data-id="%s" data-name="%s"><span>%s</span>%s<ol>%s</ol></li>',
                     $term->term_id,
+                    $term->name,
                     self::trimName($term->name),
                     $actions,
                     join( '', $under ) );

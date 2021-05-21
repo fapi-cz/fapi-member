@@ -19,7 +19,7 @@ $selectedLevel = (isset($_GET['level'])) ? (int)$_GET['level'] : null;
 
 				<?php echo FapiMemberTools::subSubmenuItem( 'settingsContentAdd', 'Přiřazené stránky', $subpage ) ?>
 				<?php echo FapiMemberTools::subSubmenuItem( 'settingsContentRemove',
-				                                            'Úpravy přiřazení',
+				                                            'Úprava přiřazení',
 				                                            $subpage ) ?>
             </div>
             <div>

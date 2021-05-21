@@ -275,23 +275,19 @@ class FapiMemberPlugin {
 			$itemTemplate = $this->fapiApi()->getItemTemplate( $voucherItemTemplateCode );
 			if ( $voucher === false ) {
 				$this->callbackError( sprintf( 'Error getting voucher: %s', $this->fapiApi()->lastError ) );
-
 				return false;
 			}
 			$itemTemplate = ($itemTemplate === false) ? [] : $itemTemplate;
             if ( !$this->fapiApi()->isVoucherSecurityValid($voucher, $itemTemplate, $d['time'], $d['security']) ) {
                 $this->callbackError( sprintf( 'Invoice security is not valid.' ) );
-
                 return false;
             }
 			if ( ! isset( $voucher['status'] ) || $voucher['status'] !== 'applied' ) {
 				$this->callbackError( sprintf( 'Voucher status is not applied.' ) );
-
 				return false;
 			}
 			if ( ! isset( $voucher['applicant'] ) || ( $voucher['applicant'] === null ) || ! isset( $voucher['applicant']['email'] ) ) {
 				$this->callbackError( sprintf( 'Cannot find applicant email in API response.' ) );
-
 				return false;
 			}
 			$email = $voucher['applicant']['email'];
@@ -300,27 +296,24 @@ class FapiMemberPlugin {
 			$invoice   = $this->fapiApi()->getInvoice( $invoiceId );
 			if ( $invoice === false ) {
 				$this->callbackError( sprintf( 'Error getting invoice: %s', $this->fapiApi()->lastError ) );
-
 				return false;
 			}
 			if ( !$this->fapiApi()->isInvoiceSecurityValid($invoice, $d['time'], $d['security']) ) {
                 $this->callbackError( sprintf( 'Invoice security is not valid.' ) );
-
                 return false;
             }
 			if ( ! isset( $invoice['paid'] ) || $invoice['paid'] !== true ) {
 				$this->callbackError( sprintf( 'Invoice status is not paid.' ) );
-
 				return false;
 			}
 			// https://web.fapi.cz/api-doc/#api-Invoices
 			// some invoices are notified twice
 			if ( in_array( $invoice['type'], [ 'invoice', 'simplified_invoice' ], true ) ) {
+                $this->callbackError( sprintf( 'Different type than invoice or simplified_invoice.' ) );
 				return false;
 			}
 			if ( ! isset( $invoice['customer'] ) || ! isset( $invoice['customer']['email'] ) ) {
 				$this->callbackError( sprintf( 'Cannot find customer email in API response.' ) );
-
 				return false;
 			}
 			$email = $invoice['customer']['email'];
@@ -328,7 +321,6 @@ class FapiMemberPlugin {
 
 		if ( ! isset( $get['level'] ) ) {
 			$this->callbackError( sprintf( 'Level parameter missing in get params.' ) );
-
 			return false;
 		}
 
@@ -347,7 +339,6 @@ class FapiMemberPlugin {
 		foreach ( $levelIds as $oneLevelid ) {
 			if ( ! in_array( $oneLevelid, $existingLevels ) ) {
 				$this->callbackError( sprintf( 'Section or level with ID %s, does not exist.', $oneLevelid ) );
-
 				return false;
 			}
 		}
@@ -369,7 +360,7 @@ class FapiMemberPlugin {
 			}
 		}
 		$levelIds = array_values( array_merge( $levelIds, $added ) );
-
+        $send1ASectionIds = [];
 		foreach ( $levelIds as $id ) {
 			$mainLevel = $this->levels()->loadById( $id );
 			if ( ! $mainLevel ) {
@@ -380,23 +371,40 @@ class FapiMemberPlugin {
 			$this->enhanceProps( $props );
 
 			// send emails
-			// Pokud je uživatel úplně nový, pošli REG email
+			// 1. Pokud je uživatel úplně nový, pošli REG email
 			if ( isset( $props['new_user'] ) && $props['new_user'] ) {
 				$this->sendEmail( $email, FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $id, $props );
 				continue;
 			}
-			// Pokud uživatel získal sekci, kterou ještě neměl, pošli REG email
+			// 1a: Pokud uživatel získal úroveň v sekci, kterou ještě neměl, pošli “afterRegistration” email
+            if (
+                ( isset( $props['membership_level_added'] ) && $props['membership_level_added'] )
+                &&
+                ( isset( $props['membership_level_added_is_section'] ) && $props['membership_level_added_is_section'] === false )
+                &&
+                ( !isset( $props['did_user_had_this_parent_before'] ) || $props['did_user_had_this_parent_before'] === false )
+            ) {
+                $l = $this->levels()->loadById( $props['membership_level_added_level'] );
+                $send1ASectionIds[] = $l->parent;
+                $this->sendEmail( $email, FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $id, $props );
+                continue;
+            }
+			// 2. Pokud uživatel získal sekci, kterou ještě neměl  a v rámci tohoto callbacku
+            //    z fapi se neposlal email dle 1a pro danou sekci pošli REG email
 			if (
 				( isset( $props['membership_level_added'] ) && $props['membership_level_added'] )
 				&&
 				( isset( $props['membership_level_added_is_section'] ) && $props['membership_level_added_is_section'] === true )
 				&&
 				( ! isset( $props['did_user_had_this_level_before'] ) || $props['did_user_had_this_level_before'] === false )
+                &&
+                !in_array($props['membership_level_added'], $send1ASectionIds)
 			) {
+
 				$this->sendEmail( $email, FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $id, $props );
 				continue;
 			}
-			// Pokud uživatel získal úroveň v sekci co už měl, pošli Při přidání
+			// 3. Pokud uživatel získal úroveň v sekci co už měl, pošli Při přidání
 			if (
 			( isset( $props['membership_level_added'] ) && $props['membership_level_added'] )
 			) {
@@ -410,7 +418,7 @@ class FapiMemberPlugin {
 					}
 				}
 			}
-			// Pokud uživatel koupil sekce nebo úroveň kterou již měl, pokud nebyla neomezená
+			// 4. Pokud uživatel koupil sekce nebo úroveň kterou již měl, pokud nebyla neomezená
 			if (
 			( isset( $props['membership_prolonged'] ) && $props['membership_prolonged'] )
 			) {
@@ -418,6 +426,7 @@ class FapiMemberPlugin {
 				continue;
 			}
 		}
+		return '';
 	}
 
 	protected function callbackError( $message ) {
@@ -1058,7 +1067,7 @@ class FapiMemberPlugin {
                         <input class="registrationTimeInput" type="time" name="Levels[%s][registrationTime]" %s>
                         <label class="membershipUntil" data-for="Levels[%s][membershipUntil]" for="Levels[%s][membershipUntil]">Členství do</label>
                         <input class="membershipUntilInput" type="date" name="Levels[%s][membershipUntil]" %s>
-                        <label class="isUnlimited" for="Levels[%s][isUnlimited]">Je neomezené?</label>
+                        <label class="isUnlimited" for="Levels[%s][isUnlimited]">Bez expirace</label>
                         <input class="isUnlimitedInput" type="checkbox" name="Levels[%s][isUnlimited]" %s>
                     </div>
                     ',
@@ -1129,7 +1138,7 @@ class FapiMemberPlugin {
                     </span>
                 </th>
                 <th scope="col" class="manage-column fields">
-                    <span class="a">Je neomezené?</span>
+                    <span class="a">Bez expirace</span>
                     <span class="b">
                     <input class="isUnlimitedInput" type="checkbox" name="Levels[' . $level->term_id . '][isUnlimited]" ' . $isUnlimited . '>
                     </span>
@@ -1331,6 +1340,15 @@ class FapiMemberPlugin {
 				$user->ID,
 				$levelId
 			);
+			if ($levelTerm->parent === 0) {
+                $props['did_user_had_this_parent_before'] = null;
+            } else {
+                $props['did_user_had_this_parent_before'] = $this->fapiMembershipLoader()->didUserHadLevelMembershipBefore(
+                    $user->ID,
+                    $levelTerm->parent
+                );
+            }
+
 
 			$registered = new DateTime();
 			if ( $isUnlimited ) {
@@ -1373,20 +1391,34 @@ class FapiMemberPlugin {
 	protected function applyEmailShortcodes( $text, $props ) {
 		$map = [
 			'%%SEKCE%%'              => function ( $props ) {
-				if ( isset( $props['membership_prolonged_level_name'] ) ) {
-					return $props['membership_prolonged_level_name'];
-				} elseif ( isset( $props['membership_level_added_level_name'] ) ) {
-					return $props['membership_level_added_level_name'];
-				} else {
-					return '';
-				}
+                if (isset($props['membership_level_added_is_section']) && $props['membership_level_added_is_section'] === true) {
+                    if (isset($props['membership_prolonged_level_name'])) {
+                        return $props['membership_prolonged_level_name'];
+                    } elseif (isset($props['membership_level_added_level_name'])) {
+                        return $props['membership_level_added_level_name'];
+                    } else {
+                        return '';
+                    }
+                } else {
+                    return '';
+                }
 			},
 			'%%UROVEN%%'             => function ( $props ) {
-				if ( isset( $props['membership_child_level_added_level_name'] ) ) {
-					return $props['membership_child_level_added_level_name'];
-				} else {
-					return '';
-				}
+		        if (isset($props['membership_level_added_is_section']) && $props['membership_level_added_is_section'] === true) {
+                    if ( isset( $props['membership_child_level_added_level_name'] ) ) {
+                        return $props['membership_child_level_added_level_name'];
+                    } else {
+                        return '';
+                    }
+                } else {
+                    if ( isset( $props['membership_prolonged_level_name'] ) ) {
+                        return $props['membership_prolonged_level_name'];
+                    } elseif ( isset( $props['membership_level_added_level_name'] ) ) {
+                        return $props['membership_level_added_level_name'];
+                    } else {
+                        return '';
+                    }
+                }
 			},
 			'%%DNI%%'                => function ( $props ) {
 				if ( isset( $props['membership_prolonged_days'] ) ) {

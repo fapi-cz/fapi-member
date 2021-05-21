@@ -77,7 +77,7 @@ echo FapiMemberTools::heading();
                                         <input type="text" name="mail_subject" id="mail_subject"
 											<?php echo ( $emailIsCascaded ) ? 'readonly' : '' ?>
 											<?php echo ( $hasContentSet ) ? sprintf( 'value="%s"',
-											                                         $templates[ $key ]['s'] ) : '' ?>
+											                                         htmlspecialchars($templates[ $key ]['s'])) : '' ?>
                                         >
                                     </div>
                                     <div class="row">

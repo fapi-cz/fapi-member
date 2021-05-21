@@ -7,7 +7,7 @@ Requires PHP: 5.6
 License: GPLv2 or later
 Stable tag: 1.2.0
 
-FAPI plugin for membership management and access control.
+Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
 == Description ==
-Plugin is intended for use with FAPI.cz service, with FAPI and this plugin you can manage your memberships and user accounts automaticaly, but even without FAPI.cz you can protect some pages from public users and only allow time limited access to membership areas.
+Plugin FAPI Member umožňuje jednoduchou správu členských sekcí, tedy webových stránek přístupných jen oprávněným uživatelům. Ve spojení s aplikací FAPI tak můžete velmi snadno a automatizovaně prodávat přístup do svých on-line kurzů, klubů nebo k prémiovému obsahu na svém webu.

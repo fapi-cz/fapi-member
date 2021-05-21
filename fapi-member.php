@@ -1,14 +1,15 @@
 <?php
 /**
  * Plugin Name:       FAPI Member
- * Description:       FAPI plugin for membership management and access control.
+ * Plugin URI:        https://fapi.cz/
+ * Description:       Plugin FAPI pro jednoduchou správu členských sekcí na webu.
  * Version:           1.2.0
  * Requires at least: 5.2
  * Requires PHP:      5.6
- * Author:            FAPI
+ * Author:            FAPI Business s.r.o.
  * Author URI:        https://fapi.cz/
  * License:           GPLv2 or later
- * Text Domain:       fapi
+ * Text Domain:       fapi-member
  * Domain Path:       /languages
  */
 

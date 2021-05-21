@@ -43,7 +43,7 @@ document.addEventListener('click', (event) => {
 
 document.addEventListener('click', (event) => {
     if (event.target.matches('.levels .edit')) {
-        let name = event.target.parentNode.querySelector('span').innerText;
+        let name = event.target.parentNode.getAttribute('data-name');
         let id = event.target.parentNode.getAttribute('data-id');
         Swal.fire({
             input: 'text',
