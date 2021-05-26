@@ -109,3 +109,9 @@ Javascript je transpilován webpackem, pro kompilaci po úpravách:
 ~~~
 npx webpack
 ~~~
+
+## Testovací akce
+
+Pokud ve `wp_options` nastavíte klíč `fapiIsDevelopment` na hodnotu `1`, pak se
+v menu pluginu objeví červená možnost Testovací akce, která umožní spustit obsah souboru `templates/test.php`,
+to je možné využít při vývoji na testování např. zakládání uživatelů, posílání mailů atd.

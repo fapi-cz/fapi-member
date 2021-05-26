@@ -18,7 +18,6 @@ class FapiUserUtils {
 			'user_login'    => $email,
 			'user_nicename' => str_replace( '@', '_', $email ),
 			'user_email'    => $email,
-			'user_role'     => 'member'
 		];
 		$res      = wp_insert_user( $userData );
 
@@ -27,6 +26,8 @@ class FapiUserUtils {
 		$props['password'] = $password;
 		$props['new_user'] = true;
 		if ( is_int( $res ) ) {
+		    $User = new WP_User($res);
+		    $User->set_role('member');
 			$props['user_id'] = $res;
 		}
 

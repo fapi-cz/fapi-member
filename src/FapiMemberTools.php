@@ -48,6 +48,14 @@ class FapiMemberTools {
         $h = file_get_contents( __DIR__ . '/../_sources/home-solid.svg' );
         $p = file_get_contents( __DIR__ . '/../_sources/padlock.svg' );
 
+        $testActionLink = '';
+        if($FapiPlugin::isDevelopment()) {
+            $testActionLink = '
+            <a href="' . self::fapilink( 'test' ) . '" ' . ( ( $subpage === 'test' ) ? 'class="active"' : '' ) . '>
+                <span class="a" style="color: #9a1818;">Testovací akce</span>
+            </a>';
+        }
+
         if ( ! $areApiCredentialsSet ) {
             return '
             <nav>
@@ -63,6 +71,7 @@ class FapiMemberTools {
                     <span class="a">Propojení s FAPI</span>
                     ' . $c . '
                 </a>
+                ' . $testActionLink . '
             </nav>';
         } else {
             return '
@@ -80,6 +89,7 @@ class FapiMemberTools {
                     <span class="a">Propojení s FAPI</span>
                     ' . $c . '
                 </a>
+                ' . $testActionLink . '
             </nav>';
         }
     }

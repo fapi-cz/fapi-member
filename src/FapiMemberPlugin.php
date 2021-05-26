@@ -13,6 +13,7 @@ class FapiMemberPlugin {
 	const OPTION_KEY_API_USER = 'fapiMemberApiEmail';
 	const OPTION_KEY_API_KEY = 'fapiMemberApiKey';
 	const OPTION_KEY_API_CHECKED = 'fapiMemberApiChecked';
+	const OPTION_KEY_IS_DEVELOPMENT = 'fapiIsDevelopment';
 	const REQUIRED_CAPABILITY = 'manage_options';
 	const DF = 'Y-m-d\TH:i:s';
 
@@ -21,9 +22,9 @@ class FapiMemberPlugin {
 	}
 
 	public static function isDevelopment() {
-		$s = $_SERVER['SERVER_NAME'];
+		$s = (int)get_option(self::OPTION_KEY_IS_DEVELOPMENT, 0);
 
-		return ( $s === 'localhost' );
+		return ( $s === 1 );
 	}
 
 	public function levels() {
@@ -985,6 +986,13 @@ class FapiMemberPlugin {
 	protected function showSettingsPages() {
 		$this->showTemplate( 'settingsPages' );
 	}
+
+    protected function showTest() {
+	    if (!self::isDevelopment()) {
+	        wp_die('This path is only allowed in development.');
+        }
+        $this->showTemplate( 'test' );
+    }
 
 	protected function showTemplate( $name ) {
 		$areApiCredentialsSet = $this->areApiCredentialsSet();
