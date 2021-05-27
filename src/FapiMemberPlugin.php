@@ -440,11 +440,24 @@ class FapiMemberPlugin {
 		if ( isset( $props['membership_prolonged_level'] ) ) {
 			$props['membership_prolonged_level_name'] = $this->levels()->loadById( $props['membership_prolonged_level'] )->name;
 		}
-		$props['login_link']     = sprintf( '<a href="%s">zde</a>', $this->getLoginUrl() );
-		$props['login_link_url'] = $this->getLoginUrl();
+		if (isset($props['membership_level_added_level'])) {
+            $props['login_link']     = sprintf( '<a href="%s">zde</a>', $this->getLoginUrl($props['membership_level_added_level']) );
+            $props['login_link_url'] = $this->getLoginUrl($props['membership_level_added_level']);
+        } else {
+            $props['login_link']     = sprintf( '<a href="%s">zde</a>', $this->getLoginUrl() );
+            $props['login_link_url'] = $this->getLoginUrl();
+        }
+
 	}
 
-	protected function getLoginUrl() {
+	protected function getLoginUrl($level = null) {
+	    if ($level) {
+            $otherPages     = $this->levels()->loadOtherPagesForLevel( $level, true );
+            $loginPageId = ( isset( $otherPages['login'] ) ) ? $otherPages['login'] : null;
+            if ( $loginPageId ) {
+                return get_permalink( $loginPageId );
+            }
+        }
 		$setLoginPageId = $this->getSetting( 'login_page_id' );
 		if ( $setLoginPageId === null ) {
 			return wp_login_url();

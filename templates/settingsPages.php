@@ -38,8 +38,7 @@ echo FapiMemberTools::heading();
 						],
 						'login'      => [
 							't' => 'Přihlašovací stránka',
-							'd' => 'Vyberte stránku, kde je umístěn přihlašovací formulář. 
-                                        Toto nastavení nemá vliv na funkčnost členské sekce, slouží pouze pro váš přehled.
+							'd' => 'Vyberte stránku, kde je umístěn přihlašovací formulář.
                                         <br>Stránka nesmí být zařazena jako členská.',
 						],
 					];
