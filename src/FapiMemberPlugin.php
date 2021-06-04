@@ -1109,7 +1109,7 @@ class FapiMemberPlugin {
 
 		$checked     = ( isset( $memberships[ $level->term_id ] ) ) ? 'checked' : '';
 		$isUnlimited = ( isset( $memberships[ $level->term_id ] ) && $memberships[ $level->term_id ]->isUnlimited ) ? 'checked' : '';
-		if ( isset( $memberships[ $level->term_id ]->registered ) && $memberships[ $level->term_id ]->registered !== null ) {
+		if ( isset( $memberships[ $level->term_id ]->registered ) && is_a($memberships[ $level->term_id ]->registered, DateTimeInterface::class)) {
 			$reg     = $memberships[ $level->term_id ]->registered;
 			$regDate = sprintf( 'value="%s"', $reg->format( 'Y-m-d' ) );
 			$regTime = sprintf( 'value="%s"', $reg->format( 'H:i' ) );
@@ -1117,7 +1117,7 @@ class FapiMemberPlugin {
 			$regDate = '';
 			$regTime = '';
 		}
-		if ( isset( $memberships[ $level->term_id ]->until ) && $memberships[ $level->term_id ]->until !== null ) {
+		if ( isset( $memberships[ $level->term_id ]->until ) && is_a($memberships[ $level->term_id ]->until, DateTimeInterface::class) ) {
 			$untilDate = sprintf( 'value="%s"', $memberships[ $level->term_id ]->until->format( 'Y-m-d' ) );
 		} else {
 			$untilDate = '';

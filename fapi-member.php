@@ -3,7 +3,7 @@
  * Plugin Name:       FAPI Member
  * Plugin URI:        https://fapi.cz/
  * Description:       Plugin FAPI pro jednoduchou správu členských sekcí na webu.
- * Version:           1.6.0
+ * Version:           1.6.1
  * Requires at least: 5.2
  * Requires PHP:      5.6
  * Author:            FAPI Business s.r.o.
