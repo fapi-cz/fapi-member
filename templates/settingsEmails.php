@@ -111,12 +111,12 @@ echo FapiMemberTools::heading();
                             <th rowspan="2" style="width: 200px">Kód</th>
                             <th rowspan="2">Popis</th>
                             <th rowspan="2">Příklad</th>
-                            <th colspan="3" style="width:300px">Dostupné pro</th>
+                            <th colspan="3" style="width:300px">Dostupné při</th>
                         </tr>
                         <tr>
-                            <th>registrace</th>
-                            <th>prodloužení</th>
-                            <th>přidání úrovně</th>
+                            <th>registraci nového člena</th>
+                            <th>prodloužení/<wbr>přidání sekce</th>
+                            <th>prodloužení/<wbr>přidání úrovně</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -124,23 +124,23 @@ echo FapiMemberTools::heading();
                             <td><code>%%SEKCE%%</code></td>
                             <td>Název sekce</td>
                             <td>Italská kuchyně</td>
+                            <td></td>
                             <td>&checkmark;</td>
-                            <td>&checkmark;</td>
-                            <td>&checkmark;</td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td><code>%%UROVEN%%</code></td>
                             <td>Název úrovně</td>
                             <td>Začátečník</td>
-                            <td>&checkmark;</td>
-                            <td>&checkmark;</td>
+                            <td></td>
+                            <td></td>
                             <td>&checkmark;</td>
                         </tr>
                         <tr>
                             <td><code>%%DNI%%</code></td>
                             <td>Počet zakoupených dní nebo 'neomezeně'</td>
                             <td>31</td>
-                            <td>&checkmark;</td>
+                            <td></td>
                             <td>&checkmark;</td>
                             <td>&checkmark;</td>
                         </tr>
@@ -148,7 +148,7 @@ echo FapiMemberTools::heading();
                             <td><code>%%CLENSTVI_DO%%</code></td>
                             <td>Datum konce členství nebo 'neomezené'</td>
                             <td>12. 1. 2022</td>
-                            <td>&checkmark;</td>
+                            <td></td>
                             <td>&checkmark;</td>
                             <td>&checkmark;</td>
                         </tr>

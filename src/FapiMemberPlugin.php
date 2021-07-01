@@ -434,9 +434,6 @@ class FapiMemberPlugin {
 		if ( isset( $props['membership_level_added_level'] ) ) {
 			$props['membership_level_added_level_name'] = $this->levels()->loadById( $props['membership_level_added_level'] )->name;
 		}
-		if ( isset( $props['membership_child_level_added_level'] ) ) {
-			$props['membership_child_level_added_level_name'] = $this->levels()->loadById( $props['membership_child_level_added_level'] )->name;
-		}
 		if ( isset( $props['membership_prolonged_level'] ) ) {
 			$props['membership_prolonged_level_name'] = $this->levels()->loadById( $props['membership_prolonged_level'] )->name;
 		}
@@ -1341,6 +1338,12 @@ class FapiMemberPlugin {
 				$props['membership_prolonged_days']  = $days;
 				$props['membership_prolonged_until'] = $levelMembership->until;
 			}
+            $levelTerm = $this->levels()->loadById( $levelId );
+            if ( $levelTerm->parent === 0 ) {
+                $props['membership_prolonged_is_section'] = true;
+            } else {
+                $props['membership_prolonged_is_section'] = false;
+            }
 			$this->fapiMembershipLoader()->saveMembershipToHistory( $user->ID, $levelMembership );
 			$this->fapiMembershipLoader()->saveForUser( $user->ID, $memberships );
 		} else {
@@ -1408,7 +1411,11 @@ class FapiMemberPlugin {
 	protected function applyEmailShortcodes( $text, $props ) {
 		$map = [
 			'%%SEKCE%%'              => function ( $props ) {
-                if (isset($props['membership_level_added_is_section']) && $props['membership_level_added_is_section'] === true) {
+                if (
+                    (isset($props['membership_level_added_is_section']) && $props['membership_level_added_is_section'] === true)
+                    ||
+                    (isset($props['membership_prolonged_is_section']) && $props['membership_prolonged_is_section'] === true)
+                ) {
                     if (isset($props['membership_prolonged_level_name'])) {
                         return $props['membership_prolonged_level_name'];
                     } elseif (isset($props['membership_level_added_level_name'])) {
@@ -1421,12 +1428,12 @@ class FapiMemberPlugin {
                 }
 			},
 			'%%UROVEN%%'             => function ( $props ) {
-		        if (isset($props['membership_level_added_is_section']) && $props['membership_level_added_is_section'] === true) {
-                    if ( isset( $props['membership_child_level_added_level_name'] ) ) {
-                        return $props['membership_child_level_added_level_name'];
-                    } else {
-                        return '';
-                    }
+		        if (
+		            (isset($props['membership_level_added_is_section']) && $props['membership_level_added_is_section'] === true)
+                    ||
+                    (isset($props['membership_prolonged_is_section']) && $props['membership_prolonged_is_section'] === true)
+                ) {
+                    return '';
                 } else {
                     if ( isset( $props['membership_prolonged_level_name'] ) ) {
                         return $props['membership_prolonged_level_name'];
