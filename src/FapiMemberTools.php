@@ -229,7 +229,7 @@ class FapiMemberTools {
                     if ( $underTerm->parent === $term->term_id ) {
                         $under[] = sprintf( '<li data-id="%s" data-name="%s"><span>%s</span>%s</li>',
                             $underTerm->term_id,
-                            $underTerm->name,
+                            htmlentities($underTerm->name),
                             self::trimName($underTerm->name),
                             $actions );
                     }
