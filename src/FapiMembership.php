@@ -2,6 +2,7 @@
 
 
 class FapiMembership {
+    /** @var int */
 	public $level;
 	public $registered;
 	public $until;

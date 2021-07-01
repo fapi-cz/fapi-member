@@ -256,6 +256,7 @@
 			}
 
 			textarea {
+				resize: none;
 				background-color: white;
 				border-radius: 0.25rem;
 				border: 1px solid $grayNext;
@@ -610,7 +611,8 @@
 			display: none;
 
 			textarea {
-				height: 120px;
+				height: 190px;
+				resize: none;
 			}
 		}
 

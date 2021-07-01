@@ -218,6 +218,7 @@
   background-color: #f3f3f3;
 }
 .baseGrid form .row textarea {
+  resize: none;
   background-color: white;
   border-radius: 0.25rem;
   border: 1px solid #9ca3af;
@@ -517,7 +518,8 @@
   display: none;
 }
 .baseGrid .oneEmail .body textarea {
-  height: 120px;
+  height: 190px;
+  resize: none;
 }
 .baseGrid .oneEmail.open {
   padding-bottom: 22px;

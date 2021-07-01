@@ -538,7 +538,9 @@ class FapiMemberPlugin {
 				}
 			}
 		}
+
 		$this->fapiMembershipLoader()->saveForUser( $userId, $memberships );
+        $this->fapiMembershipLoader()->extendMembershipsToParents($userId);
 	}
 
 	protected function sanitizeLevels( $levels ) {

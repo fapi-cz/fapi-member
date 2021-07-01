@@ -43,6 +43,87 @@ class FapiMembershipLoader {
 		update_user_meta( $userId, self::MEMBERSHIP_META_KEY, $meta );
 	}
 
+    /**
+     * @param int $userId
+     */
+	public function extendMembershipsToParents( $userId ) {
+
+        $activeMemberships = $this->loadForUser($userId);
+        if ( count( $activeMemberships ) === 0 ) {
+            return;
+        }
+        $parentsToExtend = [];
+        $extendedMemberships = $activeMemberships;
+        $newMemberships = [];
+        foreach ($activeMemberships as $m1) {
+            $levelTerm = $this->fapiLevels->loadById($m1->level);
+            if (!$levelTerm) {
+                continue;
+            }
+            if ($levelTerm->parent === 0) {
+                continue;
+            }
+            $parentsToExtend[] =  $this->fapiLevels->loadById($levelTerm->parent);
+        }
+        foreach ($parentsToExtend as $parentTerm) {
+            $childLevelEnvelopes = array_filter($this->fapiLevels->loadAsTermEnvelopes(), function($termEnvelope) use ($parentTerm) {
+                return ($termEnvelope->getTerm()->parent === $parentTerm->term_id);
+            });
+            $childLevelsId = array_reduce($childLevelEnvelopes, function($carry, $m0) {
+                $carry[] = $m0->getTerm()->term_id;
+                return $carry;
+            }, []);
+
+            $childLevelsMemberships = array_filter($activeMemberships, function ($membership) use ($childLevelsId) {
+                return in_array($membership->level, $childLevelsId);
+            });
+            ;
+            $childIsUnlimited = false;
+            $childMaxUntil = null;
+            $childMinRegistered = null;
+            foreach ($childLevelsMemberships as $m2) {
+                if ($m2->isUnlimited === true) {
+                    $childIsUnlimited = true;
+                }
+                if ($m2->until) {
+                    $childMaxUntil = max($childMaxUntil, $m2->until);
+                }
+                if ($m2->registered) {
+                    if ($childMinRegistered === null) {
+                        $childMinRegistered = $m2->registered;
+                    } else {
+                        $childMinRegistered = min($childMinRegistered, $m2->registered);
+                    }
+
+                }
+            }
+            $wasParentTermExtended = null;
+            foreach ($extendedMemberships as $m3) {
+                if ($m3->level === $parentTerm->term_id) {
+                    if ($m3->isUnlimited) {
+                        $wasParentTermExtended = true;
+                        break;
+                    }
+                    if ($childIsUnlimited) {
+                        $m3->isUnlimited = true;
+                        $m3->until = null;
+                        $wasParentTermExtended = true;
+                        break;
+                    }
+                    $m3->until = max($m3->until, $childMaxUntil);
+                    $wasParentTermExtended = true;
+                }
+            }
+            if (!$wasParentTermExtended) {
+
+                // create new membership for parent
+                $new = new FapiMembership($parentTerm->term_id, $childMinRegistered, $childMaxUntil, $childIsUnlimited);
+                $newMemberships[] = $new;
+            }
+        }
+        $this->saveForUser($userId, array_merge($extendedMemberships, $newMemberships));
+    }
+
 	public function loadForUser( $userId, $removeFuture = false ) {
 		$meta = get_user_meta( $userId, self::MEMBERSHIP_META_KEY, true );
 		if ( $meta === '' ) {
