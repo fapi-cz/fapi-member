@@ -371,46 +371,14 @@ class FapiMemberPlugin {
 				$this->sendEmail( $email, FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $id, $props );
 				continue;
 			}
-			// 1a: Pokud uživatel získal úroveň v sekci, kterou ještě neměl, pošli “afterRegistration” email
-            if (
-                ( isset( $props['membership_level_added'] ) && $props['membership_level_added'] )
-                &&
-                ( isset( $props['membership_level_added_is_section'] ) && $props['membership_level_added_is_section'] === false )
-                &&
-                ( !isset( $props['did_user_had_this_parent_before'] ) || $props['did_user_had_this_parent_before'] === false )
-            ) {
-                $l = $this->levels()->loadById( $props['membership_level_added_level'] );
-                $send1ASectionIds[] = $l->parent;
-                $this->sendEmail( $email, FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $id, $props );
-                continue;
-            }
-			// 2. Pokud uživatel získal sekci, kterou ještě neměl  a v rámci tohoto callbacku
-            //    z fapi se neposlal email dle 1a pro danou sekci pošli REG email
-			if (
-				( isset( $props['membership_level_added'] ) && $props['membership_level_added'] )
-				&&
-				( isset( $props['membership_level_added_is_section'] ) && $props['membership_level_added_is_section'] === true )
-				&&
-				( ! isset( $props['did_user_had_this_level_before'] ) || $props['did_user_had_this_level_before'] === false )
-                &&
-                !in_array($props['membership_level_added'], $send1ASectionIds)
-			) {
-
-				$this->sendEmail( $email, FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $id, $props );
-				continue;
-			}
-			// 3. Pokud uživatel získal úroveň v sekci co už měl, pošli Při přidání
+			// 3a. Pokud uživatel získal úroveň, pošli Při přidání
 			if (
 			( isset( $props['membership_level_added'] ) && $props['membership_level_added'] )
 			) {
 				$l = $this->levels()->loadById( $props['membership_level_added_level'] );
-				if ( $l->parent !== 0 ) {
-					$sectionLevel = $this->levels()->loadById( $l->parent );
-					if ( $this->fapiMembershipLoader()->didUserHadLevelMembershipBefore( $props['user_id'],
-					                                                                     $sectionLevel->term_id ) ) {
-						$this->sendEmail( $email, FapiLevels::EMAIL_TYPE_AFTER_ADDING, $id, $props );
-						continue;
-					}
+				if ( $l->parent !== 0 ) { // jde o úroveň
+                    $this->sendEmail( $email, FapiLevels::EMAIL_TYPE_AFTER_ADDING, $id, $props );
+                    continue;
 				}
 			}
 			// 4. Pokud uživatel koupil sekce nebo úroveň kterou již měl, pokud nebyla neomezená
