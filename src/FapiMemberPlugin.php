@@ -513,8 +513,6 @@ class FapiMemberPlugin {
 				if (
 					isset( $inputs['registrationDate'] )
 					&&
-					isset( $inputs['registrationTime'] )
-					&&
 					( isset( $inputs['membershipUntil'] ) || ( isset( $inputs['isUnlimited'] ) && $inputs['isUnlimited'] === 'on' ) )
 				) {
 					$reg = \DateTime::createFromFormat( 'Y-m-d\TH:i',
@@ -1062,7 +1060,7 @@ class FapiMemberPlugin {
 				$regTime = sprintf( 'value="%s"', $reg->format( 'H:i' ) );
 			} else {
 				$regDate = '';
-				$regTime = '';
+				$regTime = 'value="00:00"';
 			}
 			if ( isset( $memberships[ $l->term_id ]->until ) && $memberships[ $l->term_id ]->until !== null ) {
 				$untilDate = sprintf( 'value="%s"', $memberships[ $l->term_id ]->until->format( 'Y-m-d' ) );
@@ -1114,7 +1112,7 @@ class FapiMemberPlugin {
 			$regTime = sprintf( 'value="%s"', $reg->format( 'H:i' ) );
 		} else {
 			$regDate = '';
-			$regTime = '';
+			$regTime = 'value="00:00"';
 		}
 		if ( isset( $memberships[ $level->term_id ]->until ) && is_a($memberships[ $level->term_id ]->until, DateTimeInterface::class) ) {
 			$untilDate = sprintf( 'value="%s"', $memberships[ $level->term_id ]->until->format( 'Y-m-d' ) );
