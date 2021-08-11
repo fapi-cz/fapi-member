@@ -266,6 +266,24 @@ document.addEventListener('click', (event) => {
     }
 })
 
+// sets membership values to empty if checkbox is checked off
+document.addEventListener('change', (event) => {
+    if (event.target.matches('.fapiMembership input[type="checkbox"]')) {
+        if(event.target.checked === false) {
+            let name = event.target.name
+            if (/\[check]/.test(name) === false) {
+                return
+            }
+            let m = /Levels\[([0-9]*)]\[check]/.exec(name);
+            let id = m[1]
+            document.querySelector(`[name="Levels[${id}][registrationDate]"]`).value = ''
+            document.querySelector(`[name="Levels[${id}][registrationTime]"]`).value = '00:00'
+            document.querySelector(`[name="Levels[${id}][membershipUntil]"]`).value = ''
+            document.querySelector(`[name="Levels[${id}][isUnlimited]"]`).checked = false
+        }
+    }
+})
+
 document.addEventListener('DOMContentLoaded', doHideMembershipUntil)
 
 document.addEventListener('click', (event) => {
