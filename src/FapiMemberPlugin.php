@@ -1384,6 +1384,8 @@ class FapiMemberPlugin {
 			$this->fapiMembershipLoader()->saveForUser( $user->ID, $memberships );
 		}
 
+		 $this->fapiMembershipLoader()->extendMembershipsToParents($user->ID);
+
 		return true;
 	}
 
