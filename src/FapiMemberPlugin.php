@@ -346,51 +346,115 @@ class FapiMemberPlugin {
 			$isUnlimited = false;
 		}
 
-		// add parents where needed
-		$added = [];
-		for ( $i = 0; $i < count( $levelIds ); $i ++ ) {
-			$l = $this->levels()->loadById( $levelIds[ $i ] );
-			if ( $l->parent !== 0 && ! in_array( $l->parent, $levelIds ) ) {
-				$added[] = $l->parent;
-			}
-		}
-		$levelIds = array_values( array_merge( $levelIds, $added ) );
-        $send1ASectionIds = [];
 		foreach ( $levelIds as $id ) {
-			$mainLevel = $this->levels()->loadById( $id );
-			if ( ! $mainLevel ) {
+			$level = $this->levels()->loadById( $id );
+			if ( ! $level ) {
 				continue;
 			}
 
 			$this->createOrProlongMembership( $email, $id, $days, $isUnlimited, $props );
 			$this->enhanceProps( $props );
-
-			// send emails
-			// 1. Pokud je uživatel úplně nový, pošli REG email
-			if ( isset( $props['new_user'] ) && $props['new_user'] ) {
-				$this->sendEmail( $email, FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $id, $props );
-				continue;
-			}
-			// 3a. Pokud uživatel získal úroveň, pošli Při přidání
-			if (
-			( isset( $props['membership_level_added'] ) && $props['membership_level_added'] )
-			) {
-				$l = $this->levels()->loadById( $props['membership_level_added_level'] );
-				if ( $l->parent !== 0 ) { // jde o úroveň
-                    $this->sendEmail( $email, FapiLevels::EMAIL_TYPE_AFTER_ADDING, $id, $props );
-                    continue;
-				}
-			}
-			// 4. Pokud uživatel koupil sekce nebo úroveň kterou již měl, pokud nebyla neomezená
-			if (
-			( isset( $props['membership_prolonged'] ) && $props['membership_prolonged'] )
-			) {
-				$this->sendEmail( $email, FapiLevels::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED, $id, $props );
-				continue;
-			}
 		}
+
+		$user = get_user_by( 'email', $email );
+        $this->fapiMembershipLoader()->extendMembershipsToParents($user->ID);
+		$wasUserCreatedNow = ( isset( $props['new_user'] ) && $props['new_user'] );
+		if ($user) {
+		    $levels = $this->levels()->loadByIds($levelIds);
+            $emailsToSend = $this->findEmailsToSend($user, $levels, $props, $wasUserCreatedNow, $this->fapiMembershipLoader(), $this->levels());
+            foreach ($emailsToSend as $email) {
+                $type = $email[0];
+                /** @var WP_Term $level */
+                $level = $email[1];
+                $this->sendEmail($user->user_email, $type, $level->term_id, $props);
+            }
+        }
+
 		return '';
 	}
+
+    /**
+     * @param WP_User $user
+     * @param WP_Term[] $levels
+     * @param array $props
+     * @param bool $wasUserCreated
+     * @return array
+     */
+	public function findEmailsToSend(WP_User $user, array $levels, array $props, bool $wasUserCreated, FapiMembershipLoader $fapiMembershipLoader, FapiLevels $fapiLevels) {
+
+	    $toSend = [];
+
+        // Pravidla se vyhodnocují jen pro ID sekce/úrovně, která přijdou z FAPI, nikoli pro přidané sekce k úrovním
+        // První vyhovující pravidlo odešle email a ukončí vyhodnocování pro dané ID sekce/úrovně.
+        // For diagram see: https://whimsical.com/fapi-maily-LRygG8ewKWGqsLjHbabY8t or `../mails-diagram.png`
+
+        foreach ($levels as $level) {
+
+            // Byl uživatel vytvořen v rámci tohoto callbacku?
+            if ($wasUserCreated === true) {
+                $toSend[] = [FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $level];
+                // Konec vyhodnocování úplně
+                return $toSend;
+            }
+
+            $isSection = ($level->parent === 0);
+            $didUserHasThisIDBefore = $fapiMembershipLoader->didUserHadLevelMembershipBefore($user->ID, $level->term_id);
+
+
+            // Jde o sekci?
+            if ($isSection) {
+
+                // Uživatel ještě neměl toto ID?
+                if ($didUserHasThisIDBefore === false) {
+                    $toSend[] = [FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $level];
+                    //konec vyhodnocování pro toto ID
+                    continue;
+                } else {
+                    $memberships = $fapiMembershipLoader->loadForUser($user->ID);
+                    $membershipsForThisId = array_values(array_filter($memberships, function(FapiMembership $one) use ($level) {
+                        return ($one->level === $level->term_id);
+                    }));
+                    $wasMembershipUnlimited = (!empty($membershipsForThisId) && $membershipsForThisId[0]->isUnlimited);
+                    // Bylo členství v tomto ID neomezené?
+                    if ($wasMembershipUnlimited) {
+                        $toSend[] = [FapiLevels::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED, $level];
+                        //konec vyhodnocování pro toto ID
+                        continue;
+                    }
+                }
+
+            } else { // Jde o sekci? NE
+                // Měl již uživatel  nadřazené ID?
+                $parent = $fapiLevels->loadById( $level->parent );
+                if ($parent) {
+                    $didUserHasParentBefore = $fapiMembershipLoader->didUserHadLevelMembershipBefore($user->ID, $parent->term_id);
+                    if ($didUserHasParentBefore) {
+                        $toSend[] = [FapiLevels::EMAIL_TYPE_AFTER_ADDING, $level];
+                        //konec vyhodnocování pro toto ID
+                        continue;
+                    }
+                }
+
+                // Měl již uživatel toto ID?
+                if ($didUserHasThisIDBefore) {
+                    $memberships = $fapiMembershipLoader->loadForUser($user->ID);
+                    $membershipsForThisId = array_values(array_filter($memberships, function(FapiMembership $one) use ($level) {
+                        return ($one->level === $level->term_id);
+                    }));
+                    $wasMembershipUnlimited = (!empty($membershipsForThisId) && $membershipsForThisId[0]->isUnlimited);
+
+                    // Bylo členství v tomto ID neomezené?
+                    if ($wasMembershipUnlimited) {
+                        $toSend[] = [FapiLevels::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED, $level];
+                        //konec vyhodnocování pro toto ID
+                        continue;
+                    }
+                }
+            }
+        }
+
+        return $toSend;
+    }
 
 	protected function callbackError( $message ) {
 		http_response_code( 400 );

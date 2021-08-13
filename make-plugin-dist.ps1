@@ -9,7 +9,7 @@ $to_remove="node_modules",".git","README.md",".gitignore","package.json","packag
     "media/font/specimen_files","media/font/generator_config.txt","media/font/proxima_nova_font-demo.html",
     "media/fapi-member.scss","media/fapi-member-public.scss","media/fapi-user-profile.scss","media/colors.scss",
     "media/fapi-member.css.map","media/fapi-member-public.css.map","media/fapi-user-profile.css.map","media/colors.css.map",
-    "media/colors.css","media/fapi.js";
+    "media/colors.css","media/fapi.js", "mails-diagram.png";
 foreach($name in $to_remove) {
     $a = Join-Path $out $name;
     Remove-Item -Path $a -Force -Recurse;

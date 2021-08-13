@@ -117,6 +117,14 @@ class FapiLevels {
 		return null;
 	}
 
+    public function loadByIds( $ids ) {
+        $levels = array_map(function ($oneId) {
+            return $this->loadById($oneId);
+        }, $ids);
+
+        return array_filter($levels);
+    }
+
 	public function levelsToPages() {
 		if ( $this->levelsToPages === null ) {
 			$levels = array_map( function ( $one ) {
