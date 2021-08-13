@@ -119,6 +119,7 @@ class FapiMembershipLoader {
                 // create new membership for parent
                 $new = new FapiMembership($parentTerm->term_id, $childMinRegistered, $childMaxUntil, $childIsUnlimited);
                 $newMemberships[] = $new;
+                $this->saveMembershipToHistory($userId, $new);
             }
         }
         $this->saveForUser($userId, array_merge($extendedMemberships, $newMemberships));
@@ -187,13 +188,13 @@ class FapiMembershipLoader {
 		update_user_meta( $userId, self::MEMBERSHIP_HISTORY_META_KEY, $meta );
 	}
 
-	public function didUserHadLevelMembershipBefore( $userId, $levelId ) {
-		$memberships = get_user_meta( $userId, self::MEMBERSHIP_HISTORY_META_KEY, true );
-		if ( $memberships === '' ) {
-			$memberships = [];
-		}
+    /**
+     * @param FapiMembership[] $memberships
+     * @param $levelId
+     * @return bool
+     */
+	public function didUserHadLevelMembershipBefore( array $memberships, $levelId  ) {
 		foreach ( $memberships as $m ) {
-			/** @var FapiMembership $m */
 			if ( $m->level === $levelId ) {
 				return true;
 			}
@@ -201,4 +202,21 @@ class FapiMembershipLoader {
 
 		return false;
 	}
+
+    /**
+     * @param int $userId
+     * @return FapiMembership[]
+     */
+	public function loadMembershipsHistory($userId) {
+        $memberships = get_user_meta( $userId, self::MEMBERSHIP_HISTORY_META_KEY, true );
+        if ( $memberships === '' ) {
+            $memberships = [];
+        }
+
+        return $memberships;
+    }
+
+
+
+
 }

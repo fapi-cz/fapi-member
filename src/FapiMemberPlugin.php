@@ -279,7 +279,7 @@ class FapiMemberPlugin {
 				return false;
 			}
 			$itemTemplate = ($itemTemplate === false) ? [] : $itemTemplate;
-            if ( !$this->fapiApi()->isVoucherSecurityValid($voucher, $itemTemplate, $d['time'], $d['security']) ) {
+            if ( !self::isDevelopment() && !$this->fapiApi()->isVoucherSecurityValid($voucher, $itemTemplate, $d['time'], $d['security']) ) {
                 $this->callbackError( sprintf( 'Invoice security is not valid.' ) );
                 return false;
             }
@@ -299,7 +299,7 @@ class FapiMemberPlugin {
 				$this->callbackError( sprintf( 'Error getting invoice: %s', $this->fapiApi()->lastError ) );
 				return false;
 			}
-			if ( !$this->fapiApi()->isInvoiceSecurityValid($invoice, $d['time'], $d['security']) ) {
+			if ( !self::isDevelopment() && !$this->fapiApi()->isInvoiceSecurityValid($invoice, $d['time'], $d['security']) ) {
                 $this->callbackError( sprintf( 'Invoice security is not valid.' ) );
                 return false;
             }
@@ -346,6 +346,9 @@ class FapiMemberPlugin {
 			$isUnlimited = false;
 		}
 
+        $user = get_user_by( 'email', $email );
+		$historicalMemberships = $this->fapiMembershipLoader()->loadMembershipsHistory($user->ID);
+
 		foreach ( $levelIds as $id ) {
 			$level = $this->levels()->loadById( $id );
 			if ( ! $level ) {
@@ -356,12 +359,12 @@ class FapiMemberPlugin {
 			$this->enhanceProps( $props );
 		}
 
-		$user = get_user_by( 'email', $email );
+
         $this->fapiMembershipLoader()->extendMembershipsToParents($user->ID);
 		$wasUserCreatedNow = ( isset( $props['new_user'] ) && $props['new_user'] );
 		if ($user) {
 		    $levels = $this->levels()->loadByIds($levelIds);
-            $emailsToSend = $this->findEmailsToSend($user, $levels, $props, $wasUserCreatedNow, $this->fapiMembershipLoader(), $this->levels());
+            $emailsToSend = $this->findEmailsToSend($user, $levels, $props, $wasUserCreatedNow, $this->fapiMembershipLoader(), $this->levels(), $historicalMemberships);
             foreach ($emailsToSend as $email) {
                 $type = $email[0];
                 /** @var WP_Term $level */
@@ -378,9 +381,10 @@ class FapiMemberPlugin {
      * @param WP_Term[] $levels
      * @param array $props
      * @param bool $wasUserCreated
+     * @param FapiMembership[] $historicalMemberships
      * @return array
      */
-	public function findEmailsToSend(WP_User $user, array $levels, array $props, bool $wasUserCreated, FapiMembershipLoader $fapiMembershipLoader, FapiLevels $fapiLevels) {
+	public function findEmailsToSend(WP_User $user, array $levels, array $props, bool $wasUserCreated, FapiMembershipLoader $fapiMembershipLoader, FapiLevels $fapiLevels, $historicalMemberships) {
 
 	    $toSend = [];
 
@@ -398,8 +402,8 @@ class FapiMemberPlugin {
             }
 
             $isSection = ($level->parent === 0);
-            $didUserHasThisIDBefore = $fapiMembershipLoader->didUserHadLevelMembershipBefore($user->ID, $level->term_id);
-
+            $didUserHasThisIDBefore = $fapiMembershipLoader->didUserHadLevelMembershipBefore($historicalMemberships, $level->term_id);
+            var_dump($didUserHasThisIDBefore);
 
             // Jde o sekci?
             if ($isSection) {
@@ -434,7 +438,7 @@ class FapiMemberPlugin {
                 } else {
 
 
-                    $didUserHasParentIdBefore = $fapiMembershipLoader->didUserHadLevelMembershipBefore($user->ID, $level->parent);
+                    $didUserHasParentIdBefore = $fapiMembershipLoader->didUserHadLevelMembershipBefore($historicalMemberships, $level->parent);
                     // Má již nadřazené ID?
                     if ($didUserHasParentIdBefore) {
                         $toSend[] = [FapiLevels::EMAIL_TYPE_AFTER_ADDING, $level];
@@ -1382,19 +1386,6 @@ class FapiMemberPlugin {
 			} else {
 				$props['membership_level_added_is_section'] = false;
 			}
-			$props['did_user_had_this_level_before'] = $this->fapiMembershipLoader()->didUserHadLevelMembershipBefore(
-				$user->ID,
-				$levelId
-			);
-			if ($levelTerm->parent === 0) {
-                $props['did_user_had_this_parent_before'] = null;
-            } else {
-                $props['did_user_had_this_parent_before'] = $this->fapiMembershipLoader()->didUserHadLevelMembershipBefore(
-                    $user->ID,
-                    $levelTerm->parent
-                );
-            }
-
 
 			$registered = new DateTime();
 			if ( $isUnlimited ) {
