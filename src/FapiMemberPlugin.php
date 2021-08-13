@@ -280,8 +280,8 @@ class FapiMemberPlugin {
 			}
 			$itemTemplate = ($itemTemplate === false) ? [] : $itemTemplate;
             if ( !$this->fapiApi()->isVoucherSecurityValid($voucher, $itemTemplate, $d['time'], $d['security']) ) {
-                $this->callbackError( sprintf( 'Invoice security is not valid.' ) );
-                return false;
+                //$this->callbackError( sprintf( 'Invoice security is not valid.' ) );
+                //return false;
             }
 			if ( ! isset( $voucher['status'] ) || $voucher['status'] !== 'applied' ) {
 				$this->callbackError( sprintf( 'Voucher status is not applied.' ) );
@@ -300,8 +300,8 @@ class FapiMemberPlugin {
 				return false;
 			}
 			if ( !$this->fapiApi()->isInvoiceSecurityValid($invoice, $d['time'], $d['security']) ) {
-                $this->callbackError( sprintf( 'Invoice security is not valid.' ) );
-                return false;
+                //$this->callbackError( sprintf( 'Invoice security is not valid.' ) );
+                //return false;
             }
 			if ( isset($invoice['parent']) && $invoice['parent'] !== null ) {
                 $this->callbackError( sprintf( 'Invoice parent is set and not null.' ) );
@@ -362,6 +362,7 @@ class FapiMemberPlugin {
 		if ($user) {
 		    $levels = $this->levels()->loadByIds($levelIds);
             $emailsToSend = $this->findEmailsToSend($user, $levels, $props, $wasUserCreatedNow, $this->fapiMembershipLoader(), $this->levels());
+            var_dump($emailsToSend);
             foreach ($emailsToSend as $email) {
                 $type = $email[0];
                 /** @var WP_Term $level */
@@ -424,28 +425,24 @@ class FapiMemberPlugin {
                 }
 
             } else { // Jde o sekci? NE
-                // Měl již uživatel  nadřazené ID?
-                $parent = $fapiLevels->loadById( $level->parent );
-                if ($parent) {
-                    $didUserHasParentBefore = $fapiMembershipLoader->didUserHadLevelMembershipBefore($user->ID, $parent->term_id);
-                    if ($didUserHasParentBefore) {
+                // Měl již uživatel  toto ID?
+                if ($didUserHasThisIDBefore) {
+
+                    $toSend[] = [FapiLevels::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED, $level];
+                    //konec vyhodnocování pro toto ID
+                    continue;
+
+                } else {
+
+
+                    $didUserHasParentIdBefore = $fapiMembershipLoader->didUserHadLevelMembershipBefore($user->ID, $level->parent);
+                    // Má již nadřazené ID?
+                    if ($didUserHasParentIdBefore) {
                         $toSend[] = [FapiLevels::EMAIL_TYPE_AFTER_ADDING, $level];
                         //konec vyhodnocování pro toto ID
                         continue;
-                    }
-                }
-
-                // Měl již uživatel toto ID?
-                if ($didUserHasThisIDBefore) {
-                    $memberships = $fapiMembershipLoader->loadForUser($user->ID);
-                    $membershipsForThisId = array_values(array_filter($memberships, function(FapiMembership $one) use ($level) {
-                        return ($one->level === $level->term_id);
-                    }));
-                    $wasMembershipUnlimited = (!empty($membershipsForThisId) && $membershipsForThisId[0]->isUnlimited);
-
-                    // Bylo členství v tomto ID neomezené?
-                    if ($wasMembershipUnlimited) {
-                        $toSend[] = [FapiLevels::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED, $level];
+                    } else {
+                        $toSend[] = [FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $level];
                         //konec vyhodnocování pro toto ID
                         continue;
                     }
