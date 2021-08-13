@@ -280,8 +280,8 @@ class FapiMemberPlugin {
 			}
 			$itemTemplate = ($itemTemplate === false) ? [] : $itemTemplate;
             if ( !$this->fapiApi()->isVoucherSecurityValid($voucher, $itemTemplate, $d['time'], $d['security']) ) {
-                //$this->callbackError( sprintf( 'Invoice security is not valid.' ) );
-                //return false;
+                $this->callbackError( sprintf( 'Invoice security is not valid.' ) );
+                return false;
             }
 			if ( ! isset( $voucher['status'] ) || $voucher['status'] !== 'applied' ) {
 				$this->callbackError( sprintf( 'Voucher status is not applied.' ) );
@@ -300,8 +300,8 @@ class FapiMemberPlugin {
 				return false;
 			}
 			if ( !$this->fapiApi()->isInvoiceSecurityValid($invoice, $d['time'], $d['security']) ) {
-                //$this->callbackError( sprintf( 'Invoice security is not valid.' ) );
-                //return false;
+                $this->callbackError( sprintf( 'Invoice security is not valid.' ) );
+                return false;
             }
 			if ( isset($invoice['parent']) && $invoice['parent'] !== null ) {
                 $this->callbackError( sprintf( 'Invoice parent is set and not null.' ) );
@@ -362,7 +362,6 @@ class FapiMemberPlugin {
 		if ($user) {
 		    $levels = $this->levels()->loadByIds($levelIds);
             $emailsToSend = $this->findEmailsToSend($user, $levels, $props, $wasUserCreatedNow, $this->fapiMembershipLoader(), $this->levels());
-            var_dump($emailsToSend);
             foreach ($emailsToSend as $email) {
                 $type = $email[0];
                 /** @var WP_Term $level */
