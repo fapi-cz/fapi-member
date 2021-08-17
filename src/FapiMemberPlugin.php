@@ -403,7 +403,6 @@ class FapiMemberPlugin {
 
             $isSection = ($level->parent === 0);
             $didUserHasThisIDBefore = $fapiMembershipLoader->didUserHadLevelMembershipBefore($historicalMemberships, $level->term_id);
-            var_dump($didUserHasThisIDBefore);
 
             // Jde o sekci?
             if ($isSection) {
@@ -567,6 +566,9 @@ class FapiMemberPlugin {
 		}
 
 		$this->fapiMembershipLoader()->saveForUser( $userId, $memberships );
+		foreach ($memberships as $oneMembership) {
+            $this->fapiMembershipLoader()->saveMembershipToHistory($userId, $oneMembership);
+        }
         $this->fapiMembershipLoader()->extendMembershipsToParents($userId);
 	}
 
