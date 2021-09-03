@@ -1297,8 +1297,10 @@ class FapiMemberPlugin {
 			$mem );
 		$pages = array_unique( array_filter( $pages ) );
 		if ( count( $pages ) === 0 ) {
+
 			// no afterLogin page set anywhere
-			return;
+            wp_redirect( get_site_url() );
+            exit;
 		}
 		if ( count( $pages ) === 1 ) {
 			// exactly one afterLogin page
