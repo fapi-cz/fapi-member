@@ -11,12 +11,12 @@ echo FapiMemberTools::heading();
     <div class="row">
         <label for="fapiMemberApiEmail">Uživatelské jméno (e-mail)</label>
         <input type="text" name="fapiMemberApiEmail" id="fapiMemberApiEmail" placeholder="me@example.com"
-               value="<?php echo get_option( 'fapiMemberApiEmail', '' ) ?>">
+               value="<?php echo get_option( FapiMemberPlugin::OPTION_KEY_API_USER, '' ) ?>">
     </div>
     <div class="row">
         <label for="fapiMemberApiKey">API klíč</label>
         <input type="text" name="fapiMemberApiKey" id="fapiMemberApiKey" placeholder=""
-               value="<?php echo get_option( 'fapiMemberApiKey', '' ) ?>">
+               value="<?php echo get_option( FapiMemberPlugin::OPTION_KEY_API_KEY, '' ) ?>">
     </div>
     <div class="row controls">
         <input type="submit" class="primary" name="" id="" value="Propojit s FAPI">
