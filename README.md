@@ -1,3 +1,9 @@
+## Start up:
+1. run `make -C .docker-fapi-member dc-up-front`
+2. open browser and go to page `http://localhost:80`
+3. install wordpress
+4. develop plugin
+
 Poznámky
 ========
 
