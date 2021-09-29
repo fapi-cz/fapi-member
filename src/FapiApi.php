@@ -5,18 +5,20 @@ class FapiApi {
 	public $lastError = null;
 
 	private $apiUser;
+	
 	private $apiKey;
 
-	const FAPI_API_URL = 'https://api.fapi.cz/';
+	private $apiUrl;
 
-	public function __construct( $apiUser, $apiKey ) {
+	public function __construct( $apiUser, $apiKey, $apiUrl = 'https://api.fapi.cz/' ) {
 		$this->apiUser = $apiUser;
 		$this->apiKey  = $apiKey;
+		$this->apiUrl = $apiUrl;
 	}
 
 	public function getInvoice( $id ) {
 		$resp = wp_remote_request(
-			sprintf( '%sinvoices/%s', self::FAPI_API_URL, $id ),
+			sprintf( '%sinvoices/%s', $this->apiUrl, $id ),
 			[
 				'method'  => 'GET',
 				'headers' => $this->createHeaders()
@@ -33,7 +35,7 @@ class FapiApi {
 
 	public function getVoucher( $id ) {
 		$resp = wp_remote_request(
-			sprintf( '%svouchers/%s', self::FAPI_API_URL, $id ),
+			sprintf( '%svouchers/%s', $this->apiUrl, $id ),
 			[
 				'method'  => 'GET',
 				'headers' => $this->createHeaders()
@@ -50,7 +52,7 @@ class FapiApi {
 
     public function getItemTemplate( $code ) {
         $resp = wp_remote_request(
-            sprintf( '%sitem_templates/?code=%s', self::FAPI_API_URL, $code ),
+            sprintf( '%sitem_templates/?code=%s', $this->apiUrl, $code ),
             [
                 'method'  => 'GET',
                 'headers' => $this->createHeaders()
@@ -71,12 +73,13 @@ class FapiApi {
 
 	public function checkCredentials() {
 		$resp = wp_remote_request(
-			sprintf( '%s', self::FAPI_API_URL ),
+			sprintf( '%s', $this->apiUrl ),
 			[
 				'method'  => 'GET',
 				'headers' => $this->createHeaders()
 			]
 		);
+
         if ( $resp instanceof WP_Error || $resp['response']['code'] !== 200 ) {
             $this->lastError = $this->findErrorMessage($resp);;
 

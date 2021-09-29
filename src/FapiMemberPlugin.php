@@ -12,6 +12,7 @@ class FapiMemberPlugin {
 	const OPTION_KEY_SETTINGS = 'fapiSettings';
 	const OPTION_KEY_API_USER = 'fapiMemberApiEmail';
 	const OPTION_KEY_API_KEY = 'fapiMemberApiKey';
+	const OPTION_KEY_API_URL = 'fapiMemberApiUrl';
 	const OPTION_KEY_API_CHECKED = 'fapiMemberApiChecked';
 	const OPTION_KEY_IS_DEVELOPMENT = 'fapiIsDevelopment';
 	const REQUIRED_CAPABILITY = 'manage_options';
@@ -63,7 +64,9 @@ class FapiMemberPlugin {
 		if ( $this->fapiApi === null ) {
 			$apiUser       = get_option( self::OPTION_KEY_API_USER, null );
 			$apiKey        = get_option( self::OPTION_KEY_API_KEY, null );
-			$this->fapiApi = new FapiApi( $apiUser, $apiKey );
+			$apiUrl        = get_option( self::OPTION_KEY_API_URL, 'https://api.fapi.cz/' );
+
+			$this->fapiApi = new FapiApi( $apiUser, $apiKey, $apiUrl );
 		}
 
 		return $this->fapiApi;
