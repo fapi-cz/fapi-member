@@ -3,6 +3,7 @@ version: '3.1'
 services:
 
   wordpress:
+    container_name: wordpress
     image: wordpress
     restart: always
     ports:
@@ -17,6 +18,7 @@ services:
       - ../:/var/www/html/wp-content/plugins/fapi-member
 
   db:
+    container_name: wordpress-db
     image: mysql:5.7
     restart: always
     environment:

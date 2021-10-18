@@ -1,113 +1,121 @@
 <?php
 
 
-class FapiApi {
-	public $lastError = null;
+class FapiApi
+{
+    public $lastError = null;
 
-	private $apiUser;
-	
-	private $apiKey;
+    private $apiUser;
+    
+    private $apiKey;
 
-	private $apiUrl;
+    private $apiUrl;
 
-	public function __construct( $apiUser, $apiKey, $apiUrl = 'https://api.fapi.cz/' ) {
-		$this->apiUser = $apiUser;
-		$this->apiKey  = $apiKey;
-		$this->apiUrl = $apiUrl;
-	}
+    public function __construct( $apiUser, $apiKey, $apiUrl = 'https://api.fapi.cz/' )
+    {
+        $this->apiUser = $apiUser;
+        $this->apiKey  = $apiKey;
+        $this->apiUrl = $apiUrl;
+    }
 
-	public function getInvoice( $id ) {
-		$resp = wp_remote_request(
-			sprintf( '%sinvoices/%s', $this->apiUrl, $id ),
-			[
-				'method'  => 'GET',
-				'headers' => $this->createHeaders()
-			]
-		);
-		if ( $resp instanceof WP_Error || $resp['response']['code'] !== 200 ) {
-			$this->lastError = $this->findErrorMessage($resp);
-
-			return false;
-		}
-
-		return json_decode( $resp['body'], true );
-	}
-
-	public function getVoucher( $id ) {
-		$resp = wp_remote_request(
-			sprintf( '%svouchers/%s', $this->apiUrl, $id ),
-			[
-				'method'  => 'GET',
-				'headers' => $this->createHeaders()
-			]
-		);
-		if ( $resp instanceof WP_Error || $resp['response']['code'] !== 200 ) {
-			$this->lastError = $this->findErrorMessage($resp);;
-
-			return false;
-		}
-
-		return json_decode( $resp['body'], true );
-	}
-
-    public function getItemTemplate( $code ) {
+    public function getInvoice( $id )
+    {
         $resp = wp_remote_request(
-            sprintf( '%sitem_templates/?code=%s', $this->apiUrl, $code ),
+            sprintf('%sinvoices/%s', $this->apiUrl, $id),
             [
-                'method'  => 'GET',
-                'headers' => $this->createHeaders()
+            'method'  => 'GET',
+            'headers' => $this->createHeaders()
             ]
         );
-        if ( $resp instanceof WP_Error || $resp['response']['code'] !== 200 ) {
+        if ($resp instanceof WP_Error || $resp['response']['code'] !== 200 ) {
+            $this->lastError = $this->findErrorMessage($resp);
+
+            return false;
+        }
+
+        return json_decode($resp['body'], true);
+    }
+
+    public function getVoucher( $id )
+    {
+        $resp = wp_remote_request(
+            sprintf('%svouchers/%s', $this->apiUrl, $id),
+            [
+            'method'  => 'GET',
+            'headers' => $this->createHeaders()
+            ]
+        );
+        if ($resp instanceof WP_Error || $resp['response']['code'] !== 200 ) {
             $this->lastError = $this->findErrorMessage($resp);;
 
             return false;
         }
 
-        $res = json_decode( $resp['body'], true );
+        return json_decode($resp['body'], true);
+    }
+
+    public function getItemTemplate( $code )
+    {
+        $resp = wp_remote_request(
+            sprintf('%sitem_templates/?code=%s', $this->apiUrl, $code),
+            [
+                'method'  => 'GET',
+                'headers' => $this->createHeaders()
+            ]
+        );
+        if ($resp instanceof WP_Error || $resp['response']['code'] !== 200 ) {
+            $this->lastError = $this->findErrorMessage($resp);;
+
+            return false;
+        }
+
+        $res = json_decode($resp['body'], true);
         if (!isset($res['item_templates']) || count($res['item_templates']) <= 0) {
             return false;
         }
         return $res['item_templates'][0];
     }
 
-	public function checkCredentials() {
-		$resp = wp_remote_request(
-			sprintf( '%s', $this->apiUrl ),
-			[
-				'method'  => 'GET',
-				'headers' => $this->createHeaders()
-			]
-		);
+    public function checkCredentials()
+    {
+        $resp = wp_remote_request(
+            sprintf('%s', $this->apiUrl),
+            [
+            'method'  => 'GET',
+            'headers' => $this->createHeaders()
+            ]
+        );
 
-        if ( $resp instanceof WP_Error || $resp['response']['code'] !== 200 ) {
+        if ($resp instanceof WP_Error || $resp['response']['code'] !== 200 ) {
             $this->lastError = $this->findErrorMessage($resp);;
 
             return false;
         }
-		return true;
-	}
+        return true;
+    }
 
-	protected function createAuthHeader() {
-		return sprintf(
-			'Basic %s',
-			base64_encode(
-				sprintf(
-					'%s:%s',
-					$this->apiUser,
-					$this->apiKey
-				)
-			)
-		);
-	}
+    protected function createAuthHeader()
+    {
+        return sprintf(
+            'Basic %s',
+            base64_encode(
+                sprintf(
+                    '%s:%s',
+                    $this->apiUser,
+                    $this->apiKey
+                )
+            )
+        );
+    }
 
-	protected function createHeaders() {
-		return [
-			'Content-Type'  => 'application/json',
-			'Accept'        => 'application/json',
-			'Authorization' => $this->createAuthHeader(),
-		];
-	}
+    protected function createHeaders()
+    {
+        return [
+        'Content-Type'  => 'application/json',
+        'Accept'        => 'application/json',
+        'Authorization' => $this->createAuthHeader(),
+        ];
+    }
 
     public function isInvoiceSecurityValid(array $invoice, int $time, string $expectedSecurity)
     {

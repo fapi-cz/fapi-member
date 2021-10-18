@@ -9,7 +9,7 @@ class FapiTermEnvelope
      * FapiTermEnvelope constructor.
      *
      * @param WP_Term $term
-     * @param int  $order
+     * @param int     $order
      */
     public function __construct($term, $order)
     {
