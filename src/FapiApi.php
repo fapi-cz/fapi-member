@@ -1,160 +1,212 @@
 <?php
 
-
 class FapiApi
 {
-    public $lastError = null;
 
-    private $apiUser;
-    
-    private $apiKey;
+	public $lastError = null;
 
-    private $apiUrl;
+	private $apiUser;
 
-    public function __construct( $apiUser, $apiKey, $apiUrl = 'https://api.fapi.cz/' )
-    {
-        $this->apiUser = $apiUser;
-        $this->apiKey  = $apiKey;
-        $this->apiUrl = $apiUrl;
-    }
+	private $apiKey;
 
-    public function getInvoice( $id )
-    {
-        $resp = wp_remote_request(
-            sprintf('%sinvoices/%s', $this->apiUrl, $id),
-            [
-            'method'  => 'GET',
-            'headers' => $this->createHeaders()
-            ]
-        );
-        if ($resp instanceof WP_Error || $resp['response']['code'] !== 200 ) {
-            $this->lastError = $this->findErrorMessage($resp);
+	private $apiUrl;
 
-            return false;
-        }
+	public function __construct($apiUser, $apiKey, $apiUrl = 'https://api.fapi.cz/')
+	{
+		$this->apiUser = $apiUser;
+		$this->apiKey = $apiKey;
+		$this->apiUrl = $apiUrl;
+	}
 
-        return json_decode($resp['body'], true);
-    }
+	/**
+	 * @param int $id
+	 * @return false|array<mixed>
+	 */
+	public function getInvoice($id)
+	{
+		$resp = wp_remote_request(
+			sprintf('%sinvoices/%s', $this->apiUrl, $id),
+			[
+				'method' => 'GET',
+				'headers' => $this->createHeaders(),
+			]
+		);
 
-    public function getVoucher( $id )
-    {
-        $resp = wp_remote_request(
-            sprintf('%svouchers/%s', $this->apiUrl, $id),
-            [
-            'method'  => 'GET',
-            'headers' => $this->createHeaders()
-            ]
-        );
-        if ($resp instanceof WP_Error || $resp['response']['code'] !== 200 ) {
-            $this->lastError = $this->findErrorMessage($resp);;
+		if ($resp instanceof WP_Error || $resp['response']['code'] !== 200) {
+			$this->lastError = $this->findErrorMessage($resp);
 
-            return false;
-        }
+			return false;
+		}
 
-        return json_decode($resp['body'], true);
-    }
+		return json_decode($resp['body'], true);
+	}
 
-    public function getItemTemplate( $code )
-    {
-        $resp = wp_remote_request(
-            sprintf('%sitem_templates/?code=%s', $this->apiUrl, $code),
-            [
-                'method'  => 'GET',
-                'headers' => $this->createHeaders()
-            ]
-        );
-        if ($resp instanceof WP_Error || $resp['response']['code'] !== 200 ) {
-            $this->lastError = $this->findErrorMessage($resp);;
+	/**
+	 * @return array<mixed>
+	 */
+	protected function createHeaders()
+	{
+		return [
+			'Content-Type' => 'application/json',
+			'Accept' => 'application/json',
+			'Authorization' => $this->createAuthHeader(),
+		];
+	}
 
-            return false;
-        }
+	/**
+	 * @return string
+	 */
+	protected function createAuthHeader()
+	{
+		return sprintf(
+			'Basic %s',
+			base64_encode(
+				sprintf(
+					'%s:%s',
+					$this->apiUser,
+					$this->apiKey
+				)
+			)
+		);
+	}
 
-        $res = json_decode($resp['body'], true);
-        if (!isset($res['item_templates']) || count($res['item_templates']) <= 0) {
-            return false;
-        }
-        return $res['item_templates'][0];
-    }
+	/**
+	 * @param WP_Error|array<mixed> $response
+	 * @return mixed|string
+	 */
+	public function findErrorMessage($response)
+	{
+		if ($response instanceof WP_Error) {
+			return $response->get_error_message();
+		}
 
-    public function checkCredentials()
-    {
-        $resp = wp_remote_request(
-            sprintf('%s', $this->apiUrl),
-            [
-            'method'  => 'GET',
-            'headers' => $this->createHeaders()
-            ]
-        );
+		if (isset($response['body'])) {
+			return $response['body'];
+		}
 
-        if ($resp instanceof WP_Error || $resp['response']['code'] !== 200 ) {
-            $this->lastError = $this->findErrorMessage($resp);;
+		return '';
+	}
 
-            return false;
-        }
-        return true;
-    }
+	/**
+	 * @param int $id
+	 * @return false|array<mixed>
+	 */
+	public function getVoucher($id)
+	{
+		$resp = wp_remote_request(
+			sprintf('%svouchers/%s', $this->apiUrl, $id),
+			[
+				'method' => 'GET',
+				'headers' => $this->createHeaders(),
+			]
+		);
 
-    protected function createAuthHeader()
-    {
-        return sprintf(
-            'Basic %s',
-            base64_encode(
-                sprintf(
-                    '%s:%s',
-                    $this->apiUser,
-                    $this->apiKey
-                )
-            )
-        );
-    }
+		if ($resp instanceof WP_Error || $resp['response']['code'] !== 200) {
+			$this->lastError = $this->findErrorMessage($resp);
 
-    protected function createHeaders()
-    {
-        return [
-        'Content-Type'  => 'application/json',
-        'Accept'        => 'application/json',
-        'Authorization' => $this->createAuthHeader(),
-        ];
-    }
+			return false;
+		}
 
-    public function isInvoiceSecurityValid(array $invoice, int $time, string $expectedSecurity)
-    {
-        $id = (isset($invoice['id'])) ? $invoice['id'] : null;
-        $number = (isset($invoice['number'])) ? $invoice['number'] : null;
+		return json_decode($resp['body'], true);
+	}
 
-        if ($id === null || $number === null) {
-            return false;
-        }
+	/**
+	 * @param string $code
+	 * @return false|array<mixed>
+	 */
+	public function getItemTemplate($code)
+	{
+		$resp = wp_remote_request(
+			sprintf('%sitem_templates/?code=%s', $this->apiUrl, $code),
+			[
+				'method' => 'GET',
+				'headers' => $this->createHeaders(),
+			]
+		);
 
-        $itemsSecurityHash = '';
-        $items = (isset($invoice['items'])) ? $invoice['items'] : [];
+		if ($resp instanceof WP_Error || $resp['response']['code'] !== 200) {
+			$this->lastError = $this->findErrorMessage($resp);
 
-        foreach ($items as $item) {
-            $itemsSecurityHash .= \md5($item['id'] . $item['name']);
-        }
+			return false;
+		}
 
-        return ($expectedSecurity === \sha1($time . $id . $number . $itemsSecurityHash));
-    }
+		$res = json_decode($resp['body'], true);
 
-    public function isVoucherSecurityValid(array $voucher, array $itemTemplate, int $time, string $expectedSecurity)
-    {
-        $voucherId = (isset($voucher['id'])) ? $voucher['id'] : '';
-        $voucherCode = (isset($voucher['code'])) ? $voucher['code'] : '';
-        $itemTemplateId = (isset($itemTemplate['id'])) ? $itemTemplate['id'] : '';
-        $itemTemplateCode = (isset($itemTemplate['code'])) ? $itemTemplate['code'] : '';
-        $itemSecurityHash = \md5($itemTemplateId . $itemTemplateCode);
+		if (!isset($res['item_templates'][0])) {
+			return false;
+		}
 
-        return $expectedSecurity === \sha1($time . $voucherId . $voucherCode . $itemSecurityHash);
-    }
+		return $res['item_templates'][0];
+	}
 
-    public function findErrorMessage($response)
-    {
-        if ($response instanceof WP_Error) {
-            return $response->get_error_message();
-        }
-        if (isset($response['body'])) {
-            return $response['body'];
-        }
-        return '';
-    }
+	/**
+	 * @return bool
+	 */
+	public function checkCredentials()
+	{
+		$resp = wp_remote_request(
+			sprintf('%s', $this->apiUrl),
+			[
+				'method' => 'GET',
+				'headers' => $this->createHeaders(),
+			]
+		);
+
+		if ($resp instanceof WP_Error || $resp['response']['code'] !== 200) {
+			$this->lastError = $this->findErrorMessage($resp);
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param array<mixed> $invoice
+	 * @param int $time
+	 * @param string $expectedSecurity
+	 * @return bool
+	 */
+	public function isInvoiceSecurityValid($invoice, $time, $expectedSecurity)
+	{
+		$id = isset($invoice['id']) ? (int) $invoice['id'] : null;
+		$number = isset($invoice['number']) ? (int) $invoice['number'] : null;
+
+		if ($id === null || $number === null) {
+			return false;
+		}
+
+		$itemsSecurityHash = '';
+
+		$items = [];
+
+		if (isset($invoice['items']) && is_array($invoice['items'])) {
+			$items = $invoice['items'];
+		}
+
+		foreach ($items as $item) {
+			$itemsSecurityHash .= md5($item['id'] . $item['name']);
+		}
+
+		return ($expectedSecurity === sha1($time . $id . $number . $itemsSecurityHash));
+	}
+
+	/**
+	 * @param array<mixed> $voucher
+	 * @param array<mixed> $itemTemplate
+	 * @param int $time
+	 * @param string $expectedSecurity
+	 * @return bool
+	 */
+	public function isVoucherSecurityValid($voucher, $itemTemplate, $time, $expectedSecurity)
+	{
+		$voucherId = isset($voucher['id']) ? $voucher['id'] : '';
+		$voucherCode = isset($voucher['code']) ? $voucher['code'] : '';
+		$itemTemplateId = isset($itemTemplate['id']) ? $itemTemplate['id'] : '';
+		$itemTemplateCode = isset($itemTemplate['code']) ? $itemTemplate['code'] : '';
+		$itemSecurityHash = md5($itemTemplateId . $itemTemplateCode);
+
+		return $expectedSecurity === sha1($time . $voucherId . $voucherCode . $itemSecurityHash);
+	}
+
 }

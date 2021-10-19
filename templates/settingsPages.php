@@ -13,17 +13,16 @@ echo FapiMemberTools::heading();
         <div class="b">
             <div>
 				<?php
-				$level = ( isset( $_GET['level'] ) ) ? FapiMemberTools::sanitizeLevelId( $_GET['level'] ) : null;
-				if ( $level === null ) {
+				$level = (isset($_GET['level'])) ? FapiMemberTools::sanitizeLevelId($_GET['level']) : null;
+				if ($level === null) {
 					echo '<p>Zvolte prosím sekci/úroveň vlevo.</p>';
 				} else {
 					global $FapiPlugin;
 					$fapiLevels = $FapiPlugin->levels();
-					$levelTerm  = $fapiLevels->loadById( $level );
-					$isSection  = ( $levelTerm->parent === 0 ) ? true : false;
+					$levelTerm = $fapiLevels->loadById($level);
+					$isSection = ($levelTerm->parent === 0) ? true : false;
 
-
-					$templates = $fapiLevels->loadEmailTemplatesForLevel( $level );
+					$templates = $fapiLevels->loadEmailTemplatesForLevel($level);
 
 					$pages = [
 						'afterLogin' => [
@@ -31,34 +30,34 @@ echo FapiMemberTools::heading();
 							'd' => 'Vyberte stránku, která se zobrazí uživatelům po přihlášení do členské 
                                         sekce nebo úrovně.',
 						],
-						'noAccess'   => [
+						'noAccess' => [
 							't' => 'Stránka, když uživatel nemá přístup',
 							'd' => 'Vyberte stránku, která se zobrazí uživateli, pokud nemá přístup na uzamčenou stránku.<br>
                                         Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství.',
 						],
-						'login'      => [
+						'login' => [
 							't' => 'Přihlašovací stránka',
 							'd' => 'Vyberte stránku, kde je umístěn přihlašovací formulář.
                                         <br>Stránka nesmí být zařazena jako členská.',
 						],
 					];
 
-					$currentOtherPages = $fapiLevels->loadOtherPagesForLevel( $level );
+					$currentOtherPages = $fapiLevels->loadOtherPagesForLevel($level);
 
-					foreach ( $pages as $key => $setting ) {
-						$currentPageId = isset( $currentOtherPages[ $key ] ) ? $currentOtherPages[ $key ] : null;
+					foreach ($pages as $key => $setting) {
+						$currentPageId = isset($currentOtherPages[$key]) ? $currentOtherPages[$key] : null;
 						?>
                         <div class="onePageOther">
                             <h3><?php echo $setting['t'] ?></h3>
                             <p><?php echo $setting['d'] ?></p>
 
-							<?php echo FapiMemberTools::formStart( 'set_other_page' ) ?>
+							<?php echo FapiMemberTools::formStart('set_other_page') ?>
                             <input type="hidden" name="level_id" value="<?php echo $level ?>">
                             <input type="hidden" name="page_type" value="<?php echo $key ?>">
                             <div class="row submitInline noLabel">
                                 <select type="text" name="page" id="page">
                                     <option value="">-- nevybrána --</option>
-									<?php echo FapiMemberTools::allPagesAsOptions( $currentPageId ) ?>
+									<?php echo FapiMemberTools::allPagesAsOptions($currentPageId) ?>
                                 </select>
                                 <input type="submit" class="primary" value="Uložit">
                             </div>

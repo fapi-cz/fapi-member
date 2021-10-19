@@ -13,87 +13,92 @@ echo FapiMemberTools::heading();
 		<?php
 		//$levels      = $fapiLevels->loadAsTerms();
 		$envelopes = $fapiLevels->loadAsTermEnvelopes();
-		$mapToParent = array_reduce( $envelopes,
-			function ( $carry, $envelope ) {
-				$carry[ $envelope->getTerm()->term_id ] = $envelope->getTerm()->parent;
+		$mapToParent = array_reduce($envelopes,
+			function ($carry, $envelope) {
+				$carry[$envelope->getTerm()->term_id] = $envelope->getTerm()->parent;
 
 				return $carry;
 			},
-			                         [] );
+			[]);
 
-		$topEnvelopes     = array_filter( $envelopes,
-			function ( $envelope ) {
+		$topEnvelopes = array_filter($envelopes,
+			function ($envelope) {
 				return $envelope->getTerm()->parent === 0;
-			} );
-		$pagesCount    = [];
+			});
+		$pagesCount = [];
 		$levelsToPages = $fapiLevels->levelsToPages();
-		$levelCount    = array_reduce( $envelopes,
-			function ( $carry, $envelope ) use ( &$pagesCount, $levelsToPages ) {
-		    $one = $envelope->getTerm();
-				$carry[ $one->parent ] = ( isset( $carry[ $one->parent ] ) ) ? $carry[ $one->parent ] + 1 : 1;
-				if ( $one->parent === 0 ) {
-					$pagesCount[ $one->term_id ] = isset( $pagesCount[ $one->term_id ] ) ? $pagesCount[ $one->term_id ] + count( $levelsToPages[ $one->term_id ] ) : count( $levelsToPages[ $one->term_id ] );
+		$levelCount = array_reduce($envelopes,
+			function ($carry, $envelope) use (&$pagesCount, $levelsToPages) {
+				$one = $envelope->getTerm();
+				$carry[$one->parent] = (isset($carry[$one->parent])) ? $carry[$one->parent] + 1 : 1;
+				if ($one->parent === 0) {
+					$pagesCount[$one->term_id] = isset($pagesCount[$one->term_id]) ? $pagesCount[$one->term_id] + count($levelsToPages[$one->term_id]) : count($levelsToPages[$one->term_id]);
 				} else {
-					$pagesCount[ $one->parent ] = isset( $pagesCount[ $one->parent ] ) ? $pagesCount[ $one->parent ] + count( $levelsToPages[ $one->term_id ] ) : count( $levelsToPages[ $one->term_id ] );
+					$pagesCount[$one->parent] = isset($pagesCount[$one->parent]) ? $pagesCount[$one->parent] + count($levelsToPages[$one->term_id]) : count($levelsToPages[$one->term_id]);
 				}
 
 				return $carry;
 			},
-			                           [] );
+			[]);
 
 		$empty = true;
 
-		$memberships  = $FapiPlugin->getAllMemberships();
+		$memberships = $FapiPlugin->getAllMemberships();
 		$usersInLevel = [];
-		foreach ( $memberships as $userId => $ms ) {
+		foreach ($memberships as $userId => $ms) {
 			/** @var FapiMembership[] $ms */
 			{
-				foreach ( $ms as $m ) {
-					if ( ! isset( $usersInLevel[ $m->level ] ) ) {
-						$usersInLevel[ $m->level ] = [];
+				foreach ($ms as $m) {
+					if (!isset($usersInLevel[$m->level])) {
+						$usersInLevel[$m->level] = [];
 					}
-					$usersInLevel[ $m->level ][ $userId ] = true;
-					if ( isset( $mapToParent[ $m->level ] ) && $mapToParent[ $m->level ] !== 0 ) {
+					$usersInLevel[$m->level][$userId] = true;
+					if (isset($mapToParent[$m->level]) && $mapToParent[$m->level] !== 0) {
 						// is child, count unique to parent too
-						if ( ! isset( $carry[ $mapToParent[ $m->level ] ] ) ) {
-							$carry[ $mapToParent[ $m->level ] ] = [];
+						if (!isset($carry[$mapToParent[$m->level]])) {
+							$carry[$mapToParent[$m->level]] = [];
 						}
-						$carry[ $mapToParent[ $m->level ] ][ $userId ] = true;
+						$carry[$mapToParent[$m->level]][$userId] = true;
 					}
 				}
 			}
 		}
 		$levelUsersCount = [];
-		foreach ( $usersInLevel as $level => $users ) {
-			$levelUsersCount[ $level ] = count( $users );
+		foreach ($usersInLevel as $level => $users) {
+			$levelUsersCount[$level] = count($users);
 		}
 
-
-		foreach ( $topEnvelopes as $envelope ) {
-		    $level = $envelope->getTerm();
+		foreach ($topEnvelopes as $envelope) {
+			$level = $envelope->getTerm();
 			$empty = false;
 			?>
             <div>
                 <div class="name"><?php echo $level->name ?></div>
                 <div class="levelCount">Počet
-                    úrovní: <span><?php echo ( isset( $levelCount[ $level->term_id ] ) ) ? $levelCount[ $level->term_id ] : 0 ?></span></div>
+                    úrovní:
+                    <span><?php echo (isset($levelCount[$level->term_id])) ? $levelCount[$level->term_id] : 0 ?></span>
+                </div>
                 <div class="membersCount">Počet
-                    registrovaných: <span><?php echo ( isset( $levelUsersCount[ $level->term_id ] ) ) ? $levelUsersCount[ $level->term_id ] : 0 ?></span></div>
+                    registrovaných:
+                    <span><?php echo (isset($levelUsersCount[$level->term_id])) ? $levelUsersCount[$level->term_id] : 0 ?></span>
+                </div>
                 <div class="pagesCount">Stránek v celé
-                    sekci: <span><?php echo ( isset( $pagesCount[ $level->term_id ] ) ) ? $pagesCount[ $level->term_id ] : 0 ?></span></div>
+                    sekci:
+                    <span><?php echo (isset($pagesCount[$level->term_id])) ? $pagesCount[$level->term_id] : 0 ?></span>
+                </div>
             </div>
 		<?php } ?>
 
     </div>
-	<?php if ( $empty ) { ?>
+	<?php if ($empty) { ?>
 
         <div class="emptyIndex">
-            <img src="<?php echo plugin_dir_url( __FILE__ ) . '../media/membership.svg' ?>">
+            <img src="<?php echo plugin_dir_url(__FILE__) . '../media/membership.svg' ?>">
             <p class="gray">
                 Nemáte vytvořenou žádnou členskou sekci.<br>
                 Novou sekci můžete vytvořit na záložce Sekce / úrovně.
             </p>
-            <a href="<?php echo FapiMemberTools::fapilink( 'settingsSectionNew' ) ?>" class="btn primary">Přejít do
+            <a href="<?php echo FapiMemberTools::fapilink('settingsSectionNew') ?>" class="btn primary">Přejít do
                 záložky Sekce / úrovně</a>
         </div>
 

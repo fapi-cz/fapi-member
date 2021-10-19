@@ -1,7 +1,7 @@
 <?php
 
 echo FapiMemberTools::heading();
-$selectedLevel = (isset($_GET['level'])) ? (int)$_GET['level'] : null;
+$selectedLevel = (isset($_GET['level'])) ? (int) $_GET['level'] : null;
 ?>
 
 <div class="page both">
@@ -13,27 +13,27 @@ $selectedLevel = (isset($_GET['level'])) ? (int)$_GET['level'] : null;
         </div>
         <div class="b">
             <div class="subsubmenu">
-				<?php echo FapiMemberTools::subSubmenuItem( 'settingsContentAdd', 'Přiřazené stránky', $subpage ) ?>
-				<?php echo FapiMemberTools::subSubmenuItem( 'settingsContentRemove',
-				                                            'Úprava přiřazení',
-				                                            $subpage ) ?>
+				<?php echo FapiMemberTools::subSubmenuItem('settingsContentAdd', 'Přiřazené stránky', $subpage) ?>
+				<?php echo FapiMemberTools::subSubmenuItem('settingsContentRemove',
+					'Úprava přiřazení',
+					$subpage) ?>
             </div>
 
-            <?php if ($selectedLevel): ?>
-                <?php echo FapiMemberTools::formStart( 'remove_pages', [ 'removePagesForm', 'pages' ] ) ?>
-                    <input type="hidden" name="level_id" value="<?php echo $selectedLevel ?>">
-                    <div class="inner">
-                        <?php echo FapiMemberTools::allPagesForForm($selectedLevel) ?>
-                    </div>
-                    <div class="row controls">
-                        <button class="btn outline">Uložit</button>
-                    </div>
+			<?php if ($selectedLevel): ?>
+				<?php echo FapiMemberTools::formStart('remove_pages', ['removePagesForm', 'pages']) ?>
+                <input type="hidden" name="level_id" value="<?php echo $selectedLevel ?>">
+                <div class="inner">
+					<?php echo FapiMemberTools::allPagesForForm($selectedLevel) ?>
+                </div>
+                <div class="row controls">
+                    <button class="btn outline">Uložit</button>
+                </div>
                 </form>
-            <?php else: ?>
+			<?php else: ?>
                 <div class="inner">
                     <p class="pleaseSelectLevel">Prosím zvolte sekci/úroveň.</p>
                 </div>
-            <?php endif; ?>
+			<?php endif; ?>
 
         </div>
     </div>

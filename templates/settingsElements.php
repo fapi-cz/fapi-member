@@ -9,7 +9,7 @@ echo FapiMemberTools::heading();
     <p>Formulář se zobrazí po znovunačtení stránky.</p>
 
     <div class="showcase">
-        <img src="<?php echo plugins_url( 'fapi-member/media/login.png' ) ?>" alt="Snímek obrazovky">
+        <img src="<?php echo plugins_url('fapi-member/media/login.png') ?>" alt="Snímek obrazovky">
     </div>
 
     <hr>
@@ -19,7 +19,7 @@ echo FapiMemberTools::heading();
     <p>Uživatelské okénko bude funkční pro uživatele všech členských sekcí a úrovní.</p>
 
     <div class="showcase">
-        <img src="<?php echo plugins_url( 'fapi-member/media/user-window-both.png' ) ?>" alt="Snímek obrazovky">
+        <img src="<?php echo plugins_url('fapi-member/media/user-window-both.png') ?>" alt="Snímek obrazovky">
     </div>
 </div>
 </div>

@@ -1,7 +1,7 @@
 <?php
 
 echo FapiMemberTools::heading();
-$selectedLevel = (isset($_GET['level'])) ? (int)$_GET['level'] : null;
+$selectedLevel = (isset($_GET['level'])) ? (int) $_GET['level'] : null;
 ?>
 
 <script id="LevelToPage" type="application/json"><?php echo FapiMemberTools::levelToPageJson() ?></script>
@@ -17,21 +17,21 @@ $selectedLevel = (isset($_GET['level'])) ? (int)$_GET['level'] : null;
         <div class="b">
             <div class="subsubmenu">
 
-				<?php echo FapiMemberTools::subSubmenuItem( 'settingsContentAdd', 'Přiřazené stránky', $subpage ) ?>
-				<?php echo FapiMemberTools::subSubmenuItem( 'settingsContentRemove',
-				                                            'Úprava přiřazení',
-				                                            $subpage ) ?>
+				<?php echo FapiMemberTools::subSubmenuItem('settingsContentAdd', 'Přiřazené stránky', $subpage) ?>
+				<?php echo FapiMemberTools::subSubmenuItem('settingsContentRemove',
+					'Úprava přiřazení',
+					$subpage) ?>
             </div>
             <div>
-                <?php if ($selectedLevel): ?>
-                <div class="inner">
-					<?php echo FapiMemberTools::allPagesInLevel($selectedLevel) ?>
-                </div>
-                <?php else: ?>
+				<?php if ($selectedLevel): ?>
+                    <div class="inner">
+						<?php echo FapiMemberTools::allPagesInLevel($selectedLevel) ?>
+                    </div>
+				<?php else: ?>
                     <div class="inner">
                         <p class="pleaseSelectLevel">Prosím zvolte sekci/úroveň.</p>
                     </div>
-                <?php endif; ?>
+				<?php endif; ?>
             </div>
         </div>
     </div>

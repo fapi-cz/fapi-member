@@ -1,14 +1,17 @@
 help: ## list available targets (this page)
 	@awk 'BEGIN {FS = ":.*?## "} /^[0-9a-zA-Z_-]+:.*?## / {printf "\033[36m%-45s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-cs:
-	docker exec wordpress /bin/sh -c 'php ./wp-content/plugins/fapi-member/wpcs/vendor/bin/phpcs ./wp-content/plugins/fapi-member/src --standard=WordPress --encoding=utf-8 --tab-width=4 --colors -sp'
+install-cs: ## install cs
+	docker exec wordpress /bin/sh -c 'php ./wp-content/plugins/fapi-member/wpcs/vendor/bin/phpcs --config-set installed_paths ./wp-content/plugins/fapi-member/wpcs/'
 
-cbf:
+cs: ## cs
+	docker exec wordpress /bin/sh -c 'php ./wp-content/plugins/fapi-member/wpcs/vendor/bin/phpcs ./wp-content/plugins/fapi-member/src --standard=./wp-content/plugins/fapi-member/wpcs/phpcs.xml --encoding=utf-8 --tab-width=4 --colors -sp'
+
+cbf: ## cbf
 	docker exec wordpress /bin/sh -c 'php ./wp-content/plugins/fapi-member/wpcs/vendor/bin/phpcbf ./wp-content/plugins/fapi-member/src --standard=WordPress --encoding=utf-8 --tab-width=4 --colors -sp'
 
 
-build:
+build: ## Builds the plugin source code
 	rm -d -r wp-build
 	mkdir wp-build
 	cp fapi-member.php wp-build/fapi-member.php

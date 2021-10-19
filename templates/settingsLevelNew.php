@@ -12,10 +12,10 @@ echo FapiMemberTools::heading();
         </div>
         <div class="b">
             <div class="subsubmenu">
-				<?php echo FapiMemberTools::submenuItem( 'settingsSectionNew', 'Vytvořit novou sekci', $subpage ) ?>
-				<?php echo FapiMemberTools::submenuItem( 'settingsLevelNew', 'Vytvořit novou úroveň', $subpage ) ?>
+				<?php echo FapiMemberTools::submenuItem('settingsSectionNew', 'Vytvořit novou sekci', $subpage) ?>
+				<?php echo FapiMemberTools::submenuItem('settingsLevelNew', 'Vytvořit novou úroveň', $subpage) ?>
             </div>
-			<?php echo FapiMemberTools::formStart( 'new_level' ) ?>
+			<?php echo FapiMemberTools::formStart('new_level') ?>
             <div class="row">
                 <label for="fapiMemberLevelName">Název členské úrovně</label>
                 <input type="text" name="fapiMemberLevelName" id="fapiMemberLevelName" placeholder=""

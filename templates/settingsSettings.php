@@ -3,7 +3,7 @@
 echo FapiMemberTools::heading();
 
 global $FapiPlugin;
-$currentPageId = $FapiPlugin->getSetting( 'login_page_id' );
+$currentPageId = $FapiPlugin->getSetting('login_page_id');
 
 ?>
 
@@ -13,11 +13,11 @@ $currentPageId = $FapiPlugin->getSetting( 'login_page_id' );
         <h3>Stránka pro přihlášení</h3>
         <p>Vyberte společnou přihlašovací stránku pro všechny sekce/úrovně.</p>
 
-		<?php echo FapiMemberTools::formStart( 'set_settings' ) ?>
+		<?php echo FapiMemberTools::formStart('set_settings') ?>
         <div class="row submitInline noLabel">
             <select type="text" name="login_page_id" id="login_page_id">
                 <option value="">-- nevybrána --</option>
-				<?php echo FapiMemberTools::allPagesAsOptions( $currentPageId ) ?>
+				<?php echo FapiMemberTools::allPagesAsOptions($currentPageId) ?>
             </select>
             <input type="submit" class="primary" value="Uložit">
         </div>
