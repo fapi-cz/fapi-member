@@ -399,9 +399,11 @@ class FapiMemberTools
 		global $FapiPlugin;
 		$levelTerm = $FapiPlugin->levels()->loadById($levelId);
 		$pageIds = $FapiPlugin->levels()->pageIdsForLevel($levelTerm);
+
 		if (count($pageIds) === 0) {
 			return '';
 		}
+
 		$posts = get_posts(
 			[
 				'post_type' => 'page',
@@ -463,18 +465,21 @@ class FapiMemberTools
         <div class="fapiShortcodeLoginForm">
             <form method="post" action="/wp-login.php">
                 <div class="row">
-                    <label for="log">Přihlašovací jméno</label>
-                    <input type="text" name="log" id="log">
+                    <label for="log">' . __('Přihlašovací jméno') . '</label>
+                    <input type="text" name="log" id="user_login" value="" size="20">
                 </div>
                 <div class="row">
-                    <label for="pwd">Heslo</label>
-                    <input type="password" name="pwd" id="pwd">
+                    <label for="pwd">' . __('Heslo') . '</label>
+                    <input type="password" name="pwd" id="user_pass" value="" size="20">
+                </div>
+                <div class="row">
+                <a href="/wp-login.php?action=lostpassword">' . __('Zapomněli jste heslo?') . '</a>
                 </div>
                 <div class="row controls">
-                    <input type="submit" class="primary" value="Přihlásit se">
+                    <input type="submit" class="primary" value="' . __('Přihlásit se') . '">
                 </div>
             </form>
-        </div>    
+        </div>     
     ';
 	}
 
@@ -513,6 +518,7 @@ class FapiMemberTools
 		}
 
 		$setLoginPageId = $FapiPlugin->getSetting('login_page_id');
+
 		if ($setLoginPageId === null) {
 			$url = wp_login_url();
 		} else {
@@ -575,7 +581,7 @@ class FapiMemberTools
 	{
 		$svg = file_get_contents(__DIR__ . '/../_sources/LOGO_FAPI_svg.svg');
 
-		return sprintf('<div class="h1">%s</div>', $svg);
+		return sprintf('<div class="h1"><a href="https://web.fapi.cz">%s</a></div>', $svg);
 	}
 
 	/**

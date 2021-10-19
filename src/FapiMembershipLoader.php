@@ -1,14 +1,16 @@
 <?php
 
-class FapiMembershipLoader
+final class FapiMembershipLoader
 {
 
 	const MEMBERSHIP_META_KEY = 'fapi_user_memberships';
 	const MEMBERSHIP_HISTORY_META_KEY = 'fapi_user_memberships_history';
 
-	protected $fapiLevels;
+	/** @var FapiLevels */
+	private $fapiLevels;
 
-	protected $levels;
+	/** @var WP_Term[] */
+	private $levels;
 
 	public function __construct(FapiLevels $levels)
 	{
@@ -30,8 +32,9 @@ class FapiMembershipLoader
 		$extendedMemberships = $activeMemberships;
 		$newMemberships = [];
 
-		foreach ($activeMemberships as $m1) {
-			$levelTerm = $this->fapiLevels->loadById($m1->level);
+		foreach ($activeMemberships as $activeMembership) {
+			$levelTerm = $this->fapiLevels->loadById($activeMembership->level);
+
 			if (!$levelTerm) {
 				continue;
 			}
@@ -45,22 +48,26 @@ class FapiMembershipLoader
 
 		foreach ($parentsToExtend as $parentTerm) {
 			$childLevelEnvelopes = array_filter(
-				$this->fapiLevels->loadAsTermEnvelopes(), function ($termEnvelope) use ($parentTerm) {
-				return ($termEnvelope->getTerm()->parent === $parentTerm->term_id);
-			}
+				$this->fapiLevels->loadAsTermEnvelopes(),
+				static function ($termEnvelope) use ($parentTerm) {
+					return ($termEnvelope->getTerm()->parent === $parentTerm->term_id);
+				}
 			);
 			$childLevelsId = array_reduce(
-				$childLevelEnvelopes, function ($carry, $m0) {
-				$carry[] = $m0->getTerm()->term_id;
+				$childLevelEnvelopes,
+				static function ($carry, $m0) {
+					$carry[] = $m0->getTerm()->term_id;
 
-				return $carry;
-			}, []
+					return $carry;
+				},
+				[]
 			);
 
 			$childLevelsMemberships = array_filter(
-				$activeMemberships, function ($membership) use ($childLevelsId) {
-				return in_array($membership->level, $childLevelsId);
-			}
+				$activeMemberships,
+				static function ($membership) use ($childLevelsId) {
+					return in_array($membership->level, $childLevelsId, true);
+				}
 			);
 
 			$childIsUnlimited = false;
@@ -71,9 +78,11 @@ class FapiMembershipLoader
 				if ($m2->isUnlimited === true) {
 					$childIsUnlimited = true;
 				}
+
 				if ($m2->until) {
 					$childMaxUntil = max($childMaxUntil, $m2->until);
 				}
+
 				if ($m2->registered) {
 					if ($childMinRegistered === null) {
 						$childMinRegistered = $m2->registered;
@@ -91,12 +100,14 @@ class FapiMembershipLoader
 						$wasParentTermExtended = true;
 						break;
 					}
+
 					if ($childIsUnlimited) {
 						$m3->isUnlimited = true;
 						$m3->until = null;
 						$wasParentTermExtended = true;
 						break;
 					}
+
 					$m3->until = max($m3->until, $childMaxUntil);
 					$wasParentTermExtended = true;
 				}
@@ -113,6 +124,11 @@ class FapiMembershipLoader
 		$this->saveForUser($userId, array_merge($extendedMemberships, $newMemberships));
 	}
 
+	/**
+	 * @param int $userId
+	 * @param bool $removeFuture
+	 * @return array
+	 */
 	public function loadForUser($userId, $removeFuture = false)
 	{
 		$meta = get_user_meta($userId, self::MEMBERSHIP_META_KEY, true);
@@ -121,75 +137,47 @@ class FapiMembershipLoader
 			return [];
 		}
 
-		$atStart = count($meta);
-		// cleanup - remove nonexistent levels, remove outdated memberships
-		$levelIds = array_reduce(
-			$this->levels(),
-			function ($carry, $one) {
-				$carry[] = $one->term_id;
+		$memberships = $this->toFapiMembership($meta);
+		$levelIds = [];
 
-				return $carry;
-			},
-			[]
-		);
-		$meta = array_filter(
-			$meta,
-			function ($one) use ($levelIds) {
-				return in_array($one['level'], $levelIds);
-			}
-		);
-		$meta = array_filter(
-			$meta,
-			function ($one) use ($removeFuture) {
-				$now = new DateTime();
-				$until = DateTime::createFromFormat(FapiMemberPlugin::DF, $one['until']);
-
-				if ($until < $now && !$one['isUnlimited']) {
-					return false;
-				}
-
-				$registered = DateTime::createFromFormat(FapiMemberPlugin::DF, $one['registered']);
-
-				if ($removeFuture && ($registered > $now)) {
-					return false;
-				}
-
-				return true;
-			}
-		);
-		$atEnd = count($meta);
-		$memberships = array_map(
-			function ($one) {
-				$t = new FapiMembership($one['level']);
-
-				$t->registered = (isset($one['registered']))
-					?
-					DateTime::createFromFormat(FapiMemberPlugin::DF, $one['registered'])
-					:
-					null;
-				$t->until = (isset($one['until']))
-					?
-					DateTime::createFromFormat(FapiMemberPlugin::DF, $one['until'])
-					:
-					null;
-				$t->isUnlimited = $one['isUnlimited'];
-
-				return $t;
-			},
-			$meta
-		);
-
-		if ($atEnd !== $atStart) {
-			$this->saveForUser($userId, $memberships);
+		foreach ($this->levels() as $level) {
+			$levelIds[] = $level->term_id;
 		}
+
+		$now = new DateTimeImmutable();
+
+		$memberships = array_filter($memberships, static function (FapiMembership $membership) use ($removeFuture, $levelIds, $now) {
+			if (!in_array($membership->level, $levelIds, true)) {
+				return false;
+			}
+
+			if (!$membership->isUnlimited && $membership->until < $now) {
+				return false;
+			}
+
+			if ($removeFuture && ($membership->registered > $now)) {
+				return false;
+			}
+
+			return true;
+		});
+
+		$this->saveForUser($userId, $memberships);
 
 		return $memberships;
 	}
 
+	/**
+	 * @return WP_Term[]
+	 */
 	public function levels()
 	{
 		if ($this->levels === null) {
-			$this->levels = $this->fapiLevels->loadAsTerms();
+			$termEnvelopes = $this->fapiLevels->loadAsTermEnvelopes();
+
+			foreach ($termEnvelopes as $termEnvelope) {
+				$this->levels[] = $termEnvelope->getTerm();
+			}
 		}
 
 		return $this->levels;
@@ -199,28 +187,17 @@ class FapiMembershipLoader
 	 * @param int $userId
 	 * @param FapiMembership[] $memberships
 	 */
-	public function saveForUser($userId, $memberships)
+	public function saveForUser($userId, array $memberships)
 	{
 		if (count($memberships) === 0) {
 			return;
 		}
 
-		$meta = array_map(
-			function ($one) {
-				$t = (array) $one;
+		$meta = [];
 
-				if ($one->registered instanceof DateTimeInterface) {
-					$t['registered'] = $one->registered->format(FapiMemberPlugin::DF);
-				}
-
-				if ($one->until instanceof DateTimeInterface) {
-					$t['until'] = $one->until->format(FapiMemberPlugin::DF);
-				}
-
-				return $t;
-			},
-			$memberships
-		);
+		foreach ($memberships as $membership) {
+			$meta[] = $membership->jsonSerialize();
+		}
 
 		update_user_meta($userId, self::MEMBERSHIP_META_KEY, $meta);
 	}
@@ -237,19 +214,19 @@ class FapiMembershipLoader
 			$meta = [];
 		}
 
-		$meta[] = $membership;
+		$meta[] = $membership->jsonSerialize();
 		update_user_meta($userId, self::MEMBERSHIP_HISTORY_META_KEY, $meta);
 	}
 
 	/**
-	 * @param array<FapiMembership> $memberships
-	 * @param  $levelId
+	 * @param FapiMembership[] $memberships
+	 * @param int $levelId
 	 * @return bool
 	 */
 	public function didUserHadLevelMembershipBefore(array $memberships, $levelId)
 	{
-		foreach ($memberships as $m) {
-			if ($m->level === $levelId) {
+		foreach ($memberships as $membership) {
+			if ($membership->level === $levelId) {
 				return true;
 			}
 		}
@@ -263,10 +240,36 @@ class FapiMembershipLoader
 	 */
 	public function loadMembershipsHistory($userId)
 	{
-		$memberships = get_user_meta($userId, self::MEMBERSHIP_HISTORY_META_KEY, true);
+		$meta = get_user_meta($userId, self::MEMBERSHIP_HISTORY_META_KEY, true);
 
-		if ($memberships === '') {
-			$memberships = [];
+		if ($meta === '') {
+			$meta = [];
+		}
+
+		return $this->toFapiMembership($meta);
+	}
+
+	private function toFapiMembership(array $meta)
+	{
+		$memberships = [];
+
+		foreach ($meta as $item) {
+			if ($item instanceof FapiMembership) {
+				$memberships[] = $item;
+
+				continue;
+			}
+
+			$memberships[] = new FapiMembership(
+				$item['level'],
+				isset($item['registered'])
+					? DateTime::createFromFormat(FapiMemberPlugin::DF, $item['registered'])
+					: null,
+				isset($item['until'])
+					? DateTime::createFromFormat(FapiMemberPlugin::DF, $item['until'])
+					: null,
+				(bool) $item['isUnlimited']
+			);
 		}
 
 		return $memberships;

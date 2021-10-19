@@ -47,8 +47,10 @@ class FapiMemberPlugin
 		add_action('init', [$this, 'registerRoles']);
 		add_action('init', [$this, 'addShortcodes']);
 		add_action('rest_api_init', [$this, 'addRestEndpoints']);
+
 		// check if page in fapi level
 		add_action('template_redirect', [$this, 'checkPage']);
+
 		// level selection in front-end
 		add_action('init', [$this, 'checkIfLevelSelection']);
 
@@ -67,12 +69,20 @@ class FapiMemberPlugin
 		add_action('admin_post_fapi_member_edit_email', [$this, 'handleEditEmail']);
 		add_action('admin_post_fapi_member_set_other_page', [$this, 'handleSetOtherPage']);
 		add_action('admin_post_fapi_member_set_settings', [$this, 'handleSetSettings']);
+
 		// user profile save
 		add_action('edit_user_profile_update', [$this, 'handleUserProfileSave']);
 
 		add_image_size('level-selection', 300, 164, true);
 		add_filter('login_redirect', [$this, 'loginRedirect'], 10, 3);
 		add_filter('show_admin_bar', [$this, 'hideAdminBar']);
+		add_filter('init', function () {
+			if (isset($_GET['show_fapi_member_login_page']) && (bool) $_GET['show_fapi_member_login_page']) {
+				include __DIR__ . '/../templates/fapiMemberLoginPage.php';
+
+				die;
+			}
+		});
 	}
 
 	public function hideAdminBar($original)
@@ -209,6 +219,28 @@ class FapiMemberPlugin
 		$data = [];
 		parse_str($body, $data);
 
+		if (!isset($params['level'])) {
+			$this->callbackError(sprintf('Level parameter missing in get params.'));
+
+			return false;
+		}
+
+		if (!is_array($params['level'])) {
+			$levelIds = [(int) [$params['level']]];
+		} else {
+			$levelIds = array_map('intval', $params['level']);
+		}
+
+		$existingLevels = $this->levels()->allIds();
+
+		foreach ($levelIds as $oneLevelId) {
+			if (!in_array($oneLevelId, $existingLevels, true)) {
+				$this->callbackError(sprintf('Section or level with ID %s, does not exist.', $oneLevelId));
+
+				return false;
+			}
+		}
+
 		if (isset($data['voucher'])) {
 			$voucherId = $data['voucher'];
 			$voucher = $this->fapiApi()->getVoucher($voucherId);
@@ -244,60 +276,37 @@ class FapiMemberPlugin
 			$email = $voucher['applicant']['email'];
 		} else {
 			$invoiceId = $data['id'];
-			$invoice = $this->fapiApi()->getInvoice($invoiceId);
+			$invoiceId = $this->fapiApi()->getInvoice($invoiceId);
 
-			if ($invoice === false) {
+			if ($invoiceId === false) {
 				$this->callbackError(sprintf('Error getting invoice: %s', $this->fapiApi()->lastError));
 
 				return false;
 			}
 
-			if (!self::isDevelopment() && !$this->fapiApi()->isInvoiceSecurityValid($invoice, $data['time'], $data['security'])) {
+			if (!self::isDevelopment() && !$this->fapiApi()->isInvoiceSecurityValid($invoiceId, $data['time'], $data['security'])) {
 				$this->callbackError(sprintf('Invoice security is not valid.'));
 
 				return false;
 			}
 
-			if (isset($invoice['parent']) && $invoice['parent'] !== null) {
+			if (isset($invoiceId['parent']) && $invoiceId['parent'] !== null) {
 				$this->callbackError(sprintf('Invoice parent is set and not null.'));
 
 				return false;
 			}
 
-			if (!isset($invoice['customer']) || !isset($invoice['customer']['email'])) {
+			if (!isset($invoiceId['customer']) || !isset($invoiceId['customer']['email'])) {
 				$this->callbackError(sprintf('Cannot find customer email in API response.'));
 
 				return false;
 			}
 
-			$email = $invoice['customer']['email'];
-		}
-
-		if (!isset($params['level'])) {
-			$this->callbackError(sprintf('Level parameter missing in get params.'));
-
-			return false;
+			$email = $invoiceId['customer']['email'];
 		}
 
 		$props = [];
-		$userCreated = $this->userUtils()->createUser($email, $props);
-
-		// create or prolong membership
-		if (!is_array($params['level'])) {
-			$levelIds = [(int) [$params['level']]];
-		} else {
-			$levelIds = array_map('intval', $params['level']);
-		}
-
-		$existingLevels = $this->levels()->allIds();
-
-		foreach ($levelIds as $oneLevelid) {
-			if (!in_array($oneLevelid, $existingLevels)) {
-				$this->callbackError(sprintf('Section or level with ID %s, does not exist.', $oneLevelid));
-
-				return false;
-			}
-		}
+		$this->userUtils()->createUser($email, $props);
 
 		if (!isset($params['days'])) {
 			$days = false;
@@ -308,33 +317,46 @@ class FapiMemberPlugin
 		}
 
 		$user = get_user_by('email', $email);
+
+		if ($user === false) {
+			$this->callbackError(sprintf('Cannot found user'));
+		}
+
 		$historicalMemberships = $this->fapiMembershipLoader()->loadMembershipsHistory($user->ID);
 
 		foreach ($levelIds as $id) {
 			$level = $this->levels()->loadById($id);
+
 			if (!$level) {
 				continue;
 			}
 
-			$this->createOrProlongMembership($email, $id, $days, $isUnlimited, $props);
+			$this->createOrProlongMembership($user, $id, $days, $isUnlimited, $props);
 			$this->enhanceProps($props);
 		}
 
 		$this->fapiMembershipLoader()->extendMembershipsToParents($user->ID);
-		$wasUserCreatedNow = (isset($props['new_user']) && $props['new_user']);
+		$wasUserCreatedNow = isset($props['new_user']) && $props['new_user'];
 
-		if ($user) {
-			$levels = $this->levels()->loadByIds($levelIds);
-			$emailsToSend = $this->findEmailsToSend($user, $levels, $props, $wasUserCreatedNow, $this->fapiMembershipLoader(), $this->levels(), $historicalMemberships);
+		$levels = $this->levels()->loadByIds($levelIds);
+		$emailsToSend = $this->findEmailsToSend($user, $levels, $props, $wasUserCreatedNow, $this->fapiMembershipLoader(), $this->levels(), $historicalMemberships);
 
-			foreach ($emailsToSend as $email) {
-				$type = $email[0];
-				$level = $email[1];
-				$this->sendEmail($user->user_email, $type, $level->term_id, $props);
-			}
+		foreach ($emailsToSend as $email) {
+			$type = $email[0];
+			$level = $email[1];
+
+			$this->sendEmail($user->user_email, $type, $level->term_id, $props);
 		}
 
 		return '';
+	}
+
+	protected function callbackError($message)
+	{
+		http_response_code(400);
+		echo json_encode(['error' => $message]);
+
+		exit;
 	}
 
 	public function fapiApi()
@@ -348,14 +370,6 @@ class FapiMemberPlugin
 		}
 
 		return $this->fapiApi;
-	}
-
-	protected function callbackError($message)
-	{
-		http_response_code(400);
-		echo json_encode(['error' => $message]);
-
-		exit;
 	}
 
 	public static function isDevelopment()
@@ -383,16 +397,10 @@ class FapiMemberPlugin
 		return $this->fapiMembershipLoader;
 	}
 
-	protected function createOrProlongMembership($email, $levelId, $days, $isUnlimited, &$props)
+	protected function createOrProlongMembership($user, $levelId, $days, $isUnlimited, &$props)
 	{
-		$user = get_user_by('email', $email);
-
-		if ($user === false) {
-			return;
-		}
-
-		$fm = new FapiMembershipLoader($this->levels());
-		$memberships = $fm->loadForUser($user->ID);
+		$fapiMembershipLoader = new FapiMembershipLoader($this->levels());
+		$memberships = $fapiMembershipLoader->loadForUser($user->ID);
 		$membershipKey = null;
 
 		foreach ($memberships as $k => $m) {
@@ -416,6 +424,7 @@ class FapiMemberPlugin
 
 			if ($isUnlimited || $levelMembership->isUnlimited) {
 				$levelMembership->isUnlimited = true;
+
 				if (!$wasUnlimitedBefore) {
 					$props['membership_prolonged_to_unlimited'] = true;
 				}
@@ -518,11 +527,11 @@ class FapiMemberPlugin
 	}
 
 	/**
-	 * @param array<WP_Term> $levels
-	 * @param array<mixed> $props
+	 * @param WP_Term[] $levels
+	 * @param array $props
 	 * @param bool $wasUserCreated
-	 * @param array<FapiMembership> $historicalMemberships
-	 * @return array<mixed>
+	 * @param FapiMembership[] $historicalMemberships
+	 * @return array
 	 */
 	public function findEmailsToSend(WP_User $user, array $levels, array $props, $wasUserCreated, FapiMembershipLoader $fapiMembershipLoader, FapiLevels $fapiLevels, $historicalMemberships)
 	{
@@ -655,6 +664,7 @@ class FapiMemberPlugin
 	protected function verifyNonceAndCapability($hook)
 	{
 		$nonce = sprintf('fapi_member_%s_nonce', $hook);
+
 		if (!isset($_POST[$nonce])
 			|| !wp_verify_nonce($_POST[$nonce], $nonce)
 		) {
@@ -710,9 +720,9 @@ class FapiMemberPlugin
 		$data = $this->sanitizeLevels($_POST['Levels']);
 
 		$memberships = [];
-		$levelEvelopes = $this->levels()->loadAsTermEnvelopes();
+		$levelEnvelopes = $this->levels()->loadAsTermEnvelopes();
 		$levels = array_reduce(
-			$levelEvelopes,
+			$levelEnvelopes,
 			function ($carry, $one) {
 				$carry[$one->getTerm()->term_id] = $one->getTerm();
 
@@ -892,6 +902,7 @@ class FapiMemberPlugin
 		}
 
 		$parent = $this->levels()->loadById($levelId);
+
 		if ($parent === null) {
 			$this->redirect('settingsContentAdd', 'sectionNotFound');
 		}
@@ -899,7 +910,7 @@ class FapiMemberPlugin
 		// check parent
 		$old = get_term_meta($parent->term_id, 'fapi_pages', true);
 
-		$old = (empty($old)) ? null : json_decode($old);
+		$old = (empty($old)) ? null : json_decode($old, true);
 
 		$all = ($old === null) ? $toAdd : array_merge($old, $toAdd);
 		$all = array_values(array_unique($all));
@@ -1196,7 +1207,9 @@ class FapiMemberPlugin
 	public function addPublicScripts()
 	{
 		$this->registerPublicStyles();
+
 		wp_enqueue_style('fapi-member-public-style');
+
 		if (defined('FAPI_SHOWING_LEVEL_SELECTON')) {
 			wp_register_style(
 				'fapi-member-public-levelselection-font',
@@ -1443,7 +1456,7 @@ class FapiMemberPlugin
 		global $wp_query;
 
 		if (!isset($wp_query->post) || !($wp_query->post instanceof WP_Post) || $wp_query->post->post_type !== 'page') {
-			return;
+			return true;
 		}
 
 		$pageId = $wp_query->post->ID;
@@ -1451,14 +1464,14 @@ class FapiMemberPlugin
 		$levelsForThisPage = [];
 
 		foreach ($levelsToPages as $levelId => $pageIds) {
-			if (in_array($pageId, $pageIds)) {
+			if (in_array($pageId, $pageIds, true)) {
 				$levelsForThisPage[] = $levelId;
 			}
 		}
 
 		if (count($levelsForThisPage) === 0) {
 			// page is not in any level, not protecting
-			return;
+			return true;
 		}
 
 		// page is protected for users with membership
@@ -1473,14 +1486,14 @@ class FapiMemberPlugin
 		// user is logged in
 		if (current_user_can(self::REQUIRED_CAPABILITY)) {
 			// admins can access anything
-			return;
+			return true;
 		}
 
 		$memberships = $this->fapiMembershipLoader()->loadForUser(get_current_user_id());
 
 		// Does user have membership for any level that page is in
-		foreach ($memberships as $m) {
-			if (in_array($m->level, $levelsForThisPage)) {
+		foreach ($memberships as $membership) {
+			if (in_array($membership->level, $levelsForThisPage, true)) {
 				return true;
 			}
 		}
@@ -1501,7 +1514,7 @@ class FapiMemberPlugin
 			exit;
 		}
 
-		wp_redirect(home_url());
+		wp_redirect(home_url() . '?show_fapi_member_login_page=1');
 
 		exit;
 	}

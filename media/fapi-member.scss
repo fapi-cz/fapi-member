@@ -27,6 +27,10 @@
 	a {
 		text-decoration: none;
 		color: black;
+
+		&:hover {
+			color: #135e96;
+		}
 	}
 
 
@@ -749,7 +753,3 @@
 		padding: 0 22px;
 	}
 }
-
-
-
-

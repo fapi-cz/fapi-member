@@ -1,6 +1,6 @@
 <?php
 
-class FapiMembership
+final class FapiMembership implements JsonSerializable
 {
 
 	/** @var int */
@@ -27,6 +27,19 @@ class FapiMembership
 		$this->registered = $registered;
 		$this->until = $until;
 		$this->isUnlimited = $isUnlimited;
+	}
+
+	/**
+	 * @return array<mixed>
+	 */
+	public function jsonSerialize()
+	{
+		return [
+			'level' => $this->level,
+			'registered' => $this->registered === null ? null : $this->registered->format(FapiMemberPlugin::DF),
+			'until' => $this->until === null ? null : $this->until->format(FapiMemberPlugin::DF),
+			'isUnlimited' => $this->isUnlimited,
+		];
 	}
 
 }

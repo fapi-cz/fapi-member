@@ -46,53 +46,34 @@ class FapiLevels
 
 	public function allIds()
 	{
-		$terms = $this->loadAsTerms();
+		$termEnvelopes = $this->loadAsTermEnvelopes();
+		$out = [];
 
-		return array_reduce(
-			$terms,
-			function ($carry, $one) {
-				$carry[] = $one->term_id;
+		foreach ($termEnvelopes as $term) {
+			$out[] = $term->getTerm()->term_id;
+		}
 
-				return $carry;
-			},
-			[]
-		);
+		return $out;
 	}
 
 	/**
-	 * @deprecated
-	 * @see        FapiLevels::loadAsTermEnvelopes()
+	 * @param int[] $ids
+	 * @return WP_Term[]
 	 */
-	public function loadAsTerms()
-	{
-		if ($this->levels === null) {
-			$this->levels = get_terms(
-				[
-					'taxonomy' => self::TAXONOMY,
-					'hide_empty' => false,
-					'orderby' => 'ID',
-				]
-			);
-		}
-
-		return $this->levels;
-	}
-
 	public function loadByIds($ids)
 	{
-		$levels = array_map(
-			function ($oneId) {
-				return $this->loadById($oneId);
-			},
-			$ids
-		);
+		$levels = [];
 
-		return array_filter($levels);
+		foreach ($ids as $id) {
+			$levels[] = $this->loadById($id);
+		}
+
+		return $levels;
 	}
 
 	/**
 	 * @param int $id
-	 * @return WP_Term|array<mixed>|false
+	 * @return WP_Term|null
 	 */
 	public function loadById($id)
 	{
@@ -100,15 +81,12 @@ class FapiLevels
 			return get_term_by('ID', $id, self::TAXONOMY);
 		}
 
-		$f = array_filter(
-			$this->levels,
-			function (WP_Term $one) use ($id) {
-				return $one->term_id === (int) $id;
+		foreach ($this->levels as $level) {
+			if ($level->term_id !== (int) $id) {
+				continue;
 			}
-		);
 
-		if (count($f) >= 1) {
-			return array_values($f)[0];
+			return $level;
 		}
 
 		return null;
@@ -122,47 +100,46 @@ class FapiLevels
 		return (isset($lvlToPages[$levelId])) ? $lvlToPages[$levelId] : [];
 	}
 
+	/**
+	 * @return array
+	 */
 	public function levelsToPages()
 	{
 		if ($this->levelsToPages === null) {
-			$levels = array_map(
-				function ($one) {
-					return [
-						'term_id' => $one->term_id,
-						'name' => $one->name,
-					];
-				},
-				$this->loadAsTerms()
-			);
+			$this->levelsToPages = [];
 
-			$this->levelsToPages = array_reduce(
-				$levels,
-				function ($carry, $lvl) {
-					$pages = get_term_meta($lvl['term_id'], 'fapi_pages', true);
-					$carry[$lvl['term_id']] = (empty($pages)) ? [] : array_values(json_decode($pages));
+			foreach ($this->loadAsTermEnvelopes() as $term) {
+				$levelId = $term->getTerm()->term_id;
+				$pages = get_term_meta($levelId, 'fapi_pages', true);
 
-					return $carry;
-				},
-				[]
-			);
+				$this->levelsToPages[$levelId] = (empty($pages)) ? [] : array_values(json_decode($pages, true));
+			}
 		}
 
 		return $this->levelsToPages;
 	}
 
+	/**
+	 * @param int $levelId
+	 * @param bool $useCascade
+	 * @return array
+	 */
 	public function loadEmailTemplatesForLevel($levelId, $useCascade = false)
 	{
 		$meta = [];
+
 		foreach (self::$emailTypes as $type) {
 			$template = get_term_meta($levelId, $this->constructEmailTemplateKey($type), true);
+
 			if (!empty($template)) {
 				$meta[$type] = $template;
 			}
 		}
+
 		if ($useCascade && count($meta) !== count(self::$emailTypes)) {
 			$level = $this->loadById($levelId);
-			$parent = ($level->parent === 0) ? null : $this->loadById($level->parent);
-			$parentEmails = ($parent === null) ? [] : $this->loadEmailTemplatesForLevel($parent->term_id, false);
+			$parent = $level->parent === 0 ? null : $this->loadById($level->parent);
+			$parentEmails = $parent === null ? [] : $this->loadEmailTemplatesForLevel($parent->term_id, false);
 
 			foreach (self::$emailTypes as $type) {
 				if (!isset($meta[$type]) && isset($parentEmails[$type])) {
@@ -174,29 +151,40 @@ class FapiLevels
 		return $meta;
 	}
 
+	/**
+	 * @param string $type
+	 * @return string
+	 */
 	public function constructEmailTemplateKey($type)
 	{
 		return sprintf('fapi_email_%s', $type);
 	}
 
+	/**
+	 * @param int $levelId
+	 * @param bool $useCascade
+	 * @return array
+	 */
 	public function loadOtherPagesForLevel($levelId, $useCascade = false)
 	{
 		$meta = [];
 		$parentMeta = [];
+
 		if ($useCascade) {
 			$term = $this->loadById($levelId);
+
 			if ($term->parent !== 0) {
 				$parentMeta = $this->loadOtherPagesForLevel($term->parent);
 			}
 		}
+
 		foreach (self::$pageTypes as $type) {
 			$pageId = get_term_meta($levelId, $this->constructOtherPageKey($type), true);
+
 			if (!empty($pageId)) {
 				$meta[$type] = (int) $pageId;
-			} else {
-				if ($useCascade) {
-					$meta[$type] = (isset($parentMeta[$type])) ? $parentMeta[$type] : null;
-				}
+			} elseif ($useCascade) {
+				$meta[$type] = (isset($parentMeta[$type])) ? $parentMeta[$type] : null;
 			}
 		}
 
@@ -230,23 +218,36 @@ class FapiLevels
 		return $level;
 	}
 
+	/**
+	 * @param int $id
+	 */
 	public function remove($id)
 	{
 		wp_delete_term($id, self::TAXONOMY);
 	}
 
+	/**
+	 * @param int $id
+	 * @param string $name
+	 */
 	public function update($id, $name)
 	{
 		wp_update_term($id, self::TAXONOMY, ['name' => $name]);
 	}
 
+	/**
+	 * @param int $id
+	 * @param string $direction
+	 * @return bool
+	 */
 	public function order($id, $direction)
 	{
 		$envelopes = $this->loadAsTermEnvelopes();
 		$modified = array_filter(
-			$envelopes, function ($envelope) use ($id) {
-			return ($envelope->getTerm()->term_id === $id);
-		}
+			$envelopes,
+			static function ($envelope) use ($id) {
+				return ($envelope->getTerm()->term_id === $id);
+			}
 		);
 
 		if (count($modified) !== 1) {
@@ -256,9 +257,10 @@ class FapiLevels
 		$modified = array_shift($modified);
 		$parentId = $modified->getTerm()->parent;
 		$sameParentEnvelopes = array_filter(
-			$envelopes, function ($envelope) use ($parentId) {
-			return ($envelope->getTerm()->parent === $parentId);
-		}
+			$envelopes,
+			static function ($envelope) use ($parentId) {
+				return ($envelope->getTerm()->parent === $parentId);
+			}
 		);
 
 		$currentPosition = -1;
@@ -266,6 +268,7 @@ class FapiLevels
 
 		foreach ($sameParentEnvelopes as $envelope) {
 			$currentPosition++;
+
 			if ($envelope->getTerm()->term_id === $modified->getTerm()->term_id) {
 				$lastPosition = $currentPosition;
 			}
@@ -279,7 +282,7 @@ class FapiLevels
 
 		$newOrder = [];
 		$siblings = array_filter(
-			$sameParentEnvelopes, function ($envelope) use ($modified) {
+			$sameParentEnvelopes, static function ($envelope) use ($modified) {
 			return $envelope->getTerm()->term_id !== $modified->getTerm()->term_id;
 		}
 		);
@@ -312,6 +315,9 @@ class FapiLevels
 		return true;
 	}
 
+	/**
+	 * @return FapiTermEnvelope[]
+	 */
 	public function loadAsTermEnvelopes()
 	{
 		if ($this->levelEnvelopes === null) {
@@ -330,22 +336,23 @@ class FapiLevels
 	}
 
 	/**
-	 * @param array<WP_Term> $terms
-	 * @return array<FapiTermEnvelope>
+	 * @param WP_Term[] $terms
+	 * @return FapiTermEnvelope[]
 	 */
 	protected function termsToEnvelopes($terms)
 	{
 		$ordering = get_option(self::OPTION_KEY_LEVELS_ORDER, (new stdClass()));
 		$envelopes = array_map(
-			function ($term) use ($ordering) {
+			static function ($term) use ($ordering) {
 				$o = (isset($ordering->{$term->term_id})) ? $ordering->{$term->term_id} : 1245;
 
 				return new FapiTermEnvelope($term, $o);
 			},
 			$terms
 		);
+
 		usort(
-			$envelopes, function ($a, $b) {
+			$envelopes, static function ($a, $b) {
 			if ($a->getOrder() === $b->getOrder()) {
 				return (int) $a->getTerm()->term_id - (int) $b->getTerm()->term_id;
 			}

@@ -20,6 +20,7 @@
 			'post__in' => array_values($pages),
 		];
 		$posts = get_posts($args);
+
 		foreach ($posts as $post) {
 			if (has_excerpt($post)) {
 				$excerpt = get_the_excerpt($post);

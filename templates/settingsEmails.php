@@ -39,8 +39,8 @@ echo FapiMemberTools::heading();
 					}
 
 					foreach ($emails as $key => $title) {
-						$hasContentSet = (isset($templates[$key])) ? true : false;
-						$emailIsCascaded = ($levelTerm->parent !== 0 && !$hasContentSet) ? true : false;
+						$hasContentSet = isset($templates[$key]);
+						$emailIsCascaded = $levelTerm->parent !== 0 && !$hasContentSet;
 						?>
                         <div class="oneEmail">
                             <div class="header">

@@ -24,7 +24,7 @@ class FapiApi
 	 */
 	public function getInvoice($id)
 	{
-		$resp = wp_remote_request(
+		$response = wp_remote_request(
 			sprintf('%sinvoices/%s', $this->apiUrl, $id),
 			[
 				'method' => 'GET',
@@ -32,13 +32,13 @@ class FapiApi
 			]
 		);
 
-		if ($resp instanceof WP_Error || $resp['response']['code'] !== 200) {
-			$this->lastError = $this->findErrorMessage($resp);
+		if ($response instanceof WP_Error || $response['response']['code'] !== 200) {
+			$this->lastError = $this->findErrorMessage($response);
 
 			return false;
 		}
 
-		return json_decode($resp['body'], true);
+		return json_decode($response['body'], true);
 	}
 
 	/**
@@ -93,7 +93,7 @@ class FapiApi
 	 */
 	public function getVoucher($id)
 	{
-		$resp = wp_remote_request(
+		$response = wp_remote_request(
 			sprintf('%svouchers/%s', $this->apiUrl, $id),
 			[
 				'method' => 'GET',
@@ -101,13 +101,13 @@ class FapiApi
 			]
 		);
 
-		if ($resp instanceof WP_Error || $resp['response']['code'] !== 200) {
-			$this->lastError = $this->findErrorMessage($resp);
+		if ($response instanceof WP_Error || $response['response']['code'] !== 200) {
+			$this->lastError = $this->findErrorMessage($response);
 
 			return false;
 		}
 
-		return json_decode($resp['body'], true);
+		return json_decode($response['body'], true);
 	}
 
 	/**
@@ -116,7 +116,7 @@ class FapiApi
 	 */
 	public function getItemTemplate($code)
 	{
-		$resp = wp_remote_request(
+		$response = wp_remote_request(
 			sprintf('%sitem_templates/?code=%s', $this->apiUrl, $code),
 			[
 				'method' => 'GET',
@@ -124,19 +124,19 @@ class FapiApi
 			]
 		);
 
-		if ($resp instanceof WP_Error || $resp['response']['code'] !== 200) {
-			$this->lastError = $this->findErrorMessage($resp);
+		if ($response instanceof WP_Error || $response['response']['code'] !== 200) {
+			$this->lastError = $this->findErrorMessage($response);
 
 			return false;
 		}
 
-		$res = json_decode($resp['body'], true);
+		$data = json_decode($response['body'], true);
 
-		if (!isset($res['item_templates'][0])) {
+		if (!isset($data['item_templates'][0])) {
 			return false;
 		}
 
-		return $res['item_templates'][0];
+		return $data['item_templates'][0];
 	}
 
 	/**
@@ -144,7 +144,7 @@ class FapiApi
 	 */
 	public function checkCredentials()
 	{
-		$resp = wp_remote_request(
+		$response = wp_remote_request(
 			sprintf('%s', $this->apiUrl),
 			[
 				'method' => 'GET',
@@ -152,8 +152,8 @@ class FapiApi
 			]
 		);
 
-		if ($resp instanceof WP_Error || $resp['response']['code'] !== 200) {
-			$this->lastError = $this->findErrorMessage($resp);
+		if ($response instanceof WP_Error || $response['response']['code'] !== 200) {
+			$this->lastError = $this->findErrorMessage($response);
 
 			return false;
 		}
@@ -169,15 +169,9 @@ class FapiApi
 	 */
 	public function isInvoiceSecurityValid($invoice, $time, $expectedSecurity)
 	{
-		$id = isset($invoice['id']) ? (int) $invoice['id'] : null;
-		$number = isset($invoice['number']) ? (int) $invoice['number'] : null;
-
-		if ($id === null || $number === null) {
-			return false;
-		}
-
+		$id = isset($invoice['id']) ? (int) $invoice['id'] : '';
+		$number = isset($invoice['number']) ? (int) $invoice['number'] : '';
 		$itemsSecurityHash = '';
-
 		$items = [];
 
 		if (isset($invoice['items']) && is_array($invoice['items'])) {
@@ -188,7 +182,7 @@ class FapiApi
 			$itemsSecurityHash .= md5($item['id'] . $item['name']);
 		}
 
-		return ($expectedSecurity === sha1($time . $id . $number . $itemsSecurityHash));
+		return $expectedSecurity === sha1($time . $id . $number . $itemsSecurityHash);
 	}
 
 	/**

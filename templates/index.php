@@ -11,24 +11,25 @@ echo FapiMemberTools::heading();
 	<?php echo FapiMemberTools::showErrors(); ?>
     <div class="sectionsOverview">
 		<?php
-		//$levels      = $fapiLevels->loadAsTerms();
 		$envelopes = $fapiLevels->loadAsTermEnvelopes();
 		$mapToParent = array_reduce($envelopes,
-			function ($carry, $envelope) {
+			static function ($carry, $envelope) {
 				$carry[$envelope->getTerm()->term_id] = $envelope->getTerm()->parent;
 
 				return $carry;
 			},
-			[]);
+			[]
+		);
 
 		$topEnvelopes = array_filter($envelopes,
-			function ($envelope) {
+			static function ($envelope) {
 				return $envelope->getTerm()->parent === 0;
-			});
+			}
+		);
 		$pagesCount = [];
 		$levelsToPages = $fapiLevels->levelsToPages();
 		$levelCount = array_reduce($envelopes,
-			function ($carry, $envelope) use (&$pagesCount, $levelsToPages) {
+			static function ($carry, $envelope) use (&$pagesCount, $levelsToPages) {
 				$one = $envelope->getTerm();
 				$carry[$one->parent] = (isset($carry[$one->parent])) ? $carry[$one->parent] + 1 : 1;
 				if ($one->parent === 0) {

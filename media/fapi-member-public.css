@@ -2,12 +2,16 @@
   width: 350px !important;
   padding: 10px !important;
 }
-.fapiShortcodeLoginForm .row label {
+.fapiShortcodeLoginForm .row label, .fapiShortcodeLoginForm .row a {
   display: inline-block !important;
   font-weight: normal !important;
   font-size: 14px !important;
   color: #4c5567 !important;
   margin: 14px 0 0 0 !important;
+  text-decoration: none;
+}
+.fapiShortcodeLoginForm .row a:hover {
+  text-decoration: underline;
 }
 .fapiShortcodeLoginForm .row input[type=text],
 .fapiShortcodeLoginForm .row input[type=password] {
