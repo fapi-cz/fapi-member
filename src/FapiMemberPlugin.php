@@ -1,5 +1,7 @@
 <?php
 
+use Email\EmailShortCodesReplacer;
+
 class FapiMemberPlugin
 {
 
@@ -202,74 +204,76 @@ class FapiMemberPlugin
 
 	public function handleApiCallback(WP_REST_Request $request)
 	{
-		$get = $request->get_params();
+		$params = $request->get_params();
 		$body = $request->get_body();
-		// extract invoice/order id and preform request to find: email, level id, days...
-		// temp
-		/*
-		$get = [
-		'level' => ['12'],
-		'days' => '30',
-		];
-		$body = 'id=187034262&time=1614239639&security=9edbc14e1907b61af468217f60d2406d160c4fdf';
-		*/
-		$d = [];
-		parse_str($body, $d);
+		$data = [];
+		parse_str($body, $data);
 
-		if (isset($d['voucher'])) {
-			$voucherId = $d['voucher'];
+		if (isset($data['voucher'])) {
+			$voucherId = $data['voucher'];
 			$voucher = $this->fapiApi()->getVoucher($voucherId);
 			$voucherItemTemplateCode = $voucher['item_template_code'];
 			$itemTemplate = $this->fapiApi()->getItemTemplate($voucherItemTemplateCode);
+
 			if ($voucher === false) {
 				$this->callbackError(sprintf('Error getting voucher: %s', $this->fapiApi()->lastError));
 
 				return false;
 			}
+
 			$itemTemplate = ($itemTemplate === false) ? [] : $itemTemplate;
-			if (!self::isDevelopment() && !$this->fapiApi()->isVoucherSecurityValid($voucher, $itemTemplate, $d['time'], $d['security'])) {
+
+			if (!self::isDevelopment() && !$this->fapiApi()->isVoucherSecurityValid($voucher, $itemTemplate, $data['time'], $data['security'])) {
 				$this->callbackError(sprintf('Invoice security is not valid.'));
 
 				return false;
 			}
+
 			if (!isset($voucher['status']) || $voucher['status'] !== 'applied') {
 				$this->callbackError(sprintf('Voucher status is not applied.'));
 
 				return false;
 			}
+
 			if (!isset($voucher['applicant']) || ($voucher['applicant'] === null) || !isset($voucher['applicant']['email'])) {
 				$this->callbackError(sprintf('Cannot find applicant email in API response.'));
 
 				return false;
 			}
+
 			$email = $voucher['applicant']['email'];
 		} else {
-			$invoiceId = $d['id'];
+			$invoiceId = $data['id'];
 			$invoice = $this->fapiApi()->getInvoice($invoiceId);
+
 			if ($invoice === false) {
 				$this->callbackError(sprintf('Error getting invoice: %s', $this->fapiApi()->lastError));
 
 				return false;
 			}
-			if (!self::isDevelopment() && !$this->fapiApi()->isInvoiceSecurityValid($invoice, $d['time'], $d['security'])) {
+
+			if (!self::isDevelopment() && !$this->fapiApi()->isInvoiceSecurityValid($invoice, $data['time'], $data['security'])) {
 				$this->callbackError(sprintf('Invoice security is not valid.'));
 
 				return false;
 			}
+
 			if (isset($invoice['parent']) && $invoice['parent'] !== null) {
 				$this->callbackError(sprintf('Invoice parent is set and not null.'));
 
 				return false;
 			}
+
 			if (!isset($invoice['customer']) || !isset($invoice['customer']['email'])) {
 				$this->callbackError(sprintf('Cannot find customer email in API response.'));
 
 				return false;
 			}
+
 			$email = $invoice['customer']['email'];
 		}
 
-		if (!isset($get['level'])) {
+		if (!isset($params['level'])) {
 			$this->callbackError(sprintf('Level parameter missing in get params.'));
 
 			return false;
@@ -279,13 +283,14 @@ class FapiMemberPlugin
 		$userCreated = $this->userUtils()->createUser($email, $props);
 
 		// create or prolong membership
-		if (!is_array($get['level'])) {
-			$levelIds = [(int) [$get['level']]];
+		if (!is_array($params['level'])) {
+			$levelIds = [(int) [$params['level']]];
 		} else {
-			$levelIds = array_map('intval', $get['level']);
+			$levelIds = array_map('intval', $params['level']);
 		}
 
 		$existingLevels = $this->levels()->allIds();
+
 		foreach ($levelIds as $oneLevelid) {
 			if (!in_array($oneLevelid, $existingLevels)) {
 				$this->callbackError(sprintf('Section or level with ID %s, does not exist.', $oneLevelid));
@@ -294,11 +299,11 @@ class FapiMemberPlugin
 			}
 		}
 
-		if (!isset($get['days'])) {
+		if (!isset($params['days'])) {
 			$days = false;
 			$isUnlimited = true;
 		} else {
-			$days = (int) $get['days'];
+			$days = (int) $params['days'];
 			$isUnlimited = false;
 		}
 
@@ -317,9 +322,11 @@ class FapiMemberPlugin
 
 		$this->fapiMembershipLoader()->extendMembershipsToParents($user->ID);
 		$wasUserCreatedNow = (isset($props['new_user']) && $props['new_user']);
+
 		if ($user) {
 			$levels = $this->levels()->loadByIds($levelIds);
 			$emailsToSend = $this->findEmailsToSend($user, $levels, $props, $wasUserCreatedNow, $this->fapiMembershipLoader(), $this->levels(), $historicalMemberships);
+
 			foreach ($emailsToSend as $email) {
 				$type = $email[0];
 				$level = $email[1];
@@ -586,6 +593,13 @@ class FapiMemberPlugin
 		return $toSend;
 	}
 
+	/**
+	 * @param string $email
+	 * @param string $type
+	 * @param int $levelId
+	 * @param array<mixed> $props
+	 * @return bool|mixed|void
+	 */
 	protected function sendEmail($email, $type, $levelId, $props)
 	{
 		$emails = $this->levels()->loadEmailTemplatesForLevel($levelId, true);
@@ -602,103 +616,10 @@ class FapiMemberPlugin
 
 		$subject = $emails[$type]['s'];
 		$body = $emails[$type]['b'];
-		$subject = $this->applyEmailShortcodes($subject, $props);
-		$body = $this->applyEmailShortcodes($body, $props);
+		$subject = EmailShortCodesReplacer::replace($subject, $props);
+		$body = EmailShortCodesReplacer::replace($body, $props);
 
 		return wp_mail($email, $subject, $body);
-	}
-
-	protected function applyEmailShortcodes($text, $props)
-	{
-		$map = [
-			'%%SEKCE%%' => function ($props) {
-				if ((isset($props['membership_level_added_is_section']) && $props['membership_level_added_is_section'] === false)
-					|| (isset($props['membership_prolonged_is_section']) && $props['membership_prolonged_is_section'] === false)
-				) {
-					return '';
-				}
-
-				if (isset($props['membership_prolonged_level_name'])) {
-					return $props['membership_prolonged_level_name'];
-				}
-
-				if (isset($props['membership_level_added_level_name'])) {
-					return $props['membership_level_added_level_name'];
-				}
-
-				return '';
-			},
-			'%%UROVEN%%' => function ($props) {
-				if ((isset($props['membership_level_added_is_section']) && $props['membership_level_added_is_section'] === true)
-					|| (isset($props['membership_prolonged_is_section']) && $props['membership_prolonged_is_section'] === true)
-				) {
-					return '';
-				}
-
-				if (isset($props['membership_prolonged_level_name'])) {
-					return $props['membership_prolonged_level_name'];
-				}
-
-				if (isset($props['membership_level_added_level_name'])) {
-					return $props['membership_level_added_level_name'];
-				}
-
-				return '';
-			},
-			'%%DNI%%' => function ($props) {
-				if (isset($props['membership_prolonged_days'])) {
-					return $props['membership_prolonged_days'];
-				}
-
-				if (isset($props['membership_level_added_days'])) {
-					return $props['membership_level_added_days'];
-				}
-
-				if (isset($props['membership_prolonged_to_unlimited']) || isset($props['membership_level_added_unlimited'])) {
-					return 'neomezeně';
-				}
-
-				return '';
-			},
-			'%%CLENSTVI_DO%%' => function ($props) {
-				if (isset($props['membership_prolonged_until'])) {
-					return $props['membership_prolonged_until']->format('j. n. Y H:i');
-				}
-
-				if (isset($props['membership_level_added_until'])) {
-					return $props['membership_level_added_until']->format('j. n. Y H:i');
-				}
-
-				if (isset($props['membership_prolonged_to_unlimited']) || isset($props['membership_level_added_unlimited'])) {
-					return 'neomezené';
-				}
-
-				return '';
-			},
-			'%%PRIHLASENI_ODKAZ%%' => function ($props) {
-				return $props['login_link_url'];
-			},
-			'%%PRIHLASOVACI_JMENO%%' => function ($props) {
-				if (isset($props['login'])) {
-					return $props['login'];
-				}
-
-				return '';
-			},
-			'%%HESLO%%' => function ($props) {
-				if (isset($props['password'])) {
-					return $props['password'];
-				}
-
-				return '';
-			},
-		];
-
-		foreach ($map as $key => $func) {
-			$text = str_replace($key, $func($props), $text);
-		}
-
-		return $text;
 	}
 
 	public function handleApiCredentialsSubmit()
@@ -722,11 +643,11 @@ class FapiMemberPlugin
 		update_option(self::OPTION_KEY_API_KEY, $apiKey);
 
 		$credentialsOk = $this->fapiApi()->checkCredentials();
+		update_option(self::OPTION_KEY_API_CHECKED, $credentialsOk);
+
 		if ($credentialsOk) {
-			update_option(self::OPTION_KEY_API_CHECKED, true);
 			$this->redirect('connection', 'apiFormSuccess');
 		} else {
-			update_option(self::OPTION_KEY_API_CHECKED, false);
 			$this->redirect('connection', 'apiFormError');
 		}
 	}
@@ -779,8 +700,9 @@ class FapiMemberPlugin
 	public function handleUserProfileSave($userId)
 	{
 		if (empty($_POST['_wpnonce']) || !wp_verify_nonce($_POST['_wpnonce'], 'update-user_' . $userId)) {
-			return;
+			return false;
 		}
+
 		if (!current_user_can(self::REQUIRED_CAPABILITY)) {
 			return false;
 		}
@@ -808,6 +730,7 @@ class FapiMemberPlugin
 						'Y-m-d\TH:i',
 						$inputs['registrationDate'] . 'T' . $inputs['registrationTime']
 					);
+
 					if (isset($inputs['membershipUntil']) && $inputs['membershipUntil'] !== '') {
 						$until = DateTime::createFromFormat(
 							'Y-m-d\TH:i:s',
@@ -816,6 +739,7 @@ class FapiMemberPlugin
 					} else {
 						$until = null;
 					}
+
 					if (isset($inputs['isUnlimited']) && $inputs['isUnlimited'] === 'on') {
 						$isUnlimited = true;
 					} else {
@@ -828,10 +752,14 @@ class FapiMemberPlugin
 		}
 
 		$this->fapiMembershipLoader()->saveForUser($userId, $memberships);
+
 		foreach ($memberships as $oneMembership) {
 			$this->fapiMembershipLoader()->saveMembershipToHistory($userId, $oneMembership);
 		}
+
 		$this->fapiMembershipLoader()->extendMembershipsToParents($userId);
+
+		return true;
 	}
 
 	protected function sanitizeLevels($levels)
@@ -936,11 +864,11 @@ class FapiMemberPlugin
 		}
 
 		$parent = $this->levels()->loadById($parentId);
+
 		if ($parent === null) {
 			$this->redirect('settingsLevelNew', 'sectionNotFound');
 		}
 
-		// check parent
 		$this->levels()->insert($name, $parentId);
 
 		$this->redirect('settingsLevelNew');
@@ -1104,7 +1032,7 @@ class FapiMemberPlugin
 
 		update_term_meta(
 			$levelId,
-			$this->levels()->constructEmailTemplateKey($emailType),
+			$this->levels()->constructEmailTemplateKey(FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION),
 			['s' => $mailSubject, 'b' => $mailBody]
 		);
 
@@ -1202,6 +1130,7 @@ class FapiMemberPlugin
 		$this->registerStyles();
 		$this->registerScripts();
 		global $pagenow;
+
 		if ($pagenow === 'admin.php' || $pagenow === 'options-general.php') {
 			wp_enqueue_style('fapi-member-admin-font');
 			wp_enqueue_style('fapi-member-admin');
@@ -1250,6 +1179,7 @@ class FapiMemberPlugin
 			'fapi-member-swal-promise-polyfill',
 			plugins_url('fapi-member/media/dist/polyfill.min.js')
 		);
+
 		if (self::isDevelopment()) {
 			wp_register_script(
 				'fapi-member-main',

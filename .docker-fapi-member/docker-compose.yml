@@ -21,6 +21,9 @@ services:
     container_name: wordpress-db
     image: mysql:5.7
     restart: always
+    ports:
+      - "3307:3306"
+      - "13307:3306"
     environment:
       MYSQL_DATABASE: exampledb
       MYSQL_USER: exampleuser

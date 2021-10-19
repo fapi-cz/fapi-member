@@ -92,7 +92,7 @@ class FapiLevels
 
 	/**
 	 * @param int $id
-	 * @return array|false|mixed|WP_Error|WP_Term|null
+	 * @return WP_Term|array<mixed>|false
 	 */
 	public function loadById($id)
 	{
@@ -163,6 +163,7 @@ class FapiLevels
 			$level = $this->loadById($levelId);
 			$parent = ($level->parent === 0) ? null : $this->loadById($level->parent);
 			$parentEmails = ($parent === null) ? [] : $this->loadEmailTemplatesForLevel($parent->term_id, false);
+
 			foreach (self::$emailTypes as $type) {
 				if (!isset($meta[$type]) && isset($parentEmails[$type])) {
 					$meta[$type] = $parentEmails[$type];
@@ -207,13 +208,26 @@ class FapiLevels
 		return sprintf('fapi_page_%s', $type);
 	}
 
+	/**
+	 * @param string $name
+	 * @param int|null $parent
+	 * @return array<mixed>|WP_Error
+	 */
 	public function insert($name, $parent = null)
 	{
 		if ($parent === null) {
-			wp_insert_term($name, self::TAXONOMY);
-		} else {
-			wp_insert_term($name, self::TAXONOMY, ['parent' => $parent]);
+			$section = wp_insert_term($name, self::TAXONOMY);
+
+			$this->createDefaultSectionEmails($section['term_id'], 'section');
+
+			return $section;
 		}
+
+		$level = wp_insert_term($name, self::TAXONOMY, ['parent' => $parent]);
+
+		$this->createDefaultSectionEmails($level['term_id'], 'level');
+
+		return $level;
 	}
 
 	public function remove($id)
@@ -357,6 +371,32 @@ class FapiLevels
 		}
 
 		return $new;
+	}
+
+	/**
+	 * @param int $termId
+	 * @param string $emailKind
+	 * @return void
+	 */
+	private function createDefaultSectionEmails($termId, $emailKind)
+	{
+		update_term_meta(
+			$termId,
+			$this->constructEmailTemplateKey(self::EMAIL_TYPE_AFTER_REGISTRATION),
+			EmailTemplatesProvider::FAPI_EMAILS[$emailKind][self::EMAIL_TYPE_AFTER_REGISTRATION]
+		);
+
+		update_term_meta(
+			$termId,
+			$this->constructEmailTemplateKey(self::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED),
+			EmailTemplatesProvider::FAPI_EMAILS[$emailKind][self::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED]
+		);
+
+		update_term_meta(
+			$termId,
+			$this->constructEmailTemplateKey(self::EMAIL_TYPE_AFTER_ADDING),
+			EmailTemplatesProvider::FAPI_EMAILS[$emailKind][self::EMAIL_TYPE_AFTER_ADDING]
+		);
 	}
 
 }

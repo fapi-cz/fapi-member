@@ -43,10 +43,12 @@ class FapiSanitization
 		}
 
 		$raw = (isset($arr[$key])) ? $arr[$key] : $default;
+
 		if ($raw === null) {
 			// input is missing
 			return null;
 		}
+
 		if (!is_callable($sanitizer)) {
 			throw new RuntimeException('Sanitizer should be callable.');
 		}

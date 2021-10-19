@@ -22,5 +22,7 @@ include __DIR__ . '/src/FapiMembership.php';
 include __DIR__ . '/src/FapiMembershipLoader.php';
 include __DIR__ . '/src/FapiApi.php';
 include __DIR__ . '/src/FapiSanitization.php';
+include __DIR__ . '/src/EmailTemplatesProvider.php';
+include __DIR__ . 'src/Email/EmailShortCodesReplacer.php';
 
 $FapiPlugin = new FapiMemberPlugin();
