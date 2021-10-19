@@ -13,7 +13,6 @@ build:
 	mkdir wp-build
 	cp fapi-member.php wp-build/fapi-member.php
 	cp uninstall.php wp-build/uninstall.php
-	cp readme.txt wp-build/readme.txt
 	cp -r src wp-build/src
 	cp -r templates wp-build/templates
 	cp -r media wp-build/media
@@ -22,4 +21,5 @@ build:
 	find wp-build -type f -name '*.map' -delete
 	find wp-build -type f -name '*.txt' -delete
 	find wp-build -type f -name '*.html' -delete
+	cp readme.txt wp-build/readme.txt
 	rm -d -r wp-build/media/font/specimen_files
