@@ -492,7 +492,7 @@ class FapiMemberTools
                 <div class="f-m-row">
                 <a href="/wp-login.php?action=lostpassword">' . __('Zapomněli jste heslo?') . '</a>
                 </div>
-                <div class="fapi-member-row controls">
+                <div class="f-m-row controls">
                     <input type="submit" class="primary" value="' . __('Přihlásit se') . '">
                 </div>
             </form>
