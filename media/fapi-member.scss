@@ -211,9 +211,19 @@
 			color: $blue;
 			font-weight: bold;
 
-		&.danger {
+			&:hover {
+				background-color: $blue;
+				color: white;
+			}
+
+			&.danger {
 				border: 1px solid $red;
 				color: $red;
+
+				&:hover {
+					background-color: $red;
+					color: white;
+				}
 			}
 
 			&[disabled] {
@@ -226,6 +236,12 @@
 			border: 1px solid $blue;
 			background-color: $blue;
 			color: white;
+
+			&:hover {
+				cursor: pointer;
+				box-shadow: 0 0 0 2px rgb(0 116 226 / 20%);
+				transition: all 200ms ease-out;
+			}
 
 			&[disabled] {
 				border: 1px solid $grayLine;

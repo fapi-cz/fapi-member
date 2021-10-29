@@ -21,10 +21,16 @@ echo FapiMemberTools::heading();
 					$fapiLevels = $FapiPlugin->levels();
 					$levelTerm = $fapiLevels->loadById($level);
 					$isSection = ($levelTerm->parent === 0) ? true : false;
+					$defaultLoginPageId = $FapiPlugin->getSetting('login_page_id');
 
 					$templates = $fapiLevels->loadEmailTemplatesForLevel($level);
 
 					$pages = [
+						'login' => [
+							't' => 'Přihlašovací stránka',
+							'd' => 'Vyberte stránku, kde je umístěn přihlašovací formulář.
+                                        <br>Stránka nesmí být zařazena jako členská.',
+						],
 						'afterLogin' => [
 							't' => 'Stránka po přihlášení',
 							'd' => 'Vyberte stránku, která se zobrazí uživatelům po přihlášení do členské 
@@ -34,11 +40,6 @@ echo FapiMemberTools::heading();
 							't' => 'Stránka, když uživatel nemá přístup',
 							'd' => 'Vyberte stránku, která se zobrazí uživateli, pokud nemá přístup na uzamčenou stránku.<br>
                                         Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství.',
-						],
-						'login' => [
-							't' => 'Přihlašovací stránka',
-							'd' => 'Vyberte stránku, kde je umístěn přihlašovací formulář.
-                                        <br>Stránka nesmí být zařazena jako členská.',
 						],
 					];
 
@@ -56,7 +57,13 @@ echo FapiMemberTools::heading();
                             <input type="hidden" name="page_type" value="<?php echo $key ?>">
                             <div class="row submitInline noLabel">
                                 <select type="text" name="page" id="page">
-                                    <option value="">-- nevybrána --</option>
+                                    <?php
+                                    if ($defaultLoginPageId && $key === 'login') {
+										echo '<option value="">-- ' . FapiMemberTools::getPageTitle($defaultLoginPageId) . ' --</option>';
+                                    } else {
+                                        echo '<option value="">-- nevybrána --</option>';
+                                    }
+                                    ?>
 									<?php echo FapiMemberTools::allPagesAsOptions($currentPageId) ?>
                                 </select>
                                 <input type="submit" class="primary" value="Uložit">

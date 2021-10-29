@@ -479,14 +479,19 @@ class FapiMemberPlugin
 		return true;
 	}
 
-	protected function enhanceProps(&$props)
+	/**
+	 * @param array<mixed> $props
+	 */
+	protected function enhanceProps(array &$props)
 	{
 		if (isset($props['membership_level_added_level'])) {
 			$props['membership_level_added_level_name'] = $this->levels()->loadById($props['membership_level_added_level'])->name;
 		}
+
 		if (isset($props['membership_prolonged_level'])) {
 			$props['membership_prolonged_level_name'] = $this->levels()->loadById($props['membership_prolonged_level'])->name;
 		}
+
 		if (isset($props['membership_level_added_level'])) {
 			$props['login_link'] = sprintf('<a href="%s">zde</a>', $this->getLoginUrl($props['membership_level_added_level']));
 			$props['login_link_url'] = $this->getLoginUrl($props['membership_level_added_level']);
@@ -496,11 +501,16 @@ class FapiMemberPlugin
 		}
 	}
 
+	/**
+	 * @param int|null $level
+	 * @return false|string|WP_Error
+	 */
 	protected function getLoginUrl($level = null)
 	{
 		if ($level) {
 			$otherPages = $this->levels()->loadOtherPagesForLevel($level, true);
 			$loginPageId = (isset($otherPages['login'])) ? $otherPages['login'] : null;
+
 			if ($loginPageId) {
 				return get_permalink($loginPageId);
 			}
@@ -515,15 +525,19 @@ class FapiMemberPlugin
 		return get_permalink($setLoginPageId);
 	}
 
+	/**
+	 * @param string $key
+	 * @return mixed|null
+	 */
 	public function getSetting($key)
 	{
-		$o = get_option(self::OPTION_KEY_SETTINGS);
+		$options = get_option(self::OPTION_KEY_SETTINGS);
 
-		if ($o === false) {
-			$o = [];
+		if ($options === false) {
+			$options = [];
 		}
 
-		return (isset($o[$key])) ? $o[$key] : null;
+		return (isset($options[$key])) ? $options[$key] : null;
 	}
 
 	/**

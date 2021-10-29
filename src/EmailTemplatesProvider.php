@@ -27,11 +27,11 @@ moc mě těší, že u nás v sekci %%SEKCE%% zůstáváte déle.
 Nyní máte vstup prodloužený do %%CLENSTVI_DO%%.',
 				],
 				FapiLevels::EMAIL_TYPE_AFTER_ADDING => [
-					's' => 'Teď už můžete i do %%UROVEN%%',
+					's' => 'Teď už můžete i do %%SEKCE%%',
 					'b' => 'Krásný den, 
 těší mě, že máte o mou práci takový zájem.
 
-Právě Vám otvírám dveře do sekce %%UROVEN%%.
+Právě Vám otvírám dveře do sekce %%SEKCE%%.
 
 Co je uvnitř, uvidíte ve svém účtu: %%PRIHLASENI_ODKAZ%%.',
 				],

@@ -4,7 +4,7 @@
 	width: 350px!important;
 	padding: 10px!important;
 
-	.row {
+	.f-m-row {
 
 		label, a {
 			display: inline-block!important;
@@ -44,6 +44,12 @@
 			font-size: 15px!important;
 			padding: 14px!important;
 			border: none!important;
+
+			&:hover {
+				background-color: white!important;
+				color: $blue!important;
+				border: 2px solid $blue!important;
+			}
 		}
 
 		&.controls {
@@ -84,8 +90,8 @@
 		font-size: 14px!important;
 	}
 
-	.submenu {
-		display: none!important;
+	.f-m-submenu {
+		display: block!important;
 		position: absolute!important;
 		top: 40px!important;
 		left:0!important;
@@ -103,7 +109,7 @@
 	}
 
 	&:hover {
-		.submenu {
+		.f-m-submenu {
 			display: block!important;
 		}
 	}
@@ -190,7 +196,7 @@
 					border-radius: 4px!important;
 					text-align: center!important;
 					text-decoration: none!important;
-					margin: ((100px-46px)/2) auto!important;
+					margin: ((100px-46px) / 2) auto!important;
 					font-size: 15px!important;
 				}
 			}

@@ -427,23 +427,40 @@ class FapiMemberTools
 	}
 
 	/**
+	 * @param int $pageId
+	 * @return string|null
+	 */
+	public static function getPageTitle($pageId)
+	{
+		$posts = get_posts(['post_type' => 'page', 'post_status' => ['publish'], 'numberposts' => -1]);
+
+        foreach ($posts as $post) {
+            if ((int) $post->ID !== $pageId) {
+                continue;
+			}
+
+            return $post->post_title;
+		}
+
+        return null;
+	}
+
+	/**
 	 * @param int $currentId
 	 * @return string
 	 */
 	public static function allPagesAsOptions($currentId)
 	{
 		$posts = get_posts(['post_type' => 'page', 'post_status' => ['publish'], 'numberposts' => -1]);
+        $output = [];
 
-		$o = array_map(
-			function ($p) use ($currentId) {
-				$selected = ($currentId === $p->ID) ? 'selected' : '';
+        foreach ($posts as $post) {
+			$selected = ($currentId === $post->ID) ? 'selected' : '';
 
-				return sprintf('<option value="%s" %s>%s</option>', $p->ID, $selected, $p->post_title);
-			},
-			$posts
-		);
+            $output[] = sprintf('<option value="%s" %s>%s</option>\n', $post->ID, $selected, $post->post_title);
+		}
 
-		return implode('', $o);
+		return implode(' ', $output);
 	}
 
 	/**
@@ -464,18 +481,18 @@ class FapiMemberTools
 		return '
         <div class="fapiShortcodeLoginForm">
             <form method="post" action="/wp-login.php">
-                <div class="row">
+                <div class="f-m-row">
                     <label for="log">' . __('Přihlašovací jméno') . '</label>
                     <input type="text" name="log" id="user_login" value="" size="20">
                 </div>
-                <div class="row">
+                <div class="f-m-row">
                     <label for="pwd">' . __('Heslo') . '</label>
                     <input type="password" name="pwd" id="user_pass" value="" size="20">
                 </div>
-                <div class="row">
+                <div class="f-m-row">
                 <a href="/wp-login.php?action=lostpassword">' . __('Zapomněli jste heslo?') . '</a>
                 </div>
-                <div class="row controls">
+                <div class="fapi-member-row controls">
                     <input type="submit" class="primary" value="' . __('Přihlásit se') . '">
                 </div>
             </form>
@@ -510,7 +527,7 @@ class FapiMemberTools
             </span>
             <span class="h">Uživatel</span>
             <span class="l">' . self::trimName($u->user_login, 8) . '</span>
-            <div class="submenu">
+            <div class="f-m-submenu">
                 <a href="' . wp_logout_url(get_permalink()) . '">Odhlásit se</a>
             </div>
         </div>    

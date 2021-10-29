@@ -35,7 +35,7 @@ final class EmailShortCodesReplacer
 	 * @param array<mixed>
 	 * @return string
 	 */
-	private static function getSectionValue($props)
+	private static function getSectionValue(array $props)
 	{
 		if ((isset($props['membership_level_added_is_section']) && $props['membership_level_added_is_section'] === false)
 			|| (isset($props['membership_prolonged_is_section']) && $props['membership_prolonged_is_section'] === false)
@@ -58,7 +58,7 @@ final class EmailShortCodesReplacer
 	 * @param array<mixed> $props
 	 * @return string
 	 */
-	private static function getLevelValue($props)
+	private static function getLevelValue(array $props)
 	{
 		if ((isset($props['membership_level_added_is_section']) && $props['membership_level_added_is_section'] === true)
 			|| (isset($props['membership_prolonged_is_section']) && $props['membership_prolonged_is_section'] === true)
@@ -81,7 +81,7 @@ final class EmailShortCodesReplacer
 	 * @param array<mixed> $props
 	 * @return int|string
 	 */
-	private static function getDaysValue($props)
+	private static function getDaysValue(array $props)
 	{
 		if (isset($props['membership_prolonged_days'])) {
 			return $props['membership_prolonged_days'];
@@ -102,7 +102,7 @@ final class EmailShortCodesReplacer
 	 * @param array<mixed> $props
 	 * @return string
 	 */
-	private static function getExpirationDateValue($props)
+	private static function getExpirationDateValue(array $props)
 	{
 		if (isset($props['membership_prolonged_until'])) {
 			return $props['membership_prolonged_until']->format('j. n. Y H:i');
