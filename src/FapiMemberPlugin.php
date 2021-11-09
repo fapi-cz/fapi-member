@@ -1,8 +1,18 @@
 <?php
 
-use Email\EmailShortCodesReplacer;
+namespace FapiMember;
 
-class FapiMemberPlugin
+use DateTime;
+use DateTimeInterface;
+use FapiMember\Email\EmailShortCodesReplacer;
+use WP_Error;
+use WP_Post;
+use WP_REST_Request;
+use WP_REST_Response;
+use WP_Term;
+use WP_User;
+
+final class FapiMemberPlugin
 {
 
 	const OPTION_KEY_SETTINGS = 'fapiSettings';
@@ -167,7 +177,7 @@ class FapiMemberPlugin
 	{
 		$t = $this->levels()->loadAsTermEnvelopes();
 		$t = array_map(
-			function ($oneEnvelope) {
+			static function ($oneEnvelope) {
 				$one = $oneEnvelope->getTerm();
 
 				return [
@@ -181,18 +191,18 @@ class FapiMemberPlugin
 
 		$sections = array_reduce(
 			$t,
-			function ($carry, $one) use ($t) {
+			static function ($carry, $one) use ($t) {
 				if ($one['parent'] === 0) {
 					$children = array_values(
 						array_filter(
 							$t,
-							function ($i) use ($one) {
+							static function ($i) use ($one) {
 								return ($i['parent'] === $one['id']);
 							}
 						)
 					);
 					$children = array_map(
-						function ($j) {
+						static function ($j) {
 							unset($j['parent']);
 
 							return $j;
@@ -220,7 +230,7 @@ class FapiMemberPlugin
 		parse_str($body, $data);
 
 		if (!isset($params['level'])) {
-			$this->callbackError(sprintf('Level parameter missing in get params.'));
+			$this->callbackError('Level parameter missing in get params.');
 
 			return false;
 		}
@@ -256,19 +266,19 @@ class FapiMemberPlugin
 			$itemTemplate = ($itemTemplate === false) ? [] : $itemTemplate;
 
 			if (!self::isDevelopment() && !$this->fapiApi()->isVoucherSecurityValid($voucher, $itemTemplate, $data['time'], $data['security'])) {
-				$this->callbackError(sprintf('Invoice security is not valid.'));
+				$this->callbackError('Invoice security is not valid.');
 
 				return false;
 			}
 
 			if (!isset($voucher['status']) || $voucher['status'] !== 'applied') {
-				$this->callbackError(sprintf('Voucher status is not applied.'));
+				$this->callbackError('Voucher status is not applied.');
 
 				return false;
 			}
 
 			if (!isset($voucher['applicant']) || ($voucher['applicant'] === null) || !isset($voucher['applicant']['email'])) {
-				$this->callbackError(sprintf('Cannot find applicant email in API response.'));
+				$this->callbackError('Cannot find applicant email in API response.');
 
 				return false;
 			}
@@ -285,19 +295,19 @@ class FapiMemberPlugin
 			}
 
 			if (!self::isDevelopment() && !$this->fapiApi()->isInvoiceSecurityValid($invoiceId, $data['time'], $data['security'])) {
-				$this->callbackError(sprintf('Invoice security is not valid.'));
+				$this->callbackError('Invoice security is not valid.');
 
 				return false;
 			}
 
 			if (isset($invoiceId['parent']) && $invoiceId['parent'] !== null) {
-				$this->callbackError(sprintf('Invoice parent is set and not null.'));
+				$this->callbackError('Invoice parent is set and not null.');
 
 				return false;
 			}
 
 			if (!isset($invoiceId['customer']) || !isset($invoiceId['customer']['email'])) {
-				$this->callbackError(sprintf('Cannot find customer email in API response.'));
+				$this->callbackError('Cannot find customer email in API response.');
 
 				return false;
 			}
@@ -319,7 +329,7 @@ class FapiMemberPlugin
 		$user = get_user_by('email', $email);
 
 		if ($user === false) {
-			$this->callbackError(sprintf('Cannot found user'));
+			$this->callbackError('Cannot found user');
 		}
 
 		$historicalMemberships = $this->fapiMembershipLoader()->loadMembershipsHistory($user->ID);
@@ -359,6 +369,9 @@ class FapiMemberPlugin
 		exit;
 	}
 
+	/**
+	 * @return FapiApi
+	 */
 	public function fapiApi()
 	{
 		if ($this->fapiApi === null) {
@@ -579,7 +592,7 @@ class FapiMemberPlugin
 				$memberships = $fapiMembershipLoader->loadForUser($user->ID);
 				$membershipsForThisId = array_values(
 					array_filter(
-						$memberships, function (FapiMembership $one) use ($level) {
+						$memberships, static function (FapiMembership $one) use ($level) {
 						return ($one->level === $level->term_id);
 					}
 					)
@@ -737,7 +750,7 @@ class FapiMemberPlugin
 		$levelEnvelopes = $this->levels()->loadAsTermEnvelopes();
 		$levels = array_reduce(
 			$levelEnvelopes,
-			function ($carry, $one) {
+			static function ($carry, $one) {
 				$carry[$one->getTerm()->term_id] = $one->getTerm();
 
 				return $carry;
@@ -794,13 +807,13 @@ class FapiMemberPlugin
 
 		$levels = array_filter(
 			$levels,
-			function ($one) {
+			static function ($one) {
 				return (isset($one['check']) && $one['check'] === 'on');
 			}
 		);
 		$levels = array_filter(
 			$levels,
-			function ($one) {
+			static function ($one) {
 				return (isset($one['registrationDate']) && isset($one['registrationTime']) && isset($one['membershipUntil']));
 			}
 		);
@@ -1264,7 +1277,7 @@ class FapiMemberPlugin
 		$memberships = $this->fapiMembershipLoader()->loadForUser($user->ID);
 		$memberships = array_reduce(
 			$memberships,
-			function ($carry, $one) {
+			static function ($carry, $one) {
 				$carry[$one->level] = $one;
 
 				return $carry;
@@ -1292,7 +1305,7 @@ class FapiMemberPlugin
 	{
 		$lower = array_filter(
 			$levels,
-			function ($one) use ($level) {
+			static function ($one) use ($level) {
 				return $one->getTerm()->parent === $level->term_id;
 			}
 		);
@@ -1535,7 +1548,7 @@ class FapiMemberPlugin
 
 	public function checkIfLevelSelection()
 	{
-		$isFapiLevelSelection = (isset($_GET['fapi-level-selection']) && intval($_GET['fapi-level-selection']) === 1) ? true : false;
+		$isFapiLevelSelection = (isset($_GET['fapi-level-selection']) && (int) $_GET['fapi-level-selection'] === 1);
 
 		if (!$isFapiLevelSelection) {
 			return true;

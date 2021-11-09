@@ -5,7 +5,9 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?php echo __('Přihlášení do členské sekce')?></title>
+    <title><?php use FapiMember\FapiMemberTools;
+
+		echo __('Přihlášení do členské sekce')?></title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
 	<?php wp_head() ?>
 </head>

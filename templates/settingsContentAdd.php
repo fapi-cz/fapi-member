@@ -1,5 +1,7 @@
 <?php
 
+use FapiMember\FapiMemberTools;
+
 echo FapiMemberTools::heading();
 $selectedLevel = (isset($_GET['level'])) ? (int) $_GET['level'] : null;
 ?>

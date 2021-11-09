@@ -1,6 +1,6 @@
 <?php
 
-namespace Email;
+namespace FapiMember\Email;
 
 use function str_replace;
 

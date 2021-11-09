@@ -1,6 +1,10 @@
 <?php
 
-class FapiUserUtils
+namespace FapiMember;
+
+use WP_User;
+
+final class FapiUserUtils
 {
 
 	/**

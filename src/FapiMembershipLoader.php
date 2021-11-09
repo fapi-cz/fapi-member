@@ -1,5 +1,10 @@
 <?php
 
+namespace FapiMember;
+
+use DateTimeImmutable;
+use WP_Term;
+
 final class FapiMembershipLoader
 {
 
@@ -263,10 +268,10 @@ final class FapiMembershipLoader
 			$memberships[] = new FapiMembership(
 				$item['level'],
 				isset($item['registered'])
-					? DateTime::createFromFormat(FapiMemberPlugin::DF, $item['registered'])
+					? DateTimeImmutable::createFromFormat(FapiMemberPlugin::DF, $item['registered'])
 					: null,
 				isset($item['until'])
-					? DateTime::createFromFormat(FapiMemberPlugin::DF, $item['until'])
+					? DateTimeImmutable::createFromFormat(FapiMemberPlugin::DF, $item['until'])
 					: null,
 				(bool) $item['isUnlimited']
 			);

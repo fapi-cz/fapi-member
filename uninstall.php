@@ -1,12 +1,13 @@
 <?php
+
+namespace FapiMember;
+
 // if uninstall.php is not called by WordPress, die
 if (!defined('WP_UNINSTALL_PLUGIN')) {
 	die;
 }
 
-include('src/FapiMemberPlugin.php');
-include('src/FapiLevels.php');
-include('src/FapiMembershipLoader.php');
+require __DIR__ . '/fapi-member.php';
 
 $options = [
 	FapiMemberPlugin::OPTION_KEY_API_CHECKED,

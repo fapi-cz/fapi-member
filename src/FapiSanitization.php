@@ -1,6 +1,11 @@
 <?php
 
-class FapiSanitization
+namespace FapiMember;
+
+use RuntimeException;
+use WP_Post;
+
+final class FapiSanitization
 {
 
 	const POST = 'POST';
@@ -64,7 +69,7 @@ class FapiSanitization
 	public function validLevelId($input, $default)
 	{
 		$levelIds = $this->fapiLevels->allIds();
-		if (in_array((int) $input, $levelIds)) {
+		if (in_array((int) $input, $levelIds, true)) {
 			return (int) $input;
 		}
 
@@ -94,7 +99,7 @@ class FapiSanitization
 		$valid = array_filter(
 			$input,
 			static function ($one) use ($pageIds) {
-				return in_array((int) $one, $pageIds);
+				return in_array((int) $one, $pageIds, true);
 			}
 		);
 
@@ -112,7 +117,7 @@ class FapiSanitization
 
 	public function validEmailType($input, $default)
 	{
-		if (in_array($input, FapiLevels::$emailTypes)) {
+		if (in_array($input, FapiLevels::$emailTypes, true)) {
 			return $input;
 		}
 
@@ -121,7 +126,7 @@ class FapiSanitization
 
 	public function validOtherPageType($input, $default)
 	{
-		if (in_array($input, FapiLevels::$pageTypes)) {
+		if (in_array($input, FapiLevels::$pageTypes, true)) {
 			return $input;
 		}
 

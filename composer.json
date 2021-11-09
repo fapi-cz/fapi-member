@@ -1,0 +1,14 @@
+{
+    "name": "fapi-cz/fapi-member",
+    "description": "FAPI Member WP plugin",
+    "authors": [
+        {
+            "name": "Jiří Slischka",
+            "email": "slischkaj@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": { "FapiMember\\": ["src/"] }
+    }
+}

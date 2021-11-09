@@ -1,6 +1,10 @@
 <?php
 
-class FapiApi
+namespace FapiMember;
+
+use WP_Error;
+
+final class FapiApi
 {
 
 	public $lastError = null;

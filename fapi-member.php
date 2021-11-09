@@ -1,4 +1,7 @@
 <?php
+
+namespace FapiMember;
+
 /**
  * Plugin Name:       FAPI Member
  * Plugin URI:        https://fapi.cz/
@@ -13,16 +16,6 @@
  * Domain Path:       /languages
  */
 
-include __DIR__ . '/src/FapiTermEnvelope.php';
-include __DIR__ . '/src/FapiMemberTools.php';
-include __DIR__ . '/src/FapiMemberPlugin.php';
-include __DIR__ . '/src/FapiLevels.php';
-include __DIR__ . '/src/FapiUserUtils.php';
-include __DIR__ . '/src/FapiMembership.php';
-include __DIR__ . '/src/FapiMembershipLoader.php';
-include __DIR__ . '/src/FapiApi.php';
-include __DIR__ . '/src/FapiSanitization.php';
-include __DIR__ . '/src/EmailTemplatesProvider.php';
-include __DIR__ . '/src/Email/EmailShortCodesReplacer.php';
+require __DIR__ . '/vendor/autoload.php';
 
 $FapiPlugin = new FapiMemberPlugin();

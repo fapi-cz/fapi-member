@@ -2,6 +2,9 @@
 
 global $FapiPlugin;
 
+use FapiMember\FapiMemberPlugin;
+use FapiMember\FapiMemberTools;
+
 echo FapiMemberTools::heading();
 ?>
 <div class="page">

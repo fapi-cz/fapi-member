@@ -1,5 +1,7 @@
 <?php
 
+use FapiMember\FapiMemberTools;
+
 echo FapiMemberTools::heading();
 ?>
 

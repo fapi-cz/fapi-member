@@ -1,5 +1,10 @@
 <?php
 
+namespace FapiMember;
+
+use DateTimeImmutable;
+use JsonSerializable;
+
 final class FapiMembership implements JsonSerializable
 {
 

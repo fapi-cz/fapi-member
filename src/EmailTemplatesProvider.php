@@ -1,5 +1,7 @@
 <?php
 
+namespace FapiMember;
+
 final class EmailTemplatesProvider
 {
 

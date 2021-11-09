@@ -1,6 +1,10 @@
 <?php
 
 global $FapiPlugin;
+
+use FapiMember\FapiMembership;
+use FapiMember\FapiMemberTools;
+
 $fapiLevels = $FapiPlugin->levels();
 
 echo FapiMemberTools::heading();

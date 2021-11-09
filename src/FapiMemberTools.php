@@ -1,6 +1,10 @@
 <?php
 
-class FapiMemberTools
+namespace FapiMember;
+
+use WP_User;
+
+final class FapiMemberTools
 {
 
 	/** @var array<array<string>> */
@@ -45,7 +49,7 @@ class FapiMemberTools
 	 */
 	protected static function findValidErrorKey()
 	{
-		if (isset($_GET['e']) && is_string($_GET['e']) && isset(self::$errorMap[$_GET['e']])) {
+		if (isset($_GET['e'], self::$errorMap[$_GET['e']]) && is_string($_GET['e'])) {
 			return $_GET['e'];
 		}
 
@@ -242,21 +246,21 @@ class FapiMemberTools
 				foreach ($envelopes as $underEnvelope) {
 					$underTerm = $underEnvelope->getTerm();
 					if ($underTerm->parent === $term->term_id) {
-						$under[] = FapiMemberTools::oneLevelSelection(
+						$under[] = self::oneLevelSelection(
 							$underTerm->term_id,
-							FapiMemberTools::fapilink($subpage) . sprintf('&level=%s', $underTerm->term_id),
+							self::fapilink($subpage) . sprintf('&level=%s', $underTerm->term_id),
 							$underTerm->name,
 							'',
-							($underTerm->term_id === $selected) ? true : false
+							$underTerm->term_id === $selected
 						);
 					}
 				}
-				$lis[] = FapiMemberTools::oneLevelSelection(
+				$lis[] = self::oneLevelSelection(
 					$term->term_id,
-					FapiMemberTools::fapilink($subpage) . sprintf('&level=%s', $term->term_id),
+					self::fapilink($subpage) . sprintf('&level=%s', $term->term_id),
 					$term->name,
 					implode('', $under),
-					($term->term_id === $selected) ? true : false
+					$term->term_id === $selected
 				);
 			}
 		}
@@ -315,21 +319,21 @@ class FapiMemberTools
 				foreach ($evnelopes as $underEnvelope) {
 					$underTerm = $underEnvelope->getTerm();
 					if ($underTerm->parent === $term->term_id) {
-						$under[] = FapiMemberTools::oneLevelSelection(
+						$under[] = self::oneLevelSelection(
 							$underTerm->term_id,
-							FapiMemberTools::fapilink($subpage) . sprintf('&level=%s', $underTerm->term_id),
+							self::fapilink($subpage) . sprintf('&level=%s', $underTerm->term_id),
 							self::trimName($underTerm->name),
 							'',
-							($underTerm->term_id === $selected) ? true : false
+							$underTerm->term_id === $selected
 						);
 					}
 				}
-				$lis[] = FapiMemberTools::oneLevelSelection(
+				$lis[] = self::oneLevelSelection(
 					$term->term_id,
-					FapiMemberTools::fapilink($subpage) . sprintf('&level=%s', $term->term_id),
+					self::fapilink($subpage) . sprintf('&level=%s', $term->term_id),
 					self::trimName($term->name),
 					implode('', $under),
-					($term->term_id === $selected) ? true : false
+					$term->term_id === $selected
 				);
 			}
 		}
@@ -434,15 +438,15 @@ class FapiMemberTools
 	{
 		$posts = get_posts(['post_type' => 'page', 'post_status' => ['publish'], 'numberposts' => -1]);
 
-        foreach ($posts as $post) {
-            if ((int) $post->ID !== $pageId) {
-                continue;
+		foreach ($posts as $post) {
+			if ((int) $post->ID !== $pageId) {
+				continue;
 			}
 
-            return $post->post_title;
+			return $post->post_title;
 		}
 
-        return null;
+		return null;
 	}
 
 	/**
@@ -452,12 +456,12 @@ class FapiMemberTools
 	public static function allPagesAsOptions($currentId)
 	{
 		$posts = get_posts(['post_type' => 'page', 'post_status' => ['publish'], 'numberposts' => -1]);
-        $output = [];
+		$output = [];
 
-        foreach ($posts as $post) {
+		foreach ($posts as $post) {
 			$selected = ($currentId === $post->ID) ? 'selected' : '';
 
-            $output[] = sprintf('<option value="%s" %s>%s</option>\n', $post->ID, $selected, $post->post_title);
+			$output[] = sprintf('<option value="%s" %s>%s</option>\n', $post->ID, $selected, $post->post_title);
 		}
 
 		return implode(' ', $output);
@@ -576,10 +580,10 @@ class FapiMemberTools
 	{
 		return sprintf(
 			'%s<div class="baseGrid">%s%s%s',
-			FapiMemberTools::resolutionMessage(),
+			self::resolutionMessage(),
 			self::h1(),
-			FapiMemberTools::nav(),
-			FapiMemberTools::submenu()
+			self::nav(),
+			self::submenu()
 		);
 	}
 

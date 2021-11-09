@@ -1,5 +1,9 @@
 <?php
 
+namespace FapiMember;
+
+use WP_Term;
+
 final class FapiTermEnvelope
 {
 

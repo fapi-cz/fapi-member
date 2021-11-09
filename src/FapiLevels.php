@@ -1,6 +1,12 @@
 <?php
 
-class FapiLevels
+namespace FapiMember;
+
+use stdClass;
+use WP_Error;
+use WP_Term;
+
+final class FapiLevels
 {
 
 	const TAXONOMY = 'fapi_levels';
