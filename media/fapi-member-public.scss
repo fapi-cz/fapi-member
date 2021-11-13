@@ -1,7 +1,8 @@
 @import "colors";
 
 .fapiShortcodeLoginForm {
-	width: 350px!important;
+	min-width: 150px!important;
+	max-width: 350px!important;
 	padding: 10px!important;
 
 	.f-m-row {
@@ -43,12 +44,14 @@
 			text-decoration: none!important;
 			font-size: 15px!important;
 			padding: 14px!important;
-			border: none!important;
+			border: 2px solid transparent!important;
 
 			&:hover {
 				background-color: white!important;
 				color: $blue!important;
 				border: 2px solid $blue!important;
+				cursor: pointer!important;
+				font-weight: bold;
 			}
 		}
 

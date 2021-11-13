@@ -180,7 +180,7 @@ const reloadPagesToRemove = () => {
     let inner = removeList.querySelector('.inner');
     inner.innerHTML = ''
     if (pages.length <= 0) {
-        inner.insertAdjacentHTML('afterbegin','<p>Sekce/úroveň nemá přiřazené stránky.</p>')
+        inner.insertAdjacentHTML('afterbegin','<p>Sekce/úroveň nemá přiřazené stránky nebo přispěvky.</p>')
         return
     }
     insertLoader(removeList)

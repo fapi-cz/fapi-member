@@ -207,7 +207,7 @@
 .baseGrid input[type=submit].primary:hover,
 .baseGrid .btn.primary:hover {
   cursor: pointer;
-  box-shadow: 0 0 0 2px rgba(0, 116, 226, 0.2);
+  box-shadow: 0 0 0 3px rgba(0, 116, 226, 0.2);
   transition: all 200ms ease-out;
 }
 .baseGrid input[type=submit].primary[disabled],

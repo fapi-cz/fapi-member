@@ -18,6 +18,7 @@ build: ## Builds the plugin source code
 	cp uninstall.php wp-build/uninstall.php
 	cp -r src wp-build/src
 	cp -r templates wp-build/templates
+	cp -r vendor wp-build/vendor
 	cp -r media wp-build/media
 	cp -r _sources wp-build/_sources
 	find wp-build -type f -name '*.scss' -delete

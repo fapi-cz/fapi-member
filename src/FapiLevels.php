@@ -50,13 +50,16 @@ final class FapiLevels
 		);
 	}
 
+	/**
+	 * @return int[]
+	 */
 	public function allIds()
 	{
 		$termEnvelopes = $this->loadAsTermEnvelopes();
 		$out = [];
 
 		foreach ($termEnvelopes as $term) {
-			$out[] = $term->getTerm()->term_id;
+			$out[] = (int) $term->getTerm()->term_id;
 		}
 
 		return $out;

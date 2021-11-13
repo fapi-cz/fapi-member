@@ -103,7 +103,7 @@ echo FapiMemberTools::heading();
             </div>
 
         </div>
-        <div class="shortcodes">
+        <div class="shortcodes open">
             <h3>Dostupné proměnné <span class="carret"></span></h3>
             <div class="tableBox">
                 <table class="wp-list-table widefat fixed striped">

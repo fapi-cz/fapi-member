@@ -3,6 +3,9 @@
 namespace FapiMember;
 
 use WP_User;
+use function get_posts;
+use function in_array;
+use function sprintf;
 
 final class FapiMemberTools
 {
@@ -374,24 +377,24 @@ final class FapiMemberTools
 	public static function allPagesForForm($levelId)
 	{
 		global $FapiPlugin;
-		$posts = get_posts(['post_type' => 'page', 'post_status' => ['publish'], 'numberposts' => -1]);
+
+		$posts = get_posts(['post_type' => ['page', 'post'], 'post_status' => ['publish'], 'numberposts' => -1]);
 		$levelTerm = $FapiPlugin->levels()->loadById($levelId);
 		$postsInLevel = $FapiPlugin->levels()->pageIdsForLevel($levelTerm);
-		$o = array_map(
-			function ($p) use ($postsInLevel) {
-				$checked = (in_array($p->ID, $postsInLevel)) ? ' checked ' : '';
+		$output = [];
 
-				return sprintf(
-					'<div class="onePage"><input type="checkbox" name="selection[]" value="%s" %s> %s</div>',
-					$p->ID,
-					$checked,
-					$p->post_title
-				);
-			},
-			$posts
-		);
+		foreach ($posts as $post) {
+			$checked = (in_array($post->ID, $postsInLevel, true)) ? ' checked ' : '';
 
-		return implode('', $o);
+			$output[] = sprintf(
+				'<div class="onePage"><input type="checkbox" name="selection[]" value="%s" %s> %s</div>',
+				$post->ID,
+				$checked,
+				$post->post_title
+			);
+		}
+
+		return implode('', $output);
 	}
 
 	/**
@@ -693,7 +696,7 @@ final class FapiMemberTools
                     ' . self::submenuItem('settingsSectionNew', 'Sekce / úrovně', $subpage, ['settingsLevelNew']) . '
                     ' . self::submenuItem(
 						'settingsContentAdd',
-						'Přiřazené stránky',
+						'Přiřazené stránky a přispěvky',
 						$subpage,
 						['settingsContentRemove']
 					) . '

@@ -2,7 +2,7 @@
 
 namespace FapiMember;
 
-use DateTime;
+use DateTimeImmutable;
 use DateTimeInterface;
 use FapiMember\Email\EmailShortCodesReplacer;
 use WP_Error;
@@ -11,6 +11,8 @@ use WP_REST_Request;
 use WP_REST_Response;
 use WP_Term;
 use WP_User;
+use function in_array;
+use function json_encode;
 
 final class FapiMemberPlugin
 {
@@ -235,10 +237,14 @@ final class FapiMemberPlugin
 			return false;
 		}
 
-		if (!is_array($params['level'])) {
-			$levelIds = [(int) [$params['level']]];
+		if (is_array($params['level'])) {
+			$levelIds = [];
+
+			foreach ($params['level'] as $level) {
+				$levelIds[] = (int) $level;
+			}
 		} else {
-			$levelIds = array_map('intval', $params['level']);
+			$levelIds = [(int) [$params['level']]];
 		}
 
 		$existingLevels = $this->levels()->allIds();
@@ -277,7 +283,7 @@ final class FapiMemberPlugin
 				return false;
 			}
 
-			if (!isset($voucher['applicant']) || ($voucher['applicant'] === null) || !isset($voucher['applicant']['email'])) {
+			if (!isset($voucher['applicant']['email'])) {
 				$this->callbackError('Cannot find applicant email in API response.');
 
 				return false;
@@ -306,7 +312,7 @@ final class FapiMemberPlugin
 				return false;
 			}
 
-			if (!isset($invoiceId['customer']) || !isset($invoiceId['customer']['email'])) {
+			if (!isset($invoiceId['customer']['email'])) {
 				$this->callbackError('Cannot find customer email in API response.');
 
 				return false;
@@ -316,15 +322,15 @@ final class FapiMemberPlugin
 		}
 
 		$props = [];
-		$this->userUtils()->createUser($email, $props);
+		$this->userUtils()->createUserIfNeeded($email, $props);
 
 		if (!isset($params['days'])) {
 			$days = false;
-			$isUnlimited = true;
 		} else {
 			$days = (int) $params['days'];
-			$isUnlimited = false;
 		}
+
+		$isUnlimited = $days === false;
 
 		$user = get_user_by('email', $email);
 
@@ -349,11 +355,10 @@ final class FapiMemberPlugin
 		$wasUserCreatedNow = isset($props['new_user']) && $props['new_user'];
 
 		$levels = $this->levels()->loadByIds($levelIds);
-		$emailsToSend = $this->findEmailsToSend($user, $levels, $props, $wasUserCreatedNow, $this->fapiMembershipLoader(), $this->levels(), $historicalMemberships);
+		$emailsToSend = $this->findEmailsToSend($user, $levels, $wasUserCreatedNow, $this->fapiMembershipLoader(), $historicalMemberships);
 
-		foreach ($emailsToSend as $email) {
-			$type = $email[0];
-			$level = $email[1];
+		foreach ($emailsToSend as $emailToSend) {
+			list($type, $level) = $emailToSend;
 
 			$this->sendEmail($user->user_email, $type, $level->term_id, $props);
 		}
@@ -469,14 +474,14 @@ final class FapiMemberPlugin
 				$props['membership_level_added_is_section'] = false;
 			}
 
-			$registered = new DateTime();
+			$registered = new DateTimeImmutable();
 
 			if ($isUnlimited) {
 				$props['membership_level_added_unlimited'] = true;
 				$until = null;
 			} else {
-				$until = new DateTime();
-				$until->modify(sprintf('+ %s days', $days));
+				$until = new DateTimeImmutable();
+				$until = $until->modify(sprintf('+ %s days', $days));
 				$props['membership_level_added_until'] = $until;
 				$props['membership_level_added_days'] = $days;
 			}
@@ -555,37 +560,28 @@ final class FapiMemberPlugin
 
 	/**
 	 * @param WP_Term[] $levels
-	 * @param array $props
 	 * @param bool $wasUserCreated
 	 * @param FapiMembership[] $historicalMemberships
 	 * @return array
 	 */
-	public function findEmailsToSend(WP_User $user, array $levels, array $props, $wasUserCreated, FapiMembershipLoader $fapiMembershipLoader, FapiLevels $fapiLevels, $historicalMemberships)
+	public function findEmailsToSend(WP_User $user, array $levels, $wasUserCreated, FapiMembershipLoader $fapiMembershipLoader, $historicalMemberships)
 	{
 		$toSend = [];
 
-		// Pravidla se vyhodnocují jen pro ID sekce/úrovně, která přijdou z FAPI, nikoli pro přidané sekce k úrovním
-		// První vyhovující pravidlo odešle email a ukončí vyhodnocování pro dané ID sekce/úrovně.
-		// For diagram see: https://whimsical.com/fapi-maily-LRygG8ewKWGqsLjHbabY8t or `../mails-diagram.png`
-
 		foreach ($levels as $level) {
-			// Byl uživatel vytvořen v rámci tohoto callbacku?
 			if ($wasUserCreated === true) {
 				$toSend[] = [FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $level];
 
-				// Konec vyhodnocování úplně
 				return $toSend;
 			}
 
 			$isSection = ($level->parent === 0);
 			$didUserHasThisIDBefore = $fapiMembershipLoader->didUserHadLevelMembershipBefore($historicalMemberships, $level->term_id);
 
-			// Jde o sekci?
 			if ($isSection) {
-				// Uživatel ještě neměl toto ID?
 				if ($didUserHasThisIDBefore === false) {
 					$toSend[] = [FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $level];
-					//konec vyhodnocování pro toto ID
+
 					continue;
 				}
 
@@ -598,32 +594,33 @@ final class FapiMemberPlugin
 					)
 				);
 				$wasMembershipUnlimited = (!empty($membershipsForThisId) && $membershipsForThisId[0]->isUnlimited);
-				// Bylo členství v tomto ID neomezené?
+
 				if ($wasMembershipUnlimited) {
 					$toSend[] = [FapiLevels::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED, $level];
-					//konec vyhodnocování pro toto ID
-					continue;
-				}
-			} else { // Jde o sekci? NE
-				// Měl již uživatel  toto ID?
-				if ($didUserHasThisIDBefore) {
-					$toSend[] = [FapiLevels::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED, $level];
-					//konec vyhodnocování pro toto ID
+
 					continue;
 				}
 
-				$didUserHasParentIdBefore = $fapiMembershipLoader->didUserHadLevelMembershipBefore($historicalMemberships, $level->parent);
-				// Má již nadřazené ID?
-				if ($didUserHasParentIdBefore) {
-					$toSend[] = [FapiLevels::EMAIL_TYPE_AFTER_ADDING, $level];
-					//konec vyhodnocování pro toto ID
-					continue;
-				}
-
-				$toSend[] = [FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $level];
-				//konec vyhodnocování pro toto ID
 				continue;
 			}
+
+			if ($didUserHasThisIDBefore) {
+				$toSend[] = [FapiLevels::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED, $level];
+
+				continue;
+			}
+
+			$didUserHasParentIdBefore = $fapiMembershipLoader->didUserHadLevelMembershipBefore($historicalMemberships, $level->parent);
+
+			if ($didUserHasParentIdBefore) {
+				$toSend[] = [FapiLevels::EMAIL_TYPE_AFTER_ADDING, $level];
+
+				continue;
+			}
+
+			$toSend[] = [FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $level];
+
+			continue;
 		}
 
 		return $toSend;
@@ -640,13 +637,7 @@ final class FapiMemberPlugin
 	{
 		$emails = $this->levels()->loadEmailTemplatesForLevel($levelId, true);
 
-		if (count($emails) === 0) {
-			// No emails defined
-			return false;
-		}
-
 		if (!isset($emails[$type])) {
-			// No emails of this type defined
 			return false;
 		}
 
@@ -763,13 +754,17 @@ final class FapiMemberPlugin
 				if (isset($inputs['registrationDate'])
 					&& (isset($inputs['membershipUntil']) || (isset($inputs['isUnlimited']) && $inputs['isUnlimited'] === 'on'))
 				) {
-					$reg = DateTime::createFromFormat(
+					$registered = DateTimeImmutable::createFromFormat(
 						'Y-m-d\TH:i',
 						$inputs['registrationDate'] . 'T' . $inputs['registrationTime']
 					);
 
+					if ($registered === false) {
+						$registered = new DateTimeImmutable('now');
+					}
+
 					if (isset($inputs['membershipUntil']) && $inputs['membershipUntil'] !== '') {
-						$until = DateTime::createFromFormat(
+						$until = DateTimeImmutable::createFromFormat(
 							'Y-m-d\TH:i:s',
 							$inputs['membershipUntil'] . 'T23:59:59'
 						);
@@ -783,7 +778,7 @@ final class FapiMemberPlugin
 						$isUnlimited = false;
 					}
 
-					$memberships[] = new FapiMembership($id, $reg, $until, $isUnlimited);
+					$memberships[] = new FapiMembership($id, $registered, $until, $isUnlimited);
 				}
 			}
 		}
@@ -835,7 +830,7 @@ final class FapiMemberPlugin
 	protected function sanitizeDate($dateStr)
 	{
 		$f = 'Y-m-d';
-		$d = DateTime::createFromFormat($f, $dateStr);
+		$d = DateTimeImmutable::createFromFormat($f, $dateStr);
 		if ($d === false) {
 			return null;
 		}
@@ -1482,7 +1477,7 @@ final class FapiMemberPlugin
 	{
 		global $wp_query;
 
-		if (!isset($wp_query->post) || !($wp_query->post instanceof WP_Post) || $wp_query->post->post_type !== 'page') {
+		if (!isset($wp_query->post) || !($wp_query->post instanceof WP_Post) || !in_array($wp_query->post->post_type, ['page', 'post'], true)) {
 			return true;
 		}
 

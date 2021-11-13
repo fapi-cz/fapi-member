@@ -12,7 +12,7 @@ final class FapiUserUtils
 	 * @param array<mixed> $props
 	 * @return int|false
 	 */
-	public function createUser($email, &$props)
+	public function createUserIfNeeded($email, &$props)
 	{
 		$user = get_user_by('email', $email);
 
