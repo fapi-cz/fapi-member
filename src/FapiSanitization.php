@@ -4,6 +4,8 @@ namespace FapiMember;
 
 use RuntimeException;
 use WP_Post;
+use function in_array;
+use function is_numeric;
 
 final class FapiSanitization
 {
@@ -15,6 +17,7 @@ final class FapiSanitization
 	const VALID_PAGE_IDS = 'validPageIds';
 	const VALID_PAGE_ID = 'validPageId';
 	const ANY_STRING = 'anyString';
+	const INT_LIST = 'intList';
 	const VALID_EMAIL_TYPE = 'validEmailType';
 	const VALID_OTHER_PAGE_TYPE = 'validOtherPageType';
 	const VALID_DIRECTION = 'validDirection';
@@ -76,6 +79,23 @@ final class FapiSanitization
 		return $default;
 	}
 
+	/**
+	 * @param array<int> $input
+	 * @return bool
+	 */
+	public function validLevelIds(array $input)
+	{
+		$levelIds = $this->fapiLevels->allIds();
+
+		foreach ($levelIds as $levelId) {
+			if (!in_array($levelId, $input, true)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	public function validPageIds($input, $default)
 	{
 		if (!is_array($input)) {
@@ -113,6 +133,25 @@ final class FapiSanitization
 		}
 
 		return (string) $input;
+	}
+
+	/**
+	 * @param array<mixed> $input
+	 * @return array<int>
+	 */
+	public function intList(array $input)
+	{
+		$out = [];
+
+		foreach ($input as $key => $value) {
+			if (!is_numeric($value)) {
+				continue;
+			}
+
+			$out[$key] = (int) $value;
+		}
+
+		return $out;
 	}
 
 	public function validEmailType($input, $default)

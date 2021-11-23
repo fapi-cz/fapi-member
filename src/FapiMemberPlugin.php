@@ -11,8 +11,21 @@ use WP_REST_Request;
 use WP_REST_Response;
 use WP_Term;
 use WP_User;
+use function add_meta_box;
+use function array_key_exists;
+use function array_map;
+use function array_merge;
+use function array_unique;
+use function array_values;
+use function get_post;
+use function get_term_meta;
+use function implode;
 use function in_array;
+use function is_array;
+use function json_decode;
 use function json_encode;
+use function sprintf;
+use function update_term_meta;
 
 final class FapiMemberPlugin
 {
@@ -32,6 +45,7 @@ final class FapiMemberPlugin
 	const REQUIRED_CAPABILITY = 'manage_options';
 
 	const DF = 'Y-m-d\TH:i:s';
+	const FAPI_MEMBER_SECTIONS = 'fapi_member_sections';
 
 	private $fapiLevels = null;
 
@@ -59,6 +73,12 @@ final class FapiMemberPlugin
 		add_action('init', [$this, 'registerRoles']);
 		add_action('init', [$this, 'addShortcodes']);
 		add_action('rest_api_init', [$this, 'addRestEndpoints']);
+
+		// adds meta boxed to setting page/post side bar
+		add_action('add_meta_boxes', [$this, 'addMetaBoxes']);
+
+		// saves related post to sections or levels
+		add_action('save_post', [$this, 'savePostMetadata']);
 
 		// check if page in fapi level
 		add_action('template_redirect', [$this, 'checkPage']);
@@ -163,6 +183,9 @@ final class FapiMemberPlugin
 			[
 				'methods' => 'GET',
 				'callback' => [$this, 'handleApiSections'],
+				'permission_callback' => function () {
+					return true;
+				},
 			]
 		);
 		register_rest_route(
@@ -171,8 +194,115 @@ final class FapiMemberPlugin
 			[
 				'methods' => 'POST',
 				'callback' => [$this, 'handleApiCallback'],
+				'permission_callback' => function () {
+					return true;
+				},
 			]
 		);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function addMetaBoxes()
+	{
+		$screens = ['post', 'page'];
+
+		foreach ($screens as $screen) {
+			add_meta_box(
+				'fapi_member_meta_box_id',
+				'FAPI Member',
+				function (WP_Post $post) {
+					echo '<p>Přiřazené sekce a úrovně</p>';
+
+					$envelopes = $this->levels()->loadAsTermEnvelopes();
+					$levelsToPages = $this->levels()->levelsToPages();
+					$levelsForThisPage = [];
+
+					foreach ($levelsToPages as $levelId => $pageIds) {
+						if (in_array($post->ID, $pageIds, true)) {
+							$levelsForThisPage[] = $levelId;
+						}
+					}
+
+					echo '<input name="' . self::FAPI_MEMBER_SECTIONS . '[]" checked="checked" type="checkbox" value="-1" style="display: none !important;">';
+
+					foreach ($envelopes as $envelope) {
+						$term = $envelope->getTerm();
+
+						if ($term->parent === 0) {
+							echo '<p>';
+							echo self::renderCheckbox($term, $levelsForThisPage);
+
+							foreach ($envelopes as $underEnvelope) {
+								$underTerm = $underEnvelope->getTerm();
+
+								if ($underTerm->parent === $term->term_id) {
+									echo '<span style="margin: 15px;"></span>' . self::renderCheckbox($underTerm, $levelsForThisPage);
+								}
+							}
+							echo '</p>';
+						}
+					}
+				},
+				$screen,
+				'side'
+			);
+		}
+	}
+
+	private static function renderCheckbox(WP_Term $term, array $levelsForThisPage)
+	{
+		$isAssigned = in_array($term->term_id, $levelsForThisPage, true);
+
+		return '<input name="' . self::FAPI_MEMBER_SECTIONS . '[]" ' . ($isAssigned ? 'checked="checked"' : '') . 'type="checkbox" value="' . $term->term_id . '">' . $term->name . '<br>';
+	}
+
+	public function savePostMetadata($postId)
+	{
+		if (!array_key_exists(self::FAPI_MEMBER_SECTIONS, $_POST)) {
+			return;
+		}
+
+		$levelAndSectionIds = $this->sanitization()->loadPostValue(
+			self::FAPI_MEMBER_SECTIONS,
+			[$this->sanitization(), FapiSanitization::INT_LIST]
+		);
+
+		unset($levelAndSectionIds[0]);
+		$levelAndSectionIds = array_values($levelAndSectionIds);
+
+		$allLevels = $this->levels()->allIds();
+
+		foreach ($allLevels as $levelId) {
+			$posts = get_term_meta($levelId, 'fapi_pages', true);
+			$posts = (empty($posts)) ? [] : json_decode($posts, true);
+
+			if (in_array($levelId, $levelAndSectionIds, true)) {
+				$posts[] = (int) $postId;
+			} else {
+				foreach ($posts as $key => $levelPostId) {
+					if ($levelPostId !== $postId) {
+						continue;
+					}
+
+					unset($posts[$key]);
+				}
+			}
+
+			$posts = array_values(array_unique($posts));
+
+			update_term_meta($levelId, 'fapi_pages', json_encode($posts));
+		}
+	}
+
+	public function sanitization()
+	{
+		if ($this->fapiSanitization === null) {
+			$this->fapiSanitization = new FapiSanitization($this->levels());
+		}
+
+		return $this->fapiSanitization;
 	}
 
 	public function handleApiSections()
@@ -691,15 +821,6 @@ final class FapiMemberPlugin
 		if (!current_user_can(self::REQUIRED_CAPABILITY)) {
 			wp_die('Nemáte potřebná oprvánění.');
 		}
-	}
-
-	public function sanitization()
-	{
-		if ($this->fapiSanitization === null) {
-			$this->fapiSanitization = new FapiSanitization($this->levels());
-		}
-
-		return $this->fapiSanitization;
 	}
 
 	protected function redirect($subpage, $e = null, $other = [])

@@ -59,13 +59,13 @@ echo FapiMemberTools::heading();
                             <input type="hidden" name="page_type" value="<?php echo $key ?>">
                             <div class="row submitInline noLabel">
                                 <select type="text" name="page" id="page">
-                                    <?php
-                                    if ($defaultLoginPageId && $key === 'login') {
+									<?php
+									if ($defaultLoginPageId && $key === 'login') {
 										echo '<option value="">-- ' . FapiMemberTools::getPageTitle($defaultLoginPageId) . ' --</option>';
-                                    } else {
-                                        echo '<option value="">-- nevybrána --</option>';
-                                    }
-                                    ?>
+									} else {
+										echo '<option value="">-- nevybrána --</option>';
+									}
+									?>
 									<?php echo FapiMemberTools::allPagesAsOptions($currentPageId) ?>
                                 </select>
                                 <input type="submit" class="primary" value="Uložit">

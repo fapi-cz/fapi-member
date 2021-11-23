@@ -413,7 +413,7 @@ final class FapiMemberTools
 
 		$posts = get_posts(
 			[
-				'post_type' => 'page',
+				'post_type' => ['page', 'post'],
 				'post_status' => ['publish'],
 				'numberposts' => -1,
 				'include' => $pageIds,
@@ -439,7 +439,7 @@ final class FapiMemberTools
 	 */
 	public static function getPageTitle($pageId)
 	{
-		$posts = get_posts(['post_type' => 'page', 'post_status' => ['publish'], 'numberposts' => -1]);
+		$posts = get_posts(['post_type' => ['page', 'post'], 'post_status' => ['publish'], 'numberposts' => -1]);
 
 		foreach ($posts as $post) {
 			if ((int) $post->ID !== $pageId) {
@@ -458,7 +458,7 @@ final class FapiMemberTools
 	 */
 	public static function allPagesAsOptions($currentId)
 	{
-		$posts = get_posts(['post_type' => 'page', 'post_status' => ['publish'], 'numberposts' => -1]);
+		$posts = get_posts(['post_type' => ['page', 'post'], 'post_status' => ['publish'], 'numberposts' => -1]);
 		$output = [];
 
 		foreach ($posts as $post) {
