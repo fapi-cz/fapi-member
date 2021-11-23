@@ -1655,7 +1655,7 @@ final class FapiMemberPlugin
 			exit;
 		}
 
-		wp_redirect(home_url() . '?show_fapi_member_login_page=1');
+		wp_redirect(home_url());
 
 		exit;
 	}
