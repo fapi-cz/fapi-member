@@ -268,9 +268,7 @@ final class FapiMemberPlugin
 			self::FAPI_MEMBER_SECTIONS,
 			[$this->sanitization(), FapiSanitization::INT_LIST]
 		);
-
-		unset($levelAndSectionIds[0]);
-		$levelAndSectionIds = array_values($levelAndSectionIds);
+		$levelAndSectionIds = $this->sanitization()->validLevelIds($levelAndSectionIds);
 
 		$allLevels = $this->levels()->allIds();
 

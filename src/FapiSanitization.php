@@ -81,19 +81,22 @@ final class FapiSanitization
 
 	/**
 	 * @param array<int> $input
-	 * @return bool
+	 * @return array<int>
 	 */
 	public function validLevelIds(array $input)
 	{
 		$levelIds = $this->fapiLevels->allIds();
+		$out = [];
 
 		foreach ($levelIds as $levelId) {
 			if (!in_array($levelId, $input, true)) {
-				return false;
+				continue;
 			}
+
+			$out[] = $levelId;
 		}
 
-		return true;
+		return $out;
 	}
 
 	public function validPageIds($input, $default)
