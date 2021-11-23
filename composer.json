@@ -7,7 +7,12 @@
             "email": "slischkaj@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "php": "^5.6 | ^7.0 | ^8.0"
+    },
+    "config": {
+        "platform-check": false
+    },
     "autoload": {
         "psr-4": { "FapiMember\\": ["src/"] }
     }
