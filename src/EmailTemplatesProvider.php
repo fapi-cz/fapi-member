@@ -15,9 +15,9 @@ chci vám osobně poděkovat za registraci a přivítat vás mezi námi.
 
 Stojíte před dveřmi do sekce %%SEKCE%%
 
-Zde jsou vaše klíče: 
-%%PRIHLASOVACI_JMENO%%
-%%HESLO%%
+Zde jsou vaše přihlašovací údaje: 
+uživatelské jméno: %%PRIHLASOVACI_JMENO%%
+heslo: %%HESLO%%
 
 Vstoupit můžete tudy: %%PRIHLASENI_ODKAZ%%. ',
 				],
@@ -46,9 +46,9 @@ chci vám osobně poděkovat za registraci a přivítat vás mezi námi.
 
 Stojíte před dveřmi do sekce %%UROVEN%%
 
-Zde jsou vaše klíče: 
-%%PRIHLASOVACI_JMENO%%
-%%HESLO%%
+Zde jsou vaše přihlašovací údaje: 
+uživatelské jméno: %%PRIHLASOVACI_JMENO%%
+heslo: %%HESLO%%
 
 Vstoupit můžete tudy: %%PRIHLASENI_ODKAZ%%. ',
 				],

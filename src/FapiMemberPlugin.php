@@ -108,13 +108,6 @@ final class FapiMemberPlugin
 		add_image_size('level-selection', 300, 164, true);
 		add_filter('login_redirect', [$this, 'loginRedirect'], 10, 3);
 		add_filter('show_admin_bar', [$this, 'hideAdminBar']);
-		add_filter('init', function () {
-			if (isset($_GET['show_fapi_member_login_page']) && (bool) $_GET['show_fapi_member_login_page']) {
-				include __DIR__ . '/../templates/fapiMemberLoginPage.php';
-
-				die;
-			}
-		});
 	}
 
 	public function hideAdminBar($original)

@@ -179,6 +179,7 @@ final class FapiMembershipLoader
 	{
 		if ($this->levels === null) {
 			$termEnvelopes = $this->fapiLevels->loadAsTermEnvelopes();
+			$this->levels = [];
 
 			foreach ($termEnvelopes as $termEnvelope) {
 				$this->levels[] = $termEnvelope->getTerm();
