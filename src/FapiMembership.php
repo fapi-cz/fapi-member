@@ -3,6 +3,7 @@
 namespace FapiMember;
 
 use DateTimeImmutable;
+use DateTimeInterface;
 use JsonSerializable;
 
 final class FapiMembership implements JsonSerializable
@@ -28,6 +29,14 @@ final class FapiMembership implements JsonSerializable
 	 */
 	public function __construct($level, $registered = null, $until = null, $isUnlimited = false)
 	{
+		if ($until === false) {
+			$until = null;
+		}
+
+		if ($registered === false) {
+			$registered = null;
+		}
+
 		$this->level = $level;
 		$this->registered = $registered;
 		$this->until = $until;

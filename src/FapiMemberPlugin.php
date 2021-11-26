@@ -1177,7 +1177,7 @@ final class FapiMemberPlugin
 
 		update_term_meta(
 			$levelId,
-			$this->levels()->constructEmailTemplateKey(FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION),
+			$this->levels()->constructEmailTemplateKey($emailType),
 			['s' => $mailSubject, 'b' => $mailBody]
 		);
 
