@@ -33,6 +33,7 @@ final class FapiApi
 			[
 				'method' => 'GET',
 				'headers' => $this->createHeaders(),
+				'timeout' => 30,
 			]
 		);
 
@@ -102,6 +103,7 @@ final class FapiApi
 			[
 				'method' => 'GET',
 				'headers' => $this->createHeaders(),
+				'timeout' => 30,
 			]
 		);
 
@@ -125,6 +127,7 @@ final class FapiApi
 			[
 				'method' => 'GET',
 				'headers' => $this->createHeaders(),
+				'timeout' => 30,
 			]
 		);
 
@@ -153,7 +156,7 @@ final class FapiApi
 			[
 				'method' => 'GET',
 				'headers' => $this->createHeaders(),
-				'http_request_timeout' => 10
+				'timeout' => 30,
 			]
 		);
 
