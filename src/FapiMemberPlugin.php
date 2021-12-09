@@ -5,7 +5,7 @@ namespace FapiMember;
 use DateTimeImmutable;
 use DateTimeInterface;
 use FapiMember\Email\EmailShortCodesReplacer;
-use Nette\Utils\Random;
+use FapiMember\Utils\Random;
 use WP_Error;
 use WP_Post;
 use WP_REST_Request;

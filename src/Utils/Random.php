@@ -4,36 +4,38 @@
  * This file is part of the Nette Framework (https://nette.org)
  * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
+namespace FapiMember\Utils;
 
-declare(strict_types=1);
 
-namespace Nette\Utils;
-
-use Nette;
-
+use InvalidArgumentException;
 
 /**
  * Secure random string generator.
  */
 final class Random
 {
-	use Nette\StaticClass;
 
 	/**
 	 * Generates a random string of given length from characters specified in second argument.
 	 * Supports intervals, such as `0-9` or `A-Z`.
+	 *
+	 * @param int $length
+	 * @param string $charlist
+	 * @return string
 	 */
-	public static function generate(int $length = 10, string $charlist = '0-9a-z'): string
+	public static function generate($length = 10, $charlist = '0-9a-z')
 	{
-		$charlist = count_chars(preg_replace_callback('#.-.#', function (array $m): string {
+		$charlist = count_chars(preg_replace_callback('#.-.#', static function (array $m) {
 			return implode('', range($m[0][0], $m[0][2]));
 		}, $charlist), 3);
 		$chLen = strlen($charlist);
 
 		if ($length < 1) {
-			throw new Nette\InvalidArgumentException('Length must be greater than zero.');
-		} elseif ($chLen < 2) {
-			throw new Nette\InvalidArgumentException('Character list must contain at least two chars.');
+			throw new InvalidArgumentException('Length must be greater than zero.');
+		}
+
+		if ($chLen < 2) {
+			throw new InvalidArgumentException('Character list must contain at least two chars.');
 		}
 
 		$res = '';
