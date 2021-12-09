@@ -47,6 +47,12 @@
 .baseGrid .ng {
   color: #d70100;
 }
+.baseGrid img.copy-to-clipboard {
+  vertical-align: text-bottom;
+}
+.baseGrid .copy-to-clipboard:hover {
+  cursor: pointer;
+}
 .baseGrid nav {
   grid-column: 1/2;
   grid-row: 3/4;

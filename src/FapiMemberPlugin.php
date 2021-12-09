@@ -5,6 +5,7 @@ namespace FapiMember;
 use DateTimeImmutable;
 use DateTimeInterface;
 use FapiMember\Email\EmailShortCodesReplacer;
+use Nette\Utils\Random;
 use WP_Error;
 use WP_Post;
 use WP_REST_Request;
@@ -24,8 +25,12 @@ use function in_array;
 use function is_array;
 use function json_decode;
 use function json_encode;
+use function plugins_url;
 use function sprintf;
+use function update_option;
 use function update_term_meta;
+use function wp_enqueue_script;
+use function wp_register_script;
 
 final class FapiMemberPlugin
 {
@@ -38,6 +43,8 @@ final class FapiMemberPlugin
 
 	const OPTION_KEY_API_URL = 'fapiMemberApiUrl';
 
+	const OPTION_KEY_TOKEN = 'fapiMemberApiToken';
+
 	const OPTION_KEY_API_CHECKED = 'fapiMemberApiChecked';
 
 	const OPTION_KEY_IS_DEVELOPMENT = 'fapiIsDevelopment';
@@ -45,6 +52,7 @@ final class FapiMemberPlugin
 	const REQUIRED_CAPABILITY = 'manage_options';
 
 	const DF = 'Y-m-d\TH:i:s';
+
 	const FAPI_MEMBER_SECTIONS = 'fapi_member_sections';
 
 	private $fapiLevels = null;
@@ -60,6 +68,11 @@ final class FapiMemberPlugin
 	public function __construct()
 	{
 		$this->addHooks();
+		$token = get_option(self::OPTION_KEY_TOKEN, '');
+
+		if (!$token) {
+			update_option(self::OPTION_KEY_TOKEN, Random::generate(20, 'A-Za-z'));
+		}
 	}
 
 	public function addHooks()
@@ -354,8 +367,6 @@ final class FapiMemberPlugin
 
 		if (!isset($params['level'])) {
 			$this->callbackError('Level parameter missing in get params.');
-
-			return false;
 		}
 
 		if (is_array($params['level'])) {
@@ -373,73 +384,17 @@ final class FapiMemberPlugin
 		foreach ($levelIds as $oneLevelId) {
 			if (!in_array($oneLevelId, $existingLevels, true)) {
 				$this->callbackError(sprintf('Section or level with ID %s, does not exist.', $oneLevelId));
-
-				return false;
 			}
 		}
 
 		if (isset($data['voucher'])) {
-			$voucherId = $data['voucher'];
-			$voucher = $this->fapiApi()->getVoucher($voucherId);
-			$voucherItemTemplateCode = $voucher['item_template_code'];
-			$itemTemplate = $this->fapiApi()->getItemTemplate($voucherItemTemplateCode);
-
-			if ($voucher === false) {
-				$this->callbackError(sprintf('Error getting voucher: %s', $this->fapiApi()->lastError));
-
-				return false;
-			}
-
-			$itemTemplate = ($itemTemplate === false) ? [] : $itemTemplate;
-
-			if (!self::isDevelopment() && !$this->fapiApi()->isVoucherSecurityValid($voucher, $itemTemplate, $data['time'], $data['security'])) {
-				$this->callbackError('Invoice security is not valid.');
-
-				return false;
-			}
-
-			if (!isset($voucher['status']) || $voucher['status'] !== 'applied') {
-				$this->callbackError('Voucher status is not applied.');
-
-				return false;
-			}
-
-			if (!isset($voucher['applicant']['email'])) {
-				$this->callbackError('Cannot find applicant email in API response.');
-
-				return false;
-			}
-
-			$email = $voucher['applicant']['email'];
+			$email = $this->getEmailFromValidVoucher($data);
+		} elseif (isset($data['id'])) {
+			$email = $this->getEmailFromPaidInvoice($data);
+		} elseif (isset($data['token'])) {
+			$email = $this->getEmailFromBodyWithValidToken($data);
 		} else {
-			$invoiceId = $data['id'];
-			$invoiceId = $this->fapiApi()->getInvoice($invoiceId);
-
-			if ($invoiceId === false) {
-				$this->callbackError(sprintf('Error getting invoice: %s', $this->fapiApi()->lastError));
-
-				return false;
-			}
-
-			if (!self::isDevelopment() && !$this->fapiApi()->isInvoiceSecurityValid($invoiceId, $data['time'], $data['security'])) {
-				$this->callbackError('Invoice security is not valid.');
-
-				return false;
-			}
-
-			if (isset($invoiceId['parent']) && $invoiceId['parent'] !== null) {
-				$this->callbackError('Invoice parent is set and not null.');
-
-				return false;
-			}
-
-			if (!isset($invoiceId['customer']['email'])) {
-				$this->callbackError('Cannot find customer email in API response.');
-
-				return false;
-			}
-
-			$email = $invoiceId['customer']['email'];
+			$this->callbackError('Invalid notification received. Missing voucher, id or token.');
 		}
 
 		$props = [];
@@ -487,6 +442,10 @@ final class FapiMemberPlugin
 		return '';
 	}
 
+	/**
+	 * @param string $message
+	 * @return never
+	 */
 	protected function callbackError($message)
 	{
 		http_response_code(400);
@@ -1282,6 +1241,7 @@ final class FapiMemberPlugin
 			wp_enqueue_style('fapi-member-swal-css');
 			wp_enqueue_script('fapi-member-swal');
 			wp_enqueue_script('fapi-member-swal-promise-polyfill');
+			wp_enqueue_script('fapi-member-clipboard');
 			wp_enqueue_script('fapi-member-main');
 		}
 		if ($pagenow === 'user-edit.php') {
@@ -1320,9 +1280,15 @@ final class FapiMemberPlugin
 			'fapi-member-swal',
 			plugins_url('fapi-member/media/dist/sweetalert2.js')
 		);
+
 		wp_register_script(
 			'fapi-member-swal-promise-polyfill',
 			plugins_url('fapi-member/media/dist/polyfill.min.js')
+		);
+
+		wp_register_script(
+			'fapi-member-clipboard',
+			plugins_url('fapi-member/media/dist/clipboard.min.js')
 		);
 
 		if (self::isDevelopment()) {
@@ -1800,6 +1766,85 @@ final class FapiMemberPlugin
 		}
 
 		$this->showTemplate('test');
+	}
+
+	/**
+	 * @param array $data
+	 * @return string
+	 */
+	private function getEmailFromValidVoucher(array $data)
+	{
+		$voucherId = $data['voucher'];
+		$voucher = $this->fapiApi()->getVoucher($voucherId);
+		$voucherItemTemplateCode = $voucher['item_template_code'];
+		$itemTemplate = $this->fapiApi()->getItemTemplate($voucherItemTemplateCode);
+
+		if ($voucher === false) {
+			$this->callbackError(sprintf('Error getting voucher: %s', $this->fapiApi()->lastError));
+		}
+
+		$itemTemplate = ($itemTemplate === false) ? [] : $itemTemplate;
+
+		if (!self::isDevelopment() && !$this->fapiApi()->isVoucherSecurityValid($voucher, $itemTemplate, $data['time'], $data['security'])) {
+			$this->callbackError('Invoice security is not valid.');
+		}
+
+		if (!isset($voucher['status']) || $voucher['status'] !== 'applied') {
+			$this->callbackError('Voucher status is not applied.');
+		}
+
+		if (!isset($voucher['applicant']['email'])) {
+			$this->callbackError('Cannot find applicant email in API response.');
+		}
+
+		return $voucher['applicant']['email'];
+	}
+
+	/**
+	 * @param array $data
+	 * @return string
+	 */
+	private function getEmailFromPaidInvoice(array $data)
+	{
+		$invoiceId = $data['id'];
+		$invoiceId = $this->fapiApi()->getInvoice($invoiceId);
+
+		if ($invoiceId === false) {
+			$this->callbackError(sprintf('Error getting invoice: %s', $this->fapiApi()->lastError));
+		}
+
+		if (!self::isDevelopment() && !$this->fapiApi()->isInvoiceSecurityValid($invoiceId, $data['time'], $data['security'])) {
+			$this->callbackError('Invoice security is not valid.');
+		}
+
+		if (isset($invoiceId['parent']) && $invoiceId['parent'] !== null) {
+			$this->callbackError('Invoice parent is set and not null.');
+		}
+
+		if (!isset($invoiceId['customer']['email'])) {
+			$this->callbackError('Cannot find customer email in API response.');
+		}
+
+		return $invoiceId['customer']['email'];
+	}
+
+	/**
+	 * @param array $data
+	 * @return string
+	 */
+	private function getEmailFromBodyWithValidToken(array $data)
+	{
+		$token = get_option(self::OPTION_KEY_TOKEN, null);
+
+		if ($data['token'] !== $token) {
+			$this->callbackError('Invalid token provided. Check token correctness.');
+		}
+
+		if (!isset($data['email'])) {
+			$this->callbackError('Parameter email is missing.');
+		}
+
+		return $data['email'];
 	}
 
 }

@@ -153,6 +153,7 @@ final class FapiApi
 			[
 				'method' => 'GET',
 				'headers' => $this->createHeaders(),
+				'http_request_timeout' => 10
 			]
 		);
 

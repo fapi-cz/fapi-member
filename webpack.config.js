@@ -7,6 +7,7 @@ const plugins = [
             { from: 'node_modules/sweetalert2/dist/sweetalert2.min.css', to: 'sweetalert2.min.css' },
             { from: 'node_modules/sweetalert2/dist/sweetalert2.js', to: 'sweetalert2.js' },
             { from: 'node_modules/promise-polyfill/dist/polyfill.min.js', to: 'polyfill.min.js' },
+            { from: 'node_modules/clipboard/dist/clipboard.min.js', to: 'clipboard.min.js' },
         ]
     })
 ];
