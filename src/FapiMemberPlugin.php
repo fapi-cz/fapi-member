@@ -214,7 +214,7 @@ final class FapiMemberPlugin
 			'fapi/v1',
 			'/check-connection',
 			[
-				'methods' => 'GET',
+				'methods' => 'POST',
 				'callback' => [$this, 'handleApiCheckConnectionCallback'],
 				'permission_callback' => function () {
 					return true;
@@ -551,7 +551,7 @@ final class FapiMemberPlugin
 		$token = get_option(self::OPTION_KEY_TOKEN);
 
 		if (!isset($data['token'])) {
-			$this->callbackError('Mission token.');
+			$this->callbackError('Missing token.');
 		}
 
 		if ($token !== $data['token']) {
