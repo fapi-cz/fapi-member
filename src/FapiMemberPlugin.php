@@ -9,7 +9,6 @@ use FapiMember\Utils\Random;
 use WP_Error;
 use WP_Post;
 use WP_REST_Request;
-use WP_REST_Response;
 use WP_Term;
 use WP_User;
 use function add_meta_box;
@@ -35,6 +34,7 @@ use function update_option;
 use function update_term_meta;
 use function wp_enqueue_script;
 use function wp_register_script;
+use function wp_send_json_error;
 use function wp_send_json_success;
 
 final class FapiMemberPlugin
@@ -567,10 +567,9 @@ final class FapiMemberPlugin
 	 */
 	protected function callbackError($message)
 	{
-		http_response_code(400);
-		echo json_encode(['error' => $message]);
+		wp_send_json_error(['error' => $message], 400);
 
-		exit;
+		die;
 	}
 
 	/**
