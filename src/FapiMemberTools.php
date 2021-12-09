@@ -165,18 +165,20 @@ final class FapiMemberTools
 					$underTerm = $underEnvelope->getTerm();
 					if ($underTerm->parent === $term->term_id) {
 						$under[] = sprintf(
-							'<li data-id="%s" data-name="%s"><span>%s</span>%s</li>',
+							'<li data-id="%s" data-name="%s"><span title="%s">%s</span>%s</li>',
 							$underTerm->term_id,
 							htmlentities($underTerm->name),
+							$underTerm->term_id,
 							self::trimName($underTerm->name),
 							$actions
 						);
 					}
 				}
 				$lis[] = sprintf(
-					'<li data-id="%s" data-name="%s"><span>%s</span>%s<ol>%s</ol></li>',
+					'<li data-id="%s" data-name="%s"><span title="%s">%s</span>%s<ol>%s</ol></li>',
 					$term->term_id,
 					$term->name,
+					$term->term_id,
 					self::trimName($term->name),
 					$actions,
 					implode('', $under)
