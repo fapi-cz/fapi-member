@@ -4,6 +4,7 @@ namespace FapiMember;
 
 use WP_User;
 use function get_posts;
+use function htmlentities;
 use function in_array;
 use function sprintf;
 
@@ -177,7 +178,7 @@ final class FapiMemberTools
 				$lis[] = sprintf(
 					'<li data-id="%s" data-name="%s"><span title="%s">%s</span>%s<ol>%s</ol></li>',
 					$term->term_id,
-					$term->name,
+					htmlentities($term->name),
 					$term->term_id,
 					self::trimName($term->name),
 					$actions,
@@ -491,18 +492,18 @@ final class FapiMemberTools
         <div class="fapiShortcodeLoginForm">
             <form method="post" action="/wp-login.php">
                 <div class="f-m-row">
-                    <label for="log">' . __('Přihlašovací jméno') . '</label>
+                    <label for="log">' . __('Přihlašovací jméno', 'fapi') . '</label>
                     <input type="text" name="log" id="user_login" value="" size="20">
                 </div>
                 <div class="f-m-row">
-                    <label for="pwd">' . __('Heslo') . '</label>
+                    <label for="pwd">' . __('Heslo', 'fapi') . '</label>
                     <input type="password" name="pwd" id="user_pass" value="" size="20">
                 </div>
                 <div class="f-m-row">
-                <a href="/wp-login.php?action=lostpassword">' . __('Zapomněli jste heslo?') . '</a>
+                <a href="/wp-login.php?action=lostpassword">' . __('Zapomněli jste heslo?', 'fapi') . '</a>
                 </div>
                 <div class="f-m-row controls">
-                    <input type="submit" class="primary" value="' . __('Přihlásit se') . '">
+                    <input type="submit" class="primary" value="' . __('Přihlásit se', 'fapi') . '">
                 </div>
             </form>
         </div>     
@@ -534,10 +535,10 @@ final class FapiMemberTools
                 </g>
                 </svg>
             </span>
-            <span class="h">Uživatel</span>
+            <span class="h">' . __('Uživatel', 'fapi') . '</span>
             <span class="l">' . self::trimName($u->user_login, 8) . '</span>
             <div class="f-m-submenu">
-                <a href="' . wp_logout_url(get_permalink()) . '">Odhlásit se</a>
+                <a href="' . wp_logout_url(get_permalink()) . '">' . __('Odhlásit se', 'fapi') . '</a>
             </div>
         </div>    
     ';
@@ -556,7 +557,7 @@ final class FapiMemberTools
         <span class="i">
             <svg id="bold" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="m18.75 9h-.75v-3c0-3.309-2.691-6-6-6s-6 2.691-6 6v3h-.75c-1.24 0-2.25 1.009-2.25 2.25v10.5c0 1.241 1.01 2.25 2.25 2.25h13.5c1.24 0 2.25-1.009 2.25-2.25v-10.5c0-1.241-1.01-2.25-2.25-2.25zm-10.75-3c0-2.206 1.794-4 4-4s4 1.794 4 4v3h-8zm5 10.722v2.278c0 .552-.447 1-1 1s-1-.448-1-1v-2.278c-.595-.347-1-.985-1-1.722 0-1.103.897-2 2-2s2 .897 2 2c0 .737-.405 1.375-1 1.722z"/></svg>
         </span>
-        <span class="l"><a href="' . $url . '">Přihlásit se</a></span>
+        <span class="l"><a href="' . $url . '">' . __('Přihlásit se', 'fapi') . '</a></span>
     </div>
     ';
 	}
@@ -597,7 +598,7 @@ final class FapiMemberTools
 	 */
 	public static function resolutionMessage()
 	{
-		return '<p class="resolutionAlert">Tento doplněk není optimalizován pro telefony a malé monitory.</p>';
+		return '<p class="resolutionAlert">' . __('Tento doplněk není optimalizován pro telefony a malé monitory.', 'fapi') . '</p>';
 	}
 
 	/**
@@ -635,15 +636,15 @@ final class FapiMemberTools
 			return '
             <nav>
                 <span class="disabled">
-                    <span class="a">Přehled</span>
+                    <span class="a">' . __('Přehled', 'fapi') . '</span>
                     ' . $h . '
                 </span>
                 <span class="disabled">
-                    <span class="a">Členské sekce</span>
+                    <span class="a">' . __('Členské sekce', 'fapi') . '</span>
                     ' . $p . '
                 </span>
                 <a href="#" class="active">
-                    <span class="a">Propojení s FAPI</span>
+                    <span class="a">' . __('Propojení s FAPI', 'fapi') . '</span>
                     ' . $c . '
                 </a>
                 ' . $testActionLink . '
@@ -653,18 +654,18 @@ final class FapiMemberTools
 		return '
         <nav>
             <a href="' . self::fapilink('index') . '" ' . (($subpage === 'index') ? 'class="active"' : '') . '>
-                <span class="a">Přehled</span>
+                <span class="a">' . __('Přehled', 'fapi') . '</span>
                 ' . $h . '
             </a>
             <a href="' . self::fapilink('settingsSectionNew') . '" ' . ((strpos(
 					$subpage,
 					'settings'
 				) === 0) ? 'class="active"' : '') . '>
-                <span class="a">Členské sekce</span>
+                <span class="a">' . __('Členské sekce', 'fapi') . '</span>
                 ' . $p . '
             </a>
             <a href="' . self::fapilink('connection') . '" ' . (($subpage === 'connection') ? 'class="active"' : '') . '>
-                <span class="a">Propojení s FAPI</span>
+                <span class="a">' . __('Propojení s FAPI', 'fapi') . '</span>
                 ' . $c . '
             </a>
             ' . $testActionLink . '
@@ -683,13 +684,13 @@ final class FapiMemberTools
 			case ($subpage === 'index'):
 				return '
                 <div class="submenu">
-                    <span class="active">Přehled</a>
+                    <span class="active">' . __('Přehled', 'fapi') . '</a>
                 </div>
                 ';
 			case ($subpage === 'connection'):
 				return '
                 <div class="submenu">
-                    <span class="active">Propojení</a>
+                    <span class="active">' . __('Propojení', 'fapi') . '</a>
                 </div>
                 ';
 			case (mb_strpos($subpage, 'settings') === 0):
@@ -698,14 +699,14 @@ final class FapiMemberTools
                     ' . self::submenuItem('settingsSectionNew', 'Sekce / úrovně', $subpage, ['settingsLevelNew']) . '
                     ' . self::submenuItem(
 						'settingsContentAdd',
-						'Přiřazené stránky a přispěvky',
+						__('Přiřazené stránky a přispěvky', 'fapi'),
 						$subpage,
 						['settingsContentRemove']
 					) . '
-                    ' . self::submenuItem('settingsEmails', 'E-maily', $subpage) . '
-                    ' . self::submenuItem('settingsPages', 'Servisní stránky', $subpage) . '
-                    ' . self::submenuItem('settingsElements', 'Prvky pro web', $subpage) . '
-                    ' . self::submenuItem('settingsSettings', 'Společné', $subpage) . '
+                    ' . self::submenuItem('settingsEmails', __('E-maily', 'fapi'), $subpage) . '
+                    ' . self::submenuItem('settingsPages', __('Servisní stránky', 'fapi'), $subpage) . '
+                    ' . self::submenuItem('settingsElements', __('Prvky pro web', 'fapi'), $subpage) . '
+                    ' . self::submenuItem('settingsSettings', __('Společné', 'fapi'), $subpage) . '
                 </div>
                 ';
 		}

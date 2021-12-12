@@ -9,7 +9,7 @@ $selectedLevel = (isset($_GET['level'])) ? (int) $_GET['level'] : null;
 <div class="page both">
     <div class="withSections">
         <div class="a">
-            <h3>Členské sekce/úrovně</h3>
+            <h3><?php echo __('Členské sekce/úrovně', 'fapi'); ?></h3>
 			<?php echo FapiMemberTools::showErrors(); ?>
 			<?php echo FapiMemberTools::levelsSelection() ?>
         </div>
@@ -28,12 +28,12 @@ $selectedLevel = (isset($_GET['level'])) ? (int) $_GET['level'] : null;
 					<?php echo FapiMemberTools::allPagesForForm($selectedLevel) ?>
                 </div>
                 <div class="row controls">
-                    <button class="btn outline">Uložit</button>
+                    <button class="btn outline"><?php echo __('Uložit', 'fapi'); ?></button>
                 </div>
                 </form>
 			<?php else: ?>
                 <div class="inner">
-                    <p class="pleaseSelectLevel">Prosím zvolte sekci/úroveň.</p>
+                    <p class="pleaseSelectLevel"><?php echo __('Prosím zvolte sekci/úroveň.', 'fapi'); ?></p>
                 </div>
 			<?php endif; ?>
 

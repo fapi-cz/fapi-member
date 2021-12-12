@@ -3,7 +3,6 @@
 namespace FapiMember;
 
 use DateTimeImmutable;
-use DateTimeInterface;
 use JsonSerializable;
 
 final class FapiMembership implements JsonSerializable
@@ -50,8 +49,8 @@ final class FapiMembership implements JsonSerializable
 	{
 		return [
 			'level' => $this->level,
-			'registered' => $this->registered === null ? null : $this->registered->format(FapiMemberPlugin::DF),
-			'until' => $this->until === null ? null : $this->until->format(FapiMemberPlugin::DF),
+			'registered' => $this->registered === null ? null : $this->registered->format(FapiMemberPlugin::DATE_TIME_FORMAT),
+			'until' => $this->until === null ? null : $this->until->format(FapiMemberPlugin::DATE_TIME_FORMAT),
 			'isUnlimited' => $this->isUnlimited,
 		];
 	}

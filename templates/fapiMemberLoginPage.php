@@ -7,13 +7,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?php use FapiMember\FapiMemberTools;
 
-		echo __('Přihlášení do členské sekce') ?></title>
+		echo __('Přihlášení do členské sekce', 'fapi') ?></title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
 	<?php wp_head() ?>
 </head>
 <body>
 <div id="Wrapper">
-    <h2 style="text-align: center;"><?php echo __('Přihlášení do členské sekce') ?></h2>
+    <h2 style="text-align: center;"><?php echo __('Přihlášení do členské sekce', 'fapi') ?></h2>
 
     <div class="pages">
         <div style="margin: 0 auto; width: max-content">

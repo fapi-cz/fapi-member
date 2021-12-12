@@ -9,6 +9,7 @@ final class FapiMembershipLoader
 {
 
 	const MEMBERSHIP_META_KEY = 'fapi_user_memberships';
+
 	const MEMBERSHIP_HISTORY_META_KEY = 'fapi_user_memberships_history';
 
 	/** @var FapiLevels */
@@ -269,10 +270,10 @@ final class FapiMembershipLoader
 			$memberships[] = new FapiMembership(
 				$item['level'],
 				isset($item['registered'])
-					? DateTimeImmutable::createFromFormat(FapiMemberPlugin::DF, $item['registered'])
+					? DateTimeImmutable::createFromFormat(FapiMemberPlugin::DATE_TIME_FORMAT, $item['registered'])
 					: null,
 				isset($item['until'])
-					? DateTimeImmutable::createFromFormat(FapiMemberPlugin::DF, $item['until'])
+					? DateTimeImmutable::createFromFormat(FapiMemberPlugin::DATE_TIME_FORMAT, $item['until'])
 					: null,
 				(bool) $item['isUnlimited']
 			);

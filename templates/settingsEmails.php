@@ -8,7 +8,7 @@ echo FapiMemberTools::heading();
 <div class="page both">
     <div class="withSections">
         <div class="a">
-            <h3>Členské sekce/úrovně</h3>
+            <h3><?php echo __('Členské sekce/úrovně', 'fapi'); ?></h3>
 			<?php echo FapiMemberTools::showErrors(); ?>
 			<?php echo FapiMemberTools::levelsSelectionNonJs() ?>
         </div>
@@ -17,7 +17,7 @@ echo FapiMemberTools::heading();
 				<?php
 				$level = (isset($_GET['level'])) ? FapiMemberTools::sanitizeLevelId($_GET['level']) : null;
 				if ($level === null) {
-					echo '<p>Zvolte prosím sekci/úroveň vlevo.</p>';
+					echo '<p>' . __('Zvolte prosím sekci/úroveň vlevo.', 'fapi') . '</p>';
 				} else {
 					global $FapiPlugin;
 					$fapiLevels = $FapiPlugin->levels();
@@ -28,15 +28,15 @@ echo FapiMemberTools::heading();
 
 					if ($isSection) {
 						$emails = [
-							'afterRegistration' => 'E-mail po registraci do sekce',
-							'afterMembershipProlonged' => 'E-mail po prodloužení členství v sekci',
-							'afterAdding' => 'E-mail po přidání do sekce',
+							'afterRegistration' => __('E-mail po registraci do sekce', 'fapi'),
+							'afterMembershipProlonged' => __('E-mail po prodloužení členství v sekci', 'fapi'),
+							'afterAdding' => __('E-mail po přidání do sekce', 'fapi'),
 						];
 					} else {
 						$emails = [
-							'afterRegistration' => 'E-mail po registraci do úrovně',
-							'afterMembershipProlonged' => 'E-mail po prodloužení členství v úrovni',
-							'afterAdding' => 'E-mail po přidání do úrovně',
+							'afterRegistration' => __('E-mail po registraci do úrovně', 'fapi'),
+							'afterMembershipProlonged' => __('E-mail po prodloužení členství v úrovni', 'fapi'),
+							'afterAdding' => __('E-mail po přidání do úrovně', 'fapi'),
 						];
 					}
 
@@ -53,7 +53,7 @@ echo FapiMemberTools::heading();
 								<?php if ($emailIsCascaded) {
 									?>
                                     <p>
-                                        E-mail je převzat z nastavení členské sekce, do které úroveň spadá.
+										<?php echo __('E-mail je převzat z nastavení členské sekce, do které úroveň spadá.', 'fapi'); ?>
                                     </p>
 									<?php
 								}
@@ -68,13 +68,13 @@ echo FapiMemberTools::heading();
                                                    class="specifyLevelEmailCheckbox"
 												<?php echo ($hasContentSet) ? 'checked' : '' ?>
                                             >
-                                            Nastavit vlastní e-mail pro úroveň
+											<?php echo __('Nastavit vlastní e-mail pro úroveň', 'fapi'); ?>
                                         </label>
                                     </div>
 								<?php } ?>
                                 <div class="inputs <?php echo ($hasContentSet || $isSection) ? '' : 'collapsed' ?>">
                                     <div class="row">
-                                        <label for="mail_subject">Předmět e-mailu</label>
+                                        <label for="mail_subject"><?php echo __('Předmět e-mailu', 'fapi'); ?></label>
                                         <input type="text" name="mail_subject" id="mail_subject"
 											<?php echo ($emailIsCascaded) ? 'readonly' : '' ?>
 											<?php echo ($hasContentSet) ? sprintf('value="%s"',
@@ -82,7 +82,7 @@ echo FapiMemberTools::heading();
                                         >
                                     </div>
                                     <div class="row">
-                                        <label for="mail_body">Obsah e-mailu</label>
+                                        <label for="mail_body"><?php echo __('Obsah e-mailu', 'fapi'); ?></label>
                                         <textarea name="mail_body"
                                                   id="mail_body" <?php echo ($emailIsCascaded) ? 'readonly' : '' ?>><?php echo ($hasContentSet) ? $templates[$key]['b'] : '' ?></textarea>
                                     </div>
@@ -104,48 +104,44 @@ echo FapiMemberTools::heading();
 
         </div>
         <div class="shortcodes open">
-            <h3>Dostupné proměnné <span class="carret"></span></h3>
+            <h3><?php echo __('Dostupné proměnné', 'fapi'); ?> <span class="carret"></span></h3>
             <div class="tableBox">
                 <table class="wp-list-table widefat fixed striped">
                     <thead>
                     <tr>
-                        <th rowspan="2" style="width: 200px">Kód</th>
-                        <th rowspan="2">Popis</th>
-                        <th rowspan="2">Příklad</th>
-                        <th colspan="3" style="width:300px">Dostupné při</th>
+                        <th rowspan="2" style="width: 200px"><?php echo __('Kód', 'fapi'); ?></th>
+                        <th rowspan="2"><?php echo __('Popis', 'fapi'); ?></th>
+                        <th rowspan="2"><? echo __('Příklad', 'fapi'); ?></th>
+                        <th colspan="3" style="width:300px"><?php echo __('Dostupné při', 'fapi'); ?></th>
                     </tr>
                     <tr>
-                        <th>registraci nového člena</th>
-                        <th>prodloužení/
-                            <wbr>
-                            přidání sekce
+                        <th><?php echo __('registraci nového člena', 'fapi'); ?></th>
+                        <th><?php echo __('prodloužení/přidání sekce', 'fapi'); ?>
                         </th>
-                        <th>prodloužení/
-                            <wbr>
-                            přidání úrovně
+                        <th><?php echo __('prodloužení/přidání sekce', 'fapi'); ?>
                         </th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                         <td><code>%%SEKCE%%</code></td>
-                        <td>Název sekce</td>
-                        <td>Italská kuchyně</td>
+                        <td><?php echo __('Název sekce', 'fapi'); ?></td>
+                        <td><?php echo __('Italská kuchyně', 'fapi'); ?></td>
                         <td></td>
                         <td>&checkmark;</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td><code>%%UROVEN%%</code></td>
-                        <td>Název úrovně</td>
-                        <td>Začátečník</td>
+                        <td><?php echo __('Název úrovně', 'fapi'); ?></td>
+                        <td><?php echo __('Začátečník', 'fapi'); ?></td>
                         <td></td>
                         <td></td>
                         <td>&checkmark;</td>
                     </tr>
                     <tr>
                         <td><code>%%DNI%%</code></td>
-                        <td>Počet zakoupených dní nebo 'neomezeně'</td>
+                        <td><?php echo __("Počet zakoupených dní nebo 'neomezeně'", 'fapi'); ?></td>
                         <td>31</td>
                         <td></td>
                         <td>&checkmark;</td>
@@ -153,7 +149,7 @@ echo FapiMemberTools::heading();
                     </tr>
                     <tr>
                         <td><code>%%CLENSTVI_DO%%</code></td>
-                        <td>Datum konce členství nebo 'neomezené'</td>
+                        <td><?php echo __("Datum konce členství nebo 'neomezené'", 'fapi'); ?></td>
                         <td>12. 1. 2022</td>
                         <td></td>
                         <td>&checkmark;</td>
@@ -161,7 +157,7 @@ echo FapiMemberTools::heading();
                     </tr>
                     <tr>
                         <td><code>%%PRIHLASENI_ODKAZ%%</code></td>
-                        <td>Odkaz na přihlášení (z nastavení) pouze URL</td>
+                        <td><?php echo __('Odkaz na přihlášení (z nastavení) pouze URL', 'fapi'); ?></td>
                         <td>https://www.example.com/login</td>
                         <td>&checkmark;</td>
                         <td>&checkmark;</td>
@@ -169,7 +165,7 @@ echo FapiMemberTools::heading();
                     </tr>
                     <tr>
                         <td><code>%%PRIHLASOVACI_JMENO%%</code></td>
-                        <td>Přihlašovací jméno uživatele</td>
+                        <td><?php echo __('Přihlašovací jméno uživatele', 'fapi'); ?></td>
                         <td>jan@example.com</td>
                         <td>&checkmark;</td>
                         <td></td>
@@ -177,7 +173,7 @@ echo FapiMemberTools::heading();
                     </tr>
                     <tr>
                         <td><code>%%HESLO%%</code></td>
-                        <td>Přihlašovací heslo uživatele</td>
+                        <td><?php echo __('Přihlašovací heslo uživatele', 'fapi'); ?></td>
                         <td>)7PQll6Pw)HN7%w8ddES!ues</td>
                         <td>&checkmark;</td>
                         <td></td>
