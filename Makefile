@@ -10,7 +10,6 @@ cs: ## cs
 cbf: ## cbf
 	docker exec wordpress /bin/sh -c 'php ./wp-content/plugins/fapi-member/wpcs/vendor/bin/phpcbf ./wp-content/plugins/fapi-member/src --standard=WordPress --encoding=utf-8 --tab-width=4 --colors -sp'
 
-
 build: ## Builds the plugin source code
 	rm -d -r wp-build
 	mkdir wp-build
