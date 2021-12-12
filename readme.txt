@@ -2,7 +2,7 @@
 Contributors: jandaniel, slischka
 Tags: membership, fapi
 Requires at least: 5.7
-Tested up to: 5.7
+Tested up to: 5.8
 Requires PHP: 5.6
 License: GPLv2 or later
 Stable tag: 1.8.7
