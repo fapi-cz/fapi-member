@@ -21,7 +21,7 @@ final class FapiUserUtils
 		$user = get_user_by('email', $email);
 
 		if ($user === false) {
-			$user = get_user_by('user_login', $email);
+			$user = get_user_by('login', $email);
 		}
 
 		if ($user !== false) {
