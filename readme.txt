@@ -5,7 +5,7 @@ Requires at least: 5.7
 Tested up to: 5.8
 Requires PHP: 5.6
 License: GPLv2 or later
-Stable tag: 1.8.8
+Stable tag: 1.8.9
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -22,6 +22,9 @@ Máte problém s nastavením FAPI Memberu. Obrátit se můžete na naší podpor
 Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org/plugins/fapi-member/#reviews).
 
 == Changelog ==
+
+= 1.8.9 =
+* K prodloužení nebo založení nového člena, se nově plugin pokusí najít existujícího člena pomocí e-mailové adresy a uživatelského jména.
 
 = 1.8.8 =
 * Po kliknutí na tlačítko připojit se po úspěšném napojení na FAPI zkontroluje zda je FAPI připojené na FAPI Member pokud ne vytvoří propojení automaticky.

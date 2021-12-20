@@ -4,6 +4,7 @@ namespace FapiMember;
 
 use WP_Error;
 use WP_User;
+use function get_user_by;
 use function is_int;
 use function str_replace;
 
@@ -18,6 +19,10 @@ final class FapiUserUtils
 	public function getOrCreateUser($email, &$props)
 	{
 		$user = get_user_by('email', $email);
+
+		if ($user === false) {
+			$user = get_user_by('user_login', $email);
+		}
 
 		if ($user !== false) {
 			$props['user_id'] = $user->ID;

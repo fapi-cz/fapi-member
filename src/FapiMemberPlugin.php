@@ -432,7 +432,7 @@ final class FapiMemberPlugin
 		$user = $this->userUtils()->getOrCreateUser($email, $props);
 
 		if ($user instanceof WP_Error) {
-			$this->callbackError('Failed to create user: ' . json_encode($user->get_all_error_data()));
+			$this->callbackError('Failed to create user. Last errors: ' . json_encode($user->get_error_messages()));
 		}
 
 		$historicalMemberships = $this->fapiMembershipLoader()->loadMembershipsHistory($user->ID);
