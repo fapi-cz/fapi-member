@@ -23,7 +23,7 @@ Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org
 
 == Changelog ==
 
-= 1.8.7 =
+= 1.8.8 =
 * Po kliknutí na tlačítko připojit se po úspěšném napojení na FAPI zkontroluje zda je FAPI připojené na FAPI Member pokud ne vytvoří propojení automaticky.
 * Oprava chyby při zakládání nových členů. Oprava serializace objektu.
 * Do API odpovědi přidaná verze pluginu pro lepší dohledávání chyb pro různé verze pluginu.
