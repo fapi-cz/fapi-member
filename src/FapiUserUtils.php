@@ -2,7 +2,10 @@
 
 namespace FapiMember;
 
+use WP_Error;
 use WP_User;
+use function is_int;
+use function str_replace;
 
 final class FapiUserUtils
 {
@@ -10,29 +13,26 @@ final class FapiUserUtils
 	/**
 	 * @param string $email
 	 * @param array<mixed> $props
-	 * @return int|false
+	 * @return WP_User|WP_Error
 	 */
-	public function createUserIfNeeded($email, &$props)
+	public function getOrCreateUser($email, &$props)
 	{
 		$user = get_user_by('email', $email);
 
 		if ($user !== false) {
-			// is duplicate
 			$props['user_id'] = $user->ID;
 			$props['new_user'] = false;
 
-			return false;
+			return $user;
 		}
 
 		$password = wp_generate_password(16, true, false);
-
-		$userData = [
+		$userId = wp_insert_user([
 			'user_pass' => $password,
 			'user_login' => $email,
 			'user_nicename' => str_replace('@', '_', $email),
 			'user_email' => $email,
-		];
-		$userId = wp_insert_user($userData);
+		]);
 
 		$props['email'] = $email;
 		$props['login'] = $email;
@@ -43,6 +43,8 @@ final class FapiUserUtils
 			$user = new WP_User($userId);
 			$user->set_role('member');
 			$props['user_id'] = $userId;
+
+			return $user;
 		}
 
 		return $userId;

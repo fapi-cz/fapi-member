@@ -19,6 +19,7 @@ use function array_unique;
 use function array_values;
 use function get_option;
 use function get_post;
+use function get_site_url;
 use function get_term_meta;
 use function implode;
 use function in_array;
@@ -29,6 +30,7 @@ use function json_encode;
 use function parse_str;
 use function plugins_url;
 use function register_rest_route;
+use function rtrim;
 use function sprintf;
 use function update_option;
 use function update_term_meta;
@@ -37,6 +39,7 @@ use function wp_register_script;
 use function wp_send_json;
 use function wp_send_json_error;
 use function wp_send_json_success;
+use const FAPI_MEMBER_PLUGIN_VERSION;
 
 final class FapiMemberPlugin
 {
@@ -60,6 +63,8 @@ final class FapiMemberPlugin
 	const DATE_TIME_FORMAT = 'Y-m-d\TH:i:s';
 
 	const FAPI_MEMBER_SECTIONS = 'fapi_member_sections';
+
+	const FAPI_MEMBER_PLUGIN_VERSION_KEY = 'fapi_member_plugin_version';
 
 	private $fapiLevels = null;
 
@@ -415,32 +420,31 @@ final class FapiMemberPlugin
 		}
 
 		$props = [];
-		$this->userUtils()->createUserIfNeeded($email, $props);
 
-		if (!isset($params['days'])) {
-			$days = false;
-		} else {
+		if (isset($params['days'])) {
 			$days = (int) $params['days'];
+		} else {
+			$days = false;
 		}
 
 		$isUnlimited = $days === false;
 
-		$user = get_user_by('email', $email);
+		$user = $this->userUtils()->getOrCreateUser($email, $props);
 
-		if ($user === false) {
-			$this->callbackError('Cannot found user');
+		if ($user instanceof WP_Error) {
+			$this->callbackError('Failed to create user: ' . json_encode($user->get_all_error_data()));
 		}
 
 		$historicalMemberships = $this->fapiMembershipLoader()->loadMembershipsHistory($user->ID);
 
-		foreach ($levelIds as $id) {
-			$level = $this->levels()->loadById($id);
+		foreach ($levelIds as $levelId) {
+			$level = $this->levels()->loadById($levelId);
 
-			if (!$level) {
+			if ($level === null) {
 				continue;
 			}
 
-			$this->createOrProlongMembership($user, $id, $days, $isUnlimited, $props);
+			$this->createOrProlongMembership($user, $levelId, $days, $isUnlimited, $props);
 			$this->enhanceProps($props);
 		}
 
@@ -456,7 +460,9 @@ final class FapiMemberPlugin
 			$this->sendEmail($user->user_email, $type, $level->term_id, $props);
 		}
 
-		wp_send_json_success();
+		wp_send_json_success([self::FAPI_MEMBER_PLUGIN_VERSION_KEY => FAPI_MEMBER_PLUGIN_VERSION]);
+
+		die;
 	}
 
 	/**
@@ -465,7 +471,7 @@ final class FapiMemberPlugin
 	 */
 	protected function callbackError($message)
 	{
-		wp_send_json_error(['error' => $message], 400);
+		wp_send_json_error(['error' => $message, self::FAPI_MEMBER_PLUGIN_VERSION_KEY => FAPI_MEMBER_PLUGIN_VERSION], 400);
 
 		die;
 	}
@@ -531,26 +537,25 @@ final class FapiMemberPlugin
 	 */
 	private function getEmailFromPaidInvoice(array $data)
 	{
-		$invoiceId = $data['id'];
-		$invoiceId = $this->fapiApi()->getInvoice($invoiceId);
+		$invoice = $this->fapiApi()->getInvoice($data['id']);
 
-		if ($invoiceId === false) {
+		if ($invoice === false) {
 			$this->callbackError(sprintf('Error getting invoice: %s', $this->fapiApi()->lastError));
 		}
 
-		if (!self::isDevelopment() && !$this->fapiApi()->isInvoiceSecurityValid($invoiceId, $data['time'], $data['security'])) {
+		if (!self::isDevelopment() && !$this->fapiApi()->isInvoiceSecurityValid($invoice, $data['time'], $data['security'])) {
 			$this->callbackError('Invoice security is not valid.');
 		}
 
-		if (isset($invoiceId['parent']) && $invoiceId['parent'] !== null) {
+		if (isset($invoice['parent'])) {
 			$this->callbackError('Invoice parent is set and not null.');
 		}
 
-		if (!isset($invoiceId['customer']['email'])) {
+		if (!isset($invoice['customer']['email'])) {
 			$this->callbackError('Cannot find customer email in API response.');
 		}
 
-		return $invoiceId['customer']['email'];
+		return $invoice['customer']['email'];
 	}
 
 	/**
@@ -865,6 +870,13 @@ final class FapiMemberPlugin
 
 		$credentialsOk = $this->fapiApi()->checkCredentials();
 		update_option(self::OPTION_KEY_API_CHECKED, $credentialsOk);
+
+		$webUrl = rtrim(get_site_url(), '/') . '/';
+		$connection = $this->fapiApi()->findConnection($webUrl);
+
+		if ($connection === null) {
+			$this->fapiApi()->createConnection($webUrl);
+		}
 
 		if ($credentialsOk) {
 			$this->redirect('connection', 'apiFormSuccess');

@@ -2,6 +2,7 @@
 
 namespace FapiMember;
 
+use __PHP_Incomplete_Class;
 use DateTimeImmutable;
 use WP_Term;
 
@@ -265,6 +266,10 @@ final class FapiMembershipLoader
 				$memberships[] = $item;
 
 				continue;
+			}
+
+			if ($item instanceof __PHP_Incomplete_Class) {
+				$item = (array) $item;
 			}
 
 			$memberships[] = new FapiMembership(

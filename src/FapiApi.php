@@ -3,6 +3,10 @@
 namespace FapiMember;
 
 use WP_Error;
+use function json_decode;
+use function json_encode;
+use function sprintf;
+use function wp_remote_request;
 
 final class FapiApi
 {
@@ -167,6 +171,66 @@ final class FapiApi
 		}
 
 		return true;
+	}
+
+	/**
+	 * @param string $webUrl
+	 * @return array<mixed>|null|false
+	 */
+	public function findConnection($webUrl)
+	{
+		$response = wp_remote_request(
+			sprintf('%sconnections?application=fapi-member&credentials_contains=' . $webUrl, $this->apiUrl),
+			[
+				'method' => 'GET',
+				'headers' => $this->createHeaders(),
+				'timeout' => 30,
+			]
+		);
+
+		if ($response instanceof WP_Error || $response['response']['code'] !== 200) {
+			$this->lastError = $this->findErrorMessage($response);
+
+			return false;
+		}
+
+		$data = json_decode($response['body'], true);
+
+		if (isset($data['connections'][0])) {
+			return $data['connections'][0];
+		}
+
+		return null;
+	}
+
+	/**
+	 * @param string $webUrl
+	 * @return array<mixed>|false
+	 */
+	public function createConnection($webUrl)
+	{
+		$response = wp_remote_request(
+			sprintf('%sconnections', $this->apiUrl),
+			[
+				'method' => 'POST',
+				'headers' => $this->createHeaders(),
+				'timeout' => 30,
+				'body' => json_encode([
+					'application' => 'fapi-member',
+					'credentials' => [
+						'web_url' => $webUrl,
+					],
+				]),
+			]
+		);
+
+		if ($response instanceof WP_Error || $response['response']['code'] !== 201) {
+			$this->lastError = $this->findErrorMessage($response);
+
+			return false;
+		}
+
+		return json_decode($response['body'], true);
 	}
 
 	/**
