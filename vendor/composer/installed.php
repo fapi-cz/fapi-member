@@ -1,24 +1,23 @@
-<?php return array (
-  'root' => 
-  array (
-    'pretty_version' => 'dev-master',
-    'version' => 'dev-master',
-    'aliases' => 
-    array (
+<?php return array(
+    'root' => array(
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'type' => 'library',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'reference' => '43147d29058065c018e9c9d538125b057adafd37',
+        'name' => 'fapi-cz/fapi-member',
+        'dev' => true,
     ),
-    'reference' => 'e3afe863c50ba014f784d99623e8d32ed7c68c50',
-    'name' => 'fapi-cz/fapi-member',
-  ),
-  'versions' => 
-  array (
-    'fapi-cz/fapi-member' => 
-    array (
-      'pretty_version' => 'dev-master',
-      'version' => 'dev-master',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'e3afe863c50ba014f784d99623e8d32ed7c68c50',
+    'versions' => array(
+        'fapi-cz/fapi-member' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'reference' => '43147d29058065c018e9c9d538125b057adafd37',
+            'dev_requirement' => false,
+        ),
     ),
-  ),
 );

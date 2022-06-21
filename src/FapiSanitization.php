@@ -7,39 +7,36 @@ use WP_Post;
 use function in_array;
 use function is_numeric;
 
-final class FapiSanitization
-{
+final class FapiSanitization {
+
 
 	const POST = 'POST';
-	const GET = 'GET';
+	const GET  = 'GET';
 
-	const VALID_LEVEL_ID = 'validLevelId';
-	const VALID_PAGE_IDS = 'validPageIds';
-	const VALID_PAGE_ID = 'validPageId';
-	const ANY_STRING = 'anyString';
-	const INT_LIST = 'intList';
-	const VALID_EMAIL_TYPE = 'validEmailType';
+	const VALID_LEVEL_ID        = 'validLevelId';
+	const VALID_PAGE_IDS        = 'validPageIds';
+	const VALID_PAGE_ID         = 'validPageId';
+	const ANY_STRING            = 'anyString';
+	const INT_LIST              = 'intList';
+	const VALID_EMAIL_TYPE      = 'validEmailType';
 	const VALID_OTHER_PAGE_TYPE = 'validOtherPageType';
-	const VALID_DIRECTION = 'validDirection';
+	const VALID_DIRECTION       = 'validDirection';
 
 	public $fapiLevels;
 
 	/**
 	 * @param FapiLevels $fapiLevels
 	 */
-	public function __construct($fapiLevels)
-	{
+	public function __construct( $fapiLevels ) {
 		$this->fapiLevels = $fapiLevels;
 	}
 
-	public function loadPostValue($key, $sanitizer, $default = null)
-	{
-		return $this->loadFormValue(self::POST, $key, $sanitizer, $default);
+	public function loadPostValue( $key, $sanitizer, $default = null ) {
+		return $this->loadFormValue( self::POST, $key, $sanitizer, $default );
 	}
 
-	public function loadFormValue($method, $key, $sanitizer, $default = null)
-	{
-		switch ($method) {
+	public function loadFormValue( $method, $key, $sanitizer, $default = null ) {
+		switch ( $method ) {
 			case self::GET:
 				$arr = $_GET;
 				break;
@@ -47,32 +44,30 @@ final class FapiSanitization
 				$arr = $_POST;
 				break;
 			default:
-				throw new RuntimeException('Not implemented method.');
+				throw new RuntimeException( 'Not implemented method.' );
 		}
 
-		$raw = (isset($arr[$key])) ? $arr[$key] : $default;
+		$raw = ( isset( $arr[ $key ] ) ) ? $arr[ $key ] : $default;
 
-		if ($raw === null) {
+		if ( $raw === null ) {
 			// input is missing
 			return null;
 		}
 
-		if (!is_callable($sanitizer)) {
-			throw new RuntimeException('Sanitizer should be callable.');
+		if ( ! is_callable( $sanitizer ) ) {
+			throw new RuntimeException( 'Sanitizer should be callable.' );
 		}
 
-		return $sanitizer($raw, $default);
+		return $sanitizer( $raw, $default );
 	}
 
-	public function loadGetValue($key, $sanitizer, $default = null)
-	{
-		return $this->loadFormValue(self::GET, $key, $sanitizer, $default);
+	public function loadGetValue( $key, $sanitizer, $default = null ) {
+		return $this->loadFormValue( self::GET, $key, $sanitizer, $default );
 	}
 
-	public function validLevelId($input, $default)
-	{
+	public function validLevelId( $input, $default ) {
 		$levelIds = $this->fapiLevels->allIds();
-		if (in_array((int) $input, $levelIds, true)) {
+		if ( in_array( (int) $input, $levelIds, true ) ) {
 			return (int) $input;
 		}
 
@@ -83,13 +78,12 @@ final class FapiSanitization
 	 * @param array<int> $input
 	 * @return array<int>
 	 */
-	public function validLevelIds(array $input)
-	{
+	public function validLevelIds( array $input ) {
 		$levelIds = $this->fapiLevels->allIds();
-		$out = [];
+		$out      = array();
 
-		foreach ($levelIds as $levelId) {
-			if (!in_array($levelId, $input, true)) {
+		foreach ( $levelIds as $levelId ) {
+			if ( ! in_array( $levelId, $input, true ) ) {
 				continue;
 			}
 
@@ -99,16 +93,21 @@ final class FapiSanitization
 		return $out;
 	}
 
-	public function validPageIds($input, $default)
-	{
-		if (!is_array($input)) {
-			throw new RuntimeException('This sanitizer only accepts array.');
+	public function validPageIds( $input, $default ) {
+		if ( ! is_array( $input ) ) {
+			throw new RuntimeException( 'This sanitizer only accepts array.' );
 		}
 
-		$pages = get_posts(['post_type' => 'page', 'post_status' => ['publish'], 'numberposts' => -1]);
+		$pages   = get_posts(
+			array(
+				'post_type'   => 'page',
+				'post_status' => array( 'publish' ),
+				'numberposts' => -1,
+			)
+		);
 		$pageIds = array_reduce(
 			$pages,
-			static function ($carry, $one) {
+			static function ( $carry, $one ) {
 				/**
 				 * @var WP_Post $one
 				 */
@@ -116,22 +115,21 @@ final class FapiSanitization
 
 				return $carry;
 			},
-			[]
+			array()
 		);
 
 		$valid = array_filter(
 			$input,
-			static function ($one) use ($pageIds) {
-				return in_array((int) $one, $pageIds, true);
+			static function ( $one ) use ( $pageIds ) {
+				return in_array( (int) $one, $pageIds, true );
 			}
 		);
 
-		return array_map('intval', $input);
+		return array_map( 'intval', $input );
 	}
 
-	public function anyString($input, $default)
-	{
-		if ((string) $input === '') {
+	public function anyString( $input, $default ) {
+		if ( (string) $input === '' ) {
 			return $default;
 		}
 
@@ -142,33 +140,30 @@ final class FapiSanitization
 	 * @param array<mixed> $input
 	 * @return array<int>
 	 */
-	public function intList(array $input)
-	{
-		$out = [];
+	public function intList( array $input ) {
+		$out = array();
 
-		foreach ($input as $key => $value) {
-			if (!is_numeric($value)) {
+		foreach ( $input as $key => $value ) {
+			if ( ! is_numeric( $value ) ) {
 				continue;
 			}
 
-			$out[$key] = (int) $value;
+			$out[ $key ] = (int) $value;
 		}
 
 		return $out;
 	}
 
-	public function validEmailType($input, $default)
-	{
-		if (in_array($input, FapiLevels::$emailTypes, true)) {
+	public function validEmailType( $input, $default ) {
+		if ( in_array( $input, FapiLevels::$emailTypes, true ) ) {
 			return $input;
 		}
 
 		return $default;
 	}
 
-	public function validOtherPageType($input, $default)
-	{
-		if (in_array($input, FapiLevels::$pageTypes, true)) {
+	public function validOtherPageType( $input, $default ) {
+		if ( in_array( $input, FapiLevels::$pageTypes, true ) ) {
 			return $input;
 		}
 
@@ -180,27 +175,25 @@ final class FapiSanitization
 	 * @param string $default
 	 * @return string
 	 */
-	public function validDirection($input, $default)
-	{
-		if (in_array($input, ['up', 'down'])) {
+	public function validDirection( $input, $default ) {
+		if ( in_array( $input, array( 'up', 'down' ) ) ) {
 			return $input;
 		}
 
 		return $default;
 	}
 
-	public function validPageId($input, $default)
-	{
+	public function validPageId( $input, $default ) {
 		$pages = get_posts(
-			[
-				'post_type' => 'page',
-				'post_status' => ['publish'],
+			array(
+				'post_type'   => 'page',
+				'post_status' => array( 'publish' ),
 				'numberposts' => -1,
-				'include' => [$input],
-			]
+				'include'     => array( $input ),
+			)
 		);
 
-		if (count($pages) > 0) {
+		if ( count( $pages ) > 0 ) {
 			return (int) $input;
 		}
 

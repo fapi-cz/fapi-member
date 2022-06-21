@@ -52,5 +52,10 @@
 		"issues": "https://github.com/WordPress/WordPress-Coding-Standards/issues",
 		"wiki": "https://github.com/WordPress/WordPress-Coding-Standards/wiki",
 		"source": "https://github.com/WordPress/WordPress-Coding-Standards"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
 	}
 }

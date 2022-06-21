@@ -1,8 +1,9 @@
 ## Start up:
 1. run `make -C .docker-fapi-member dc-up-front`
-2. open browser and go to page `http://localhost:80`
+2. open browser and go to page `http://localhost:8080`
 3. install wordpress
-4. develop plugin
+4. enable FAPI Member plugin in plugin section
+5. develop plugin
 
 Poznámky
 ========
@@ -121,3 +122,11 @@ npx webpack
 Pokud ve `wp_options` nastavíte klíč `fapiIsDevelopment` na hodnotu `1`, pak se
 v menu pluginu objeví červená možnost Testovací akce, která umožní spustit obsah souboru `templates/test.php`,
 to je možné využít při vývoji na testování např. zakládání uživatelů, posílání mailů atd.
+
+# Build a nasazení na WP
+1. Je potřeba udělat build jak js tak css souborů
+2. Dále je potřeba změnit verzi pluginu, přidat setinkovou verzi pokud se jedná o opravu, pokud se přidává nová funkce přidat desetinku a pokud jedná o úplně novou verzi přidat zvyšit major verzi o jedno
+3. Vytvořit produkční build `make build -i`
+4. Vytvořit složku `wp-svn`
+5. Stáhnout repozitář z WP `svn co https://plugins.svn.wordpress.org/fapi-member wp-svn`
+6. Stáhtnou změny z WP ``

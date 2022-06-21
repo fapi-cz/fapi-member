@@ -5,8 +5,8 @@ namespace FapiMember;
 use DateTimeImmutable;
 use JsonSerializable;
 
-final class FapiMembership implements JsonSerializable
-{
+final class FapiMembership implements JsonSerializable {
+
 
 	/** @var int */
 	public $level;
@@ -21,38 +21,36 @@ final class FapiMembership implements JsonSerializable
 	public $isUnlimited = false;
 
 	/**
-	 * @param int $level
+	 * @param int                    $level
 	 * @param DateTimeImmutable|null $registered
 	 * @param DateTimeImmutable|null $until
-	 * @param bool $isUnlimited
+	 * @param bool                   $isUnlimited
 	 */
-	public function __construct($level, $registered = null, $until = null, $isUnlimited = false)
-	{
-		if ($until === false) {
+	public function __construct( $level, $registered = null, $until = null, $isUnlimited = false ) {
+		if ( $until === false ) {
 			$until = null;
 		}
 
-		if ($registered === false) {
+		if ( $registered === false ) {
 			$registered = null;
 		}
 
-		$this->level = $level;
-		$this->registered = $registered;
-		$this->until = $until;
+		$this->level       = $level;
+		$this->registered  = $registered;
+		$this->until       = $until;
 		$this->isUnlimited = $isUnlimited;
 	}
 
 	/**
 	 * @return array<mixed>
 	 */
-	public function jsonSerialize()
-	{
-		return [
-			'level' => $this->level,
-			'registered' => $this->registered === null ? null : $this->registered->format(FapiMemberPlugin::DATE_TIME_FORMAT),
-			'until' => $this->until === null ? null : $this->until->format(FapiMemberPlugin::DATE_TIME_FORMAT),
+	public function jsonSerialize() {
+		return array(
+			'level'       => $this->level,
+			'registered'  => $this->registered === null ? null : $this->registered->format( FapiMemberPlugin::DATE_TIME_FORMAT ),
+			'until'       => $this->until === null ? null : $this->until->format( FapiMemberPlugin::DATE_TIME_FORMAT ),
 			'isUnlimited' => $this->isUnlimited,
-		];
+		);
 	}
 
 }

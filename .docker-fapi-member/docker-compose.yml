@@ -13,6 +13,7 @@ services:
       WORDPRESS_DB_USER: exampleuser
       WORDPRESS_DB_PASSWORD: examplepass
       WORDPRESS_DB_NAME: exampledb
+      WORDPRESS_DEBUG: 1
     volumes:
       - ./wordpress:/var/www/html
       - ../:/var/www/html/wp-content/plugins/fapi-member

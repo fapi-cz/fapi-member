@@ -4,8 +4,8 @@ namespace FapiMember;
 
 use WP_Term;
 
-final class FapiTermEnvelope
-{
+final class FapiTermEnvelope {
+
 
 	/** @var WP_Term */
 	private $term;
@@ -17,27 +17,24 @@ final class FapiTermEnvelope
 	 * FapiTermEnvelope constructor.
 	 *
 	 * @param WP_Term $term
-	 * @param int $order
+	 * @param int     $order
 	 */
-	public function __construct($term, $order)
-	{
-		$this->term = $term;
+	public function __construct( $term, $order ) {
+		$this->term  = $term;
 		$this->order = $order;
 	}
 
 	/**
 	 * @return WP_Term
 	 */
-	public function getTerm()
-	{
-		return $this->term;
+	public function getTerm() {
+		 return $this->term;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getOrder()
-	{
+	public function getOrder() {
 		return $this->order;
 	}
 
