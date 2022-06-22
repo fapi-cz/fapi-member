@@ -5,7 +5,7 @@ Requires at least: 5.7
 Tested up to: 5.9
 Requires PHP: 5.6
 License: GPLv2 or later
-Stable tag: 1.8.11
+Stable tag: 1.8.13
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -23,7 +23,7 @@ Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org
 
 == Changelog ==
 
-= 1.8.11 =
+= 1.8.13 =
 * Příprava pro možnost napojení více FAPI účtů.
 
 = 1.8.10 =

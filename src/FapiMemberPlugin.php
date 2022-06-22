@@ -580,16 +580,29 @@ final class FapiMemberPlugin {
 	 */
 	public function getFapiClients() {
 		if ( $this->fapiClients === null ) {
-			$fapiCredentials = get_option( self::OPTION_KEY_API_CREDENTIALS, null );
-			$fapiCredentials = json_decode( $fapiCredentials, true );
-			$apiUrl          = get_option( self::OPTION_KEY_API_URL, 'https://api.fapi.cz/' );
-			$fapiClients     = array();
+			$apiUser = get_option( self::OPTION_KEY_API_USER, null );
+			$apiKey  = get_option( self::OPTION_KEY_API_KEY, null );
+			$apiUrl  = get_option( self::OPTION_KEY_API_URL, 'https://api.fapi.cz/' );
+			// $fapiCredentials = get_option( self::OPTION_KEY_API_CREDENTIALS, null );
 
-			foreach ( $fapiCredentials as $fapiCredential ) {
-				$fapiClients[] = new FapiApi( $fapiCredential['username'], $fapiCredential['token'], $apiUrl );
-			}
+			// if ( $fapiCredentials === null ) {
+				$fapiCredentials = array(
+					array(
+						'username' => $apiUser,
+						'token'    => $apiKey,
+					),
+				);
+				// } else {
+				// $fapiCredentials = json_decode( $fapiCredentials, true );
+				// }
 
-			$this->fapiClients = new FapiClients( $fapiClients );
+				$fapiClients = array();
+
+				foreach ( $fapiCredentials as $fapiCredential ) {
+					$fapiClients[] = new FapiApi( $fapiCredential['username'], $fapiCredential['token'], $apiUrl );
+				}
+
+				$this->fapiClients = new FapiClients( $fapiClients );
 		}
 
 		return $this->fapiClients;

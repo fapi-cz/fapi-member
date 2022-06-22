@@ -21,7 +21,8 @@ module.exports = [
         entry: './media/fapi.js',
         mode: 'production',
         target: 'browserslist',
-        plugins: plugins
+        plugins: plugins,
+        watch: true
     },
     {
         output: {
@@ -30,7 +31,8 @@ module.exports = [
         },
         entry: './media/fapi.js',
         mode: 'development',
-        plugins: plugins
+        plugins: plugins,
+        watch: true
     },
 
 ];

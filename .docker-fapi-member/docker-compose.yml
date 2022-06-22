@@ -33,6 +33,22 @@ services:
     volumes:
       - ./database:/var/lib/mysql
 
+  node:
+    build:
+      context: node
+    container_name: node
+    user: "root"
+    working_dir: /var/www/html/wp-content/plugins/fapi-member
+    volumes:
+      - ../:/var/www/html/wp-content/plugins/fapi-member
+    ports:
+      - "8099:8099"
+    expose:
+      - "8099"
+#    restart: always
+    entrypoint: /opt/node.sh
+
 volumes:
   wordpress:
   db:
+  node:

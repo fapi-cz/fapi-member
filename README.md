@@ -124,9 +124,15 @@ v menu pluginu objeví červená možnost Testovací akce, která umožní spust
 to je možné využít při vývoji na testování např. zakládání uživatelů, posílání mailů atd.
 
 # Build a nasazení na WP
+## POUZE POKUD VÍŠ CO DĚLÁŠ
 1. Je potřeba udělat build jak js tak css souborů
 2. Dále je potřeba změnit verzi pluginu, přidat setinkovou verzi pokud se jedná o opravu, pokud se přidává nová funkce přidat desetinku a pokud jedná o úplně novou verzi přidat zvyšit major verzi o jedno
 3. Vytvořit produkční build `make build -i`
 4. Vytvořit složku `wp-svn`
 5. Stáhnout repozitář z WP `svn co https://plugins.svn.wordpress.org/fapi-member wp-svn`
-6. Stáhtnou změny z WP ``
+6. Vyvořti složku z verzi ve složce `wp-svn/tags/X.X.X`
+7. Nahrát obsah z `wp-build` do vytvořené složky v přechozím bodě
+8. Smazat obsah ze složky `wp-svn/trunk`
+9. A nahrát obsah ze složky `wp-svn` do složky `wp-svn/trunk`
+10. Vše dát do track stavu `svn add .`
+11. A vše commitnout `svn ci -m 'Adding first version of my plugin' --username your_username --password your_password`
