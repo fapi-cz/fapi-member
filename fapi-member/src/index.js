@@ -6,6 +6,19 @@ import { InspectorControls } from '@wordpress/block-editor';
 const { PanelBody, CheckboxControl, RadioControl } = wp.components;
 import apiFetch from '@wordpress/api-fetch';
 
+const allowedBlocks = [
+	'core/paragraph',
+	'core/image',
+	'core/video',
+	'core/heading',
+	'core/list',
+	'core/galery',
+	'core/audio',
+	'core/buttons',
+	'core/column',
+	'core/columns',
+];
+
 let sectionAndLevels = [];
 
 const controller =
@@ -19,7 +32,7 @@ apiFetch( {
 		sectionAndLevels = posts;
 	} )
 	.catch( ( error ) => {
-		sectionAndLevels = null;
+		sectionAndLevels = [];
 		console.error( error );
 		// If the browser doesn't support AbortController then the code below will never log.
 		// However, in most cases this should be fine as it can be considered to be a progressive enhancement.
@@ -30,6 +43,10 @@ apiFetch( {
 
 const addFapiSectionAndLevels = ( settings ) => {
 	if ( ! settings.attributes ) {
+		return settings;
+	}
+
+	if ( ! allowedBlocks.includes( settings.name ) ) {
 		return settings;
 	}
 
@@ -56,7 +73,26 @@ addFilter(
 
 const withFapiSectionAndLevels = createHigherOrderComponent( ( BlockEdit ) => {
 	return ( props ) => {
-		const checkOption = ( sectionOrLevelId, checked ) => {
+		if ( ! allowedBlocks.includes( props.name ) ) {
+			return <BlockEdit { ...props } />;
+		}
+
+		if ( ! props.attributes.hasOwnProperty( 'hasSectionOrLevel' ) ) {
+			props.attributes.hasSectionOrLevel = '1';
+		}
+
+		if ( ! props.attributes.hasOwnProperty( 'fapiSectionAndLevels' ) ) {
+			props.attributes.fapiSectionAndLevels = '[]';
+		}
+
+		const [ option, setOption ] = useState(
+			props.attributes.hasSectionOrLevel
+		);
+		const [ state, setState ] = useState(
+			JSON.parse( props.attributes.fapiSectionAndLevels )
+		);
+
+		const checkOption = ( sectionOrLevelId, checked, setState ) => {
 			const fapiSectionAndLevels = JSON.parse(
 				props.attributes.fapiSectionAndLevels
 			);
@@ -74,11 +110,9 @@ const withFapiSectionAndLevels = createHigherOrderComponent( ( BlockEdit ) => {
 			props.setAttributes( {
 				fapiSectionAndLevels: JSON.stringify( fapiSectionAndLevels ),
 			} );
-		};
 
-		const [ option, setOption ] = useState(
-			props.attributes.hasSectionOrLevel
-		);
+			setState( fapiSectionAndLevels );
+		};
 
 		return (
 			<Fragment>
@@ -119,29 +153,19 @@ const withFapiSectionAndLevels = createHigherOrderComponent( ( BlockEdit ) => {
 							} }
 						/>
 						{ sectionAndLevels.map( ( sectionAndLevel ) => {
-							const fapiSectionAndLevels = JSON.parse(
-								props.attributes.fapiSectionAndLevels
-							);
-							const [ isChecked, setState ] = useState(
-								fapiSectionAndLevels.includes(
-									sectionAndLevel.id
-								)
-							);
-
 							return (
 								<CheckboxControl
 									key={ sectionAndLevel.id }
 									label={ sectionAndLevel.name }
-									checked={ isChecked }
+									checked={ state.includes(
+										sectionAndLevel.id
+									) }
 									value={ sectionAndLevel.id }
 									onChange={ ( checked ) => {
-										setState( checked );
-										props.setAttributes( {
-											newfapiSectionAndLevels: 'test',
-										} );
 										checkOption(
 											sectionAndLevel.id,
-											checked
+											checked,
+											setState
 										);
 									} }
 								/>
@@ -161,6 +185,10 @@ addFilter(
 );
 
 const addFapiMemberExtraProps = ( saveElementProps, blockType, attributes ) => {
+	if ( ! allowedBlocks.includes( blockType ) ) {
+		return saveElementProps;
+	}
+
 	if ( saveElementProps.hasSectionOrLevel ) {
 		saveElementProps.hasSectionOrLevel = attributes.hasSectionOrLevel;
 	}
