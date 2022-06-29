@@ -11,7 +11,7 @@ echo FapiMemberTools::heading();
 ?>
 
 <div class="page smallerPadding">
-    <h3><?php echo __('Přehled členských sekcí a úrovní', 'fapi'); ?></h3>
+    <h3><?php echo __( 'Přehled členských sekcí a úrovní', 'fapi-member' ); ?></h3>
 	<?php echo FapiMemberTools::showErrors(); ?>
     <div class="sectionsOverview">
 		<?php
@@ -79,13 +79,13 @@ echo FapiMemberTools::heading();
 			?>
             <div>
                 <div class="name"><?php echo $level->name ?></div>
-                <div class="levelCount"><?php echo __('Počet úrovní', 'fapi'); ?>:
+                <div class="levelCount"><?php echo __( 'Počet úrovní', 'fapi-member' ); ?>:
                     <span><?php echo (isset($levelCount[$level->term_id])) ? $levelCount[$level->term_id] : 0 ?></span>
                 </div>
-                <div class="membersCount"><?php echo __('Počet registrovaných', 'fapi'); ?>:
+                <div class="membersCount"><?php echo __( 'Počet registrovaných', 'fapi-member' ); ?>:
                     <span><?php echo (isset($levelUsersCount[$level->term_id])) ? $levelUsersCount[$level->term_id] : 0 ?></span>
                 </div>
-                <div class="pagesCount"><?php echo __('Stránek v celé sekci', 'fapi'); ?>:
+                <div class="pagesCount"><?php echo __( 'Stránek v celé sekci', 'fapi-member' ); ?>:
                     <span><?php echo (isset($pagesCount[$level->term_id])) ? $pagesCount[$level->term_id] : 0 ?></span>
                 </div>
             </div>
@@ -97,11 +97,11 @@ echo FapiMemberTools::heading();
         <div class="emptyIndex">
             <img src="<?php echo plugin_dir_url(__FILE__) . '../media/membership.svg' ?>">
             <p class="gray">
-				<?php echo __('Nemáte vytvořenou žádnou členskou sekci.', 'fapi'); ?><br>
-				<?php echo __('Novou sekci můžete vytvořit na záložce Sekce / úrovně.', 'fapi'); ?>
+				<?php echo __( 'Nemáte vytvořenou žádnou členskou sekci.', 'fapi-member' ); ?><br>
+				<?php echo __( 'Novou sekci můžete vytvořit na záložce Sekce / úrovně.', 'fapi-member' ); ?>
             </p>
             <a href="<?php echo FapiMemberTools::fapilink('settingsSectionNew') ?>" class="btn primary">
-				<?php echo __('Přejít do záložky Sekce / úrovně', 'fapi'); ?></a>
+				<?php echo __( 'Přejít do záložky Sekce / úrovně', 'fapi-member' ); ?></a>
         </div>
 
 	<?php } ?>

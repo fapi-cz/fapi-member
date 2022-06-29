@@ -2,3 +2,4 @@
 .idea/
 /wp-build/
 /wp-svn/
+/fapi-member/node_modules/

@@ -12,16 +12,16 @@ $currentPageId = $FapiPlugin->getSetting('login_page_id');
 <div class="page wider">
 	<?php echo FapiMemberTools::showErrors(); ?>
     <div class="onePageOther" style="max-width: 36rem">
-        <h3><?php echo __('Stránka pro přihlášení', 'fapi'); ?></h3>
-        <p><?php echo __('Vyberte společnou přihlašovací stránku pro všechny sekce/úrovně.', 'fapi'); ?></p>
+        <h3><?php echo __( 'Stránka pro přihlášení', 'fapi-member' ); ?></h3>
+        <p><?php echo __( 'Vyberte společnou přihlašovací stránku pro všechny sekce/úrovně.', 'fapi-member' ); ?></p>
 
 		<?php echo FapiMemberTools::formStart('set_settings') ?>
         <div class="row submitInline noLabel">
             <select type="text" name="login_page_id" id="login_page_id">
-                <option value=""><?php echo __('-- nevybrána --', 'fapi'); ?></option>
+                <option value=""><?php echo __( '-- nevybrána --', 'fapi-member' ); ?></option>
 				<?php echo FapiMemberTools::allPagesAsOptions($currentPageId) ?>
             </select>
-            <input type="submit" class="primary" value="<?php echo __('Uložit', 'fapi'); ?>">
+            <input type="submit" class="primary" value="<?php echo __( 'Uložit', 'fapi-member' ); ?>">
         </div>
         </form>
     </div>

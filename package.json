@@ -12,8 +12,9 @@
   },
   "keywords": [],
   "author": "Jan Daniel Dolezal <dan@jandaniel.cz>",
-  "license": "UNLICENSED",
+  "license": "GPLv2 or later",
   "dependencies": {
+    "@wordpress/env": "^4.9.0",
     "clipboard": "^2.0.8",
     "copy-webpack-plugin": "^8.0.0",
     "promise-polyfill": "^8.2.0",

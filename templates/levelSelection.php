@@ -5,14 +5,14 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?php echo bloginfo('name') ?><?php echo __('Výběr úrovně', 'fapi'); ?></title>
+    <title><?php echo bloginfo('name') ?><?php echo __( 'Výběr úrovně', 'fapi-member' ); ?></title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
 	<?php wp_head() ?>
 </head>
 <body class="FapiLevelSelection">
 <div id="Wrapper">
-    <h1><?php echo __('Výběr sekce', 'fapi'); ?></h1>
-    <p><?php echo __('Prosím, zvolte jednu ze stránek, kam chcete vstoupit', 'fapi'); ?></p>
+    <h1><?php echo __( 'Výběr sekce', 'fapi-member' ); ?></h1>
+    <p><?php echo __( 'Prosím, zvolte jednu ze stránek, kam chcete vstoupit', 'fapi-member' ); ?></p>
     <div class="pages">
 		<?php
 		$args = [
@@ -47,7 +47,7 @@
 					<?php echo $excerpt ?>
                 </p>
                 <div class="actions">
-                    <a href="<?php echo get_permalink($post) ?>"><?php echo __('Vstoupit', 'fapi'); ?></a>
+                    <a href="<?php echo get_permalink($post) ?>"><?php echo __( 'Vstoupit', 'fapi-member' ); ?></a>
                 </div>
             </div>
 		<?php } ?>

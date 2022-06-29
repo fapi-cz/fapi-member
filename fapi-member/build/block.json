@@ -1,0 +1,20 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "fapi-member/block-extender",
+  "version": "0.1.0",
+  "title": "Fapi Member",
+  "description": "Extends core blocks, enables show and hide block by member section and levels",
+  "attributes": {
+    "message": {
+      "type": "string",
+      "source": "text",
+      "selector": "div"
+    }
+  },
+  "supports": {
+    "html": false
+  },
+  "textdomain": "fapi-member",
+  "editorScript": "file:./index.js"
+}

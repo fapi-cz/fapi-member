@@ -28,10 +28,28 @@ composer-require: ## Run composer outdated only linked dependencies
 composer-outdated: ## Run composer outdated only linked dependencies
 	docker run --rm --interactive --tty --volume "$$PWD:/app" --user "$$(id -u):$$(id -g)" --volume ~/.ssh:/root/.ssh  composer:2 outdated -oD
 
+js-build: ## Build editor
+	docker exec node /bin/sh -c 'yarn build'
+
+js-upgrade: ## Upgrade editor dependencies
+	docker exec node /bin/sh -c 'yarn upgrade'
+
+js-add: ## Add editor dependencies
+	docker exec node /bin/sh -c 'yarn add $(filter-out $@,$(MAKECMDGOALS))'
+
+js-outdated: ## List editor outdated dependencies
+	docker exec node /bin/sh -c 'yarn outdated'
+
+js-cs: ## Check style editor
+	docker exec node /bin/sh -c 'yarn cs'
+
+js-cbf: ## Code base fix editor
+	docker exec node /bin/sh -c 'yarn cbf'
 
 build: ## Builds the plugin source code
 	rm -d -r wp-build
 	mkdir wp-build
+	mkdir wp-build/fapi-member
 	cp fapi-member.php wp-build/fapi-member.php
 	cp uninstall.php wp-build/uninstall.php
 	cp -r src wp-build/src
@@ -39,6 +57,8 @@ build: ## Builds the plugin source code
 	cp -r vendor wp-build/vendor
 	cp -r media wp-build/media
 	cp -r _sources wp-build/_sources
+	cp -r fapi-member/build wp-build/fapi-member/build
+	cp fapi-member/fapi-member.php wp-build/fapi-member/fapi-member.php
 	find wp-build -type f -name '*.scss' -delete
 	find wp-build -type f -name '*.map' -delete
 	find wp-build -type f -name '*.txt' -delete

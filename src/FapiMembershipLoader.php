@@ -137,7 +137,7 @@ final class FapiMembershipLoader {
 	public function loadForUser( $userId, $removeFuture = false ) {
 		$meta = get_user_meta( $userId, self::MEMBERSHIP_META_KEY, true );
 
-		if ( $meta === '' ) {
+		if ( $meta === '' || $meta === false ) {
 			return array();
 		}
 

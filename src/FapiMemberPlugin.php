@@ -69,19 +69,22 @@ final class FapiMemberPlugin {
 
 	const FAPI_MEMBER_PLUGIN_VERSION_KEY = 'fapi_member_plugin_version';
 
+	/** @var FapiLevels|null */
 	private $fapiLevels = null;
 
+	/** @var FapiSanitization|null */
 	private $fapiSanitization = null;
 
+	/** @var FapiUserUtils|null */
 	private $fapiUserUtils = null;
 
+	/** @var FapiMembershipLoader|null */
 	private $fapiMembershipLoader = null;
 
+	/** @var FapiApi|null */
 	private $fapiApi = null;
 
-	/**
-	 * @var FapiClients|null
-	 */
+	/** @var FapiClients|null */
 	private $fapiClients = null;
 
 	public function __construct() {
@@ -138,12 +141,68 @@ final class FapiMemberPlugin {
 		add_image_size( 'level-selection', 300, 164, true );
 		add_filter( 'login_redirect', array( $this, 'loginRedirect' ), 10, 3 );
 		add_filter( 'show_admin_bar', array( $this, 'hideAdminBar' ) );
+
+		// filters block to render by section and levels provided
+		add_filter(
+			'render_block',
+			function ( $blockContent, $block ) {
+
+				if ( ! isset( $block['attrs']['fapiSectionAndLevels'] ) ) {
+					return $blockContent;
+				}
+
+				if ( is_string( $block['attrs']['fapiSectionAndLevels'] ) ) {
+					$sectionAndLevels = json_decode( $block['attrs']['fapiSectionAndLevels'], true );
+				} elseif ( is_array( $block['attrs']['fapiSectionAndLevels'] ) ) {
+					$sectionAndLevels = $block['attrs']['fapiSectionAndLevels'];
+				} else {
+					return $blockContent;
+				}
+
+				if ( $sectionAndLevels === array() ) {
+					return $blockContent;
+				}
+
+				if ( ! isset( $block['attrs']['hasSectionOrLevel'] ) ) {
+					$hasMemberSectionOrLevel = true;
+				} else {
+					$hasMemberSectionOrLevel = (bool) $block['attrs']['hasSectionOrLevel'];
+				}
+
+				$memberships = $this->fapiMembershipLoader()->loadForUser( get_current_user_id() );
+
+				if ( $hasMemberSectionOrLevel ) {
+					foreach ( $memberships as $membership ) {
+						if ( in_array( $membership->level, $sectionAndLevels, true ) ) {
+							return $blockContent;
+						}
+					}
+
+					return '';
+				}
+
+				if ( $memberships === array() ) {
+					return $blockContent;
+				}
+
+				foreach ( $memberships as $membership ) {
+					if ( ! in_array( $membership->level, $sectionAndLevels, true ) ) {
+						return $blockContent;
+					}
+				}
+
+				return '';
+			},
+			15,
+			2
+		);
+
 	}
 
 	public function hideAdminBar( $original ) {
 		$user = wp_get_current_user();
 
-		if ( in_array( 'member', (array) $user->roles ) ) {
+		if ( in_array( 'member', (array) $user->roles, true ) ) {
 			return false;
 		}
 
@@ -161,7 +220,7 @@ final class FapiMemberPlugin {
 
 	public function registerRoles() {
 		if ( get_role( 'member' ) === null ) {
-			add_role( 'member', __( 'Člen', 'fapi' ), get_role( 'subscriber' )->capabilities );
+			add_role( 'member', __( 'Člen', 'fapi-member' ), get_role( 'subscriber' )->capabilities );
 		}
 	}
 
@@ -247,7 +306,7 @@ final class FapiMemberPlugin {
 			'fapi_member_meta_box_id',
 			'FAPI Member',
 			function ( WP_Post $post ) {
-				echo '<p>' . __( 'Přiřazené sekce a úrovně', 'fapi' ) . '</p>';
+				echo '<p>' . __( 'Přiřazené sekce a úrovně', 'fapi-member' ) . '</p>';
 
 				$envelopes         = $this->levels()->loadAsTermEnvelopes();
 				$levelsToPages     = $this->levels()->levelsToPages();
@@ -675,7 +734,7 @@ final class FapiMemberPlugin {
 	}
 
 	protected function createOrProlongMembership( $user, $levelId, $days, $isUnlimited, &$props ) {
-		$fapiMembershipLoader = new FapiMembershipLoader( $this->levels() );
+		$fapiMembershipLoader = $this->fapiMembershipLoader();
 		$memberships          = $fapiMembershipLoader->loadForUser( $user->ID );
 		$membershipKey        = null;
 
@@ -976,10 +1035,10 @@ final class FapiMemberPlugin {
 		if ( ! isset( $_POST[ $nonce ] )
 			|| ! wp_verify_nonce( $_POST[ $nonce ], $nonce )
 		) {
-			wp_die( __( 'Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a odeslat znovu.', 'fapi' ) );
+			wp_die( __( 'Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a odeslat znovu.', 'fapi-member' ) );
 		}
 		if ( ! current_user_can( self::REQUIRED_CAPABILITY ) ) {
-			wp_die( __( 'Nemáte potřebná oprvánění.', 'fapi' ) );
+			wp_die( __( 'Nemáte potřebná oprvánění.', 'fapi-member' ) );
 		}
 	}
 
@@ -1409,7 +1468,7 @@ final class FapiMemberPlugin {
 			'fapiMemberApiEmail',
 			array(
 				'type'         => 'string',
-				'description'  => __( 'Fapi Member - API e-mail', 'fapi' ),
+				'description'  => __( 'Fapi Member - API e-mail', 'fapi-member' ),
 				'show_in_rest' => false,
 				'default'      => null,
 			)
@@ -1419,7 +1478,7 @@ final class FapiMemberPlugin {
 			'fapiMemberApiKey',
 			array(
 				'type'         => 'string',
-				'description'  => __( 'Fapi Member - API key', 'fapi' ),
+				'description'  => __( 'Fapi Member - API key', 'fapi-member' ),
 				'show_in_rest' => false,
 				'default'      => null,
 			)
@@ -1547,7 +1606,7 @@ final class FapiMemberPlugin {
 			},
 			array()
 		);
-		$o[]         = '<h2>' . __( 'Členské sekce', 'fapi' ) . '</h2>';
+		$o[]         = '<h2>' . __( 'Členské sekce', 'fapi-member' ) . '</h2>';
 
 		foreach ( $levels as $lvl ) {
 			if ( $lvl->getTerm()->parent === 0 ) {
@@ -1594,13 +1653,13 @@ final class FapiMemberPlugin {
                     <div class="oneLevel">
                         <input class="check" type="checkbox" name="Levels[%s][check]" id="Levels[%s][check]" %s>
                         <label class="levelName"  for="Levels[%s][check]">%s</label>
-                        <label class="registrationDate" for="Levels[%s][registrationDate]">' . __( 'Datum registrace', 'fapi' ) . '</label>
+                        <label class="registrationDate" for="Levels[%s][registrationDate]">' . __( 'Datum registrace', 'fapi-member' ) . '</label>
                         <input class="registrationDateInput" type="date" name="Levels[%s][registrationDate]" %s>
-                        <label class="registrationTime" for="Levels[%s][registrationTime]">' . __( 'Čas registrace', 'fapi' ) . '</label>
+                        <label class="registrationTime" for="Levels[%s][registrationTime]">' . __( 'Čas registrace', 'fapi-member' ) . '</label>
                         <input class="registrationTimeInput" type="time" name="Levels[%s][registrationTime]" %s>
-                        <label class="membershipUntil" data-for="Levels[%s][membershipUntil]" for="Levels[%s][membershipUntil]">' . __( 'Členství do', 'fapi' ) . '</label>
+                        <label class="membershipUntil" data-for="Levels[%s][membershipUntil]" for="Levels[%s][membershipUntil]">' . __( 'Členství do', 'fapi-member' ) . '</label>
                         <input class="membershipUntilInput" type="date" name="Levels[%s][membershipUntil]" %s>
-                        <label class="isUnlimited" for="Levels[%s][isUnlimited]">' . __( 'Bez expirace', 'fapi' ) . '</label>
+                        <label class="isUnlimited" for="Levels[%s][isUnlimited]">' . __( 'Bez expirace', 'fapi-member' ) . '</label>
                         <input class="isUnlimitedInput" type="checkbox" name="Levels[%s][isUnlimited]" %s>
                     </div>
                     ',
@@ -1646,20 +1705,20 @@ final class FapiMemberPlugin {
             <thead>
             <tr>
                 <td id="cb" class="manage-column column-cb check-column">
-                    <label class="screen-reader-text" for="Levels[' . $level->term_id . '][check]">' . __( 'Vybrat', 'fapi' ) . '</label>
+                    <label class="screen-reader-text" for="Levels[' . $level->term_id . '][check]">' . __( 'Vybrat', 'fapi-member' ) . '</label>
                     <input id="Levels[' . $level->term_id . '][check]" name="Levels[' . $level->term_id . '][check]" type="checkbox" ' . $checked . '>
                 </td>
                 <th scope="col" id="title" class="manage-column column-title column-primary">
                     <span>' . $level->name . '</span>
                 </th>
                 <th scope="col" class="manage-column fields">
-                    <span class="a">' . __( 'Datum registrace', 'fapi' ) . '</span>
+                    <span class="a">' . __( 'Datum registrace', 'fapi-member' ) . '</span>
                     <span class="b">
                     <input type="date" name="Levels[' . $level->term_id . '][registrationDate]" ' . $regDate . '>
                     </span>
                 </th>
                 <th scope="col" class="manage-column fields">
-                    <span class="a">' . __( 'Čas registrace', 'fapi' ) . '</span>
+                    <span class="a">' . __( 'Čas registrace', 'fapi-member' ) . '</span>
                     <span class="b">
                     <input type="time" name="Levels[' . $level->term_id . '][registrationTime]" ' . $regTime . '>
                     </span>
@@ -1671,7 +1730,7 @@ final class FapiMemberPlugin {
                     </span>
                 </th>
                 <th scope="col" class="manage-column fields">
-                    <span class="a">' . __( 'Bez expirace', 'fapi' ) . '</span>
+                    <span class="a">' . __( 'Bez expirace', 'fapi-member' ) . '</span>
                     <span class="b">
                     <input class="isUnlimitedInput" type="checkbox" name="Levels[' . $level->term_id . '][isUnlimited]" ' . $isUnlimited . '>
                     </span>

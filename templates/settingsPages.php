@@ -8,7 +8,7 @@ echo FapiMemberTools::heading();
 <div class="page both">
     <div class="withSections">
         <div class="a">
-            <h3><?php echo __('Členské sekce/úrovně', 'fapi'); ?></h3>
+            <h3><?php echo __( 'Členské sekce/úrovně', 'fapi-member' ); ?></h3>
 			<?php echo FapiMemberTools::showErrors(); ?>
 			<?php echo FapiMemberTools::levelsSelectionNonJs() ?>
         </div>
@@ -17,7 +17,7 @@ echo FapiMemberTools::heading();
 				<?php
 				$level = (isset($_GET['level'])) ? FapiMemberTools::sanitizeLevelId($_GET['level']) : null;
 				if ($level === null) {
-					echo '<p>' . __('Zvolte prosím sekci/úroveň vlevo.', 'fapi') . '</p>';
+					echo '<p>' . __( 'Zvolte prosím sekci/úroveň vlevo.', 'fapi-member' ) . '</p>';
 				} else {
 					global $FapiPlugin;
 					$fapiLevels = $FapiPlugin->levels();
@@ -29,19 +29,19 @@ echo FapiMemberTools::heading();
 
 					$pages = [
 						'login' => [
-							't' => __('Přihlašovací stránka', 'fapi'),
-							'd' => __('Vyberte stránku, kde je umístěn přihlašovací formulář.', 'fapi') .
-								' <br> ' . __('Stránka nesmí být zařazena jako členská.', 'fapi'),
+							't' => __( 'Přihlašovací stránka', 'fapi-member' ),
+							'd' => __( 'Vyberte stránku, kde je umístěn přihlašovací formulář.', 'fapi-member' ) .
+								' <br> ' . __( 'Stránka nesmí být zařazena jako členská.', 'fapi-member' ),
 						],
 						'afterLogin' => [
-							't' => __('Stránka po přihlášení', 'fapi'),
+							't' => __( 'Stránka po přihlášení', 'fapi-member' ),
 							'd' => __('Vyberte stránku, která se zobrazí uživatelům po přihlášení do členské 
                                         sekce nebo úrovně.', 'fapi'),
 						],
 						'noAccess' => [
-							't' => __('Stránka, když uživatel nemá přístup', 'fapi'),
+							't' => __( 'Stránka, když uživatel nemá přístup', 'fapi-member' ),
 							'd' => __('Vyberte stránku, která se zobrazí uživateli, pokud nemá přístup na uzamčenou stránku.') . ' <br> ' .
-								__('Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství.', 'fapi'),
+								__( 'Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství.', 'fapi-member' ),
 						],
 					];
 
@@ -63,12 +63,12 @@ echo FapiMemberTools::heading();
 									if ($defaultLoginPageId && $key === 'login') {
 										echo '<option value="">-- ' . FapiMemberTools::getPageTitle($defaultLoginPageId) . ' --</option>';
 									} else {
-										echo '<option value="">' . __('-- nevybrána --', 'fapi') . '</option>';
+										echo '<option value="">' . __( '-- nevybrána --', 'fapi-member' ) . '</option>';
 									}
 									?>
 									<?php echo FapiMemberTools::allPagesAsOptions($currentPageId) ?>
                                 </select>
-                                <input type="submit" class="primary" value="<?php echo __('Uložit', 'fapi'); ?>">
+                                <input type="submit" class="primary" value="<?php echo __( 'Uložit', 'fapi-member' ); ?>">
                             </div>
                             </form>
                         </div>

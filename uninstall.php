@@ -14,6 +14,7 @@ $options = [
 	FapiMemberPlugin::OPTION_KEY_SETTINGS,
 	FapiMemberPlugin::OPTION_KEY_API_USER,
 	FapiMemberPlugin::OPTION_KEY_API_KEY,
+	FapiMemberPlugin::OPTION_KEY_API_CREDENTIALS
 ];
 
 foreach ($options as $o) {
