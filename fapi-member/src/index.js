@@ -161,10 +161,15 @@ addFilter(
 );
 
 const addFapiMemberExtraProps = ( saveElementProps, blockType, attributes ) => {
-	saveElementProps.hasSectionOrLevel = attributes.hasSectionOrLevel;
-	saveElementProps.fapiSectionAndLevels = JSON.stringify(
-		attributes.fapiSectionAndLevels
-	);
+	if ( saveElementProps.hasSectionOrLevel ) {
+		saveElementProps.hasSectionOrLevel = attributes.hasSectionOrLevel;
+	}
+
+	if ( saveElementProps.fapiSectionAndLevels ) {
+		saveElementProps.fapiSectionAndLevels = JSON.stringify(
+			attributes.fapiSectionAndLevels
+		);
+	}
 
 	return saveElementProps;
 };
