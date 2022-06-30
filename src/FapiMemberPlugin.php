@@ -292,6 +292,17 @@ final class FapiMemberPlugin {
 				},
 			)
 		);
+		register_rest_route(
+			'fapi/v1',
+			'/list-forms',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'handleApiListFormsCallback' ),
+				'permission_callback' => function () {
+					return true;
+				},
+			)
+		);
 	}
 
 	/**
@@ -976,6 +987,21 @@ final class FapiMemberPlugin {
 		}
 
 		wp_send_json_success();
+	}
+
+	public function handleApiListFormsCallback( WP_REST_Request $request ) {
+
+		$forms = $this->getFapiClients()->listForms();
+		$out   = array();
+
+		foreach ( $forms as $form ) {
+			$out[] = array(
+				'label' => $form['name'],
+				'value' => $form['path'],
+			);
+		}
+
+		wp_send_json( $out );
 	}
 
 	public function handleApiCredentialsSubmit() {

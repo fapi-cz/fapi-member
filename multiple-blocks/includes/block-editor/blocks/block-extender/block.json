@@ -3,18 +3,13 @@
 	"apiVersion": 2,
 	"name": "fapi-member/block-extender",
 	"version": "0.1.1",
-	"title": "Fapi Member",
+	"title": "FAPI Member",
 	"description": "Extends core blocks, enables show and hide block by member section and levels",
-	"attributes": {
-		"message": {
-			"type": "string",
-			"source": "text",
-			"selector": "div"
-		}
-	},
 	"supports": {
 		"html": false
 	},
 	"textdomain": "fapi-member",
-	"editorScript": "file:./index.js"
+	"editorScript": "file:../../../../build/block-extender.js",
+	"editorStyle": "file:../../../../build/block-extender.css",
+	"style": "file:../../../../build/block-extender.css"
 }

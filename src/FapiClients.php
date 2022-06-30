@@ -89,6 +89,18 @@ final class FapiClients {
 		return $credentialsOk;
 	}
 
+	public function listForms() {
+		foreach ( $this->fapiApis as $fapiApi ) {
+			$response = $fapiApi->getForms();
+
+			if ( is_array( $response ) ) {
+				return $response;
+			}
+		}
+
+		return false;
+	}
+
 	/**
 	 * @return string
 	 */

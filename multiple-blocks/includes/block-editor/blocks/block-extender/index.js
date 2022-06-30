@@ -111,7 +111,10 @@ const withFapiSectionAndLevels = createHigherOrderComponent( ( BlockEdit ) => {
 						initialOpen={ true }
 					>
 						<RadioControl
-							label={ __( 'Zobrazit pokud návštěvník', 'fapi-member' ) }
+							label={ __(
+								'Zobrazit pokud návštěvník',
+								'fapi-member'
+							) }
 							help={ __(
 								'Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo úrovni nebo všem návštěvníkům.',
 								'fapi-member'

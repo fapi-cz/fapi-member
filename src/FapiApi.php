@@ -225,6 +225,31 @@ final class FapiApi {
 		return json_decode( $response['body'], true );
 	}
 
+	public function getForms() {
+		$response = wp_remote_request(
+			sprintf( '%sforms', $this->apiUrl ),
+			array(
+				'method'  => 'GET',
+				'headers' => $this->createHeaders(),
+				'timeout' => 30,
+			)
+		);
+
+		if ( $response instanceof WP_Error || $response['response']['code'] !== 200 ) {
+			$this->lastError = $this->findErrorMessage( $response );
+
+			return false;
+		}
+
+		$data = json_decode( $response['body'], true );
+
+		if ( isset( $data['forms'] ) ) {
+			return $data['forms'];
+		}
+
+		return null;
+	}
+
 	/**
 	 * @param array<mixed> $invoice
 	 * @param int          $time
