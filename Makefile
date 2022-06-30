@@ -49,7 +49,7 @@ js-cbf: ## Code base fix editor
 build: ## Builds the plugin source code
 	rm -d -r wp-build
 	mkdir wp-build
-	mkdir wp-build/fapi-member
+	mkdir wp-build/multiple-blocks
 	cp fapi-member.php wp-build/fapi-member.php
 	cp uninstall.php wp-build/uninstall.php
 	cp -r src wp-build/src
@@ -57,8 +57,8 @@ build: ## Builds the plugin source code
 	cp -r vendor wp-build/vendor
 	cp -r media wp-build/media
 	cp -r _sources wp-build/_sources
-	cp -r fapi-member/build wp-build/fapi-member/build
-	cp fapi-member/fapi-member.php wp-build/fapi-member/fapi-member.php
+	cp -r multiple-blocks/build wp-build/multiple-blocks/build
+	cp multiple-blocks/multiple-blocks.php wp-build/multiple-blocks/multiple-blocks.php
 	find wp-build -type f -name '*.scss' -delete
 	find wp-build -type f -name '*.map' -delete
 	find wp-build -type f -name '*.txt' -delete
