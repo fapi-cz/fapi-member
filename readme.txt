@@ -23,6 +23,9 @@ Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org
 
 == Changelog ==
 
+= 1.8.19 =
+* Vylepšení skrývání bloků, přidaná možnost zobrazit všem návštěvníkům
+
 = 1.8.18 =
 * Oprava nekompatibilního kódu na produkci
 

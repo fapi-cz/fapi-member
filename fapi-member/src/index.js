@@ -6,19 +6,7 @@ import { InspectorControls } from '@wordpress/block-editor';
 const { PanelBody, CheckboxControl, RadioControl } = wp.components;
 import apiFetch from '@wordpress/api-fetch';
 
-const allowedBlocks = [
-	'core/paragraph',
-	'core/image',
-	'core/video',
-	'core/heading',
-	'core/list',
-	'core/galery',
-	'core/audio',
-	'core/buttons',
-	'core/column',
-	'core/columns',
-];
-
+const disabledBlocks = [];
 let sectionAndLevels = [];
 
 const controller =
@@ -46,7 +34,7 @@ const addFapiSectionAndLevels = ( settings ) => {
 		return settings;
 	}
 
-	if ( ! allowedBlocks.includes( settings.name ) ) {
+	if ( disabledBlocks.includes( settings.name ) ) {
 		return settings;
 	}
 
@@ -58,7 +46,7 @@ const addFapiSectionAndLevels = ( settings ) => {
 		},
 		hasSectionOrLevel: {
 			type: 'string',
-			default: '1',
+			default: '',
 		},
 	};
 
@@ -73,7 +61,7 @@ addFilter(
 
 const withFapiSectionAndLevels = createHigherOrderComponent( ( BlockEdit ) => {
 	return ( props ) => {
-		if ( ! allowedBlocks.includes( props.name ) ) {
+		if ( disabledBlocks.includes( props.name ) ) {
 			return <BlockEdit { ...props } />;
 		}
 
@@ -123,26 +111,33 @@ const withFapiSectionAndLevels = createHigherOrderComponent( ( BlockEdit ) => {
 						initialOpen={ true }
 					>
 						<RadioControl
-							label={ __( 'Zobrazit pokud člen', 'fapi-member' ) }
+							label={ __( 'Zobrazit pokud návštěvník', 'fapi-member' ) }
 							help={ __(
-								'Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo úrovni.',
+								'Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo úrovni nebo všem návštěvníkům.',
 								'fapi-member'
 							) }
 							selected={ option }
 							options={ [
 								{
 									label: __(
-										'je v sekci nebo úrovní',
+										'je člen sekce/úrovně',
 										'fapi-member'
 									),
 									value: '1',
 								},
 								{
 									label: __(
-										'není v sekci nebo úrovni',
+										'není členem sekce/úrovně',
 										'fapi-member'
 									),
 									value: '0',
+								},
+								{
+									label: __(
+										'zobrazit všem návštěvníkům (vybrané sekce a urovně se ignorují)',
+										'fapi-member'
+									),
+									value: '',
 								},
 							] }
 							onChange={ ( value ) => {
@@ -185,7 +180,7 @@ addFilter(
 );
 
 const addFapiMemberExtraProps = ( saveElementProps, blockType, attributes ) => {
-	if ( ! allowedBlocks.includes( blockType ) ) {
+	if ( disabledBlocks.includes( blockType ) ) {
 		return saveElementProps;
 	}
 

@@ -1,6 +1,6 @@
 {
 	"name": "fapi-member",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Extends core blocks, enables show and hide block by member section and levels",
 	"author": "FAPI Business s.r.o.",
 	"license": "GPLv2 or later",

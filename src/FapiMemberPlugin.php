@@ -146,6 +146,9 @@ final class FapiMemberPlugin {
 		add_filter(
 			'render_block',
 			function ( $blockContent, $block ) {
+				if ( ! isset( $block['attrs']['hasSectionOrLevel'] ) ) {
+					return $blockContent;
+				}
 
 				if ( ! isset( $block['attrs']['fapiSectionAndLevels'] ) ) {
 					return $blockContent;
@@ -163,15 +166,10 @@ final class FapiMemberPlugin {
 					return $blockContent;
 				}
 
-				if ( ! isset( $block['attrs']['hasSectionOrLevel'] ) ) {
-					$hasMemberSectionOrLevel = true;
-				} else {
-					$hasMemberSectionOrLevel = (bool) $block['attrs']['hasSectionOrLevel'];
-				}
+				$hasMemberSectionOrLevel = (string) $block['attrs']['hasSectionOrLevel'];
+				$memberships             = $this->fapiMembershipLoader()->loadForUser( get_current_user_id() );
 
-				$memberships = $this->fapiMembershipLoader()->loadForUser( get_current_user_id() );
-
-				if ( $hasMemberSectionOrLevel ) {
+				if ( $hasMemberSectionOrLevel === '1' ) {
 					foreach ( $memberships as $membership ) {
 						if ( in_array( $membership->level, $sectionAndLevels, true ) ) {
 							return $blockContent;
