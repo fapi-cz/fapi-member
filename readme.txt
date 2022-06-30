@@ -5,7 +5,7 @@ Requires at least: 5.7
 Tested up to: 5.9
 Requires PHP: 5.6
 License: GPLv2 or later
-Stable tag: 1.8.18
+Stable tag: 1.8.20
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -22,6 +22,9 @@ Máte problém s nastavením FAPI Memberu. Obrátit se můžete na naší podpor
 Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org/plugins/fapi-member/#reviews).
 
 == Changelog ==
+
+= 1.8.20 =
+* Přidána možnost nastavit společnou stránku pro nástěnku, tedy stránku, kam se člen dostane po přihlášení.
 
 = 1.8.19 =
 * Vylepšení skrývání bloků, přidaná možnost zobrazit všem návštěvníkům

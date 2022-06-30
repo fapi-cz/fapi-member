@@ -34,9 +34,9 @@ echo FapiMemberTools::heading();
 								' <br> ' . __( 'Stránka nesmí být zařazena jako členská.', 'fapi-member' ),
 						],
 						'afterLogin' => [
-							't' => __( 'Stránka po přihlášení', 'fapi-member' ),
+							't' => __( 'Nástěnka', 'fapi-member' ),
 							'd' => __('Vyberte stránku, která se zobrazí uživatelům po přihlášení do členské 
-                                        sekce nebo úrovně.', 'fapi'),
+                                        sekce nebo úrovně, tzn. nástěnka.', 'fapi'),
 						],
 						'noAccess' => [
 							't' => __( 'Stránka, když uživatel nemá přístup', 'fapi-member' ),

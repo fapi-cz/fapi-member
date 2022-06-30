@@ -1443,20 +1443,40 @@ final class FapiMemberPlugin {
 			)
 		);
 
+		$dashboardPageId = $this->sanitization()->loadPostValue(
+			'dashboard_page_id',
+			array(
+				$this->sanitization(),
+				FapiSanitization::VALID_PAGE_ID,
+			)
+		);
+
 		if ( $loginPageId === null ) {
 			unset( $currentSettings['login_page_id'] );
-			update_option( self::OPTION_KEY_SETTINGS, $currentSettings );
-			$this->redirect( 'settingsSettings', 'settingsSettingsUpdated' );
+		} else {
+			$page = get_post( $loginPageId );
+
+			if ( $page === null ) {
+				$this->redirect( 'settingsSettings', 'settingsSettingsNoValidPage' );
+			}
+
+			$currentSettings['login_page_id'] = $loginPageId;
 		}
 
-		$page = get_post( $loginPageId );
+		if ( $dashboardPageId === null ) {
+			unset( $currentSettings['dashboard_page_id'] );
+		} else {
+			$page = get_post( $dashboardPageId );
 
-		if ( $page === null ) {
-			$this->redirect( 'settingsSettings', 'settingsSettingsNoValidPage' );
+			if ( $page === null ) {
+				$this->redirect( 'settingsSettings', 'settingsSettingsNoValidPage' );
+			}
+
+			$currentSettings['dashboard_page_id'] = $dashboardPageId;
 		}
 
-		$currentSettings['login_page_id'] = $loginPageId;
 		update_option( self::OPTION_KEY_SETTINGS, $currentSettings );
+
 		$this->redirect( 'settingsSettings', 'settingsSettingsUpdated' );
 	}
 
@@ -1881,9 +1901,23 @@ final class FapiMemberPlugin {
 			},
 			$mem
 		);
+
+		$dashboardPageId     = $this->getSetting( 'dashboard_page_id' );
+		$page                = get_post( $dashboardPageId );
+		$defaultDashboardUrl = null;
+
+		if ( $page !== null ) {
+			$defaultDashboardUrl = get_permalink( $page );
+		}
+
 		$pages = array_unique( array_filter( $pages ) );
 
 		if ( count( $pages ) === 0 ) {
+
+			if ( $defaultDashboardUrl !== null ) {
+				wp_redirect( $defaultDashboardUrl );
+			}
+
 			// no afterLogin page set anywhere
 			wp_redirect( get_site_url() );
 			exit;
@@ -1897,6 +1931,11 @@ final class FapiMemberPlugin {
 
 			exit;
 		}
+
+		if ( $defaultDashboardUrl !== null ) {
+			wp_redirect( $defaultDashboardUrl );
+		}
+
 		define( 'FAPI_SHOWING_LEVEL_SELECTON', 1 );
 		include __DIR__ . '/../templates/levelSelection.php';
 
