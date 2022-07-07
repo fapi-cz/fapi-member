@@ -5,6 +5,7 @@ namespace FapiMember;
 use DateTimeImmutable;
 use DateTimeInterface;
 use FapiMember\Email\EmailShortCodesReplacer;
+use FapiMember\Utils\DisplayHelper;
 use FapiMember\Utils\Random;
 use FapiMember\Utils\SecurityValidator;
 use WP_Error;
@@ -154,39 +155,8 @@ final class FapiMemberPlugin {
 					return $blockContent;
 				}
 
-				if ( is_string( $block['attrs']['fapiSectionAndLevels'] ) ) {
-					$sectionAndLevels = json_decode( $block['attrs']['fapiSectionAndLevels'], true );
-				} elseif ( is_array( $block['attrs']['fapiSectionAndLevels'] ) ) {
-					$sectionAndLevels = $block['attrs']['fapiSectionAndLevels'];
-				} else {
+				if ( DisplayHelper::shouldContentBeRendered( (string) $block['attrs']['hasSectionOrLevel'], $block['attrs']['fapiSectionAndLevels'] ) ) {
 					return $blockContent;
-				}
-
-				if ( $sectionAndLevels === array() ) {
-					return $blockContent;
-				}
-
-				$hasMemberSectionOrLevel = (string) $block['attrs']['hasSectionOrLevel'];
-				$memberships             = $this->fapiMembershipLoader()->loadForUser( get_current_user_id() );
-
-				if ( $hasMemberSectionOrLevel === '1' ) {
-					foreach ( $memberships as $membership ) {
-						if ( in_array( $membership->level, $sectionAndLevels, true ) ) {
-							return $blockContent;
-						}
-					}
-
-					return '';
-				}
-
-				if ( $memberships === array() ) {
-					return $blockContent;
-				}
-
-				foreach ( $memberships as $membership ) {
-					if ( ! in_array( $membership->level, $sectionAndLevels, true ) ) {
-						return $blockContent;
-					}
 				}
 
 				return '';
@@ -800,13 +770,13 @@ final class FapiMemberPlugin {
 				$props['membership_level_added_is_section'] = false;
 			}
 
-			$registered = new DateTimeImmutable();
+			$registered = new DateTimeImmutable( 'now', wp_timezone() );
 
 			if ( $isUnlimited ) {
 				$props['membership_level_added_unlimited'] = true;
 				$until                                     = null;
 			} else {
-				$until                                 = new DateTimeImmutable();
+				$until                                 = new DateTimeImmutable( 'now', wp_timezone() );
 				$until                                 = $until->modify( sprintf( '+ %s days', $days ) );
 				$props['membership_level_added_until'] = $until;
 				$props['membership_level_added_days']  = $days;
@@ -1118,17 +1088,19 @@ final class FapiMemberPlugin {
 				) {
 					$registered = DateTimeImmutable::createFromFormat(
 						'Y-m-d\TH:i',
-						$inputs['registrationDate'] . 'T' . $inputs['registrationTime']
+						$inputs['registrationDate'] . 'T' . $inputs['registrationTime'],
+						wp_timezone()
 					);
 
 					if ( $registered === false ) {
-						$registered = new DateTimeImmutable( 'now' );
+						$registered = new DateTimeImmutable( 'now', wp_timezone() );
 					}
 
 					if ( isset( $inputs['membershipUntil'] ) && $inputs['membershipUntil'] !== '' ) {
 						$until = DateTimeImmutable::createFromFormat(
 							'Y-m-d\TH:i:s',
-							$inputs['membershipUntil'] . 'T23:59:59'
+							$inputs['membershipUntil'] . 'T23:59:59',
+							wp_timezone()
 						);
 					} else {
 						$until = null;
@@ -1190,7 +1162,7 @@ final class FapiMemberPlugin {
 
 	protected function sanitizeDate( $dateStr ) {
 		$f = 'Y-m-d';
-		$d = DateTimeImmutable::createFromFormat( $f, $dateStr );
+		$d = DateTimeImmutable::createFromFormat( $f, $dateStr, wp_timezone() );
 		if ( $d === false ) {
 			return null;
 		}

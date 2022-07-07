@@ -2,7 +2,7 @@
 
 namespace FapiMember\Utils;
 
-class SecurityValidator {
+final class SecurityValidator {
 
 
 	/**

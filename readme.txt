@@ -5,7 +5,7 @@ Requires at least: 5.7
 Tested up to: 5.9
 Requires PHP: 5.6
 License: GPLv2 or later
-Stable tag: 1.8.21
+Stable tag: 1.9.0
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -22,6 +22,12 @@ Máte problém s nastavením FAPI Memberu. Obrátit se můžete na naší podpor
 Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org/plugins/fapi-member/#reviews).
 
 == Changelog ==
+
+= 1.9.0 =
+* Přidaná podpora teaseru pro Elementor.
+* Přidán widget prodejního formuláře do Elementoru.
+* Čas registrace se nyní zakládá v časovém pásmu GTM+2 místo UTC+0.
+* Oprava chyby při konkurečním vytváření člena v členské sekci.
 
 = 1.8.21 =
 * Přidáná nová komponenta FAPI formuláře, nyní se dá vkládat prodejní formulář jednoduše pomocí komponenty.

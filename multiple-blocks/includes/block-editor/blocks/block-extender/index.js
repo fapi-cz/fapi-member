@@ -66,7 +66,7 @@ const withFapiSectionAndLevels = createHigherOrderComponent( ( BlockEdit ) => {
 		}
 
 		if ( ! props.attributes.hasOwnProperty( 'hasSectionOrLevel' ) ) {
-			props.attributes.hasSectionOrLevel = '1';
+			props.attributes.hasSectionOrLevel = '';
 		}
 
 		if ( ! props.attributes.hasOwnProperty( 'fapiSectionAndLevels' ) ) {

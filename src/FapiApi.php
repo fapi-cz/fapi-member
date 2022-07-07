@@ -2,6 +2,7 @@
 
 namespace FapiMember;
 
+use FapiMember\Utils\SecurityValidator;
 use WP_Error;
 use function json_decode;
 use function json_encode;
@@ -257,20 +258,7 @@ final class FapiApi {
 	 * @return bool
 	 */
 	public function isInvoiceSecurityValid( $invoice, $time, $expectedSecurity ) {
-		$id                = isset( $invoice['id'] ) ? (int) $invoice['id'] : '';
-		$number            = isset( $invoice['number'] ) ? (int) $invoice['number'] : '';
-		$itemsSecurityHash = '';
-		$items             = array();
-
-		if ( isset( $invoice['items'] ) && is_array( $invoice['items'] ) ) {
-			$items = $invoice['items'];
-		}
-
-		foreach ( $items as $item ) {
-			$itemsSecurityHash .= md5( $item['id'] . $item['name'] );
-		}
-
-		return $expectedSecurity === sha1( $time . $id . $number . $itemsSecurityHash );
+		return SecurityValidator::isInvoiceSecurityValid( $invoice, $time, $expectedSecurity );
 	}
 
 	/**
@@ -281,13 +269,7 @@ final class FapiApi {
 	 * @return bool
 	 */
 	public function isVoucherSecurityValid( $voucher, $itemTemplate, $time, $expectedSecurity ) {
-		$voucherId        = isset( $voucher['id'] ) ? $voucher['id'] : '';
-		$voucherCode      = isset( $voucher['code'] ) ? $voucher['code'] : '';
-		$itemTemplateId   = isset( $itemTemplate['id'] ) ? $itemTemplate['id'] : '';
-		$itemTemplateCode = isset( $itemTemplate['code'] ) ? $itemTemplate['code'] : '';
-		$itemSecurityHash = md5( $itemTemplateId . $itemTemplateCode );
-
-		return $expectedSecurity === sha1( $time . $voucherId . $voucherCode . $itemSecurityHash );
+		return SecurityValidator::isVoucherSecurityValid( $voucher, $itemTemplate, $time, $expectedSecurity );
 	}
 
 }

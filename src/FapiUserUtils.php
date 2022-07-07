@@ -16,7 +16,7 @@ final class FapiUserUtils {
 	 * @param array<mixed> $props
 	 * @return WP_User|WP_Error
 	 */
-	public function getOrCreateUser( $email, &$props ) {
+	public function getOrCreateUser( $email, &$props, $retryCount = 0 ) {
 		$user = get_user_by( 'email', $email );
 
 		if ( $user === false ) {
@@ -39,6 +39,10 @@ final class FapiUserUtils {
 				'user_email'    => $email,
 			)
 		);
+
+		if ( $retryCount < 5 && $userId instanceof WP_Error ) {
+			return self::getOrCreateUser( $email, $props, ++$retryCount );
+		}
 
 		$props['email']    = $email;
 		$props['login']    = $email;

@@ -269,10 +269,10 @@ final class FapiMembershipLoader {
 			$memberships[] = new FapiMembership(
 				$item['level'],
 				isset( $item['registered'] )
-					? DateTimeImmutable::createFromFormat( FapiMemberPlugin::DATE_TIME_FORMAT, $item['registered'] )
+					? DateTimeImmutable::createFromFormat( FapiMemberPlugin::DATE_TIME_FORMAT, $item['registered'], wp_timezone() )
 					: null,
 				isset( $item['until'] )
-					? DateTimeImmutable::createFromFormat( FapiMemberPlugin::DATE_TIME_FORMAT, $item['until'] )
+					? DateTimeImmutable::createFromFormat( FapiMemberPlugin::DATE_TIME_FORMAT, $item['until'], wp_timezone() )
 					: null,
 				(bool) $item['isUnlimited']
 			);

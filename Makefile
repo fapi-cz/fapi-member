@@ -19,6 +19,9 @@ composer-wpcs-update: ## Run composer update
 composer-install: ## Run composer update
 	docker run --rm --interactive --tty --volume "$$PWD:/app" --user "$$(id -u):$$(id -g)" --volume ~/.ssh:/root/.ssh  composer:2 install --ignore-platform-reqs
 
+composer-dump: ## Run composer dump auto load
+	docker run --rm --interactive --tty --volume "$$PWD:/app" --user "$$(id -u):$$(id -g)" --volume ~/.ssh:/root/.ssh  composer:2 dump-autoload --ignore-platform-reqs
+
 composer-update: ## Run composer update
 	docker run --rm --interactive --tty --volume "$$PWD:/app" --user "$$(id -u):$$(id -g)" --volume ~/.ssh:/root/.ssh  composer:2 update --ignore-platform-reqs
 
