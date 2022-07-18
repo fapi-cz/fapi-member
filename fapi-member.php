@@ -22,6 +22,6 @@ require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/multiple-blocks/multiple-blocks.php';
 require __DIR__ . '/src/Elementor/fapi-member.php';
 
-define('FAPI_MEMBER_PLUGIN_VERSION', '1.9.1');
+define('FAPI_MEMBER_PLUGIN_VERSION', '1.9.2');
 
 $FapiPlugin = new FapiMemberPlugin();
