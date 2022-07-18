@@ -8,8 +8,8 @@ use function define;
  * Plugin Name:       FAPI Member
  * Plugin URI:        https://fapi.cz/
  * Description:       Plugin FAPI pro jednoduchou správu členských sekcí na webu.
- * Version:           1.9.1
- * Requires at least: 5.7
+ * Version:           1.9.2
+ * Requires at least: 5.8
  * Requires PHP:      5.6
  * Author:            FAPI Business s.r.o.
  * Author URI:        https://fapi.cz/

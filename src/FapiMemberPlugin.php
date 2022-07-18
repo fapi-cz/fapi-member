@@ -491,17 +491,17 @@ final class FapiMemberPlugin {
 		}
 
 		if ( isset( $data['voucher'] ) ) {
-			$email = $this->getEmailFromValidVoucher( $data );
+			$userData = $this->getEmailFromValidVoucher( $data );
 		} elseif ( isset( $data['id'] ) ) {
-			$email = $this->getEmailFromPaidInvoice( $data );
+			$userData = $this->getEmailFromPaidInvoice( $data );
 		} elseif ( isset( $data['token'] ) ) {
-			$email = $this->getEmailFromBodyWithValidToken( $data );
+			$userData = $this->getEmailFromBodyWithValidToken( $data );
 		} else {
 			$this->callbackError( 'Invalid notification received. Missing voucher, id or token.' );
 		}
 
-		if ( ! is_email( $email ) ) {
-			$this->callbackError( 'Invalid email provided. Email given: ' . $email );
+		if ( ! is_email( $userData['email'] ) ) {
+			$this->callbackError( 'Invalid email provided. Email given: ' . $userData['email'] );
 		}
 
 		$props = array();
@@ -514,7 +514,7 @@ final class FapiMemberPlugin {
 
 		$isUnlimited = $days === false;
 
-		$user = $this->userUtils()->getOrCreateUser( $email, $props );
+		$user = $this->userUtils()->getOrCreateUser( $userData, $props );
 
 		if ( $user instanceof WP_Error ) {
 			$this->callbackError( 'Failed to create user. Last errors: ' . json_encode( $user->get_error_messages() ) );
@@ -568,7 +568,7 @@ final class FapiMemberPlugin {
 
 	/**
 	 * @param array<mixed> $data
-	 * @return string
+	 * @return array<mixed>
 	 */
 	private function getEmailFromValidVoucher( array $data ) {
 		$voucherId               = $data['voucher'];
@@ -594,7 +594,7 @@ final class FapiMemberPlugin {
 			$this->callbackError( 'Cannot find applicant email in API response.' );
 		}
 
-		return $voucher['applicant']['email'];
+		return array( 'email' => $voucher['applicant']['email'] );
 	}
 
 	/**
@@ -654,7 +654,7 @@ final class FapiMemberPlugin {
 
 	/**
 	 * @param array<mixed> $data
-	 * @return string
+	 * @return array<mixed>
 	 */
 	private function getEmailFromPaidInvoice( array $data ) {
 		$invoice = $this->getFapiClients()->getInvoice( $data['id'] );
@@ -675,12 +675,16 @@ final class FapiMemberPlugin {
 			$this->callbackError( 'Cannot find customer email in API response.' );
 		}
 
-		return $invoice['customer']['email'];
+		return array(
+			'email'      => $invoice['customer']['email'],
+			'first_name' => isset( $invoice['customer']['first_name'] ) ? $invoice['customer']['first_name'] : null,
+			'last_name'  => isset( $invoice['customer']['last_name'] ) ? $invoice['customer']['last_name'] : null,
+		);
 	}
 
 	/**
 	 * @param array<mixed> $data
-	 * @return string
+	 * @return array<mixed>
 	 */
 	private function getEmailFromBodyWithValidToken( array $data ) {
 		$token = get_option( self::OPTION_KEY_TOKEN, null );
@@ -693,7 +697,11 @@ final class FapiMemberPlugin {
 			$this->callbackError( 'Parameter email is missing.' );
 		}
 
-		return $data['email'];
+		return array(
+			'email'      => $data['email'],
+			'first_name' => isset( $data['first_name'] ) ? $data['first_name'] : null,
+			'last_name'  => isset( $data['last_name'] ) ? $data['last_name'] : null,
+		);
 	}
 
 	public function userUtils() {
@@ -1578,7 +1586,7 @@ final class FapiMemberPlugin {
 
 		wp_enqueue_style( 'fapi-member-public-style' );
 
-		if ( defined( 'FAPI_SHOWING_LEVEL_SELECTON' ) ) {
+		if ( defined( 'FAPI_SHOWING_LEVEL_SELECTION' ) ) {
 			wp_register_style(
 				'fapi-member-public-levelselection-font',
 				'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap'
@@ -1895,7 +1903,7 @@ final class FapiMemberPlugin {
 			function ( $m ) {
 				$p = $this->levels()->loadOtherPagesForLevel( $m->level, true );
 
-				return ( isset( $p['afterLogin'] ) ) ? $p['afterLogin'] : null;
+				return isset( $p['afterLogin'] ) ? $p['afterLogin'] : null;
 			},
 			$mem
 		);
@@ -1914,10 +1922,13 @@ final class FapiMemberPlugin {
 
 			if ( $defaultDashboardUrl !== null ) {
 				wp_redirect( $defaultDashboardUrl );
+
+				exit;
 			}
 
 			// no afterLogin page set anywhere
 			wp_redirect( get_site_url() );
+
 			exit;
 		}
 
@@ -1934,7 +1945,7 @@ final class FapiMemberPlugin {
 			wp_redirect( $defaultDashboardUrl );
 		}
 
-		define( 'FAPI_SHOWING_LEVEL_SELECTON', 1 );
+		define( 'FAPI_SHOWING_LEVEL_SELECTION', 1 );
 		include __DIR__ . '/../templates/levelSelection.php';
 
 		exit;

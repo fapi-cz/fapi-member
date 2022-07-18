@@ -12,12 +12,13 @@ final class FapiUserUtils {
 
 
 	/**
-	 * @param string       $email
+	 * @param array<mixed> $userData
 	 * @param array<mixed> $props
 	 * @return WP_User|WP_Error
 	 */
-	public function getOrCreateUser( $email, &$props, $retryCount = 0 ) {
-		$user = get_user_by( 'email', $email );
+	public function getOrCreateUser( $userData, &$props, $retryCount = 0 ) {
+		$email = $userData['email'];
+		$user  = get_user_by( 'email', $email );
 
 		if ( $user === false ) {
 			$user = get_user_by( 'login', $email );
@@ -37,6 +38,8 @@ final class FapiUserUtils {
 				'user_login'    => $email,
 				'user_nicename' => str_replace( '@', '_', $email ),
 				'user_email'    => $email,
+				'first_name'    => isset( $userData['first_name'] ) ? $userData['first_name'] : null,
+				'last_name'     => isset( $userData['last_name'] ) ? $userData['last_name'] : null,
 			)
 		);
 

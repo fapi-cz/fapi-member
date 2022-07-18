@@ -490,7 +490,7 @@ final class FapiMemberTools {
 	public static function shortcodeLoginForm() {
 		return '
         <div class="fapiShortcodeLoginForm">
-            <form method="post" action="/wp-login.php">
+            <form method="post" action="' . wp_login_url() . '">
                 <div class="f-m-row">
                     <label for="log">' . __( 'Přihlašovací jméno', 'fapi-member' ) . '</label>
                     <input type="text" name="log" id="user_login" value="" size="20">
@@ -500,7 +500,7 @@ final class FapiMemberTools {
                     <input type="password" name="pwd" id="user_pass" value="" size="20">
                 </div>
                 <div class="f-m-row">
-                <a href="/wp-login.php?action=lostpassword">' . __( 'Zapomněli jste heslo?', 'fapi-member' ) . '</a>
+                <a href="' . wp_lostpassword_url() . '">' . __( 'Zapomněli jste heslo?', 'fapi-member' ) . '</a>
                 </div>
                 <div class="f-m-row controls">
                     <input type="submit" class="primary" value="' . __( 'Přihlásit se', 'fapi-member' ) . '">
