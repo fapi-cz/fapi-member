@@ -19,7 +19,9 @@ Zde jsou vaše přihlašovací údaje:
 uživatelské jméno: %%PRIHLASOVACI_JMENO%%
 heslo: %%HESLO%%
 
-Vstoupit můžete tudy: %%PRIHLASENI_ODKAZ%%. ',
+Vstoupit můžete tudy: %%PRIHLASENI_ODKAZ%%. 
+
+Přístup máte platný do %%CLENSTVI_DO%%.',
 				),
 				FapiLevels::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED => array(
 					's' => 'Díky za to, že u nás v %%SEKCE%% zůstáváte',
@@ -35,7 +37,9 @@ těší mě, že máte o mou práci takový zájem.
 
 Právě Vám otvírám dveře do sekce %%SEKCE%%.
 
-Co je uvnitř, uvidíte ve svém účtu: %%PRIHLASENI_ODKAZ%%.',
+Co je uvnitř, uvidíte ve svém účtu: %%PRIHLASENI_ODKAZ%%.
+
+Přístup máte platný do %%CLENSTVI_DO%%.',
 				),
 			),
 			'level'   => array(
@@ -50,7 +54,9 @@ Zde jsou vaše přihlašovací údaje:
 uživatelské jméno: %%PRIHLASOVACI_JMENO%%
 heslo: %%HESLO%%
 
-Vstoupit můžete tudy: %%PRIHLASENI_ODKAZ%%. ',
+Vstoupit můžete tudy: %%PRIHLASENI_ODKAZ%%. 
+
+Přístup máte platný do %%CLENSTVI_DO%%.',
 				),
 				FapiLevels::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED => array(
 					's' => 'Díky za to, že u nás v %%UROVEN%% zůstáváte',
@@ -66,7 +72,9 @@ těší mě, že máte o mou práci takový zájem.
 
 Právě Vám otvírám dveře do sekce %%UROVEN%%.
 
-Co je uvnitř, uvidíte ve svém účtu: %%PRIHLASENI_ODKAZ%%.',
+Co je uvnitř, uvidíte ve svém účtu: %%PRIHLASENI_ODKAZ%%.
+
+Přístup máte platný do %%CLENSTVI_DO%%.',
 				),
 			),
 		);

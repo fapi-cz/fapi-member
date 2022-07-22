@@ -875,53 +875,21 @@ final class FapiMemberPlugin {
 				return $toSend;
 			}
 
-			$isSection              = ( $level->parent === 0 );
-			$didUserHasThisIDBefore = $fapiMembershipLoader->didUserHadLevelMembershipBefore( $historicalMemberships, $level->term_id );
+			if ( $historicalMemberships === array() ) {
+				$toSend[] = array( FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $level );
 
-			if ( $isSection ) {
-				if ( $didUserHasThisIDBefore === false ) {
-					$toSend[] = array( FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $level );
-
-					continue;
-				}
-
-				$memberships            = $fapiMembershipLoader->loadForUser( $user->ID );
-				$membershipsForThisId   = array_values(
-					array_filter(
-						$memberships,
-						static function ( FapiMembership $one ) use ( $level ) {
-							return ( $one->level === $level->term_id );
-						}
-					)
-				);
-				$wasMembershipUnlimited = ( ! empty( $membershipsForThisId ) && $membershipsForThisId[0]->isUnlimited );
-
-				if ( $wasMembershipUnlimited ) {
-					$toSend[] = array( FapiLevels::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED, $level );
-
-					continue;
-				}
-
-				continue;
+				return $toSend;
 			}
 
-			if ( $didUserHasThisIDBefore ) {
-				$toSend[] = array( FapiLevels::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED, $level );
+			$didUserHasThisIdBefore = $fapiMembershipLoader->didUserHadLevelMembershipBefore( $historicalMemberships, $level->term_id );
 
-				continue;
-			}
-
-			$didUserHasParentIdBefore = $fapiMembershipLoader->didUserHadLevelMembershipBefore( $historicalMemberships, $level->parent );
-
-			if ( $didUserHasParentIdBefore ) {
+			if ( ! $didUserHasThisIdBefore ) {
 				$toSend[] = array( FapiLevels::EMAIL_TYPE_AFTER_ADDING, $level );
 
 				continue;
 			}
 
-			$toSend[] = array( FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $level );
-
-			continue;
+			$toSend[] = array( FapiLevels::EMAIL_TYPE_AFTER_MEMBERSHIP_PROLONGED, $level );
 		}
 
 		return $toSend;

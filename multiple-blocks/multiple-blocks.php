@@ -2,9 +2,9 @@
 /**
  * Plugin Name:       FAPI Member
  * Description:       FAPI Member block and extensions.
- * Requires at least: 5.7
+ * Requires at least: 5.8
  * Requires PHP:      5.6
- * Version:           0.1.0
+ * Version:           0.1.1
  * Author:            FAPI Business s.r.o.
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -21,7 +21,7 @@ function create_block_fapi_member_block_init() {
 	);
 
 	foreach( $blocks as $block ) {
-		register_block_type( plugin_dir_path( __FILE__ ) . 'includes/block-editor/blocks/' . $block );
+		register_block_type( __DIR__ . '/includes/block-editor/blocks/' . $block );
 	}
 }
 add_action( 'init', 'create_block_fapi_member_block_init' );

@@ -1,15 +1,29 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
-	"name": "fapi-member/block-extender",
-	"version": "0.1.1",
-	"title": "FAPI Member",
-	"description": "Extends core blocks, enables show and hide block by member section and levels",
-	"supports": {
-		"html": false
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "fapi-member/block-extender",
+  "title": "FAPI Member - block extender",
+  "category": "embed",
+  "version": "0.1.2",
+  "description": "Extends core blocks, enables show and hide block by member section and levels",
+  "supports": {
+	"html": false
+  },
+  "keywords": [
+	"fapi"
+  ],
+  "attributes": {
+	"hasSectionOrLevel": {
+	  "type": "string",
+	  "source": "attribute"
 	},
-	"textdomain": "fapi-member",
-	"editorScript": "file:../../../../build/block-extender.js",
-	"editorStyle": "file:../../../../build/block-extender.css",
-	"style": "file:../../../../build/block-extender.css"
+	"fapiSectionAndLevels": {
+	  "type": "string",
+	  "source": "attribute"
+	}
+  },
+  "textdomain": "fapi-member",
+  "editorScript": "file:../../../../build/block-extender.js",
+  "editorStyle": "file:../../../../build/block-extender.css",
+  "style": "file:../../../../build/block-extender.css"
 }

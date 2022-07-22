@@ -100,11 +100,11 @@ final class EmailShortCodesReplacer {
 	 */
 	private static function getExpirationDateValue( array $props ) {
 		if ( isset( $props['membership_prolonged_until'] ) ) {
-			return $props['membership_prolonged_until']->format( 'j. n. Y H:i' );
+			return $props['membership_prolonged_until']->format( 'j. n. Y' );
 		}
 
 		if ( isset( $props['membership_level_added_until'] ) ) {
-			return $props['membership_level_added_until']->format( 'j. n. Y H:i' );
+			return $props['membership_level_added_until']->format( 'j. n. Y' );
 		}
 
 		if ( isset( $props['membership_prolonged_to_unlimited'] ) || isset( $props['membership_level_added_unlimited'] ) ) {

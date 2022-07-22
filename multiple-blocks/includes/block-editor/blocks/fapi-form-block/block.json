@@ -1,23 +1,29 @@
 {
-	"apiVersion": 2,
-	"name": "fapi-member/fapi-form-block",
-	"version": "0.1.0",
-	"title": "FAPI form",
-	"category": "fapi",
-	"icon": "cart",
-	"attributes": {
-		"path": {
-			"type": "string",
-			"source": "attribute",
-			"selector": "script",
-			"attribute": "path"
-		}
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "fapi-member/fapi-form-block",
+  "title": "FAPI form",
+  "category": "fapi",
+  "version": "0.1.0",
+  "description": "FAPI form widget.",
+  "icon": "cart",
+  "supports": {
+	"html": false
+  },
+  "keywords": [
+	"fapi",
+	"form"
+  ],
+  "attributes": {
+	"path": {
+	  "type": "string",
+	  "source": "attribute",
+	  "selector": "script",
+	  "attribute": "path"
+	}
 	},
-	"supports": {
-		"html": false
-	},
-	"textdomain": "fapi-member",
-	"editorScript": "file:../../../../build/fapi-form-block.js",
-	"editorStyle": "file:../../../../build/fapi-form-block.css",
-	"style": "file:../../../../build/fapi-form-block.css"
+  "textdomain": "fapi-member",
+  "editorScript": "file:../../../../build/fapi-form-block.js",
+  "editorStyle": "file:../../../../build/fapi-form-block.css",
+  "style": "file:../../../../build/fapi-form-block.css"
 }

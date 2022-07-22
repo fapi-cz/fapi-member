@@ -24,7 +24,7 @@ final class FapiUserUtils {
 			$user = get_user_by( 'login', $email );
 		}
 
-		if ( $user !== false ) {
+		if ( $user instanceof WP_User ) {
 			$props['user_id']  = $user->ID;
 			$props['new_user'] = false;
 
