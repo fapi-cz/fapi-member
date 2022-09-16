@@ -4,7 +4,7 @@
  * Description:       FAPI Member block and extensions.
  * Requires at least: 5.8
  * Requires PHP:      5.6
- * Version:           0.1.1
+ * Version:           0.1.2
  * Author:            FAPI Business s.r.o.
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html

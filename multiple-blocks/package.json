@@ -1,6 +1,6 @@
 {
 	"name": "fapi-member",
-	"version": "0.1.0",
+	"version": "0.1.2",
 	"description": "FAPI Member block and extensions.",
 	"author": "FAPI Business s.r.o.",
 	"license": "GPL-2.0-or-later",

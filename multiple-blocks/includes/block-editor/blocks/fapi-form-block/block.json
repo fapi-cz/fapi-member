@@ -4,7 +4,7 @@
   "name": "fapi-member/fapi-form-block",
   "title": "FAPI form",
   "category": "fapi",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "FAPI form widget.",
   "icon": "cart",
   "supports": {

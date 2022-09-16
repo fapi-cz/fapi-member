@@ -4,7 +4,7 @@
   "name": "fapi-member/block-extender",
   "title": "FAPI Member - block extender",
   "category": "embed",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Extends core blocks, enables show and hide block by member section and levels",
   "supports": {
 	"html": false
