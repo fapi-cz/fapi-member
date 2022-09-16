@@ -61,7 +61,10 @@ build: ## Builds the plugin source code
 	cp -r media wp-build/media
 	cp -r _sources wp-build/_sources
 	cp -r multiple-blocks/build wp-build/multiple-blocks/build
+	cp -r multiple-blocks/includes wp-build/multiple-blocks/includes
 	cp multiple-blocks/multiple-blocks.php wp-build/multiple-blocks/multiple-blocks.php
+	cp multiple-blocks/package.json wp-build/multiple-blocks/package.json
+	cp multiple-blocks/webpack.config.js wp-build/multiple-blocks/webpack.config.js
 	find wp-build -type f -name '*.scss' -delete
 	find wp-build -type f -name '*.map' -delete
 	find wp-build -type f -name '*.txt' -delete
