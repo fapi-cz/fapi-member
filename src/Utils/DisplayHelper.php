@@ -35,6 +35,13 @@ final class DisplayHelper {
 			return true;
 		}
 
+		$sectionAndLevels = array_map(
+			static function ( $item ) {
+				return (int) $item;
+			},
+			$sectionAndLevels
+		);
+
 		global $FapiPlugin;
 		$hasMemberSectionOrLevel = (string) $hasSectionOrLevel;
 		$memberships             = $FapiPlugin->fapiMembershipLoader()->loadForUser( get_current_user_id() );
