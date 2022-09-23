@@ -5,7 +5,7 @@ Requires at least: 5.8
 Tested up to: 6.0
 Requires PHP: 5.6
 License: GPLv2 or later
-Stable tag: 1.9.4
+Stable tag: 1.9.5
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -22,6 +22,9 @@ Máte problém s nastavením FAPI Memberu. Obrátit se můžete na naší podpor
 Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org/plugins/fapi-member/#reviews).
 
 == Changelog ==
+
+= 1.9.5 =
+* Oprava funkce zobrazování části stránky pro Elementor.
 
 = 1.9.3 =
 * Oprava emailů po přidání do další členské sekce.
