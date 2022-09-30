@@ -15,6 +15,9 @@ echo FapiMemberTools::heading();
 	<?php echo FapiMemberTools::showErrors(); ?>
     <div class="sectionsOverview">
 		<?php
+
+		$all_stored_post_types = get_option('fapi_member_post_types', array());
+
 		$envelopes = $fapiLevels->loadAsTermEnvelopes();
 		$mapToParent = array_reduce($envelopes,
 			static function ($carry, $envelope) {
@@ -45,6 +48,23 @@ echo FapiMemberTools::heading();
 				return $carry;
 			},
 			[]);
+
+		foreach($pagesCount as $level_id => &$pages_count) {
+
+			if (isset($all_stored_post_types[$level_id])) {
+
+	            $posts = get_posts(
+		            array(
+			            'post_type'   => $all_stored_post_types[$level_id],
+			            'post_status' => array( 'publish' ),
+			            'numberposts' => -1,
+       			    )
+	            );
+
+	            $pages_count += count($posts);
+    		}
+		}
+		unset($pages_count);
 
 		$empty = true;
 
