@@ -39,7 +39,7 @@ final class FapiLevels {
 	public function registerTaxonomy() {
 		register_taxonomy(
 			self::TAXONOMY,
-			'page',
+			\FapiMember\get_supported_post_types(),
 			array(
 				'public'       => false,
 				'hierarchical' => true,
