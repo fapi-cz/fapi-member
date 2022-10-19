@@ -18,6 +18,7 @@ final class FapiSanitization {
 	const VALID_PAGE_ID         = 'validPageId';
 	const ANY_STRING            = 'anyString';
 	const INT_LIST              = 'intList';
+	const STR_LIST              = 'strList';
 	const VALID_EMAIL_TYPE      = 'validEmailType';
 	const VALID_OTHER_PAGE_TYPE = 'validOtherPageType';
 	const VALID_DIRECTION       = 'validDirection';
@@ -100,7 +101,7 @@ final class FapiSanitization {
 
 		$pages   = get_posts(
 			array(
-				'post_type'   => 'page',
+				'post_type'   => \FapiMember\get_supported_post_types(),
 				'post_status' => array( 'publish' ),
 				'numberposts' => -1,
 			)
@@ -154,6 +155,25 @@ final class FapiSanitization {
 		return $out;
 	}
 
+	/**
+	 * @param array<mixed> $input
+	 * @return array<string>
+	 */
+	public function strList( array $input ) {
+		$out = array();
+
+		foreach ( $input as $key => $value ) {
+			if ( ! is_string( $value ) ) {
+				continue;
+			}
+
+			$out[ $key ] = (string) $value;
+		}
+
+		return $out;
+	}
+
+
 	public function validEmailType( $input, $default ) {
 		if ( in_array( $input, FapiLevels::$emailTypes, true ) ) {
 			return $input;
@@ -186,7 +206,7 @@ final class FapiSanitization {
 	public function validPageId( $input, $default ) {
 		$pages = get_posts(
 			array(
-				'post_type'   => 'page',
+				'post_type'   => \FapiMember\get_supported_post_types(),
 				'post_status' => array( 'publish' ),
 				'numberposts' => -1,
 				'include'     => array( $input ),

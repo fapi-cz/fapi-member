@@ -103,7 +103,7 @@ final class FapiMemberPlugin {
 		add_action( 'wp_enqueue_scripts', array( $this, 'addPublicScripts' ) );
 		add_action( 'admin_init', array( $this, 'registerSettings' ) );
 
-		add_action( 'init', array( $this, 'registerLevelsTaxonomy' ) );
+		add_action( 'init', array( $this, 'registerLevelsTaxonomy' ), 999 );
 		add_action( 'init', array( $this, 'registerRoles' ) );
 		add_action( 'init', array( $this, 'addShortcodes' ) );
 		add_action( 'rest_api_init', array( $this, 'addRestEndpoints' ) );
@@ -279,7 +279,7 @@ final class FapiMemberPlugin {
 	 * @return void
 	 */
 	public function addMetaBoxes() {
-		$screens = array( 'post', 'page' );
+		$screens = \FapiMember\get_supported_post_types();
 
 		add_meta_box(
 			'fapi_member_meta_box_id',
@@ -1253,12 +1253,22 @@ final class FapiMemberPlugin {
 			'level_id',
 			array( $this->sanitization(), FapiSanitization::VALID_LEVEL_ID )
 		);
+
 		$selection = $this->sanitization()->loadPostValue(
 			'selection',
 			array( $this->sanitization(), FapiSanitization::VALID_PAGE_IDS )
 		);
 
-		if ( $levelId === null || $selection === null ) {
+		if (!$selection) {
+			$selection = array();
+		}
+
+		$cpt_selection = $this->sanitization()->loadPostValue(
+			'cpt_selection',
+			array( $this->sanitization(), FapiSanitization::STR_LIST )
+		);
+
+		if ( $levelId === null /*|| $selection === null*/ ) {
 			$this->redirect( 'settingsContentRemove', 'levelIdOrToAddEmpty' );
 		}
 
@@ -1270,6 +1280,12 @@ final class FapiMemberPlugin {
 		$selection = array_map( 'intval', $selection );
 
 		update_term_meta( $parent->term_id, 'fapi_pages', json_encode( $selection ) );
+
+		$cpt_selection = array_map('strval', $cpt_selection);
+
+		$all_stored_post_types = get_option( 'fapi_member_post_types', array() );
+		$all_stored_post_types[$levelId] = $cpt_selection;
+		update_option( 'fapi_member_post_types' , $all_stored_post_types );
 
 		$this->redirect( 'settingsContentAdd', null, array( 'level' => $levelId ) );
 	}
@@ -1792,7 +1808,7 @@ final class FapiMemberPlugin {
 	public function checkPage() {
 		global $wp_query;
 
-		if ( ! isset( $wp_query->post ) || ! ( $wp_query->post instanceof WP_Post ) || ! in_array( $wp_query->post->post_type, array( 'page', 'post' ), true ) ) {
+		if ( ! isset( $wp_query->post ) || ! ( $wp_query->post instanceof WP_Post ) || ! in_array( $wp_query->post->post_type, \FapiMember\get_supported_post_types(), true ) ) {
 			return true;
 		}
 
@@ -1800,11 +1816,22 @@ final class FapiMemberPlugin {
 		$levelsToPages     = $this->levels()->levelsToPages();
 		$levelsForThisPage = array();
 
+		$post_type = $wp_query->post->post_type;
+		$all_stored_post_types = get_option( 'fapi_member_post_types', array() );
+
+		foreach ( $all_stored_post_types as $levelId => $post_types ) {
+			if (in_array($post_type, $post_types, true)) {
+				$levelsForThisPage[] = $levelId;
+			}
+		}
+
 		foreach ( $levelsToPages as $levelId => $pageIds ) {
 			if ( in_array( $pageId, $pageIds, true ) ) {
 				$levelsForThisPage[] = $levelId;
 			}
 		}
+
+		$levelsForThisPage = array_unique($levelsForThisPage);
 
 		if ( count( $levelsForThisPage ) === 0 ) {
 			// page is not in any level, not protecting
