@@ -2,6 +2,7 @@
 
 namespace FapiMember;
 
+use FapiMember\Utils\PostTypeHelper;
 use WP_User;
 use function get_posts;
 use function htmlentities;
@@ -370,88 +371,67 @@ final class FapiMemberTools {
 
 		$posts        = get_posts(
 			array(
-				'post_type'   => \FapiMember\get_supported_post_types(),
+				'post_type'   => PostTypeHelper::getSupportedPostTypes(),
 				'post_status' => array( 'publish' ),
 				'numberposts' => -1,
 				'orderby'     => 'post_title',
-				'order'       => 'ASC'
+				'order'       => 'ASC',
 			)
 		);
 		$levelTerm    = $FapiPlugin->levels()->loadById( $levelId );
 		$postsInLevel = $FapiPlugin->levels()->pageIdsForLevel( $levelTerm );
 		$output       = array();
 
-        $posts_by_type = array();
+		$posts_by_type = array();
 		foreach ( $posts as $post ) {
-			$posts_by_type[$post->post_type][] = $post;
+			$posts_by_type[ $post->post_type ][] = $post;
 		}
 
-		ksort($posts_by_type);
+		ksort( $posts_by_type );
 
-		foreach ( array('page', 'post') as $type ) {
+		foreach ( array( 'page', 'post' ) as $type ) {
 
-		    if (isset($posts_by_type[$type])) {
+			if ( isset( $posts_by_type[ $type ] ) ) {
 
-			    foreach( $posts_by_type[$type] as $post ) {
+				$output[] = '<br/><h2><strong>' . __( $type . 's', 'fapi-member' ) . '</strong></h2>';
 
-    		    	$checked = ( in_array( $post->ID, $postsInLevel, true ) ) ? ' checked ' : '';
+				foreach ( $posts_by_type[ $type ] as $post ) {
 
-	    		    $output[] = sprintf(
-		    		    '<div class="onePage"><input type="checkbox" name="selection[]" value="%s" %s> %s <small><em>(%s)</em></small></div>',
-			    	    $post->ID,
-    				    $checked,
-	    			    $post->post_title,
-		    		    $post->post_type
-    			    );
-    			}
+					$checked = ( in_array( $post->ID, $postsInLevel, true ) ) ? ' checked ' : '';
 
-    			unset($posts_by_type[$type]);
-    		}
+					$output[] = sprintf(
+						'<div class="onePage"><input type="checkbox" name="selection[]" value="%s" %s> %s </div>',
+						$post->ID,
+						$checked,
+						$post->post_title
+					);
+				}
+
+				unset( $posts_by_type[ $type ] );
+			}
 		}
 
-		/*if ($posts_by_type) {
+		$all_post_types        = PostTypeHelper::getSupportedPostTypes( true );
+		$all_stored_post_types = get_option( 'fapi_member_post_types', array() );
 
-		    $output[] = '<br/><big><strong>' . __('CPT (příspěvky)', 'fapi-member') . '</strong></big><br/>';
+		$stored_post_types = empty( $all_stored_post_types[ $levelId ] ) ? array() : $all_stored_post_types[ $levelId ];
 
-		    foreach( $posts_by_type as $posts ) {
-			    foreach( $posts as $post ) {
+		if ( $all_post_types ) {
 
-    			    $checked = ( in_array( $post->ID, $postsInLevel, true ) ) ? ' checked ' : '';
+			$output[] = '<br/><h2><strong>' . __( 'CPT', 'fapi-member' ) . '</strong></h2>';
 
-	    		    $output[] = sprintf(
-		    		    '<div class="onePage"><input type="checkbox" name="selection[]" value="%s" %s> %s <small><em>(%s)</em></small></div>',
-			    	    $post->ID,
-    				    $checked,
-	    			    $post->post_title,
-		    		    $post->post_type
-    			    );
-    		    }
-		    }
-		}*/
+			foreach ( $all_post_types as $post_type ) {
 
-        $all_post_types = \FapiMember\get_supported_post_types(true);
-        $all_stored_post_types = get_option('fapi_member_post_types', array());
+				$checked = ( in_array( $post_type, $stored_post_types, true ) ) ? ' checked ' : '';
 
-        $stored_post_types = empty($all_stored_post_types[$levelId]) ? array() : $all_stored_post_types[$levelId]; 
-
-        if ($all_post_types) {
-
-	        //$output[] = '<br/><big><strong>' . __('CPT (kompletní)', 'fapi-member') . '</strong></big><br/>';
-	        $output[] = '<br/><big><strong>' . __('CPT', 'fapi-member') . '</strong></big><br/>';
-      
-    		foreach( $all_post_types as $post_type ) {
-
-       		    $checked = ( in_array( $post_type, $stored_post_types, true ) ) ? ' checked ' : '';
-
-	    	    $output[] = sprintf(
-		    	    '<div class="onePage"><input type="checkbox" name="cpt_selection[]" value="%s" %s> %s</div>',
-			        $post_type,
-    			    $checked,
-	    		    ucfirst($post_type)
-    		    );
- 		    }
-        }
-
+				$output[] = sprintf(
+					'<div class="onePage"><input type="checkbox" name="cpt_selection[]" value="%s" %s> %s</div>',
+					$post_type,
+					$checked,
+					ucfirst( $post_type )
+				);
+			}
+		}
 
 		return implode( '', $output );
 	}
@@ -466,91 +446,101 @@ final class FapiMemberTools {
 		$pageIds   = $FapiPlugin->levels()->pageIdsForLevel( $levelTerm );
 
 		if ( count( $pageIds ) === 0 ) {
-			//return '';
-			$pageIds = array(PHP_INT_MAX); // TODO[hack] ;-)
+			// return '';
+			$pageIds = array( PHP_INT_MAX ); // TODO[hack] ;-)
 		}
 
 		$posts = get_posts(
 			array(
-				'post_type'   => \FapiMember\get_supported_post_types(),
+				'post_type'   => PostTypeHelper::getSupportedPostTypes(),
 				'post_status' => array( 'publish' ),
 				'numberposts' => -1,
 				'include'     => $pageIds,
 				'orderby'     => 'page_title',
-				'order'       => 'ASC'
+				'order'       => 'ASC',
 			)
 		);
 
-        $posts_by_type = array();
+		$posts_by_type = array();
+
 		foreach ( $posts as $post ) {
-			$posts_by_type[$post->post_type][] = $post;
+			$posts_by_type[ $post->post_type ][] = $post;
 		}
 
-		ksort($posts_by_type);
+		ksort( $posts_by_type );
 
-        $o = array();
+		$o = array();
 
-		foreach ( array('page', 'post') as $type ) {
+		foreach ( array( 'page', 'post' ) as $type ) {
 
-		    if (isset($posts_by_type[$type])) {
+			if ( isset( $posts_by_type[ $type ] ) ) {
 
-		    	$o = array_merge($o, array_map(
-			        function ( $p ) {
-				        return sprintf(
-					        '<div class="onePage">%s <small><em>(%s)</em></small></div>',
-					        $p->post_title, 
-					        $p->post_type
-				        );
-			        },
-			        $posts_by_type[$type]
-		        ));
+				$o[] = '<br/><h2><strong>' . __( $type . 's', 'fapi-member' ) . '</strong></h2>';
 
-    			unset($posts_by_type[$type]);
-    		}
+				$arrayMap = array_map(
+					static function ( $p ) {
+							return sprintf(
+								'<div class="onePage">%s</div>',
+								$p->post_title
+							);
+					},
+					$posts_by_type[ $type ]
+				);
+
+				$o = array_merge(
+					$o,
+					$arrayMap
+				);
+
+				unset( $posts_by_type[ $type ] );
+			}
 		}
 
-        /*if ($posts_by_type) {
-		
-		    $o[] = '<br/><big><strong>' . __('CPT (příspěvky)', 'fapi-member') . '</strong></big><br/>';
+		/*
+		if ($posts_by_type) {
 
-		    foreach( $posts_by_type as $posts ) {
-		    
-		        $o = array_merge($o, array_map(
-			        function ( $p ) {
-			            return sprintf(
-			                '<div class="onePage">%s <small><em>(%s)</em></small></div>',
-				            $p->post_title, 
-				            $p->post_type
-			            );
-			        },
-			        $posts
-		        ));
+			$o[] = '<br/><big><strong>' . __('CPT (příspěvky)', 'fapi-member') . '</strong></big><br/>';
 
-    		}
-    	}*/
+			foreach( $posts_by_type as $posts ) {
 
-	    $all_post_types = \FapiMember\get_supported_post_types(true);
-        $all_stored_post_types = get_option('fapi_member_post_types', array());
+				$o = array_merge($o, array_map(
+					function ( $p ) {
+						return sprintf(
+							'<div class="onePage">%s <small><em>(%s)</em></small></div>',
+							$p->post_title,
+							$p->post_type
+						);
+					},
+					$posts
+				));
 
-        $stored_post_types = empty($all_stored_post_types[$levelId]) ? array() : $all_stored_post_types[$levelId]; 
+			}
+		}*/
 
-	    $displayed_post_types = array_intersect($stored_post_types, $all_post_types);
+		$all_post_types        = PostTypeHelper::getSupportedPostTypes( true );
+		$all_stored_post_types = get_option( 'fapi_member_post_types', array() );
 
-        if ($displayed_post_types) {
+		$stored_post_types = empty( $all_stored_post_types[ $levelId ] ) ? array() : $all_stored_post_types[ $levelId ];
 
-		    //$o[] = '<br/><big><strong>' . __('CPT (kompletní)', 'fapi-member') . '</strong></big><br/>';
-		    $o[] = '<br/><big><strong>' . __('CPT', 'fapi-member') . '</strong></big><br/>';
+		$displayed_post_types = array_intersect( $stored_post_types, $all_post_types );
 
-	        $o = array_merge($o, array_map(
-		        function ( $p ) {
-		            return sprintf(
-		                '<div class="onePage">%s</div>',
-			            ucfirst($p), 
-		            );
-		        },
-		        $displayed_post_types
-	        ));
-	    }
+		if ( $displayed_post_types ) {
+
+			$o[] = '<br/><h2><strong>' . __( 'CPT', 'fapi-member' ) . '</strong></h2><br/>';
+
+			$o = array_merge(
+				$o,
+				array_map(
+					static function ( $p ) {
+						return sprintf(
+							'<div class="onePage">%s</div>',
+							ucfirst( $p )
+						);
+					},
+					$displayed_post_types
+				)
+			);
+		}
 
 		return implode( '', $o );
 	}
@@ -562,7 +552,7 @@ final class FapiMemberTools {
 	public static function getPageTitle( $pageId ) {
 		$posts = get_posts(
 			array(
-				'post_type'   => \FapiMember\get_supported_post_types(),
+				'post_type'   => PostTypeHelper::getSupportedPostTypes(),
 				'post_status' => array( 'publish' ),
 				'numberposts' => -1,
 			)
@@ -586,11 +576,11 @@ final class FapiMemberTools {
 	public static function allPagesAsOptions( $currentId ) {
 		$posts  = get_posts(
 			array(
-				'post_type'   => 'page' /*\FapiMember\get_supported_post_types()*/,
+				'post_type'   => 'page', /*\FapiMember\get_supported_post_types()*/
 				'post_status' => array( 'publish' ),
 				'numberposts' => -1,
-				'orderby' => 'post_title',
-				'order' => 'ASC'
+				'orderby'     => 'post_title',
+				'order'       => 'ASC',
 			)
 		);
 		$output = array();

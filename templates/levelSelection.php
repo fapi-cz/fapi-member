@@ -16,7 +16,7 @@
     <div class="pages">
 		<?php
 		$args = [
-			'post_type' => \FapiMember\get_supported_post_types(),
+			'post_type' => \FapiMember\Utils\PostTypeHelper::getSupportedPostTypes(),
 			'post__in'  => array_values($pages),
 			'orderby'   => 'post_title',
 			'order'     => 'ASC'

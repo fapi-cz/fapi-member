@@ -2,6 +2,7 @@
 
 namespace FapiMember;
 
+use FapiMember\Utils\PostTypeHelper;
 use RuntimeException;
 use WP_Post;
 use function in_array;
@@ -101,7 +102,7 @@ final class FapiSanitization {
 
 		$pages   = get_posts(
 			array(
-				'post_type'   => \FapiMember\get_supported_post_types(),
+				'post_type'   => PostTypeHelper::getSupportedPostTypes(),
 				'post_status' => array( 'publish' ),
 				'numberposts' => -1,
 			)
@@ -206,7 +207,7 @@ final class FapiSanitization {
 	public function validPageId( $input, $default ) {
 		$pages = get_posts(
 			array(
-				'post_type'   => \FapiMember\get_supported_post_types(),
+				'post_type'   => PostTypeHelper::getSupportedPostTypes(),
 				'post_status' => array( 'publish' ),
 				'numberposts' => -1,
 				'include'     => array( $input ),

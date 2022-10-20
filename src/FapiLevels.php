@@ -2,6 +2,7 @@
 
 namespace FapiMember;
 
+use FapiMember\Utils\PostTypeHelper;
 use stdClass;
 use WP_Error;
 use WP_Term;
@@ -39,7 +40,7 @@ final class FapiLevels {
 	public function registerTaxonomy() {
 		register_taxonomy(
 			self::TAXONOMY,
-			\FapiMember\get_supported_post_types(),
+			PostTypeHelper::getSupportedPostTypes(),
 			array(
 				'public'       => false,
 				'hierarchical' => true,
@@ -335,7 +336,8 @@ final class FapiLevels {
 	 * @return FapiTermEnvelope[]
 	 */
 	protected function termsToEnvelopes( $terms ) {
-		$ordering  = get_option( self::OPTION_KEY_LEVELS_ORDER, ( new stdClass() ) );
+		$ordering = (array) get_option( self::OPTION_KEY_LEVELS_ORDER, ( new stdClass() ) );
+
 		$envelopes = array_map(
 			static function ( $term ) use ( $ordering ) {
 				$o = ( isset( $ordering->{$term->term_id} ) ) ? $ordering->{$term->term_id} : 1245;
