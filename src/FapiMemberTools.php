@@ -811,7 +811,7 @@ final class FapiMemberTools {
                     ' . self::submenuItem( 'settingsSectionNew', 'Sekce / úrovně', $subpage, array( 'settingsLevelNew' ) ) . '
                     ' . self::submenuItem(
 						'settingsContentAdd',
-						__( 'Přiřazené stránky a přispěvky', 'fapi-member' ),
+						__( 'Přiřazené stránky a příspěvky', 'fapi-member' ),
 						$subpage,
 						array( 'settingsContentRemove' )
 					) . '
