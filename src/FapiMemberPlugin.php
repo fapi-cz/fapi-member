@@ -1266,7 +1266,8 @@ final class FapiMemberPlugin {
 
 		$cpt_selection = $this->sanitization()->loadPostValue(
 			'cpt_selection',
-			array( $this->sanitization(), FapiSanitization::STR_LIST )
+			array( $this->sanitization(), FapiSanitization::STR_LIST ),
+			array()
 		);
 
 		if ( $levelId === null /*|| $selection === null*/ ) {
@@ -1811,7 +1812,8 @@ final class FapiMemberPlugin {
 
 		if ( ! isset( $wp_query->post ) ||
 			! ( $wp_query->post instanceof WP_Post ) ||
-			! in_array( $wp_query->post->post_type, PostTypeHelper::getSupportedPostTypes(), true ) ) {
+			! in_array( $wp_query->post->post_type, PostTypeHelper::getSupportedPostTypes(), true )
+		) {
 			return true;
 		}
 

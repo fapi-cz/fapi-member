@@ -11,7 +11,7 @@ class PostTypeHelper {
 	 * @return array<string>
 	 */
 	public static function getSupportedPostTypes( $cpt_only = false ) {
-		$excluded_post_types = $cpt_only ? array( 'attachment', 'page', 'post' ) : array( 'attachment' );
+		$excluded_post_types          = $cpt_only ? array( 'attachment', 'page', 'post' ) : array( 'attachment' );
 		$supported_post_types_objects = get_post_types( array( 'public' => true ), 'objects', 'and' );
 
 		foreach ( $supported_post_types_objects as $obj ) {
