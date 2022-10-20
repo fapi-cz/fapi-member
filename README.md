@@ -131,7 +131,7 @@ to je možné využít při vývoji na testování např. zakládání uživatel
 4. Vytvořit produkční build `make build -i`
 5. Vytvořit složku `wp-svn`
 6. Stáhnout repozitář z WP `svn co https://plugins.svn.wordpress.org/fapi-member wp-svn`
-7. Vyvořti složku z verzi ve složce `wp-svn/tags/X.X.X`
+7. Vyvořit složku z verzi ve složce `wp-svn/tags/X.X.X`
 8. Nahrát obsah z `wp-build` do vytvořené složky v přechozím bodě
 9. Smazat obsah ze složky `wp-svn/trunk`
 10. A nahrát obsah ze složky `wp-svn` do složky `wp-svn/trunk`
