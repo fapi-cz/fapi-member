@@ -128,7 +128,8 @@ to je možné využít při vývoji na testování např. zakládání uživatel
 1. Je potřeba udělat build jak js tak css souborů
 2. `docker exec node /bin/sh -c 'yarn --cwd multiple-blocks build'`
 3. Dále je potřeba změnit verzi pluginu, přidat setinkovou verzi pokud se jedná o opravu, pokud se přidává nová funkce přidat desetinku a pokud jedná o úplně novou verzi přidat zvyšit major verzi o jedno
-4. Vytvořit produkční build `make build -i`
+4. Aktualizovat composer `composer dump-autoload`
+5. Vytvořit produkční build `make build -i`
 5. Vytvořit složku `wp-svn`
 6. Stáhnout repozitář z WP `svn co https://plugins.svn.wordpress.org/fapi-member wp-svn`
 7. Vyvořit složku z verzi ve složce `wp-svn/tags/X.X.X`
