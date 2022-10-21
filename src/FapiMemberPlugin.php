@@ -104,7 +104,7 @@ final class FapiMemberPlugin {
 		add_action( 'wp_enqueue_scripts', array( $this, 'addPublicScripts' ) );
 		add_action( 'admin_init', array( $this, 'registerSettings' ) );
 
-		add_action( 'init', array( $this, 'registerLevelsTaxonomy' ), 999 );
+		add_action( 'init', array( $this, 'registerLevelsTaxonomy' ) );
 		add_action( 'init', array( $this, 'registerRoles' ) );
 		add_action( 'init', array( $this, 'addShortcodes' ) );
 		add_action( 'rest_api_init', array( $this, 'addRestEndpoints' ) );
