@@ -22,9 +22,11 @@ echo FapiMemberTools::heading();
 					global $FapiPlugin;
 					$fapiLevels = $FapiPlugin->levels();
 					$levelTerm = $fapiLevels->loadById($level);
-					$isSection = ($levelTerm->parent === 0) ? true : false;
-					$defaultLoginPageId = $FapiPlugin->getSetting('login_page_id');
-
+					$isSection = $levelTerm->parent === 0;
+					$defaultPages = [
+						'login' => $FapiPlugin->getSetting('login_page_id'),
+						'afterLogin' => $FapiPlugin->getSetting('dashboard_page_id')
+					];
 					$templates = $fapiLevels->loadEmailTemplatesForLevel($level);
 
 					$pages = [
@@ -60,8 +62,8 @@ echo FapiMemberTools::heading();
                             <div class="row submitInline noLabel">
                                 <select type="text" name="page" id="page">
 									<?php
-									if ($defaultLoginPageId && $key === 'login') {
-										echo '<option value="">-- ' . FapiMemberTools::getPageTitle($defaultLoginPageId) . ' --</option>';
+									if (isset($defaultPages[$key])) {
+										echo '<option value="">-- ' . FapiMemberTools::getPageTitle($defaultPages[$key]) . ' --</option>';
 									} else {
 										echo '<option value="">' . __( '-- nevybrána --', 'fapi-member' ) . '</option>';
 									}

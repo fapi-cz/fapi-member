@@ -206,16 +206,9 @@ final class FapiMemberPlugin {
 	}
 
 	public function addShortcodes() {
-		add_shortcode( 'fapi-member-login', array( $this, 'shortcodeLogin' ) );
-		add_shortcode( 'fapi-member-user', array( $this, 'shortcodeUser' ) );
-	}
-
-	public function shortcodeLogin() {
-		return FapiMemberTools::shortcodeLoginForm();
-	}
-
-	public function shortcodeUser() {
-		return FapiMemberTools::shortcodeUser();
+		add_shortcode( 'fapi-member-login', array( FapiMemberTools::class, 'shortcodeLoginForm' ) );
+		add_shortcode( 'fapi-member-user', array( FapiMemberTools::class, 'shortcodeUser' ) );
+		add_shortcode( 'fapi-member-user-section-expiration', array( FapiMemberTools::class, 'shortcodeSectionExpirationDate' ) );
 	}
 
 	public function addRestEndpoints() {

@@ -576,7 +576,7 @@ final class FapiMemberTools {
 	public static function allPagesAsOptions( $currentId ) {
 		$posts  = get_posts(
 			array(
-				'post_type'   => 'page', /*\FapiMember\get_supported_post_types()*/
+				'post_type'   => 'page',
 				'post_status' => array( 'publish' ),
 				'numberposts' => -1,
 				'orderby'     => 'post_title',
@@ -601,6 +601,55 @@ final class FapiMemberTools {
 		global $FapiPlugin;
 
 		return json_encode( $FapiPlugin->levels()->levelsToPages() );
+	}
+
+	/**
+	 * @param array<mixed> $attrs
+	 * @return string
+	 */
+	public static function shortcodeSectionExpirationDate( array $attrs ) {
+		global $FapiPlugin;
+
+		if ( ! isset( $attrs['section'] ) ) {
+			return __( 'neznámá sekce nebo úrověň', 'fapi-member' );
+		}
+
+		$user = wp_get_current_user();
+
+		if ( $user === null ) {
+			return __( 'uživatel není přihlášen', 'fapi-member' );
+		}
+
+		$sectionOrLevelId = (int) $attrs['section'];
+
+		$dateFormat = get_option( 'date_format' );
+
+		if ( $dateFormat === null ) {
+			$dateFormat = 'Y-m-d';
+		}
+
+		$memberships       = $FapiPlugin->fapiMembershipLoader()->loadForUser( $user->ID );
+		$currentMemberShip = null;
+
+		/** @var FapiMembership $membership */
+		foreach ( $memberships as $membership ) {
+			if ( $membership->level === $sectionOrLevelId ) {
+				$currentMemberShip = $membership;
+
+				break;
+			}
+		}
+
+		if ( $currentMemberShip === null ) {
+			return __( 'bez přístupu', 'fapi-member' );
+
+		}
+
+		if ( $currentMemberShip->until === null ) {
+			return __( 'neomezeně', 'fapi-member' );
+		}
+
+		return $currentMemberShip->until->format( $dateFormat );
 	}
 
 	/**
