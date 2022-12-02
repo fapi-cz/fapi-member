@@ -89,6 +89,9 @@ final class FapiClients {
 		return $credentialsOk;
 	}
 
+	/**
+	 * @return array<mixed>|false
+	 */
 	public function listForms() {
 		foreach ( $this->fapiApis as $fapiApi ) {
 			$response = $fapiApi->getForms();

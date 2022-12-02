@@ -87,6 +87,10 @@ final class FapiFormWidget extends Widget_Base {
 			),
 		);
 
+		if ($forms === false) {
+			return $this->formOptions;
+		}
+
 		foreach ( $forms as $form ) {
 			$this->formOptions[ $form['path'] ] = $form['name'];
 		}

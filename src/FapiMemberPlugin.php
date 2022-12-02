@@ -1890,15 +1890,19 @@ final class FapiMemberPlugin {
 		$this->showLevelSelectionPage();
 	}
 
+	/**
+	 * @return never
+	 */
 	protected function showLevelSelectionPage() {
-		$mem   = $this->fapiMembershipLoader()->loadForUser( get_current_user_id() );
+		$memberships   = $this->fapiMembershipLoader()->loadForUser( get_current_user_id() );
+
 		$pages = array_map(
 			function ( $m ) {
 				$p = $this->levels()->loadOtherPagesForLevel( $m->level, true );
 
 				return isset( $p['afterLogin'] ) ? $p['afterLogin'] : null;
 			},
-			$mem
+			$memberships
 		);
 
 		$dashboardPageId     = $this->getSetting( 'dashboard_page_id' );
@@ -1945,7 +1949,7 @@ final class FapiMemberPlugin {
 	}
 
 	/**
-	 *  this is not nice implementation :/
+	 * this is not nice implementation :/
 	 * it will append `fapi-level-selection=1` to every after login redirect
 	 * for users without memberships id doesn't do anything
 	 * for users with memberships it shows list of afterLogin pages from level config
@@ -1981,6 +1985,7 @@ final class FapiMemberPlugin {
 		$subpage              = $this->findSubpage();
 
 		$path = sprintf( '%s/../templates/%s.php', __DIR__, $name );
+
 		if ( file_exists( $path ) ) {
 			include $path;
 		}
