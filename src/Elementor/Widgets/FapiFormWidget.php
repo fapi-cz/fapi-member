@@ -87,7 +87,7 @@ final class FapiFormWidget extends Widget_Base {
 			),
 		);
 
-		if ($forms === false) {
+		if ( $forms === false ) {
 			return $this->formOptions;
 		}
 

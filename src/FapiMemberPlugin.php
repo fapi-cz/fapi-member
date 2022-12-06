@@ -1894,7 +1894,7 @@ final class FapiMemberPlugin {
 	 * @return never
 	 */
 	protected function showLevelSelectionPage() {
-		$memberships   = $this->fapiMembershipLoader()->loadForUser( get_current_user_id() );
+		$memberships = $this->fapiMembershipLoader()->loadForUser( get_current_user_id() );
 
 		$pages = array_map(
 			function ( $m ) {

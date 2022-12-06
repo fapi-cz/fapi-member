@@ -32,7 +32,7 @@ composer-outdated: ## Run composer outdated only linked dependencies
 	docker run --rm --interactive --tty --volume "$$PWD:/app" --user "$$(id -u):$$(id -g)" --volume ~/.ssh:/root/.ssh  composer:2 outdated -oD
 
 js-build: ## Build editor
-	docker exec node /bin/sh -c 'yarn build'
+	docker exec node /bin/sh -c 'yarn webpack'
 
 js-upgrade: ## Upgrade editor dependencies
 	docker exec node /bin/sh -c 'yarn upgrade'
@@ -42,12 +42,6 @@ js-add: ## Add editor dependencies
 
 js-outdated: ## List editor outdated dependencies
 	docker exec node /bin/sh -c 'yarn outdated'
-
-js-cs: ## Check style editor
-	docker exec node /bin/sh -c 'yarn cs'
-
-js-cbf: ## Code base fix editor
-	docker exec node /bin/sh -c 'yarn cbf'
 
 build: ## Builds the plugin source code
 	rm -d -r wp-build

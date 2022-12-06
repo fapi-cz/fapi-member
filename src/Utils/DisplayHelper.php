@@ -10,12 +10,8 @@ final class DisplayHelper {
 	 * @param string|array<mixed> $fapiSectionAndLevels
 	 * @return bool
 	 */
-	public static function shouldContentBeRendered( $hasSectionOrLevel, $fapiSectionAndLevels ) {
-		if ( ! in_array( $hasSectionOrLevel, array( '1', '0', '' ), true ) ) {
-			return true;
-		}
-
-		if ( $hasSectionOrLevel === '' ) {
+	public static function shouldContentBeRendered( $hasSectionOrLevel, $fapiSectionAndLevels, $wpUserId = null ) {
+		if ( ! in_array( $hasSectionOrLevel, array( '1', '0' ), true ) ) {
 			return true;
 		}
 
@@ -44,7 +40,9 @@ final class DisplayHelper {
 
 		global $FapiPlugin;
 		$hasMemberSectionOrLevel = (string) $hasSectionOrLevel;
-		$memberships             = $FapiPlugin->fapiMembershipLoader()->loadForUser( get_current_user_id() );
+
+		$userId      = isset( $wpUserId ) && $wpUserId ? $wpUserId : get_current_user_id();
+		$memberships = $FapiPlugin->fapiMembershipLoader()->loadForUser( $userId );
 
 		if ( $hasMemberSectionOrLevel === '1' ) {
 			foreach ( $memberships as $membership ) {
