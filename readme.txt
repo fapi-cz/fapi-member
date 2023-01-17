@@ -23,7 +23,7 @@ Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org
 
 == Changelog ==
 
-= 1.9.12 =
+= 1.9.13 =
 * Fixed problem with login form redirecting to wordpress admin page instead of FAPI Member page
 
 = 1.9.12 =
