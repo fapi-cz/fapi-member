@@ -1891,6 +1891,7 @@ final class FapiMemberPlugin {
 	}
 
 	/**
+	 * @deprecated
 	 * @return never
 	 */
 	protected function showLevelSelectionPage() {
@@ -1940,6 +1941,8 @@ final class FapiMemberPlugin {
 
 		if ( $defaultDashboardUrl !== null ) {
 			wp_redirect( $defaultDashboardUrl );
+
+			exit;
 		}
 
 		define( 'FAPI_SHOWING_LEVEL_SELECTION', 1 );
@@ -1958,6 +1961,49 @@ final class FapiMemberPlugin {
 	 * @see FapiMemberPlugin::showLevelSelectionPage()
 	 */
 	public function loginRedirect( $redirectTo, $request, $user ) {
+		$memberships = $this->fapiMembershipLoader()->loadForUser( $user->ID );
+
+		$pages = array_map(
+			function ( $m ) {
+				$p = $this->levels()->loadOtherPagesForLevel( $m->level, true );
+
+				return isset( $p['afterLogin'] ) ? $p['afterLogin'] : null;
+			},
+			$memberships
+		);
+
+		$dashboardPageId     = $this->getSetting( 'dashboard_page_id' );
+		$page                = get_post( $dashboardPageId );
+		$defaultDashboardUrl = null;
+
+
+		if ( $page !== null ) {
+			$defaultDashboardUrl = get_permalink( $page );
+		}
+
+		$pages = array_unique( array_filter( $pages ) );
+
+		if ( count( $pages ) === 0 ) {
+
+			if ( $defaultDashboardUrl !== null ) {
+				return $defaultDashboardUrl;
+			}
+
+			// no afterLogin page set anywhere
+			return get_site_url();
+		}
+
+		if ( count( $pages ) === 1 ) {
+			// exactly one afterLogin page
+			$f    = array_shift( $pages );
+			$page = get_post( $f );
+			return get_permalink( $page ) ;
+		}
+
+		if ( $defaultDashboardUrl !== null ) {
+			return $defaultDashboardUrl;
+		}
+
 		if ( ( strpos( $request, '?' ) !== false ) ) {
 			if ( ( strpos( $request, 'fapi-level-selection' ) !== false ) ) {
 				return $request;
