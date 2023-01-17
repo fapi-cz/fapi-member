@@ -141,7 +141,7 @@ final class FapiMemberPlugin {
 		add_action( 'edit_user_profile_update', array( $this, 'handleUserProfileSave' ) );
 
 		add_image_size( 'level-selection', 300, 164, true );
-		add_filter( 'login_redirect', array( $this, 'loginRedirect' ), 10, 3 );
+		add_filter( 'login_redirect', array( $this, 'loginRedirect' ), 5, 3 );
 		add_filter( 'show_admin_bar', array( $this, 'hideAdminBar' ) );
 
 		// filters block to render by section and levels provided
@@ -166,6 +166,9 @@ final class FapiMemberPlugin {
 			2
 		);
 
+		// Hacks and fixes
+		// WPS hide login plugin
+		add_filter( 'whl_logged_in_redirect', array( $this, 'loggedInRedirect' ), 1 );
 	}
 
 	public function hideAdminBar( $original ) {
@@ -1959,8 +1962,17 @@ final class FapiMemberPlugin {
 	 * or directly redirect if there is only one
 	 *
 	 * @see FapiMemberPlugin::showLevelSelectionPage()
+	 * @param WP_User|WP_Error $user
 	 */
 	public function loginRedirect( $redirectTo, $request, $user ) {
+		if ( $user instanceof WP_Error ) {
+			return $redirectTo;
+		}
+
+		if ( current_user_can( 'manage_options' ) ) {
+			return $redirectTo;
+		}
+
 		$memberships = $this->fapiMembershipLoader()->loadForUser( $user->ID );
 
 		$pages = array_map(
@@ -1975,7 +1987,6 @@ final class FapiMemberPlugin {
 		$dashboardPageId     = $this->getSetting( 'dashboard_page_id' );
 		$page                = get_post( $dashboardPageId );
 		$defaultDashboardUrl = null;
-
 
 		if ( $page !== null ) {
 			$defaultDashboardUrl = get_permalink( $page );
@@ -1997,7 +2008,8 @@ final class FapiMemberPlugin {
 			// exactly one afterLogin page
 			$f    = array_shift( $pages );
 			$page = get_post( $f );
-			return get_permalink( $page ) ;
+
+			return get_permalink( $page );
 		}
 
 		if ( $defaultDashboardUrl !== null ) {
@@ -2019,6 +2031,7 @@ final class FapiMemberPlugin {
 		if ( ! $this->areApiCredentialsSet() ) {
 			$this->showTemplate( 'connection' );
 		}
+
 		$this->showTemplate( 'index' );
 	}
 
@@ -2083,6 +2096,25 @@ final class FapiMemberPlugin {
 		}
 
 		$this->showTemplate( 'test' );
+	}
+
+	/**
+	 * @description Because of WPS hide login plugin
+	 *
+	 * @return string
+	 */
+	public function loggedInRedirect() {
+		if ( ! is_user_logged_in() ) {
+			return '';
+		}
+
+		$user = wp_get_current_user();
+
+		if ( $user === null || $user instanceof WP_Error ) {
+			return '';
+		}
+
+		return $this->loginRedirect( '', '', $user );
 	}
 
 }
