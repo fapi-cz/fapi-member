@@ -1821,6 +1821,10 @@ final class FapiMemberPlugin {
 		$all_stored_post_types = get_option( 'fapi_member_post_types', array() );
 
 		foreach ( $all_stored_post_types as $levelId => $post_types ) {
+			if ( is_string( $post_types ) ) {
+				$post_types = array( $post_types );
+			}
+
 			if ( in_array( $post_type, $post_types, true ) ) {
 				$levelsForThisPage[] = $levelId;
 			}
