@@ -124,6 +124,7 @@
   text-align: center !important;
   font-size: 22px !important;
   color: #6b7280 !important;
+  word-break: break-word !important;
 }
 .FapiLevelSelection #Wrapper .pages {
   margin-top: 40px !important;
