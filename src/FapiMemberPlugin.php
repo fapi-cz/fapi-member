@@ -2094,6 +2094,10 @@ final class FapiMemberPlugin {
 		$this->showTemplate( 'settingsPages' );
 	}
 
+	protected function showMemberList() {
+		$this->showTemplate( 'memberList' );
+	}
+
 	protected function showTest() {
 		if ( ! self::isDevelopment() ) {
 			wp_die( 'This path is only allowed in development.' );
