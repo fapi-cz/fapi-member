@@ -170,7 +170,7 @@
 		}
 
 		&.smallerPadding {
-			padding: 48px 0 48px 48px;
+			padding: 48px;
 		}
 	}
 
@@ -525,6 +525,24 @@
 				grid-row: 2/3;
 				grid-column: 3/4;
 			}
+		}
+		.subLevels{
+			display: grid;
+  			grid-template-columns: 1fr 1fr 1fr;
+ 			padding-left: 20px;
+  			border-top: 1px solid #eeeeee;
+		}
+		.mainLevel{
+			padding: 20px;
+		}
+		.mainLevel:hover{
+			cursor: pointer;
+  			background-color: #f3f3f3;
+		}
+		.collapsibelContent{
+			max-height: 0;
+			overflow: hidden;
+			transition: max-height 0.2s ease-out;
 		}
 	}
 
