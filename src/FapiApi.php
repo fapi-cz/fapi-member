@@ -169,19 +169,32 @@ final class FapiApi {
 	 * @param string $webUrl
 	 * @return array<mixed>|false
 	 */
-	public function createConnection( $webUrl )
-    {
-        $response = $this->retryRequest(
-            'POST',
-            sprintf('%sconnections', $this->apiUrl),
-            $webUrl
+    public function createConnection( $webUrl ) {
+        $response = wp_remote_request(
+            sprintf( '%sconnections', $this->apiUrl ),
+            array(
+                'method'  => 'POST',
+                'headers' => $this->createHeaders(),
+                'timeout' => 30,
+                'connection_timeout' => 30,
+                'body'    => json_encode(
+                    array(
+                        'application' => 'fapi-member',
+                        'credentials' => array(
+                            'web_url' => $webUrl,
+                        ),
+                    )
+                ),
+            )
         );
 
-        if (!$response) {
+        if ( $response instanceof WP_Error || $response['response']['code'] !== 201 ) {
+            $this->lastError = $this->findErrorMessage( $response );
+
             return false;
         }
 
-        return json_decode($response['body'], true);
+        return json_decode( $response['body'], true );
     }
 
 	public function getForms() {
@@ -231,28 +244,19 @@ final class FapiApi {
      * @param int $retries
      * @return mixed
      */
-    private function retryRequest($method, $remoteUrl, $bodyData = null, $retries = 3) {
+    private function retryRequest($remoteUrl, $bodyData = null, $retries = 3) {
         $requestData = array(
-           'method'  => $method == 'GET' ? 'GET' : 'POST',
+           'method'  => 'GET',
            'headers' => $this->createHeaders(),
            'timeout' => 30,
            'connection_timeout' => 30,
         );
 
-        if ($method == 'POST') {
-            $requestData['body'] = array(
-                'application' => 'fapi-member',
-                'credentials' => array(
-                    'web_url' => $bodyData,
-                ),
-            );
-        }
-
         $response = wp_remote_request($remoteUrl, $requestData);
 
         if ($response instanceof WP_Error || $response['response']['code'] !== 200) {
             if ($retries > 0) {
-                return $this->retryRequest($method, $remoteUrl, $bodyData, $retries - 1);
+                return $this->retryRequest($remoteUrl, $bodyData, $retries - 1);
             } else {
                 $this->lastError = $this->findErrorMessage($response);
                 return false;
