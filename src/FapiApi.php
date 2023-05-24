@@ -31,16 +31,16 @@ final class FapiApi {
 	 * @return false|array<mixed>
 	 */
 	public function getInvoice( $id ) {
-        $response = $this->retryRequest(
-            'GET',
-            sprintf( '%sinvoices/%s', $this->apiUrl, $id )
-        );
+		$response = $this->retryRequest(
+			'GET',
+			sprintf( '%sinvoices/%s', $this->apiUrl, $id )
+		);
 
-        if (!$response) {
-            return false;
-        }
+		if ( ! $response ) {
+			return false;
+		}
 
-        return json_decode( $response['body'], true );
+		return json_decode( $response['body'], true );
 	}
 
 	/**
@@ -91,16 +91,16 @@ final class FapiApi {
 	 * @return false|array<mixed>
 	 */
 	public function getVoucher( $id ) {
-        $response = $this->retryRequest(
-            'GET',
-            sprintf( '%svouchers/%s', $this->apiUrl, $id )
-        );
+		$response = $this->retryRequest(
+			'GET',
+			sprintf( '%svouchers/%s', $this->apiUrl, $id )
+		);
 
-        if (!$response) {
-            return false;
-        }
+		if ( ! $response ) {
+			return false;
+		}
 
-        return json_decode( $response['body'], true );
+		return json_decode( $response['body'], true );
 	}
 
 	/**
@@ -108,16 +108,16 @@ final class FapiApi {
 	 * @return false|array<mixed>
 	 */
 	public function getItemTemplate( $code ) {
-        $response = $this->retryRequest(
-            'GET',
-            sprintf( '%sitem_templates/?code=%s', $this->apiUrl, $code )
-        );
+		$response = $this->retryRequest(
+			'GET',
+			sprintf( '%sitem_templates/?code=%s', $this->apiUrl, $code )
+		);
 
-        if (!$response) {
-            return false;
-        }
+		if ( ! $response ) {
+			return false;
+		}
 
-        $data = json_decode( $response['body'], true );
+		$data = json_decode( $response['body'], true );
 
 		if ( ! isset( $data['item_templates'][0] ) ) {
 			return false;
@@ -130,16 +130,16 @@ final class FapiApi {
 	 * @return bool
 	 */
 	public function checkCredentials() {
-        $response = $this->retryRequest(
-            'GET',
-            sprintf( '%', $this->apiUrl )
-        );
+		$response = $this->retryRequest(
+			'GET',
+			sprintf( '%', $this->apiUrl )
+		);
 
-        if (!$response) {
-            return false;
-        }
+		if ( ! $response ) {
+			return false;
+		}
 
-        return true;
+		return true;
 	}
 
 	/**
@@ -147,16 +147,16 @@ final class FapiApi {
 	 * @return array<mixed>|null|false
 	 */
 	public function findConnection( $webUrl ) {
-        $response = $this->retryRequest(
-            'GET',
-            sprintf( '%sconnections?application=fapi-member&credentials_contains=%s', $this->apiUrl, $webUrl )
-        );
+		$response = $this->retryRequest(
+			'GET',
+			sprintf( '%sconnections?application=fapi-member&credentials_contains=%s', $this->apiUrl, $webUrl )
+		);
 
-        if (!$response) {
-            return false;
-        }
+		if ( ! $response ) {
+			return false;
+		}
 
-        $data = json_decode( $response['body'], true );
+		$data = json_decode( $response['body'], true );
 
 		if ( isset( $data['connections'][0] ) ) {
 			return $data['connections'][0];
@@ -169,43 +169,43 @@ final class FapiApi {
 	 * @param string $webUrl
 	 * @return array<mixed>|false
 	 */
-    public function createConnection( $webUrl ) {
-        $response = wp_remote_request(
-            sprintf( '%sconnections', $this->apiUrl ),
-            array(
-                'method'  => 'POST',
-                'headers' => $this->createHeaders(),
-                'timeout' => 30,
-                'connection_timeout' => 30,
-                'body'    => json_encode(
-                    array(
-                        'application' => 'fapi-member',
-                        'credentials' => array(
-                            'web_url' => $webUrl,
-                        ),
-                    )
-                ),
-            )
-        );
+	public function createConnection( $webUrl ) {
+		$response = wp_remote_request(
+			sprintf( '%sconnections', $this->apiUrl ),
+			array(
+				'method'             => 'POST',
+				'headers'            => $this->createHeaders(),
+				'timeout'            => 30,
+				'connection_timeout' => 30,
+				'body'               => json_encode(
+					array(
+						'application' => 'fapi-member',
+						'credentials' => array(
+							'web_url' => $webUrl,
+						),
+					)
+				),
+			)
+		);
 
-        if ( $response instanceof WP_Error || $response['response']['code'] !== 201 ) {
-            $this->lastError = $this->findErrorMessage( $response );
+		if ( $response instanceof WP_Error || $response['response']['code'] !== 201 ) {
+			$this->lastError = $this->findErrorMessage( $response );
 
-            return false;
-        }
+			return false;
+		}
 
-        return json_decode( $response['body'], true );
-    }
+		return json_decode( $response['body'], true );
+	}
 
 	public function getForms() {
-        $response = $this->retryRequest(
-            'GET',
-            sprintf( '%sforms', $this->apiUrl )
-        );
+		$response = $this->retryRequest(
+			'GET',
+			sprintf( '%sforms', $this->apiUrl )
+		);
 
-        if (!$response) {
-            return false;
-        }
+		if ( ! $response ) {
+			return false;
+		}
 
 		$data = json_decode( $response['body'], true );
 
@@ -237,33 +237,33 @@ final class FapiApi {
 		return SecurityValidator::isVoucherSecurityValid( $voucher, $itemTemplate, $time, $expectedSecurity );
 	}
 
-    /**
-     * @param string $method
-     * @param string $remoteUrl
-     * @param string|null $bodyData
-     * @param int $retries
-     * @return mixed
-     */
-    private function retryRequest($remoteUrl, $bodyData = null, $retries = 3) {
-        $requestData = array(
-           'method'  => 'GET',
-           'headers' => $this->createHeaders(),
-           'timeout' => 30,
-           'connection_timeout' => 30,
-        );
+	/**
+	 * @param string      $method
+	 * @param string      $remoteUrl
+	 * @param string|null $bodyData
+	 * @param int         $retries
+	 * @return mixed
+	 */
+	private function retryRequest( $remoteUrl, $bodyData = null, $retries = 3 ) {
+		$requestData = array(
+			'method'             => 'GET',
+			'headers'            => $this->createHeaders(),
+			'timeout'            => 30,
+			'connection_timeout' => 30,
+		);
 
-        $response = wp_remote_request($remoteUrl, $requestData);
+		$response = wp_remote_request( $remoteUrl, $requestData );
 
-        if ($response instanceof WP_Error || $response['response']['code'] !== 200) {
-            if ($retries > 0) {
-                return $this->retryRequest($remoteUrl, $bodyData, $retries - 1);
-            } else {
-                $this->lastError = $this->findErrorMessage($response);
-                return false;
-            }
-        }
+		if ( $response instanceof WP_Error || $response['response']['code'] !== 200 ) {
+			if ( $retries > 0 ) {
+				return $this->retryRequest( $remoteUrl, $bodyData, $retries - 1 );
+			} else {
+				$this->lastError = $this->findErrorMessage( $response );
+				return false;
+			}
+		}
 
-        return $response;
-    }
+		return $response;
+	}
 
 }

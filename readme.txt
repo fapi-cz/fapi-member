@@ -5,7 +5,7 @@ Requires at least: 5.8
 Tested up to: 6.1
 Requires PHP: 7.4
 License: GPLv2 or later
-Stable tag: 1.9.18
+Stable tag: 1.9.19
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -22,6 +22,10 @@ Máte problém s nastavením FAPI Memberu. Obrátit se můžete na naší podpor
 Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org/plugins/fapi-member/#reviews).
 
 == Changelog ==
+
+= 1.9.19 =
+* Added retry logic for FAPI API calls
+* Added list and export of members for sections and levels
 
 = 1.9.16 =
 * Fixed problem with redirect after logged in for WPS Hide Login plugin

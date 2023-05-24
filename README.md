@@ -130,7 +130,6 @@ to je možné využít při vývoji na testování např. zakládání uživatel
 3. Dále je potřeba změnit verzi pluginu, přidat setinkovou verzi pokud se jedná o opravu, pokud se přidává nová funkce přidat desetinku a pokud jedná o úplně novou verzi přidat zvyšit major verzi o jedno
 4. Aktualizovat composer `composer dump-autoload`
 5. Vytvořit produkční build `make build -i`
-5. Vytvořit složku `wp-svn`
 6. Stáhnout repozitář z WP `svn co https://plugins.svn.wordpress.org/fapi-member wp-svn`
 7. Vyvořit složku z verzi ve složce `wp-svn/tags/X.X.X`
 8. Nahrát obsah z `wp-build` do vytvořené složky v přechozím bodě
