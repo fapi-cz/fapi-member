@@ -4,6 +4,7 @@ global $FapiPlugin;
 
 use FapiMember\FapiMembership;
 use FapiMember\FapiMemberTools;
+use FapiMember\FapiLevels;
 
 $fapiLevels = $FapiPlugin->levels();
 
@@ -97,18 +98,46 @@ echo FapiMemberTools::heading();
 			$level = $envelope->getTerm();
 			$empty = false;
 			?>
-            <div>
+            <div class="mainLevel">
                 <div class="name"><?php echo $level->name ?></div>
                 <div class="levelCount"><?php echo __( 'Počet úrovní', 'fapi-member' ); ?>:
                     <span><?php echo (isset($levelCount[$level->term_id])) ? $levelCount[$level->term_id] : 0 ?></span>
                 </div>
                 <div class="membersCount"><?php echo __( 'Počet registrovaných', 'fapi-member' ); ?>:
                     <span><?php echo (isset($levelUsersCount[$level->term_id])) ? $levelUsersCount[$level->term_id] : 0 ?></span>
+					<?php if (isset($levelUsersCount[$level->term_id])) {
+						echo '<div><a href="' . FapiMemberTools::fapilink('memberList'.'&sectionID='.$level->term_id).'" class="btn outline">' . __('Seznam členů', 'fapi-member') . '</a></div>';
+					}
+					?>
                 </div>
                 <div class="pagesCount"><?php echo __( 'Stránek v celé sekci', 'fapi-member' ); ?>:
                     <span><?php echo (isset($pagesCount[$level->term_id])) ? $pagesCount[$level->term_id] : 0 ?></span>
-                </div>
+					
+                </div>	
             </div>
+			<div class="subLevels collapsibleContent">
+				<?php
+				$subLevels = get_term_children($level->term_id, FapiLevels::TAXONOMY);
+				if (!is_wp_error($subLevels)) {
+					foreach ($subLevels as $subLevel) { 
+						$subLevelTerm=get_term_by('ID', $subLevel, FapiLevels::TAXONOMY);
+						?>
+						<div class="subLevel">
+							<h3><?php echo $subLevelTerm->name ?></h3>
+							<div class="membersCount" style="display:inline;"><?php echo __('Počet registrovaných', 'fapi-member'); ?>:
+								<span><?php echo (isset($levelUsersCount[$subLevel])) ? $levelUsersCount[$subLevel] : 0 ?></span>
+								<?php if (isset($levelUsersCount[$subLevel])) {
+									echo '<div><a href="' . FapiMemberTools::fapilink('memberList') . '&sectionID=' . $subLevel . '" class="btn outline">' . __('Seznam členů', 'fapi-member') . '</a></div>';
+								}
+								?>
+							</div>
+						</div>
+				<?php
+					}
+				}
+				?>
+			</div>
+            
 		<?php } ?>
 
     </div>

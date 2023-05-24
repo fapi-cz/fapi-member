@@ -138,7 +138,7 @@
   grid-column: 2/4;
 }
 .baseGrid .page.smallerPadding {
-  padding: 48px 0 48px 48px;
+  padding: 48px;
 }
 .baseGrid .help,
 .baseGrid .spacer {
@@ -418,6 +418,15 @@
   display: grid;
   grid-template-rows: auto auto;
   grid-template-columns: 1fr 1fr 1fr;
+}
+.baseGrid .sectionsOverview .subLevels {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding-left: 20px;
+  border-top: 1px solid #eeeeee;
+}
+.baseGrid .sectionsOverview .subLevel{
+  padding: 20px;
   border-bottom: 1px solid #eeeeee;
 }
 .baseGrid .sectionsOverview > div .name {
@@ -450,6 +459,18 @@
 .baseGrid .sectionsOverview > div .pagesCount {
   grid-row: 2/3;
   grid-column: 3/4;
+}
+.baseGrid .sectionsOverview .mainLevel{
+  padding: 20px;
+}
+.baseGrid .sectionsOverview .mainLevel:hover{
+  cursor: pointer;
+  background-color: #f3f3f3;
+}
+.baseGrid .sectionsOverview .collapsibleContent{
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
 }
 .baseGrid .todo {
   background-color: limegreen;
