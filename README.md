@@ -134,6 +134,6 @@ to je možné využít při vývoji na testování např. zakládání uživatel
 7. Vyvořit složku z verzi ve složce `wp-svn/tags/X.X.X`
 8. Nahrát obsah z `wp-build` do vytvořené složky v přechozím bodě
 9. Smazat obsah ze složky `wp-svn/trunk`
-10. A nahrát obsah ze složky `wp-svn` do složky `wp-svn/trunk`
+10. A nahrát obsah ze složky `wp-build` do složky `wp-svn/trunk`
 11. Vše dát do track stavu `svn add --force * --auto-props --parents --depth infinity -q`
 12. A vše commitnout `svn ci -m 'Adding first version of my plugin' --username your_username --password your_password`
