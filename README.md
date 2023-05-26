@@ -127,13 +127,16 @@ to je možné využít při vývoji na testování např. zakládání uživatel
 ## POUZE POKUD VÍŠ CO DĚLÁŠ
 1. Je potřeba udělat build jak js tak css souborů
 2. `docker exec node /bin/sh -c 'yarn --cwd multiple-blocks build'`
+   1. Pokud zfailuje build na nenalezení "wp_scripts", je třeba provést yarn install
+   2. `docker exec node /bin/sh -c 'yarn --cwd multiple-blocks install'`
+   3. A poté opět build a pokračovat
 3. Dále je potřeba změnit verzi pluginu, přidat setinkovou verzi pokud se jedná o opravu, pokud se přidává nová funkce přidat desetinku a pokud jedná o úplně novou verzi přidat zvyšit major verzi o jedno
 4. Aktualizovat composer `composer dump-autoload`
 5. Vytvořit produkční build `make build -i`
 6. Stáhnout repozitář z WP `svn co https://plugins.svn.wordpress.org/fapi-member wp-svn`
-7. Vyvořit složku z verzi ve složce `wp-svn/tags/X.X.X`
+7. Vyvořit složku s verzí ve složce `wp-svn/tags/X.X.X`
 8. Nahrát obsah z `wp-build` do vytvořené složky v přechozím bodě
 9. Smazat obsah ze složky `wp-svn/trunk`
 10. A nahrát obsah ze složky `wp-build` do složky `wp-svn/trunk`
 11. Vše dát do track stavu `svn add --force * --auto-props --parents --depth infinity -q`
-12. A vše commitnout `svn ci -m 'Adding first version of my plugin' --username your_username --password your_password`
+12. A vše commitnout `svn ci -m '{Message s update zprávou}' --username fapi --password your_password`
