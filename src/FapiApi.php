@@ -132,7 +132,7 @@ final class FapiApi {
 	public function checkCredentials() {
 		$response = $this->retryRequest(
 			'GET',
-			sprintf( '%', $this->apiUrl )
+			sprintf( '%s', $this->apiUrl )
 		);
 
 		if ( ! $response ) {
