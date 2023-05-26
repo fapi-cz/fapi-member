@@ -32,7 +32,6 @@ final class FapiApi {
 	 */
 	public function getInvoice( $id ) {
 		$response = $this->retryRequest(
-			'GET',
 			sprintf( '%sinvoices/%s', $this->apiUrl, $id )
 		);
 
@@ -92,7 +91,6 @@ final class FapiApi {
 	 */
 	public function getVoucher( $id ) {
 		$response = $this->retryRequest(
-			'GET',
 			sprintf( '%svouchers/%s', $this->apiUrl, $id )
 		);
 
@@ -109,7 +107,6 @@ final class FapiApi {
 	 */
 	public function getItemTemplate( $code ) {
 		$response = $this->retryRequest(
-			'GET',
 			sprintf( '%sitem_templates/?code=%s', $this->apiUrl, $code )
 		);
 
@@ -131,8 +128,7 @@ final class FapiApi {
 	 */
 	public function checkCredentials() {
 		$response = $this->retryRequest(
-			'GET',
-			sprintf( '%', $this->apiUrl )
+			sprintf( '%s', $this->apiUrl )
 		);
 
 		if ( ! $response ) {
@@ -148,7 +144,6 @@ final class FapiApi {
 	 */
 	public function findConnection( $webUrl ) {
 		$response = $this->retryRequest(
-			'GET',
 			sprintf( '%sconnections?application=fapi-member&credentials_contains=%s', $this->apiUrl, $webUrl )
 		);
 
@@ -199,7 +194,6 @@ final class FapiApi {
 
 	public function getForms() {
 		$response = $this->retryRequest(
-			'GET',
 			sprintf( '%sforms', $this->apiUrl )
 		);
 
@@ -238,7 +232,6 @@ final class FapiApi {
 	}
 
 	/**
-	 * @param string      $method
 	 * @param string      $remoteUrl
 	 * @param string|null $bodyData
 	 * @param int         $retries
