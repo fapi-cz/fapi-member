@@ -141,4 +141,4 @@ to je možné využít při vývoji na testování např. zakládání uživatel
 9. Smazat obsah ze složky `wp-svn/trunk`
 10. A nahrát obsah ze složky `wp-build` do složky `wp-svn/trunk`
 11. Vše dát do track stavu `svn add --force * --auto-props --parents --depth infinity -q`
-12. A vše commitnout `svn ci -m '{Message s update zprávou}' --username fapi --password your_password`
+12. A vše commitnout `svn ci -m '{Message s update zprávou}' --username fapi --password {your_password}`
