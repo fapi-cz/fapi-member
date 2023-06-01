@@ -1902,6 +1902,10 @@ final class FapiMemberPlugin {
 	 * @return never
 	 */
 	protected function showLevelSelectionPage() {
+		if ( current_user_can( self::REQUIRED_CAPABILITY ) ) {
+			wp_redirect( get_admin_url() );
+		}
+
 		$memberships = $this->fapiMembershipLoader()->loadForUser( get_current_user_id() );
 
 		$pages = array_map(
@@ -1973,7 +1977,7 @@ final class FapiMemberPlugin {
 			return $redirectTo;
 		}
 
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( current_user_can( self::REQUIRED_CAPABILITY ) ) {
 			return $redirectTo;
 		}
 
