@@ -1978,6 +1978,7 @@ final class FapiMemberPlugin {
 		}
 
 		if ( current_user_can( self::REQUIRED_CAPABILITY ) ) {
+			// todo change this to admin dashboard
 			return $redirectTo;
 		}
 
