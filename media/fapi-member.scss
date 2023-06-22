@@ -364,6 +364,31 @@
 		}
 	}
 
+	.disconnectIcon{
+		fill: $graySVG;
+		width: 20px;
+		aspect-ratio: 1/1;
+		transition: 0.2s;
+		vertical-align: middle;
+		padding: 0;
+		background: none;
+		border: none;
+	}
+
+	.disconnectIcon:hover{
+		cursor: pointer;
+		fill: $blue;
+	}
+
+	.widefat td{
+		vertical-align: middle;
+	}
+
+	.disconnectColumn{
+		width: 100px;
+		text-align: center;
+	}
+
 	.withSections {
 		display: grid;
 		grid-template-columns: min-content auto;
@@ -531,6 +556,8 @@
   			grid-template-columns: 1fr 1fr 1fr;
  			padding-left: 20px;
   			border-top: 1px solid #eeeeee;
+			overflow: hidden;
+			transition: all 0.2s ease-in-out;
 		}
 		.mainLevel{
 			padding: 20px;

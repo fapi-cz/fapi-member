@@ -305,6 +305,27 @@
   grid-row: 1/2;
   grid-column: 2/3;
 }
+.baseGrid .disconnectIcon {
+  fill: #b0b0b0;
+  width: 20px;
+  aspect-ratio: 1/1;
+  transition: 0.2s;
+  vertical-align: middle;
+  padding: 0;
+  background: none;
+  border: none;
+}
+.baseGrid .disconnectIcon:hover {
+  cursor: pointer;
+  fill: #0074e2;
+}
+.baseGrid .widefat td {
+  vertical-align: middle;
+}
+.baseGrid .disconnectColumn {
+  width: 100px;
+  text-align: center;
+}
 .baseGrid .withSections {
   display: grid;
   grid-template-columns: min-content auto;
@@ -418,15 +439,6 @@
   display: grid;
   grid-template-rows: auto auto;
   grid-template-columns: 1fr 1fr 1fr;
-}
-.baseGrid .sectionsOverview .subLevels {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  padding-left: 20px;
-  border-top: 1px solid #eeeeee;
-}
-.baseGrid .sectionsOverview .subLevel{
-  padding: 20px;
   border-bottom: 1px solid #eeeeee;
 }
 .baseGrid .sectionsOverview > div .name {
@@ -460,14 +472,22 @@
   grid-row: 2/3;
   grid-column: 3/4;
 }
-.baseGrid .sectionsOverview .mainLevel{
+.baseGrid .sectionsOverview .subLevels {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding-left: 20px;
+  border-top: 1px solid #eeeeee;
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+}
+.baseGrid .sectionsOverview .mainLevel {
   padding: 20px;
 }
-.baseGrid .sectionsOverview .mainLevel:hover{
+.baseGrid .sectionsOverview .mainLevel:hover {
   cursor: pointer;
   background-color: #f3f3f3;
 }
-.baseGrid .sectionsOverview .collapsibleContent{
+.baseGrid .sectionsOverview .collapsibelContent {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.2s ease-out;
@@ -664,6 +684,4 @@
   line-height: 40px;
   border-radius: 0.25rem !important;
   padding: 0 22px;
-}
-
-/*# sourceMappingURL=fapi-member.css.map */
+}/*# sourceMappingURL=fapi-member.css.map */

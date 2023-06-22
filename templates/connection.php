@@ -8,18 +8,48 @@ use FapiMember\FapiMemberTools;
 echo FapiMemberTools::heading();
 ?>
 <div class="page">
-    <h3><?php echo __( 'Propojený účet FAPI', 'fapi-member' ); ?></h3>
-	<?php echo FapiMemberTools::showErrors(); ?>
-	<?php echo FapiMemberTools::formStart('api_credentials_submit') ?>
+<?php echo FapiMemberTools::showErrors(); ?>
+    <h3><?php echo __( 'Propojené účty FAPI:', 'fapi-member' ); ?></h3>
+    <?php echo FapiMemberTools::formStart('api_credentials_remove') ?>
+        <table class="wp-list-table widefat fixed striped table-view-list">
+            <tr>
+                <th><?php _e( 'Uživatelské jméno (e-mail)', 'fapi-member' ); ?></th>
+                <th><?php _e( 'API klíč', 'fapi-member' ); ?></th>
+                <th class="disconnectColumn"><?php _e( 'Odpojit', 'fapi-member' ); ?></th>
+            </tr>
+            <?php
+            $accounts = $FapiPlugin->getFapiClients()->getFapiApis();
+            if ( empty( $accounts ) || $accounts[0]->getApiKey() === null ){
+                echo '<tr>
+                        <td></td>
+                        <td>'.__( 'Nejsou propojeny žádné účty', 'fapi-member' ).'</td>
+                        <td></td>
+                    </tr>';
+            } else {
+                foreach ($accounts as $account){
+                    echo '<tr>
+                            <td>'.$account->getApiUser().'</td>
+                            <td>'.$account->getApiKey().'</td>
+                            <td class="disconnectColumn">'.
+                                '<button class ="disconnectIcon" name="fapiRemoveCredentials" type="submit" value='.$account->getApiKey().'>'.
+                                    '<svg class ="disconnectIcon" src="'.file_get_contents( __DIR__ . '/../_sources/disconnect.svg' ).'">
+                                </button>
+                            </td>
+                        </tr>';
+                }
+            }
+            ?>
+        </table>
+    </form>
+	<?php echo FapiMemberTools::formStart('api_credentials_submit') ;?>
+    <h3><?php echo __( 'Propojit účet FAPI (max. 5)', 'fapi-member' ); ?></h3>
     <div class="row">
         <label for="fapiMemberApiEmail"><?php echo __( 'Uživatelské jméno (e-mail)', 'fapi-member' ); ?></label>
-        <input type="text" name="fapiMemberApiEmail" id="fapiMemberApiEmail" placeholder="me@example.com"
-               value="<?php echo get_option(FapiMemberPlugin::OPTION_KEY_API_USER, '') ?>">
+        <input type="text" name="fapiMemberApiEmail" id="fapiMemberApiEmail" placeholder="me@example.com">
     </div>
     <div class="row">
         <label for="fapiMemberApiKey"><?php echo __( 'API klíč', 'fapi-member' ); ?></label>
-        <input type="text" name="fapiMemberApiKey" id="fapiMemberApiKey" placeholder=""
-               value="<?php echo get_option(FapiMemberPlugin::OPTION_KEY_API_KEY, '') ?>">
+        <input type="text" name="fapiMemberApiKey" id="fapiMemberApiKey">
     </div>
     <div class="row controls">
         <input type="submit" class="primary" name="" id="" value="<?php echo __( 'Propojit s FAPI', 'fapi-member' ); ?>">
@@ -27,7 +57,7 @@ echo FapiMemberTools::heading();
     </form>
     <p>
 		<?php echo __( 'Stav propojení', 'fapi-member' ); ?>:
-		<?php echo ($FapiPlugin->recheckApiCredentials()) ? '<span class="ok">' . __( 'propojeno', 'fapi') . '</span>' : '<span class="ng">' . __('nepropojeno', 'fapi-member' ) . '</span>' ?>
+		<?php echo ($FapiPlugin->areApiCredentialsSet()) ? '<span class="ok">' . __( 'propojeno', 'fapi') . '</span>' : '<span class="ng">' . __('nepropojeno', 'fapi-member' ) . '</span>' ?>
     </p>
 
     <h3><?php echo __( 'Propojení s Integromatem', 'fapi-member' ); ?></h3>

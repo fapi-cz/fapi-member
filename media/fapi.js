@@ -308,10 +308,9 @@
     let collapseTriggers = document.getElementsByClassName("mainLevel")
     for (i = 0; i < collapseTriggers.length; i++) {
       collapseTriggers[i].addEventListener("click", function() {
-        console.log('test')
         let collapsibleContent = this.nextElementSibling;
-        if (collapsibleContent.style.maxHeight){
-          collapsibleContent.style.maxHeight = null;
+        if (!(collapsibleContent.style.maxHeight == "0px")){
+          collapsibleContent.style.maxHeight = "0px";
         } else {
           collapsibleContent.style.maxHeight = collapsibleContent.scrollHeight + "px";
         } 

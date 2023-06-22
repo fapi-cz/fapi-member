@@ -48,10 +48,11 @@ final class FapiFormWidget extends Widget_Base {
 		$this->add_control(
 			'path',
 			array(
-				'type'    => Controls_Manager::SELECT,
-				'label'   => esc_html__( 'Prodejní formulář', 'fapi-member' ),
-				'options' => $this->getFormOptions(),
-				'default' => '',
+				'type'    			=> Controls_Manager::SELECT,
+				'label'   			=> esc_html__( 'Prodejní formulář', 'fapi-member' ),
+				'options' 			=> $this->getFormOptions(),
+				'default' 			=> '',
+				'prefix_class'	 	=> 'form-control'
 			)
 		);
 
@@ -79,7 +80,13 @@ final class FapiFormWidget extends Widget_Base {
 
 		global $FapiPlugin;
 
-		$forms             = $FapiPlugin->getFapiClients()->listForms();
+		$allClientsForms = [];
+		$clients = $FapiPlugin->getFapiClients()->getFapiApis();
+
+		foreach ($clients as $client){
+			$allClientsForms[$client->getApiUser()] = $client->getForms();
+		}
+
 		$this->formOptions = array(
 			'' => esc_html__(
 				'-- vyberte prodejní formulář --',
@@ -87,12 +94,14 @@ final class FapiFormWidget extends Widget_Base {
 			),
 		);
 
-		if ( $forms === false ) {
+		if ( $allClientsForms === false || empty($allClientsForms) ) {
 			return $this->formOptions;
 		}
 
-		foreach ( $forms as $form ) {
-			$this->formOptions[ $form['path'] ] = $form['name'];
+		foreach ( $allClientsForms as $client => $clientForms ) {
+			foreach ($clientForms as $form){
+				$this->formOptions[ $form['path'] ] = $form['name'].sprintf(' (%s)', $client);
+			}
 		}
 
 		return $this->formOptions;
