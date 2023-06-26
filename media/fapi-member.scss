@@ -550,8 +550,7 @@
 			cursor: pointer;
   			background-color: #f3f3f3;
 		}
-		.collapsibelContent{
-			max-height: 0;
+		.collapsibleContent{
 			overflow: hidden;
 			transition: max-height 0.2s ease-out;
 		}
