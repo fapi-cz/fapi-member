@@ -172,6 +172,8 @@ final class FapiMemberPlugin {
 		// Hacks and fixes
 		// WPS hide login plugin
 		add_filter( 'whl_logged_in_redirect', array( $this, 'loggedInRedirect' ), 1 );
+		// Multiple accounts backwards compatibility
+		add_action( 'upgrader_process_complete', array( $this, 'migrateCredentialsOnUpgrade' ), 10, 2 );
 	}
 
 	public function hideAdminBar( $original ) {
@@ -2244,6 +2246,40 @@ final class FapiMemberPlugin {
 		}
 
 		return $this->loginRedirect( '', '', $user );
+	}
+
+
+	public function migrateCredentialsOnUpgrade( $upgraderObject, $options ) {
+		$relativePath		= explode('/', str_replace( WP_PLUGIN_DIR . '/', '', __DIR__ ));
+		$fapiBaseName 		= reset($relativePath);
+		$fapiCredentials	= get_option( self::OPTION_KEY_API_CREDENTIALS, null );
+
+		if ( ( ! empty( $fapiCredentials ) ) || ( ! in_array( $fapiBaseName, $options['plugins'] ) ) ) {
+			return;
+		}
+
+		$apiUser = get_option( self::OPTION_KEY_API_USER, null );
+		$apiKey  = get_option( self::OPTION_KEY_API_KEY, null );
+
+		update_option(
+			self::OPTION_KEY_API_CREDENTIALS,
+			json_encode(
+				array(
+					array(
+						'username' => $apiUser,
+						'token'    => $apiKey,
+					),
+				)
+			)
+		);
+
+		$credentialsOk = $this->updateFapiClients()->checkCredentials();
+		update_option( self::OPTION_KEY_API_CHECKED, $credentialsOk );
+
+		if ( ! $credentialsOk ){
+			update_option( self::OPTION_KEY_API_CREDENTIALS, '' );
+		}
+
 	}
 
 }
