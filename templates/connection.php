@@ -15,7 +15,7 @@ echo FapiMemberTools::heading();
             <tr>
                 <th><?php _e( 'Uživatelské jméno (e-mail)', 'fapi-member' ); ?></th>
                 <th><?php _e( 'API klíč', 'fapi-member' ); ?></th>
-                <th class="disconnectColumn"><?php _e( 'Odpojit', 'fapi-member' ); ?></th>
+                <th class="disconnectColumn"></th>
             </tr>
             <?php
             $accounts = $FapiPlugin->getFapiClients()->getFapiApis();
@@ -30,9 +30,9 @@ echo FapiMemberTools::heading();
                     echo '<tr>
                             <td>'.$account->getApiUser().'</td>
                             <td>'.$account->getApiKey().'</td>
-                            <td class="disconnectColumn">'.
-                                '<button class ="disconnectIcon" name="fapiRemoveCredentials" type="submit" value='.$account->getApiKey().'>'.
-                                    '<svg class ="disconnectIcon" src="'.file_get_contents( __DIR__ . '/../_sources/disconnect.svg' ).'">
+                            <td>'.
+                                '<button class ="btn outline" name="fapiRemoveCredentials" type="submit" value='.$account->getApiKey().'>'.
+                                    __( 'Smazat propojení s FAPI' , 'fapi-member' );'.
                                 </button>
                             </td>
                         </tr>';
@@ -42,7 +42,7 @@ echo FapiMemberTools::heading();
         </table>
     </form>
 	<?php echo FapiMemberTools::formStart('api_credentials_submit') ;?>
-    <h3><?php echo __( 'Propojit účet FAPI (max. 5)', 'fapi-member' ); ?></h3>
+    <h3><?php echo __( 'Propojit účet FAPI (max. '. $FapiPlugin::CONNECTED_API_KEYS_LIMIT.')', 'fapi-member' ); ?></h3>
     <div class="row">
         <label for="fapiMemberApiEmail"><?php echo __( 'Uživatelské jméno (e-mail)', 'fapi-member' ); ?></label>
         <input type="text" name="fapiMemberApiEmail" id="fapiMemberApiEmail" placeholder="me@example.com">

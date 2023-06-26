@@ -364,28 +364,12 @@
 		}
 	}
 
-	.disconnectIcon{
-		fill: $graySVG;
-		width: 20px;
-		aspect-ratio: 1/1;
-		transition: 0.2s;
-		vertical-align: middle;
-		padding: 0;
-		background: none;
-		border: none;
-	}
-
-	.disconnectIcon:hover{
-		cursor: pointer;
-		fill: $blue;
-	}
-
 	.widefat td{
 		vertical-align: middle;
 	}
 
 	.disconnectColumn{
-		width: 100px;
+		width: 200px;
 		text-align: center;
 	}
 
