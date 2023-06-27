@@ -258,18 +258,18 @@ final class FapiApi {
 
 		return $response;
 	}
-	
+
 	/**
 	 * @return string
 	 */
-	public function getApiUser(){
+	public function getApiUser() {
 		return $this->apiUser;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getApiKey(){
+	public function getApiKey() {
 		return $this->apiKey;
 	}
 }

@@ -279,8 +279,8 @@ final class FapiMemberPlugin {
 			'fapi/v1',
 			'/list-users',
 			array(
-				'methods' 	=> 'GET',
-				'callback'	=> array( $this, 'handleApiUsernamesCallback' ),
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'handleApiUsernamesCallback' ),
 				'permission_callback' => function () {
 					return true;
 				},
@@ -288,15 +288,15 @@ final class FapiMemberPlugin {
 		);
 	}
 
-	function handleApiUsernamesCallback( WP_REST_Request $request ){
-		$credentials = json_decode(get_option( self::OPTION_KEY_API_CREDENTIALS ));
-		foreach ($credentials as $credential){
+	function handleApiUsernamesCallback( WP_REST_Request $request ) {
+		$credentials = json_decode( get_option( self::OPTION_KEY_API_CREDENTIALS ) );
+		foreach ( $credentials as $credential ) {
 			$usernames[] = array(
 				'label' => $credential->username,
 				'value' => $credential->username,
 			);
 		}
-		wp_send_json (json_encode($usernames));
+		wp_send_json( json_encode( $usernames ) );
 	}
 
 	/**
@@ -642,27 +642,27 @@ final class FapiMemberPlugin {
 	 */
 	public function getFapiClients() {
 		if ( $this->fapiClients === null ) {
-			//$apiUser = get_option( self::OPTION_KEY_API_USER, null );
-			//$apiKey  = get_option( self::OPTION_KEY_API_KEY, null );
-			$apiUrl  = get_option( self::OPTION_KEY_API_URL, 'https://api.fapi.cz/' );
+			// $apiUser = get_option( self::OPTION_KEY_API_USER, null );
+			// $apiKey  = get_option( self::OPTION_KEY_API_KEY, null );
+			$apiUrl          = get_option( self::OPTION_KEY_API_URL, 'https://api.fapi.cz/' );
 			$fapiCredentials = get_option( self::OPTION_KEY_API_CREDENTIALS, null );
 
-			 if ( empty( $fapiCredentials ) ) {
-				 $fapiCredentials = array(
+			if ( empty( $fapiCredentials ) ) {
+				$fapiCredentials = array(
 					array(
 						'username' => null,
 						'token'    => null,
 					),
 				);
-				} else {
-				 $fapiCredentials = json_decode( $fapiCredentials, true );
-				}
+			} else {
+				$fapiCredentials = json_decode( $fapiCredentials, true );
+			}
 
 				$fapiClients = array();
 
-				foreach ( $fapiCredentials as $fapiCredential ) {
-					$fapiClients[] = new FapiApi( $fapiCredential['username'], $fapiCredential['token'], $apiUrl );
-				}
+			foreach ( $fapiCredentials as $fapiCredential ) {
+				$fapiClients[] = new FapiApi( $fapiCredential['username'], $fapiCredential['token'], $apiUrl );
+			}
 
 				$this->fapiClients = new FapiClients( $fapiClients );
 		}
@@ -673,11 +673,11 @@ final class FapiMemberPlugin {
 	/**
 	 * @return FapiClients
 	 */
-	public function updateFapiClients(){
-		$apiUrl  = get_option(self::OPTION_KEY_API_URL, 'https://api.fapi.cz/');
-		$fapiCredentials = get_option(self::OPTION_KEY_API_CREDENTIALS, null);
+	public function updateFapiClients() {
+		$apiUrl          = get_option( self::OPTION_KEY_API_URL, 'https://api.fapi.cz/' );
+		$fapiCredentials = get_option( self::OPTION_KEY_API_CREDENTIALS, null );
 
-		if (empty($fapiCredentials)) {
+		if ( empty( $fapiCredentials ) ) {
 			$fapiCredentials = array(
 				array(
 					'username' => null,
@@ -685,16 +685,16 @@ final class FapiMemberPlugin {
 				),
 			);
 		} else {
-			$fapiCredentials = json_decode($fapiCredentials, true);
+			$fapiCredentials = json_decode( $fapiCredentials, true );
 		}
 
 		$fapiClients = array();
 
-		foreach ($fapiCredentials as $fapiCredential) {
-			$fapiClients[] = new FapiApi($fapiCredential['username'], $fapiCredential['token'], $apiUrl);
+		foreach ( $fapiCredentials as $fapiCredential ) {
+			$fapiClients[] = new FapiApi( $fapiCredential['username'], $fapiCredential['token'], $apiUrl );
 		}
 
-		return new FapiClients($fapiClients);
+		return new FapiClients( $fapiClients );
 	}
 
 	public static function isDevelopment() {
@@ -987,31 +987,31 @@ final class FapiMemberPlugin {
 	}
 
 	public function handleApiListFormsCallback( WP_REST_Request $request ) {
-		$user  = (($request->get_param('user') === 'all') ?
-					'all' : is_email($request->get_param('user'))) ? 
-				 		$request->get_param('user') : null ;
-		$forms = array();
-		$out   = array();
+		$user     = ( ( $request->get_param( 'user' ) === 'all' ) ?
+					'all' : is_email( $request->get_param( 'user' ) ) ) ?
+						$request->get_param( 'user' ) : null;
+		$forms    = array();
+		$out      = array();
 		$fapiApis = $this->getFapiClients()->getFapiApis();
 
-		if ( $user === 'all' || empty( $user ) ){
-			foreach ( $fapiApis as $api ){
-					array_push($forms, $api->getForms());
-				}
+		if ( $user === 'all' || empty( $user ) ) {
+			foreach ( $fapiApis as $api ) {
+					array_push( $forms, $api->getForms() );
+			}
 			foreach ( $forms as $singleClientForms ) {
-				foreach ($singleClientForms as $form){
-				$out[] = array(
-					'label' => $form['name'],
-					'value' => $form['path'],
-				);
+				foreach ( $singleClientForms as $form ) {
+					$out[] = array(
+						'label' => $form['name'],
+						'value' => $form['path'],
+					);
 				}
 			}
 			wp_send_json( $out );
 			exit;
 		}
 
-		foreach ( $fapiApis as $api ){
-			if ( $api->getApiUser() === $user ){
+		foreach ( $fapiApis as $api ) {
+			if ( $api->getApiUser() === $user ) {
 				$forms = $api->getForms();
 				break;
 			}
@@ -1046,28 +1046,39 @@ final class FapiMemberPlugin {
 		update_option( self::OPTION_KEY_API_USER, $apiEmail );
 		update_option( self::OPTION_KEY_API_KEY, $apiKey );
 
-		$credentials = json_decode(get_option(self::OPTION_KEY_API_CREDENTIALS), null);
+		$credentials = json_decode( get_option( self::OPTION_KEY_API_CREDENTIALS ), null );
 
-		if (  wp_list_filter( $credentials, array( 'username' => $apiEmail ) ) 
-		   && wp_list_filter( $credentials, array( 'token' 	  => $apiKey   ) )){
+		if ( wp_list_filter( $credentials, array( 'username' => $apiEmail ) )
+		   && wp_list_filter( $credentials, array( 'token' => $apiKey ) ) ) {
 			$this->redirect( 'connection', 'apiFormCredentialsExist' );
 		}
-		
-		if ( empty( $credentials ) ){
-	
-			$credentials = [['username' => $apiEmail, 'token' => $apiKey]];
+
+		if ( empty( $credentials ) ) {
+
+			$credentials = array(
+				array(
+					'username' => $apiEmail,
+					'token'    => $apiKey,
+				),
+			);
 
 		} elseif ( count( $credentials ) < self::CONNECTED_API_KEYS_LIMIT ) {
 
-			array_push( $credentials, ['username' => $apiEmail, 'token' => $apiKey]);
+			array_push(
+				$credentials,
+				array(
+					'username' => $apiEmail,
+					'token'    => $apiKey,
+				)
+			);
 
 		} else {
 
 			$this->redirect( 'connection', 'apiFormTooManyCredentials' );
-			
+
 		}
-		
-		update_option( self::OPTION_KEY_API_CREDENTIALS, json_encode($credentials) );
+
+		update_option( self::OPTION_KEY_API_CREDENTIALS, json_encode( $credentials ) );
 
 		$credentialsOk = $this->getFapiClients()->checkCredentials();
 		update_option( self::OPTION_KEY_API_CHECKED, $credentialsOk );
@@ -1084,34 +1095,34 @@ final class FapiMemberPlugin {
 		if ( $credentialsOk ) {
 			$this->redirect( 'connection', 'apiFormSuccess' );
 		} else {
-			array_pop($credentials);
-			update_option( self::OPTION_KEY_API_CREDENTIALS, json_encode($credentials) );
-			update_option( self::OPTION_KEY_API_CHECKED, $this->updateFapiClients()->checkCredentials());
+			array_pop( $credentials );
+			update_option( self::OPTION_KEY_API_CREDENTIALS, json_encode( $credentials ) );
+			update_option( self::OPTION_KEY_API_CHECKED, $this->updateFapiClients()->checkCredentials() );
 			$this->redirect( 'connection', 'apiFormError' );
 		}
 
 	}
 
 	public function handleApiCredentialsRemove() {
-		$keyToRemove = 	$_POST['fapiRemoveCredentials'];
-		$credentials = json_decode( get_option( self::OPTION_KEY_API_CREDENTIALS ), null ) ?? array() ;
+		$keyToRemove = $_POST['fapiRemoveCredentials'];
+		$credentials = json_decode( get_option( self::OPTION_KEY_API_CREDENTIALS ), null ) ?? array();
 
 		foreach ( $credentials as $user => $credential ) {
 			if ( $credential->token === $keyToRemove ) {
-				unset( $credentials[$user] );
+				unset( $credentials[ $user ] );
 			}
 		}
 
 		if ( empty( $credentials ) ) {
-			update_option(self::OPTION_KEY_API_CREDENTIALS, '');
+			update_option( self::OPTION_KEY_API_CREDENTIALS, '' );
 		} else {
-			update_option(self::OPTION_KEY_API_CREDENTIALS, json_encode(array_values($credentials)));
+			update_option( self::OPTION_KEY_API_CREDENTIALS, json_encode( array_values( $credentials ) ) );
 		}
 
 		$credentialsOk = $this->getFapiClients()->checkCredentials();
 		update_option( self::OPTION_KEY_API_CHECKED, $credentialsOk );
 
-		$this->redirect('connection', 'apiFormCredentialsRemoved');
+		$this->redirect( 'connection', 'apiFormCredentialsRemoved' );
 	}
 
 	protected function verifyNonceAndCapability( $hook ) {
@@ -2250,9 +2261,9 @@ final class FapiMemberPlugin {
 
 
 	public function migrateCredentialsOnUpgrade( $upgraderObject, $options ) {
-		$relativePath		= explode('/', str_replace( WP_PLUGIN_DIR . '/', '', __DIR__ ));
-		$fapiBaseName 		= reset($relativePath);
-		$fapiCredentials	= get_option( self::OPTION_KEY_API_CREDENTIALS, null );
+		$relativePath    = explode( '/', str_replace( WP_PLUGIN_DIR . '/', '', __DIR__ ) );
+		$fapiBaseName    = reset( $relativePath );
+		$fapiCredentials = get_option( self::OPTION_KEY_API_CREDENTIALS, null );
 
 		if ( ( ! empty( $fapiCredentials ) ) || ( ! in_array( $fapiBaseName, $options['plugins'] ) ) ) {
 			return;
@@ -2276,7 +2287,7 @@ final class FapiMemberPlugin {
 		$credentialsOk = $this->updateFapiClients()->checkCredentials();
 		update_option( self::OPTION_KEY_API_CHECKED, $credentialsOk );
 
-		if ( ! $credentialsOk ){
+		if ( ! $credentialsOk ) {
 			update_option( self::OPTION_KEY_API_CREDENTIALS, '' );
 		}
 
