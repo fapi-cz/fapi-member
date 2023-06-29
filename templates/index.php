@@ -115,7 +115,7 @@ echo FapiMemberTools::heading();
 					
                 </div>	
             </div>
-			<div class="subLevels collapsibleContent">
+			<div class="subLevels collapsibleContent" style="max-height: 0px;">
 				<?php
 				$subLevels = get_term_children($level->term_id, FapiLevels::TAXONOMY);
 				if (!is_wp_error($subLevels)) {

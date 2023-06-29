@@ -364,6 +364,15 @@
 		}
 	}
 
+	.widefat td{
+		vertical-align: middle;
+	}
+
+	.disconnectColumn{
+		width: 200px;
+		text-align: center;
+	}
+
 	.withSections {
 		display: grid;
 		grid-template-columns: min-content auto;
@@ -531,6 +540,8 @@
   			grid-template-columns: 1fr 1fr 1fr;
  			padding-left: 20px;
   			border-top: 1px solid #eeeeee;
+			overflow: hidden;
+			transition: all 0.2s ease-in-out;
 		}
 		.mainLevel{
 			padding: 20px;
@@ -539,8 +550,7 @@
 			cursor: pointer;
   			background-color: #f3f3f3;
 		}
-		.collapsibelContent{
-			max-height: 0;
+		.collapsibleContent{
 			overflow: hidden;
 			transition: max-height 0.2s ease-out;
 		}

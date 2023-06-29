@@ -30,7 +30,7 @@ final class FapiApi {
 	 * @param int $id
 	 * @return false|array<mixed>
 	 */
-	public function getInvoice( $id ) {
+	public function getInvoice( $id = '' ) {
 		$response = $this->retryRequest(
 			sprintf( '%sinvoices/%s', $this->apiUrl, $id )
 		);
@@ -259,4 +259,17 @@ final class FapiApi {
 		return $response;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getApiUser() {
+		return $this->apiUser;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getApiKey() {
+		return $this->apiKey;
+	}
 }

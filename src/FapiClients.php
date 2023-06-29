@@ -82,6 +82,10 @@ final class FapiClients {
 	public function checkCredentials() {
 		$credentialsOk = true;
 
+		if ( empty( $this->fapiApis ) ) {
+			return false;
+		}
+
 		foreach ( $this->fapiApis as $fapiApi ) {
 			$credentialsOk = $credentialsOk && $fapiApi->checkCredentials();
 		}

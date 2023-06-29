@@ -7,7 +7,7 @@ const { useState, useEffect } = wp.element;
 import apiFetch from '@wordpress/api-fetch';
 
 let formOptions = [];
-
+let usernames	= [];
 const controller =
 	typeof AbortController === 'undefined' ? undefined : new AbortController();
 
@@ -16,7 +16,8 @@ export default function Edit( { attributes, setAttributes } ) {
 		setAttributes( { path: '' } );
 	}
 
-	const [ option, setOption ] = useState( attributes.path );
+	const [ formOption, setFormOption ] = useState( attributes.path );
+	const [ usernameOption, setUsernameOption] = useState ( 'all' );
 	const [ isLoaded, setIsLoaded ] = useState( false );
 	const blockProps = useBlockProps();
 
@@ -26,7 +27,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	useEffect( () => {
 		apiFetch( {
-			path: '/?rest_route=/fapi/v1/list-forms',
+			path: '/?rest_route=/fapi/v1/list-forms/' + encodeURIComponent(usernameOption),
 			signal: controller?.signal,
 		} )
 			.then( ( forms ) => {
@@ -48,8 +49,57 @@ export default function Edit( { attributes, setAttributes } ) {
 				if ( error.name === 'AbortError' ) {
 					console.error( 'Request has been aborted' );
 				}
-			} );
-	}, 'formOptions' );
+			})
+	 	}, [usernameOption] );
+
+	useEffect( () => {
+		apiFetch( {
+			path: '/?rest_route=/fapi/v1/list-users',
+		} ) 
+			.then( ( fapiCredentials ) => {
+				usernames = JSON.parse(fapiCredentials)
+				usernames.unshift( {
+					label: __('(všechny propojené účty)', 'fapi-member'),
+					value: 'all',
+				} );
+			})
+			.catch( ( error ) => {
+				usernames = [];
+				console.error( error );
+				if ( error.name === 'AbortError' ) {
+					console.error( 'Request has been aborted' );
+				}
+			} );			
+	}, );
+
+	if (!isLoaded){
+		return (
+		<div { ...blockProps } style={ { 'text-align': 'center' } }>
+			<InspectorControls key="setting">
+			<div id="fapi-form-controls">
+				<SelectControl
+					label={ __(
+						'Vyberte účet FAPI',
+						'fapi-member'
+					) }
+					value={ usernameOption }
+					options={ usernames }
+				/>
+				<SelectControl
+					label={ __(
+						'Vyberte prodejní formulář',
+						'fapi-member'
+					) }
+					value={ formOption }
+					options={ formOptions }
+					disabled={ true }
+				/>
+			</div>
+		</InspectorControls>
+		 {__('Načítání dat, počkejte prosím...', 'fapi-member')}
+		</div>
+		)
+	}
 
 	return (
 		<div { ...blockProps } style={ { 'text-align': 'center' } }>
@@ -57,18 +107,30 @@ export default function Edit( { attributes, setAttributes } ) {
 				<div id="fapi-form-controls">
 					<SelectControl
 						label={ __(
+							'Vyberte účet FAPI',
+							'fapi-member'
+						) }
+						value={ usernameOption }
+						options={ usernames }
+						onChange={ ( value ) => {
+							setIsLoaded( false )
+							setUsernameOption( value )				
+						} }
+					/>
+					<SelectControl
+						label={ __(
 							'Vyberte prodejní formulář',
 							'fapi-member'
 						) }
-						value={ option }
+						value={ formOption }
 						options={ formOptions }
 						onChange={ ( value ) => {
+							setFormOption( value );
 							setAttributes( {
 								path: value,
 								newPath: value,
 							} );
-
-							setOption( value );
+							
 						} }
 					/>
 				</div>
