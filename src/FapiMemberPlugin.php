@@ -9,6 +9,7 @@ use FapiMember\Utils\DisplayHelper;
 use FapiMember\Utils\PostTypeHelper;
 use FapiMember\Utils\Random;
 use FapiMember\Utils\SecurityValidator;
+use http\Url;
 use WP_Error;
 use WP_Post;
 use WP_REST_Request;
@@ -2154,15 +2155,7 @@ final class FapiMemberPlugin {
 			return $defaultDashboardUrl;
 		}
 
-		if ( ( strpos( $request, '?' ) !== false ) ) {
-			if ( ( strpos( $request, 'fapi-level-selection' ) !== false ) ) {
-				return $request;
-			}
-
-			return $request . '&fapi-level-selection=1';
-		}
-
-		return $request . '?fapi-level-selection=1';
+		return get_site_url() . '?fapi-level-selection=1';
 	}
 
 	protected function showIndex() {

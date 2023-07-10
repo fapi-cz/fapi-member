@@ -5,7 +5,7 @@ Requires at least: 5.8
 Tested up to: 6.1
 Requires PHP: 7.4
 License: GPLv2 or later
-Stable tag: 1.9.24
+Stable tag: 1.9.25
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -22,6 +22,10 @@ Máte problém s nastavením FAPI Memberu. Obrátit se můžete na naší podpor
 Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org/plugins/fapi-member/#reviews).
 
 == Changelog ==
+
+= 1.9.24 =
+* Fixed problem with login into FAPI Member section on DIVI theme
+
 = 1.9.24 =
 * Fixed problem with login form not redirecting to wordpress admin page if the user is admin
 
