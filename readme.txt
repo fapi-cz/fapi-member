@@ -26,7 +26,7 @@ Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org
 = 1.9.26 =
 * Enable multiple FAPI connections
 
-= 1.9.24 =
+= 1.9.25 =
 * Fixed problem with login into FAPI Member section on DIVI theme
 
 = 1.9.24 =
