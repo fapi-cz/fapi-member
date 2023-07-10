@@ -9,7 +9,6 @@ use FapiMember\Utils\DisplayHelper;
 use FapiMember\Utils\PostTypeHelper;
 use FapiMember\Utils\Random;
 use FapiMember\Utils\SecurityValidator;
-use http\Url;
 use WP_Error;
 use WP_Post;
 use WP_REST_Request;
