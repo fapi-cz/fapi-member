@@ -28,14 +28,14 @@ final class FapiClients {
 	}
 
 	/**
-	 * @param  int $id
+	 * @param int $id
 	 * @return false|array<mixed>
 	 */
 	public function getInvoice( $id ) {
 		foreach ( $this->fapiApis as $fapiApi ) {
 			$response = $fapiApi->getInvoice( $id );
 
-			if ( is_array( $response ) ) {
+			if ( is_array( $response ) && ! isset( $response['error'] ) ) {
 				return $response;
 			}
 		}
@@ -52,7 +52,7 @@ final class FapiClients {
 		foreach ( $this->fapiApis as $fapiApi ) {
 			$response = $fapiApi->getVoucher( $id );
 
-			if ( is_array( $response ) ) {
+			if ( is_array( $response ) && ! isset( $response['error'] ) ) {
 				return $response;
 			}
 		}
@@ -68,7 +68,7 @@ final class FapiClients {
 		foreach ( $this->fapiApis as $fapiApi ) {
 			$response = $fapiApi->getItemTemplate( $code );
 
-			if ( is_array( $response ) ) {
+			if ( is_array( $response ) && ! isset( $response['error'] ) ) {
 				return $response;
 			}
 		}
@@ -91,21 +91,6 @@ final class FapiClients {
 		}
 
 		return $credentialsOk;
-	}
-
-	/**
-	 * @return array<mixed>|false
-	 */
-	public function listForms() {
-		foreach ( $this->fapiApis as $fapiApi ) {
-			$response = $fapiApi->getForms();
-
-			if ( is_array( $response ) ) {
-				return $response;
-			}
-		}
-
-		return false;
 	}
 
 	/**
