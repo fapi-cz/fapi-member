@@ -104,8 +104,6 @@ final class FapiMemberPlugin {
 
 		if ( empty( $oldVersion ) ) {
 			$this->migrateCredentials();
-			echo 'umři';
-			die( 400 );
 		}
 
 		update_option( self::OPTION_KEY_FAPI_MEMBER_VERSION, FAPI_MEMBER_PLUGIN_VERSION );
