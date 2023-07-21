@@ -94,20 +94,21 @@ final class FapiClients {
 	}
 
 	/**
-	 * @return string
+	 * @return array<string>
 	 */
 	public function getLastErrors() {
 		$out = array();
 
 		foreach ( $this->fapiApis as $fapiApi ) {
+
 			$lastError = $fapiApi->lastError;
 
 			if ( $lastError !== null ) {
-				$out[] = $lastError;
+				$out[ $fapiApi->getApiUser() ][] = $lastError;
 			}
 		}
 
-		return (string) json_encode( $out );
+		return $out;
 	}
 
 }

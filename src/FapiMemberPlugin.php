@@ -95,15 +95,17 @@ final class FapiMemberPlugin {
 
 	public function __construct() {
 		$this->addHooks();
-		$token = get_option( self::OPTION_KEY_TOKEN, '' );
-		$oldVersion = get_option( self::OPTION_KEY_FAPI_MEMBER_VERSION, '');
+		$token      = get_option( self::OPTION_KEY_TOKEN, '' );
+		$oldVersion = get_option( self::OPTION_KEY_FAPI_MEMBER_VERSION, '' );
 
 		if ( ! $token ) {
 			update_option( self::OPTION_KEY_TOKEN, Random::generate( 20, 'A-Za-z' ) );
 		}
 
-		if ( empty( $oldVersion ) ){
+		if ( empty( $oldVersion ) ) {
 			$this->migrateCredentials();
+			echo 'umři';
+			die( 400 );
 		}
 
 		update_option( self::OPTION_KEY_FAPI_MEMBER_VERSION, FAPI_MEMBER_PLUGIN_VERSION );
@@ -500,7 +502,12 @@ final class FapiMemberPlugin {
 		parse_str( $body, $data );
 
 		if ( ! isset( $params['level'] ) ) {
-			$this->callbackError( 'Level parameter missing in get params.' );
+			$this->callbackError(
+				array(
+					'class'       => self::class,
+					'description' => 'Level parameter missing in get params.',
+				)
+			);
 		}
 
 		if ( is_array( $params['level'] ) ) {
@@ -517,7 +524,15 @@ final class FapiMemberPlugin {
 
 		foreach ( $levelIds as $oneLevelId ) {
 			if ( ! in_array( $oneLevelId, $existingLevels, true ) ) {
-				$this->callbackError( sprintf( 'Section or level with ID %s, does not exist.', $oneLevelId ) );
+				$this->callbackError(
+					array(
+						'class'       => self::class,
+						'description' => sprintf(
+							'Section or level with ID %s, does not exist.',
+							$oneLevelId
+						),
+					)
+				);
 			}
 		}
 
@@ -528,11 +543,21 @@ final class FapiMemberPlugin {
 		} elseif ( isset( $data['token'] ) ) {
 			$userData = $this->getEmailFromBodyWithValidToken( $data );
 		} else {
-			$this->callbackError( 'Invalid notification received. Missing voucher, id or token.' );
+			$this->callbackError(
+				array(
+					'class'       => self::class,
+					'description' => 'Invalid notification received. Missing voucher, id or token.',
+				)
+			);
 		}
 
 		if ( ! is_email( $userData['email'] ) ) {
-			$this->callbackError( 'Invalid email provided. Email given: ' . $userData['email'] );
+			$this->callbackError(
+				array(
+					'class'       => self::class,
+					'description' => 'Invalid email provided. Email given: ' . $userData['email'],
+				)
+			);
 		}
 
 		$props = array();
@@ -548,7 +573,13 @@ final class FapiMemberPlugin {
 		$user = $this->userUtils()->getOrCreateUser( $userData, $props );
 
 		if ( $user instanceof WP_Error ) {
-			$this->callbackError( 'Failed to create user. Last errors: ' . json_encode( $user->get_error_messages() ) );
+			$this->callbackError(
+				array(
+					'class'       => self::class,
+					'description' => 'Failed to create user.',
+					'errors'      => $user->get_error_messages(),
+				)
+			);
 		}
 
 		$historicalMemberships = $this->fapiMembershipLoader()->loadMembershipsHistory( $user->ID );
@@ -582,13 +613,13 @@ final class FapiMemberPlugin {
 	}
 
 	/**
-	 * @param string $message
+	 * @param array $data
 	 * @return never
 	 */
-	protected function callbackError( $message ) {
+	protected function callbackError( $data ) {
 		wp_send_json_error(
 			array(
-				'error'                              => $message,
+				$data,
 				self::FAPI_MEMBER_PLUGIN_VERSION_KEY => FAPI_MEMBER_PLUGIN_VERSION,
 			),
 			400
@@ -608,21 +639,42 @@ final class FapiMemberPlugin {
 		$itemTemplate            = $this->getFapiClients()->getItemTemplate( $voucherItemTemplateCode );
 
 		if ( $voucher === false ) {
-			$this->callbackError( sprintf( 'Error getting voucher: %s', $this->getFapiClients()->getLastErrors() ) );
+			$this->callbackError(
+				array(
+					'class'       => self::class,
+					'description' => 'Error getting voucher.',
+					'errors'      => $this->getFapiClients()->getLastErrors(),
+				)
+			);
 		}
 
 		$itemTemplate = ( $itemTemplate === false ) ? array() : $itemTemplate;
 
 		if ( ! self::isDevelopment() && ! SecurityValidator::isVoucherSecurityValid( $voucher, $itemTemplate, $data['time'], $data['security'] ) ) {
-			$this->callbackError( 'Invoice security is not valid.' );
+			$this->callbackError(
+				array(
+					'class'       => self::class,
+					'description' => 'Voucher security is not valid.',
+				)
+			);
 		}
 
 		if ( ! isset( $voucher['status'] ) || $voucher['status'] !== 'applied' ) {
-			$this->callbackError( 'Voucher status is not applied.' );
+			$this->callbackError(
+				array(
+					'class'       => self::class,
+					'description' => 'Voucher is not applied.',
+				)
+			);
 		}
 
 		if ( ! isset( $voucher['applicant']['email'] ) ) {
-			$this->callbackError( 'Cannot find applicant email in API response.' );
+			$this->callbackError(
+				array(
+					'class'       => self::class,
+					'description' => 'Cannot find applicant email in API response.',
+				)
+			);
 		}
 
 		return array( 'email' => $voucher['applicant']['email'] );
@@ -718,19 +770,40 @@ final class FapiMemberPlugin {
 		$invoice = $this->getFapiClients()->getInvoice( $data['id'] );
 
 		if ( $invoice === false ) {
-			$this->callbackError( sprintf( 'Error getting invoice: %s', $this->getFapiClients()->getLastErrors() ) );
+			$this->callbackError(
+				array(
+					'class'       => self::class,
+					'description' => 'Error getting invoice.',
+					'errors'      => $this->getFapiClients()->getLastErrors(),
+				)
+			);
 		}
 
 		if ( ! self::isDevelopment() && ! SecurityValidator::isInvoiceSecurityValid( $invoice, $data['time'], $data['security'] ) ) {
-			$this->callbackError( 'Invoice security is not valid.' );
+			$this->callbackError(
+				array(
+					'class'       => self::class,
+					'description' => 'Invoice security is not valid.',
+				)
+			);
 		}
 
 		if ( isset( $invoice['parent'] ) ) {
-			$this->callbackError( 'Invoice parent is set and not null.' );
+			$this->callbackError(
+				array(
+					'class'       => self::class,
+					'description' => 'Invoice parent is set and not null.',
+				)
+			);
 		}
 
 		if ( ! isset( $invoice['customer']['email'] ) ) {
-			$this->callbackError( 'Cannot find customer email in API response.' );
+			$this->callbackError(
+				array(
+					'class'       => self::class,
+					'description' => 'Cannot find customer email in API response.',
+				)
+			);
 		}
 
 		return array(
@@ -748,11 +821,21 @@ final class FapiMemberPlugin {
 		$token = get_option( self::OPTION_KEY_TOKEN, null );
 
 		if ( $data['token'] !== $token ) {
-			$this->callbackError( 'Invalid token provided. Check token correctness.' );
+			$this->callbackError(
+				array(
+					'class'       => self::class,
+					'description' => 'Invalid token provided. Check token correctness.',
+				)
+			);
 		}
 
 		if ( ! isset( $data['email'] ) ) {
-			$this->callbackError( 'Parameter email is missing.' );
+			$this->callbackError(
+				array(
+					'class'       => self::class,
+					'description' => 'Parameter email is missing.',
+				)
+			);
 		}
 
 		return array(
@@ -983,11 +1066,21 @@ final class FapiMemberPlugin {
 		$token = get_option( self::OPTION_KEY_TOKEN );
 
 		if ( ! isset( $data['token'] ) ) {
-			$this->callbackError( 'Missing token.' );
+			$this->callbackError(
+				array(
+					'class'       => self::class,
+					'description' => 'Missing token.',
+				)
+			);
 		}
 
 		if ( $token !== $data['token'] ) {
-			$this->callbackError( 'Invalid token provided. Check token correctness.' );
+			$this->callbackError(
+				array(
+					'class'       => self::class,
+					'description' => 'Invalid token provided. Check token correctness.',
+				)
+			);
 		}
 
 		wp_send_json_success();
@@ -2259,13 +2352,13 @@ final class FapiMemberPlugin {
 	}
 
 	/**
-	 * @description 
+	 * @description
 	 * Migrates registered credentials from self::OPTION_KEY_API_USER
 	 * and self::OPTION_KEY_API_KEY to self::OPTION_KEY_API_CREDENTIALS.
 	 * @return void
 	 */
 
-	public function migrateCredentials( ) {
+	public function migrateCredentials() {
 		$fapiCredentials = get_option( self::OPTION_KEY_API_CREDENTIALS, null );
 
 		if ( ( ! empty( $fapiCredentials ) ) ) {
@@ -2275,7 +2368,7 @@ final class FapiMemberPlugin {
 		$apiUser = get_option( self::OPTION_KEY_API_USER, null );
 		$apiKey  = get_option( self::OPTION_KEY_API_KEY, null );
 
-		if  ( empty( $apiKey ) || empty( $apiUser )) {
+		if ( empty( $apiKey ) || empty( $apiUser ) ) {
 			return;
 		}
 

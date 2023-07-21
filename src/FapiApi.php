@@ -245,7 +245,8 @@ final class FapiApi {
 			'connection_timeout' => 30,
 		);
 
-		$response = wp_remote_request( $remoteUrl, $requestData );
+		$this->lastError = null;
+		$response        = wp_remote_request( $remoteUrl, $requestData );
 
 		if ( $response instanceof WP_Error || $response['response']['code'] !== 200 ) {
 			if ( $retries > 0 ) {
