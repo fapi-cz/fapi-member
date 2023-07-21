@@ -55,6 +55,8 @@ final class FapiMemberPlugin {
 
 	const CONNECTED_API_KEYS_LIMIT = 5;
 
+	const OPTION_KEY_FAPI_MEMBER_VERSION = 'fapiMemberVersion';
+
 	const OPTION_KEY_API_CREDENTIALS = 'fapiMemberApiCredentials';
 
 	const OPTION_KEY_API_URL = 'fapiMemberApiUrl';
@@ -94,10 +96,17 @@ final class FapiMemberPlugin {
 	public function __construct() {
 		$this->addHooks();
 		$token = get_option( self::OPTION_KEY_TOKEN, '' );
+		$oldVersion = get_option( self::OPTION_KEY_FAPI_MEMBER_VERSION, '');
 
 		if ( ! $token ) {
 			update_option( self::OPTION_KEY_TOKEN, Random::generate( 20, 'A-Za-z' ) );
 		}
+
+		if ( empty( $oldVersion ) ){
+			$this->migrateCredentials();
+		}
+
+		update_option( self::OPTION_KEY_FAPI_MEMBER_VERSION, FAPI_MEMBER_PLUGIN_VERSION );
 	}
 
 	public function addHooks() {
@@ -172,8 +181,6 @@ final class FapiMemberPlugin {
 		// Hacks and fixes
 		// WPS hide login plugin
 		add_filter( 'whl_logged_in_redirect', array( $this, 'loggedInRedirect' ), 1 );
-		// Multiple accounts backwards compatibility
-		add_action( 'upgrader_process_complete', array( $this, 'migrateCredentialsOnUpgrade' ), 10, 2 );
 	}
 
 	public function hideAdminBar( $original ) {
@@ -2251,18 +2258,26 @@ final class FapiMemberPlugin {
 		return $this->loginRedirect( '', '', $user );
 	}
 
+	/**
+	 * @description 
+	 * Migrates registered credentials from self::OPTION_KEY_API_USER
+	 * and self::OPTION_KEY_API_KEY to self::OPTION_KEY_API_CREDENTIALS.
+	 * @return void
+	 */
 
-	public function migrateCredentialsOnUpgrade( $upgraderObject, $options ) {
-		$relativePath    = explode( '/', str_replace( WP_PLUGIN_DIR . '/', '', __DIR__ ) );
-		$fapiBaseName    = reset( $relativePath );
+	public function migrateCredentials( ) {
 		$fapiCredentials = get_option( self::OPTION_KEY_API_CREDENTIALS, null );
 
-		if ( ( ! empty( $fapiCredentials ) ) || ( ! in_array( $fapiBaseName, $options['plugins'] ) ) ) {
+		if ( ( ! empty( $fapiCredentials ) ) ) {
 			return;
 		}
 
 		$apiUser = get_option( self::OPTION_KEY_API_USER, null );
 		$apiKey  = get_option( self::OPTION_KEY_API_KEY, null );
+
+		if  ( empty( $apiKey ) || empty( $apiUser )) {
+			return;
+		}
 
 		update_option(
 			self::OPTION_KEY_API_CREDENTIALS,
@@ -2280,7 +2295,7 @@ final class FapiMemberPlugin {
 		update_option( self::OPTION_KEY_API_CHECKED, $credentialsOk );
 
 		if ( ! $credentialsOk ) {
-			update_option( self::OPTION_KEY_API_CREDENTIALS, '' );
+			update_option( self::OPTION_KEY_API_CREDENTIALS, '0' );
 		}
 
 	}
