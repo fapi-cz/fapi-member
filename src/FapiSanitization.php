@@ -18,6 +18,7 @@ final class FapiSanitization {
 	const VALID_PAGE_IDS        = 'validPageIds';
 	const VALID_PAGE_ID         = 'validPageId';
 	const ANY_STRING            = 'anyString';
+	const SINGLE_INT 			= 'singleInt';
 	const INT_LIST              = 'intList';
 	const STR_LIST              = 'strList';
 	const VALID_EMAIL_TYPE      = 'validEmailType';
@@ -136,6 +137,14 @@ final class FapiSanitization {
 		}
 
 		return (string) $input;
+	}
+
+	public function singleInt( $input, $default ) {
+		if ( is_numeric( $input ) ) {
+			return intval( $input );
+		}
+
+		return $default;
 	}
 
 	/**

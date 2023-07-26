@@ -871,6 +871,7 @@ final class FapiMemberTools {
                     ' . self::submenuItem( 'settingsPages', __( 'Servisní stránky', 'fapi-member' ), $subpage ) . '
                     ' . self::submenuItem( 'settingsElements', __( 'Prvky pro web', 'fapi-member' ), $subpage ) . '
                     ' . self::submenuItem( 'settingsSettings', __( 'Společné', 'fapi-member' ), $subpage ) . '
+					' . self::submenuItem( 'settingsUnlocking', __( 'Postupné uvolňovaní obsahu', 'fapi-member' ), $subpage ) . '
                 </div>
                 ';
 		}

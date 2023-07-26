@@ -75,6 +75,8 @@ final class FapiMemberPlugin {
 
 	const FAPI_MEMBER_PLUGIN_VERSION_KEY = 'fapi_member_plugin_version';
 
+	const DAYS_TO_UNLOCK_META_KEY = 'fapi_days_to_unlock';
+
 	/** @var FapiLevels|null */
 	private $fapiLevels = null;
 
@@ -129,6 +131,9 @@ final class FapiMemberPlugin {
 		// check if page in fapi level
 		add_action( 'template_redirect', array( $this, 'checkPage' ) );
 
+		// redirect if level is not unlocked yet
+		add_action( 'template_redirect', array( $this, 'levelTimeLock') );
+
 		// level selection in front-end
 		add_action( 'init', array( $this, 'checkIfLevelSelection' ) );
 
@@ -148,6 +153,7 @@ final class FapiMemberPlugin {
 		add_action( 'admin_post_fapi_member_edit_email', array( $this, 'handleEditEmail' ) );
 		add_action( 'admin_post_fapi_member_set_other_page', array( $this, 'handleSetOtherPage' ) );
 		add_action( 'admin_post_fapi_member_set_settings', array( $this, 'handleSetSettings' ) );
+		add_action( 'admin_post_fapi_member_set_section_unlocking', array( $this, 'handleSetUnlocking' ) );
 
 		// user profile save
 		add_action( 'edit_user_profile_update', array( $this, 'handleUserProfileSave' ) );
@@ -1695,6 +1701,54 @@ final class FapiMemberPlugin {
 		$this->redirect( 'settingsSettings', 'settingsSettingsUpdated' );
 	}
 
+	public function handleSetUnlocking() {
+		$this->verifyNonceAndCapability( 'set_section_unlocking' );
+
+		if ( isset( $_POST[ 'time_locked_page_id' ] ) ){
+
+			$timeLockedPageId = $this->sanitization()->loadPostValue(
+				'time_locked_page_id',
+				array(
+					$this->sanitization(),
+					FapiSanitization::VALID_PAGE_ID,
+				)
+			);
+			
+			$currentSettings = get_option( self::OPTION_KEY_SETTINGS );
+
+			if ( $timeLockedPageId === null ) {
+				unset( $currentSettings['time_locked_page_id'] );
+			} else {
+				$page = get_post( $timeLockedPageId );
+	
+				if ( $page === null ) {
+					$this->redirect( 'settingsUnlocking', 'settingsSettingsNoValidPage' );
+				}
+	
+				$currentSettings['time_locked_page_id'] = $timeLockedPageId;
+			}
+	
+			update_option( self::OPTION_KEY_SETTINGS, $currentSettings );
+
+			$this->redirect( 'settingsUnlocking', 'settingsSettingsUpdated' );
+
+		}
+
+		$levelId  = $this->sanitization()->loadPostValue(
+			'level_id',
+			array( $this->sanitization(), FapiSanitization::VALID_LEVEL_ID )
+		);
+
+		$daysToUnlock = $this->sanitization()->loadPostValue(
+			'days_to_unlock',
+			array( $this->sanitization(), FapiSanitization::SINGLE_INT )
+		);
+
+		update_term_meta( $levelId, self::DAYS_TO_UNLOCK_META_KEY, $daysToUnlock );
+
+		$this->redirect( 'settingsUnlocking', 'settingsSettingsUpdated' );
+	}
+
 	public function registerSettings() {
 		register_setting(
 			'options',
@@ -2318,6 +2372,10 @@ final class FapiMemberPlugin {
 		$this->showTemplate( 'settingsPages' );
 	}
 
+	protected function showSettingsUnlocking() {
+		$this->showTemplate( 'settingsUnlocking' );
+	}
+
 	protected function showMemberList() {
 		$this->showTemplate( 'memberList' );
 	}
@@ -2387,6 +2445,62 @@ final class FapiMemberPlugin {
 
 		if ( ! $credentialsOk ) {
 			update_option( self::OPTION_KEY_API_CREDENTIALS, '0' );
+		}
+
+	}
+
+	public function levelTimeLock() {
+
+		if ( current_user_can( self::REQUIRED_CAPABILITY ) ) {
+			return true;
+		}
+		
+		$pageId = get_the_ID();
+		$levels = $this->levels()->levelsToPages();
+		$termId = 0;
+
+		foreach ($levels as $key => $pages) {
+
+			$innerKey = array_search( $pageId , $pages);
+			
+			if ($innerKey !== false) {
+				$termId = $key;
+				break;
+			}
+		}
+
+		if ( $termId === 0 ) {
+			return true;
+		}  
+
+		$daysToUnlock = get_term_meta( $termId, self::DAYS_TO_UNLOCK_META_KEY, true );
+
+		if ( $daysToUnlock === 0 || empty( $daysToUnlock ) ){
+			return true;
+		}
+
+		$memberships = $this->fapiMembershipLoader()->loadForUser( get_current_user_id() );
+		$registrationDate = 0;
+
+		foreach ($memberships as $membership) {
+			if ($membership->level === $termId) {
+				$registrationDate = $membership->registered->getTimestamp();
+				break;
+			}
+		}
+
+		if ($registrationDate === 0){
+			wp_die("couldn't retrieve registration date");
+		}
+
+		$daysToUnlock = get_term_meta( $termId, self::DAYS_TO_UNLOCK_META_KEY, true);
+		$unlockDate = strtotime("+{$daysToUnlock} days", $registrationDate);
+		$timeLockedPage = $this->getSetting('time_locked_page_id');
+
+		if ( time() > $unlockDate ){
+			return true;
+		} else {
+			wp_redirect( get_permalink( $timeLockedPage ) );
 		}
 
 	}
