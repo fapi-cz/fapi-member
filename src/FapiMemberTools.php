@@ -733,6 +733,30 @@ final class FapiMemberTools {
 	}
 
 	/**
+	 * @return string
+	 */
+	public static function shortcodeLevelUnlockDate() {
+		global $FapiPlugin;
+
+		$level = $FapiPlugin->sanitization()->loadFormValue(
+			$FapiPlugin->sanitization()::GET,
+			'level',
+			array( $FapiPlugin->sanitization(), FapiSanitization::SINGLE_INT )
+		);
+
+		if ( $level === null ) {
+			return __( 'Nepodařilo se identifikovat členskou sekci', 'fapi-member' );
+		}
+
+		$memberships      = $FapiPlugin->fapiMembershipLoader()->loadForUser( get_current_user_id() );
+		$registrationDate = $FapiPlugin->fapiMembershipLoader()->getUserRegistrationDateForLevel( $memberships, $level );
+		$daysToUnlock     = get_term_meta( $level, FapiMemberPlugin::DAYS_TO_UNLOCK_META_KEY, true );
+		$unlockDate       = strtotime( "+{$daysToUnlock} days", $registrationDate );
+
+		return wp_date( 'd.m.Y\ \o H:i', $unlockDate );
+	}
+
+	/**
 	 * @param string        $hook
 	 * @param array<string> $formClasses
 	 * @return string
@@ -871,7 +895,7 @@ final class FapiMemberTools {
                     ' . self::submenuItem( 'settingsPages', __( 'Servisní stránky', 'fapi-member' ), $subpage ) . '
                     ' . self::submenuItem( 'settingsElements', __( 'Prvky pro web', 'fapi-member' ), $subpage ) . '
                     ' . self::submenuItem( 'settingsSettings', __( 'Společné', 'fapi-member' ), $subpage ) . '
-					' . self::submenuItem( 'settingsUnlocking', __( 'Postupné uvolňovaní obsahu', 'fapi-member' ), $subpage ) . '
+					' . self::submenuItem( 'settingsUnlocking', __( 'Postupné uvolňování obsahu', 'fapi-member' ), $subpage ) . '
                 </div>
                 ';
 		}

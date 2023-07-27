@@ -44,5 +44,13 @@ echo FapiMemberTools::heading();
 	<img src="<?php echo plugins_url('fapi-member/media/images/fapi-member-user-section-expiration-shortcode-result.png') ?>"
 		 alt="<?php echo __( 'Snímek obrazovky', 'fapi-member' ); ?>">
 	</div>
+
+    <hr>
+
+    <h4><?php _e( 'Čas zbývající do odemčení úrovně', 'fapi-member' ); ?></h4>
+    <p><?php _e( 'Datum a čas odemčení členské úrovně ve formátu "01.01 2023 o 08:00" můžete zobrazit pomocí shortcode', 'fapi-member' ); ?> <code>[fapi-member-level-unlock-date]</code>.
+    <?php   _e('Tento kód doporučujeme umístit na stránku nastavenou v části "Postupné uvolňování obsahu".')?>
+    </p>
+
 </div>
 </div>

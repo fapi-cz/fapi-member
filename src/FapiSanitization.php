@@ -18,7 +18,7 @@ final class FapiSanitization {
 	const VALID_PAGE_IDS        = 'validPageIds';
 	const VALID_PAGE_ID         = 'validPageId';
 	const ANY_STRING            = 'anyString';
-	const SINGLE_INT 			= 'singleInt';
+	const SINGLE_INT            = 'singleInt';
 	const INT_LIST              = 'intList';
 	const STR_LIST              = 'strList';
 	const VALID_EMAIL_TYPE      = 'validEmailType';

@@ -18,8 +18,13 @@ echo FapiMemberTools::heading();
                 <?php
                 $level = (isset($_GET['level'])) ? FapiMemberTools::sanitizeLevelId($_GET['level']) : null;
                 global $FapiPlugin;
+                $term = get_term($level);
+                if (!is_wp_error($term)) {
+                    $parent_term_id = $term->parent;
+                }
+
                 if ($level === null) {
-                $currentTimeLockedPageId = $FapiPlugin->getSetting('time_locked_page_id');
+                    $currentTimeLockedPageId = $FapiPlugin->getSetting('time_locked_page_id');
                 ?>
                     <div class="onePageOther">
                         <h3><?php _e('Stránka, která se zobrazí, když obsah ještě nebyl odemčen.', 'fapi-member') ?></h3>
@@ -36,6 +41,10 @@ echo FapiMemberTools::heading();
                         </div>
                         </form>
                     </div>
+                <?php
+                } elseif ($parent_term_id === 0) {
+                ?>
+                    <h3><?php _e('Zvolili jste členskou sekci, prosím zvolte úroveň.', 'fapi-member') ?></h3>
                 <?php
                 } else {
                     $inputVal = get_term_meta($level, FapiMemberPlugin::DAYS_TO_UNLOCK_META_KEY, true) ?

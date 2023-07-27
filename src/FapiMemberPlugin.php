@@ -132,7 +132,7 @@ final class FapiMemberPlugin {
 		add_action( 'template_redirect', array( $this, 'checkPage' ) );
 
 		// redirect if level is not unlocked yet
-		add_action( 'template_redirect', array( $this, 'levelTimeLock') );
+		add_action( 'template_redirect', array( $this, 'levelTimeLock' ) );
 
 		// level selection in front-end
 		add_action( 'init', array( $this, 'checkIfLevelSelection' ) );
@@ -230,6 +230,7 @@ final class FapiMemberPlugin {
 		add_shortcode( 'fapi-member-login', array( FapiMemberTools::class, 'shortcodeLoginForm' ) );
 		add_shortcode( 'fapi-member-user', array( FapiMemberTools::class, 'shortcodeUser' ) );
 		add_shortcode( 'fapi-member-user-section-expiration', array( FapiMemberTools::class, 'shortcodeSectionExpirationDate' ) );
+		add_shortcode( 'fapi-member-level-unlock-date', array( FapiMemberTools::class, 'shortcodeLevelUnlockDate' ) );
 	}
 
 	public function addRestEndpoints() {
@@ -1704,7 +1705,7 @@ final class FapiMemberPlugin {
 	public function handleSetUnlocking() {
 		$this->verifyNonceAndCapability( 'set_section_unlocking' );
 
-		if ( isset( $_POST[ 'time_locked_page_id' ] ) ){
+		if ( isset( $_POST['time_locked_page_id'] ) ) {
 
 			$timeLockedPageId = $this->sanitization()->loadPostValue(
 				'time_locked_page_id',
@@ -1713,28 +1714,28 @@ final class FapiMemberPlugin {
 					FapiSanitization::VALID_PAGE_ID,
 				)
 			);
-			
+
 			$currentSettings = get_option( self::OPTION_KEY_SETTINGS );
 
 			if ( $timeLockedPageId === null ) {
 				unset( $currentSettings['time_locked_page_id'] );
 			} else {
 				$page = get_post( $timeLockedPageId );
-	
+
 				if ( $page === null ) {
 					$this->redirect( 'settingsUnlocking', 'settingsSettingsNoValidPage' );
 				}
-	
+
 				$currentSettings['time_locked_page_id'] = $timeLockedPageId;
 			}
-	
+
 			update_option( self::OPTION_KEY_SETTINGS, $currentSettings );
 
 			$this->redirect( 'settingsUnlocking', 'settingsSettingsUpdated' );
 
 		}
 
-		$levelId  = $this->sanitization()->loadPostValue(
+		$levelId = $this->sanitization()->loadPostValue(
 			'level_id',
 			array( $this->sanitization(), FapiSanitization::VALID_LEVEL_ID )
 		);
@@ -2454,16 +2455,16 @@ final class FapiMemberPlugin {
 		if ( current_user_can( self::REQUIRED_CAPABILITY ) ) {
 			return true;
 		}
-		
+
 		$pageId = get_the_ID();
 		$levels = $this->levels()->levelsToPages();
 		$termId = 0;
 
-		foreach ($levels as $key => $pages) {
+		foreach ( $levels as $key => $pages ) {
 
-			$innerKey = array_search( $pageId , $pages);
-			
-			if ($innerKey !== false) {
+			$innerKey = array_search( $pageId, $pages );
+
+			if ( $innerKey !== false ) {
 				$termId = $key;
 				break;
 			}
@@ -2471,36 +2472,29 @@ final class FapiMemberPlugin {
 
 		if ( $termId === 0 ) {
 			return true;
-		}  
+		}
 
 		$daysToUnlock = get_term_meta( $termId, self::DAYS_TO_UNLOCK_META_KEY, true );
 
-		if ( $daysToUnlock === 0 || empty( $daysToUnlock ) ){
+		if ( $daysToUnlock === 0 || empty( $daysToUnlock ) ) {
 			return true;
 		}
 
-		$memberships = $this->fapiMembershipLoader()->loadForUser( get_current_user_id() );
-		$registrationDate = 0;
+		$memberships      = $this->fapiMembershipLoader()->loadForUser( get_current_user_id() );
+		$registrationDate = $this->fapiMembershipLoader()->getUserRegistrationDateForLevel( $memberships, $termId );
 
-		foreach ($memberships as $membership) {
-			if ($membership->level === $termId) {
-				$registrationDate = $membership->registered->getTimestamp();
-				break;
-			}
+		if ( $registrationDate === false ) {
+			wp_die( __( 'Nebylo možné najít datum registrace.', 'fapi-member' ) );
 		}
 
-		if ($registrationDate === 0){
-			wp_die("couldn't retrieve registration date");
-		}
+		$unlockDate     = strtotime( "+{$daysToUnlock} days", $registrationDate );
+		$timeLockedPage = $this->getSetting( 'time_locked_page_id' );
 
-		$daysToUnlock = get_term_meta( $termId, self::DAYS_TO_UNLOCK_META_KEY, true);
-		$unlockDate = strtotime("+{$daysToUnlock} days", $registrationDate);
-		$timeLockedPage = $this->getSetting('time_locked_page_id');
-
-		if ( time() > $unlockDate ){
+		if ( time() > $unlockDate ) {
 			return true;
 		} else {
-			wp_redirect( get_permalink( $timeLockedPage ) );
+			$redirectTo = get_permalink( $timeLockedPage );
+			wp_redirect( add_query_arg( 'level', $termId, $redirectTo ) );
 		}
 
 	}
