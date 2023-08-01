@@ -14,650 +14,650 @@ msgstr ""
 #: multiple-blocks/build/fapi-form-block.js:1
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
 msgid "Načítání dat, počkejte prosím..."
-msgstr ""
+msgstr "Loading data, please wait..."
 
 #: multiple-blocks/build/fapi-form-block.js:1
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
 msgid "Vyberte účet FAPI"
-msgstr ""
+msgstr "Select FAPI account"
 
 #: multiple-blocks/build/fapi-form-block.js:1
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
 msgid "(všechny propojené účty)"
-msgstr ""
+msgstr "(all linked accounts)"
 
 #: templates/connection.php:45
 msgid "Propojit účet FAPI (max. "
-msgstr ""
+msgstr "Link FAPI account (max."
 
 #: templates/connection.php:35
 msgid "Smazat propojení s FAPI"
-msgstr ""
+msgstr "Delete connection with FAPI"
 
 #: templates/connection.php:25
 msgid "Nejsou propojeny žádné účty"
-msgstr ""
+msgstr "No accounts linked"
 
 #: templates/memberList.php:131
 msgid "Seznam členů sekce \""
-msgstr ""
+msgstr "List of Section Members \""
 
 #: templates/memberList.php:129
 msgid "Seznam členů úrovně \""
-msgstr ""
+msgstr "List of Level Members \""
 
 #: templates/memberList.php:107
 msgid "Exportovat do CSV"
-msgstr ""
+msgstr "Export to CSV"
 
 #: templates/memberList.php:66
 msgid "Jméno a přijmení"
-msgstr ""
+msgstr "Name and surname"
 
 #: templates/memberList.php:49 templates/memberList.php:67
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: templates/memberList.php:48
 msgid "Jméno a příjmení"
-msgstr ""
+msgstr "Name and surname"
 
 #: templates/memberList.php:47 templates/memberList.php:65
 msgid "Uživatelské jméno"
-msgstr ""
+msgstr "Username"
 
 #: templates/memberList.php:26
 msgid "Tato sekce nemá žádné členy"
-msgstr ""
+msgstr "This section has no members"
 
 #: templates/index.php:109 templates/index.php:130
 msgid "Seznam členů"
-msgstr ""
+msgstr "List of members"
 
 #: templates/settingsElements.php:42
 msgid "Jak to poté vidí člen"
-msgstr ""
+msgstr "How the member sees it afterwards"
 
 #: templates/settingsElements.php:36
 msgid "Jak shortcode použít"
-msgstr ""
+msgstr "How to use the shortcode"
 
 #: templates/settingsElements.php:34
 msgid "Místo proměnné \"x\" zadejte ID  členské sekce a místo tohoto shortcodu se uživateli vypíše datum do kdy má přístup do dané členské sekce nebo úrovně"
-msgstr ""
+msgstr "Instead of the variable \"x\", enter the ID of the member section and instead of this shortcode, the date until which the user has access to the given member section or level will be printed"
 
 #: templates/settingsElements.php:32
 msgid "Vypíše datum expirace zvolené členské sekce nebo úrovně"
-msgstr ""
+msgstr "Lists the expiration date of the selected membership section or level"
 
 #: templates/settingsElements.php:31
 msgid "Datum expirace pro členskou sekci nebo úrověň"
-msgstr ""
+msgstr "Expiry date for membership section or level"
 
 #: src/FapiMemberTools.php:652
 msgid "neomezeně"
-msgstr ""
+msgstr "unlimited"
 
 #: src/FapiMemberTools.php:647
 msgid "bez přístupu"
-msgstr ""
+msgstr "no access"
 
 #: src/FapiMemberTools.php:623
 msgid "uživatel není přihlášen"
-msgstr ""
+msgstr "the user is not logged in"
 
 #: src/FapiMemberTools.php:617
 msgid "neznámá sekce nebo úrověň"
-msgstr ""
+msgstr "unknown section or level"
 
 #: src/FapiMemberTools.php:424 src/FapiMemberTools.php:532
 msgid "CPT"
-msgstr ""
+msgstr "CPT"
 
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
 msgctxt "block keyword"
 msgid "form"
-msgstr ""
+msgstr "form"
 
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
 msgctxt "block description"
 msgid "FAPI form widget."
-msgstr ""
+msgstr "FAPI form widget."
 
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
 msgctxt "block title"
 msgid "FAPI form"
-msgstr ""
+msgstr "FAPI form"
 
 #: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
 msgctxt "block keyword"
 msgid "fapi"
-msgstr ""
+msgstr "FAPI"
 
 #: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
 msgctxt "block title"
 msgid "FAPI Member - block extender"
-msgstr ""
+msgstr "FAPI Member - block extender"
 
 #: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:67
 msgid "Členské sekce a urovně"
-msgstr ""
+msgstr "Member Sections and Levels"
 
 #: src/Elementor/Widgets/FapiFormWidget.php:52
 msgid "Prodejní formulář"
-msgstr ""
+msgstr "Sales form"
 
 #: src/Elementor/Widgets/FapiFormWidget.php:20
 msgid "FAPI form"
-msgstr ""
+msgstr "FAPI form"
 
 #: multiple-blocks/build/fapi-form-block.js:1
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
 msgid "<<< Vyberte prodejní formulář z bočního menu >>>"
-msgstr ""
+msgstr "<<< Select the sales form from the side menu >>>"
 
 #: multiple-blocks/build/fapi-form-block.js:1
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
 msgid "<<< Zde bude prodejní formulář \"%s\" >>>"
-msgstr ""
+msgstr "<<< Here will be the sales form \"%s\" >>>"
 
 #: multiple-blocks/build/fapi-form-block.js:1
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
 msgid "Vyberte prodejní formulář"
-msgstr ""
+msgstr "Select sales form"
 
 #: src/Elementor/Widgets/FapiFormWidget.php:91
 #: multiple-blocks/build/fapi-form-block.js:1
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
 msgid "-- vyberte prodejní formulář --"
-msgstr ""
+msgstr "-- select sales form --"
 
 #: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:53
 #: multiple-blocks/build/block-extender.js:1
 #: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
 msgid "zobrazit všem návštěvníkům (vybrané sekce a urovně se ignorují)"
-msgstr ""
+msgstr "show to all visitors (selected sections and levels are ignored)"
 
 #: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:50
 #: multiple-blocks/build/block-extender.js:1
 #: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
 msgid "není členem sekce/úrovně"
-msgstr ""
+msgstr "not a member of the section/level"
 
 #: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:47
 #: multiple-blocks/build/block-extender.js:1
 #: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
 msgid "je člen sekce/úrovně"
-msgstr ""
+msgstr "is a section/level member"
 
 #: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:56
 #: multiple-blocks/build/block-extender.js:1
 #: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
 msgid "Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo úrovni nebo všem návštěvníkům."
-msgstr ""
+msgstr "The content will be displayed if the member is/is not assigned in the member section or level or to all visitors."
 
 #: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:43
 #: multiple-blocks/build/block-extender.js:1
 #: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:114
 msgid "Zobrazit pokud návštěvník"
-msgstr ""
+msgstr "Show if visitor"
 
 #: templates/settingsSettings.php:29
 msgid "Vyberte společnou stránku po příhlášení tzn. nástěnku."
-msgstr ""
+msgstr "Select a common page after logging in, i.e. "
 
 #: templates/settingsPages.php:39 templates/settingsSettings.php:28
 msgid "Nástěnka"
-msgstr ""
+msgstr "Message board"
 
 #: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
 msgctxt "block description"
 msgid "Extends core blocks, enables show and hide block by member section and levels"
-msgstr ""
+msgstr "Extends core blocks, enables show and hide block by member section and levels"
 
 #: templates/settingsSettings.php:20
 msgid "Vyberte společnou přihlašovací stránku pro všechny sekce/úrovně."
-msgstr ""
+msgstr "Choose a common login page for all sections/levels."
 
 #: templates/settingsSettings.php:19
 msgid "Stránka pro přihlášení"
-msgstr ""
+msgstr "Login page"
 
 #: templates/settingsSectionNew.php:27
 msgid "Vytvořit sekci"
-msgstr ""
+msgstr "Create section"
 
 #: templates/settingsSectionNew.php:22
 msgid "Název členské sekce"
-msgstr ""
+msgstr "Name of the member section"
 
 #: templates/settingsPages.php:68 templates/settingsSettings.php:23
 #: templates/settingsSettings.php:33
 msgid "-- nevybrána --"
-msgstr ""
+msgstr "-- not selected --"
 
 #: templates/settingsPages.php:46
 msgid "Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství."
-msgstr ""
+msgstr "The site is mostly used for an invitation to purchase or extend membership."
 
 #: templates/settingsPages.php:45
 msgid "Vyberte stránku, která se zobrazí uživateli, pokud nemá přístup na uzamčenou stránku."
-msgstr ""
+msgstr "Select the page that will be displayed to the user if they do not have access to the locked page."
 
 #: templates/settingsPages.php:44
 msgid "Stránka, když uživatel nemá přístup"
-msgstr ""
+msgstr "Page when user does not have access"
 
 #: templates/settingsPages.php:40
 msgid ""
-"Vyberte stránku, která se zobrazí uživatelům po přihlášení do členské \n"
-"                                        sekce nebo úrovně, tzn. nástěnka."
+"Select the page that will be displayed to users after logging into the member \n"
+"                                        section or level, i.e. the noticeboard."
 msgstr ""
 
 #: templates/settingsPages.php:36
 msgid "Stránka nesmí být zařazena jako členská."
-msgstr ""
+msgstr "The site must not be classified as a member's site."
 
 #: templates/settingsPages.php:35
 msgid "Vyberte stránku, kde je umístěn přihlašovací formulář."
-msgstr ""
+msgstr "Select the page where the login form is located."
 
 #: templates/settingsPages.php:34
 msgid "Přihlašovací stránka"
-msgstr ""
+msgstr "Login page"
 
 #: templates/settingsLevelNew.php:33
 msgid "Vytvořit úroveň"
-msgstr ""
+msgstr "Create a level"
 
 #: templates/settingsLevelNew.php:27
 msgid "Zařadit do členské sekce"
-msgstr ""
+msgstr "Put in members section"
 
 #: templates/settingsLevelNew.php:22
 msgid "Název členské úrovně"
-msgstr ""
+msgstr "Membership level name"
 
 #: templates/settingsEmails.php:176
 msgid "Přihlašovací heslo uživatele"
-msgstr ""
+msgstr "User login password"
 
 #: templates/settingsEmails.php:168
 msgid "Přihlašovací jméno uživatele"
-msgstr ""
+msgstr "User login name"
 
 #: templates/settingsEmails.php:160
 msgid "Odkaz na přihlášení (z nastavení) pouze URL"
-msgstr ""
+msgstr "Login link (from settings) URL only"
 
 #: templates/settingsEmails.php:152
 msgid "Datum konce členství nebo 'neomezené'"
-msgstr ""
+msgstr "Membership end date or 'unlimited'"
 
 #: templates/settingsEmails.php:144
 msgid "Počet zakoupených dní nebo 'neomezeně'"
-msgstr ""
+msgstr "Number of days purchased or 'unlimited'"
 
 #: templates/settingsEmails.php:137
 msgid "Začátečník"
-msgstr ""
+msgstr "Beginner"
 
 #: templates/settingsEmails.php:136
 msgid "Název úrovně"
-msgstr ""
+msgstr "Name of the level"
 
 #: templates/settingsEmails.php:129
 msgid "Italská kuchyně"
-msgstr ""
+msgstr "Italian cuisine"
 
 #: templates/settingsEmails.php:128
 msgid "Název sekce"
-msgstr ""
+msgstr "Section Name"
 
 #: templates/settingsEmails.php:119 templates/settingsEmails.php:121
 msgid "prodloužení/přidání sekce"
-msgstr ""
+msgstr "section extension/addition"
 
 #: templates/settingsEmails.php:118
 msgid "registraci nového člena"
-msgstr ""
+msgstr "registration of a new member"
 
 #: templates/settingsEmails.php:115
 msgid "Dostupné při"
-msgstr ""
+msgstr "Available at"
 
 #: templates/settingsEmails.php:114
 msgid "Příklad"
-msgstr ""
+msgstr "Example"
 
 #: templates/settingsEmails.php:113
 msgid "Popis"
-msgstr ""
+msgstr "Description"
 
 #: templates/settingsEmails.php:112
 msgid "Kód"
-msgstr ""
+msgstr "Code"
 
 #: templates/settingsEmails.php:107
 msgid "Dostupné proměnné"
-msgstr ""
+msgstr "Available variables"
 
 #: templates/settingsEmails.php:85
 msgid "Obsah e-mailu"
-msgstr ""
+msgstr "Email content"
 
 #: templates/settingsEmails.php:77
 msgid "Předmět e-mailu"
-msgstr ""
+msgstr "Email subject"
 
 #: templates/settingsEmails.php:71
 msgid "Nastavit vlastní e-mail pro úroveň"
-msgstr ""
+msgstr "Set custom email for level"
 
 #: templates/settingsEmails.php:56
 msgid "E-mail je převzat z nastavení členské sekce, do které úroveň spadá."
-msgstr ""
+msgstr "Email is taken from the member section settings the level falls into."
 
 #: templates/settingsEmails.php:39
 msgid "E-mail po přidání do úrovně"
-msgstr ""
+msgstr "Email when added to a level"
 
 #: templates/settingsEmails.php:38
 msgid "E-mail po prodloužení členství v úrovni"
-msgstr ""
+msgstr "Email after level membership renewal"
 
 #: templates/settingsEmails.php:37
 msgid "E-mail po registraci do úrovně"
-msgstr ""
+msgstr "Email after level registration"
 
 #: templates/settingsEmails.php:33
 msgid "E-mail po přidání do sekce"
-msgstr ""
+msgstr "Email after adding to section"
 
 #: templates/settingsEmails.php:32
 msgid "E-mail po prodloužení členství v sekci"
-msgstr ""
+msgstr "E-mail after renewing the membership of the section"
 
 #: templates/settingsEmails.php:31
 msgid "E-mail po registraci do sekce"
-msgstr ""
+msgstr "E-mail after registration to the section"
 
 #: templates/settingsEmails.php:20 templates/settingsPages.php:20
 msgid "Zvolte prosím sekci/úroveň vlevo."
-msgstr ""
+msgstr "Please select a section/level on the left."
 
 #: templates/settingsElements.php:24
 msgid "Uživatelské okénko bude funkční pro uživatele všech členských sekcí a úrovní."
-msgstr ""
+msgstr "The user window will be functional for users of all membership sections and levels."
 
 #: templates/settingsElements.php:22
 msgid "Okénko vložte do svého webu na požadovaná místa pomocí shortcode"
-msgstr ""
+msgstr "Insert the window in your website in the desired places using the shortcode"
 
 #: templates/settingsElements.php:21
 msgid "Uživatelské okénko"
-msgstr ""
+msgstr "User window"
 
 #: templates/settingsElements.php:16 templates/settingsElements.php:28
 #: templates/settingsElements.php:39 templates/settingsElements.php:45
 msgid "Snímek obrazovky"
-msgstr ""
+msgstr "Screenshot"
 
 #: templates/settingsElements.php:12
 msgid "Formulář se zobrazí po znovunačtení stránky."
-msgstr ""
+msgstr "The form is displayed after the page is reloaded."
 
 #: templates/settingsElements.php:10
 msgid "Formulář vložte do svého webu na požadovaná místa pomocí shortcode"
-msgstr ""
+msgstr "Insert the form in your website in the desired places using the shortcode"
 
 #: templates/settingsElements.php:9
 msgid "Formulář pro přihlášení"
-msgstr ""
+msgstr "Registration form"
 
 #: templates/settingsContentRemove.php:31 templates/settingsPages.php:73
 #: templates/settingsSettings.php:39
 msgid "Uložit"
-msgstr ""
+msgstr "Save"
 
 #: templates/settingsContentAdd.php:34 templates/settingsContentRemove.php:36
 msgid "Prosím zvolte sekci/úroveň."
-msgstr ""
+msgstr "Please select a section/level."
 
 #: templates/settingsContentAdd.php:15 templates/settingsContentRemove.php:12
 #: templates/settingsContentSelect.php:10 templates/settingsEmails.php:11
 #: templates/settingsLevelNew.php:11 templates/settingsPages.php:11
 #: templates/settingsSectionNew.php:11
 msgid "Členské sekce/úrovně"
-msgstr ""
+msgstr "Member Sections/Levels"
 
 #: templates/levelSelection.php:52
 msgid "Vstoupit"
-msgstr ""
+msgstr "Enter"
 
 #: templates/levelSelection.php:15
 msgid "Prosím, zvolte jednu ze stránek, kam chcete vstoupit"
-msgstr ""
+msgstr "Please select one of the pages you want to enter"
 
 #: templates/levelSelection.php:14
 msgid "Výběr sekce"
-msgstr ""
+msgstr "Section selection"
 
 #: templates/levelSelection.php:8
 msgid "Výběr úrovně"
-msgstr ""
+msgstr "Level Selection"
 
 #: templates/index.php:153
 msgid "Přejít do záložky Sekce / úrovně"
-msgstr ""
+msgstr "Go to Section / Level tab"
 
 #: templates/index.php:150
 msgid "Novou sekci můžete vytvořit na záložce Sekce / úrovně."
-msgstr ""
+msgstr "You can create a new section on the Sections / Levels tab."
 
 #: templates/index.php:149
 msgid "Nemáte vytvořenou žádnou členskou sekci."
-msgstr ""
+msgstr "You have no member section created."
 
 #: templates/index.php:113
 msgid "Stránek v celé sekci"
-msgstr ""
+msgstr "Page in full section"
 
 #: templates/index.php:106 templates/index.php:127
 msgid "Počet registrovaných"
-msgstr ""
+msgstr "Number of registered"
 
 #: templates/index.php:103
 msgid "Počet úrovní"
-msgstr ""
+msgstr "Number of levels"
 
 #: templates/index.php:15
 msgid "Přehled členských sekcí a úrovní"
-msgstr ""
+msgstr "Overview of membership sections and levels"
 
 #: templates/connection.php:71
 msgid "Zkopírovat"
-msgstr ""
+msgstr "Copy"
 
 #: templates/connection.php:66
 msgid "FAPI Member API Token"
-msgstr ""
+msgstr "FAPI Member API Token"
 
 #: templates/connection.php:63
 msgid "Propojení s Integromatem"
-msgstr ""
+msgstr "Connection with Integromat"
 
 #: templates/connection.php:60
 msgid "nepropojeno"
-msgstr ""
+msgstr "not connected"
 
 #: templates/connection.php:60
 msgid "propojeno"
-msgstr ""
+msgstr "connected"
 
 #: templates/connection.php:59
 msgid "Stav propojení"
-msgstr ""
+msgstr "Link status"
 
 #: templates/connection.php:55
 msgid "Propojit s FAPI"
-msgstr ""
+msgstr "Link to FAPI"
 
 #: templates/connection.php:17 templates/connection.php:51
 msgid "API klíč"
-msgstr ""
+msgstr "API key"
 
 #: templates/connection.php:16 templates/connection.php:47
 msgid "Uživatelské jméno (e-mail)"
-msgstr ""
+msgstr "Username (email)"
 
 #: templates/connection.php:12
 msgid "Propojené účty FAPI:"
-msgstr ""
+msgstr "Linked FAPI accounts:"
 
 #: src/FapiMemberTools.php:873
 msgid "Společné"
-msgstr ""
+msgstr "Common"
 
 #: src/FapiMemberTools.php:872
 msgid "Prvky pro web"
-msgstr ""
+msgstr "Elements for the web"
 
 #: src/FapiMemberTools.php:871
 msgid "Servisní stránky"
-msgstr ""
+msgstr "Service pages"
 
 #: src/FapiMemberTools.php:870
 msgid "E-maily"
-msgstr ""
+msgstr "Emails"
 
 #: src/FapiMemberTools.php:866
 msgid "Přiřazené stránky a příspěvky"
-msgstr ""
+msgstr "Associated pages and posts"
 
 #: src/FapiMemberTools.php:857
 msgid "Propojení"
-msgstr ""
+msgstr "Connection"
 
 #: src/FapiMemberTools.php:812 src/FapiMemberTools.php:833
 msgid "Propojení s FAPI"
-msgstr ""
+msgstr "Linking to FAPI"
 
 #: src/FapiMemberTools.php:804 src/FapiMemberTools.php:822
 #: src/FapiMemberTools.php:851
 msgid "Přehled"
-msgstr ""
+msgstr "Overview"
 
 #: src/FapiMemberTools.php:768
 msgid "Tento doplněk není optimalizován pro telefony a malé monitory."
-msgstr ""
+msgstr "This add-on is not optimized for phones and small monitors."
 
 #: src/FapiMemberTools.php:711
 msgid "Odhlásit se"
-msgstr ""
+msgstr "Log out"
 
 #: src/FapiMemberTools.php:708
 msgid "Uživatel"
-msgstr ""
+msgstr "User"
 
 #: src/FapiMemberPlugin.php:1941
 msgid "Vybrat"
-msgstr ""
+msgstr "Choose"
 
 #: src/FapiMemberPlugin.php:1895 src/FapiMemberPlugin.php:1966
 msgid "Bez expirace"
-msgstr ""
+msgstr "No expiration"
 
 #: src/FapiMemberPlugin.php:1893
 msgid "Členství do"
-msgstr ""
+msgstr "Membership to"
 
 #: src/FapiMemberPlugin.php:1891 src/FapiMemberPlugin.php:1954
 msgid "Čas registrace"
-msgstr ""
+msgstr "Registration time"
 
 #: src/FapiMemberPlugin.php:1889 src/FapiMemberPlugin.php:1948
 msgid "Datum registrace"
-msgstr ""
+msgstr "Date of registration"
 
 #: src/FapiMemberPlugin.php:1842 src/FapiMemberTools.php:808
 #: src/FapiMemberTools.php:829
 msgid "Členské sekce"
-msgstr ""
+msgstr "Membership Section"
 
 #: src/FapiMemberPlugin.php:1714
 msgid "Fapi Member - API key"
-msgstr ""
+msgstr "Fapi Member - API key"
 
 #: src/FapiMemberPlugin.php:1704
 msgid "Fapi Member - API e-mail"
-msgstr ""
+msgstr "Fapi Member - API e-mail"
 
 #: src/FapiMemberPlugin.php:1235
 msgid "Nemáte potřebná oprvánění."
-msgstr ""
+msgstr "You do not have the necessary permissions."
 
 #: src/FapiMemberPlugin.php:1232
 msgid "Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a odeslat znovu."
-msgstr ""
+msgstr "Form security did not allow processing, please refresh the page and submit again."
 
 #: src/FapiMemberPlugin.php:319
 msgid "Přiřazené sekce a úrovně"
-msgstr ""
+msgstr "Assigned Sections and Levels"
 
 #: src/FapiMemberPlugin.php:207
 msgid "Člen"
-msgstr ""
+msgstr "Member"
 
 #: templates/fapiMemberLoginPage.php:10 templates/fapiMemberLoginPage.php:16
 msgid "Přihlášení do členské sekce"
-msgstr ""
+msgstr "Login to the members section"
 
 #: src/FapiMemberTools.php:677 src/FapiMemberTools.php:730
 msgid "Přihlásit se"
-msgstr ""
+msgstr "Log in"
 
 #: src/FapiMemberTools.php:674
 msgid "Zapomněli jste heslo?"
-msgstr ""
+msgstr "Forgot your password?"
 
 #: src/FapiMemberTools.php:670
 msgid "Heslo"
-msgstr ""
+msgstr "Password"
 
 #: src/FapiMemberTools.php:666
 msgid "Přihlašovací jméno"
-msgstr ""
+msgstr "Login name"
 
 #. Author of the plugin
 msgid "FAPI Business s.r.o."
-msgstr ""
+msgstr "FAPI Business s.r.o."
 
 #. Description of the plugin
 msgid "Plugin FAPI pro jednoduchou správu členských sekcí na webu."
-msgstr ""
+msgstr "FAPI plugin for easy management of member sections on the web."
 
 #: src/FapiMemberPlugin.php:1984
 msgid "You do not have sufficient permissions to access this page."
-msgstr ""
+msgstr "You do not have sufficient permissions to access this page."
 
 #. Plugin URI of the plugin
 #. Author URI of the plugin
 msgid "https://fapi.cz/"
-msgstr ""
+msgstr "https://fapi.cz/"
 
 #: multiple-blocks/multiple-blocks.php:33
 #: src/Elementor/Category/CategoryRegister.php:14
 #: src/Elementor/Widgets/FapiFormWidget.php:43
 msgid "FAPI"
-msgstr ""
+msgstr "FAPI"
 
 #. Plugin Name of the plugin
 #: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:35
 #: multiple-blocks/build/block-extender.js:1
 #: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
 msgid "FAPI Member"
-msgstr ""
+msgstr "FAPI Member"
