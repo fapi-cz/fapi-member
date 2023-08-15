@@ -24,7 +24,7 @@ final class FapiSanitization {
 	const VALID_EMAIL_TYPE      = 'validEmailType';
 	const VALID_OTHER_PAGE_TYPE = 'validOtherPageType';
 	const VALID_DIRECTION       = 'validDirection';
-	const CHECKBOX 				= 'checkbox';
+	const CHECKBOX              = 'checkbox';
 
 	public $fapiLevels;
 
@@ -232,9 +232,9 @@ final class FapiSanitization {
 	}
 
 	public function checkbox( $input, $default ) {
-		if ( !empty( $input ) ) {
+		if ( ! empty( $input ) ) {
 			return true;
-		} 
+		}
 		return false;
 	}
 

@@ -750,7 +750,7 @@ final class FapiMemberTools {
 
 		$memberships      = $FapiPlugin->fapiMembershipLoader()->loadForUser( get_current_user_id() );
 		$registrationDate = $FapiPlugin->fapiMembershipLoader()->getUserRegistrationDateForLevel( $memberships, $level );
-		$daysToUnlock     = get_term_meta( $level, FapiMemberPlugin::LEVEL_UNLOCKING_META_KEY, true )[ 'days_to_unlock' ];
+		$daysToUnlock     = get_term_meta( $level, FapiMemberPlugin::LEVEL_UNLOCKING_META_KEY, true )['days_to_unlock'];
 		$unlockDate       = strtotime( "+{$daysToUnlock} days", $registrationDate );
 
 		return wp_date( 'd.m.Y\ \o H:i', $unlockDate );
@@ -927,15 +927,18 @@ final class FapiMemberTools {
 	 * @return string
 	 */
 	public static function shortcodeLevelUnlockButton( $atts ) {
-		
-		$attributes = shortcode_atts(array(
-			'level' => '',
-			'cssclasses' => ''
-		), $atts);
 
-		$out = FapiMemberTools::formStart('level_button_unlocking');
-		$out .= '<input type="hidden" name="unlock_level" value="'. $attributes['level'] .'">';
-		$out .= '<button type="submit" class="'.$attributes['cssclasses'].'">
+		$attributes = shortcode_atts(
+			array(
+				'level'      => '',
+				'cssclasses' => '',
+			),
+			$atts
+		);
+
+		$out  = self::formStart( 'level_button_unlocking' );
+		$out .= '<input type="hidden" name="unlock_level" value="' . $attributes['level'] . '">';
+		$out .= '<button type="submit" class="' . $attributes['cssclasses'] . '">
 					Odemknout uroven
 				</button>
 			</form>';

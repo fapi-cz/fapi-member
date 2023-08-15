@@ -33,10 +33,10 @@ final class FapiMembership implements JsonSerializable {
 		if ( $until === false ) {
 			$until = null;
 		}
-		
+
 		$levelMeta = get_term_meta( $level, FapiMemberPlugin::LEVEL_UNLOCKING_META_KEY, true );
-		
-		if ( is_array($levelMeta) && array_key_exists('require_completion', $levelMeta) && $levelMeta['require_completion'] === true ){
+
+		if ( is_array( $levelMeta ) && array_key_exists( 'require_completion', $levelMeta ) && $levelMeta['require_completion'] === true ) {
 			$isUnlocked = false;
 		}
 

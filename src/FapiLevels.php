@@ -402,38 +402,44 @@ final class FapiLevels {
 	}
 
 	/**
-	 * @param int		$levelId
-	 * @param bool		$loadPrevious If true, returns the previous sibling's ID. Otherwise returns the next sibling's ID.
+	 * @param int  $levelId
+	 * @param bool $loadPrevious If true, returns the previous sibling's ID. Otherwise returns the next sibling's ID.
 	 * @return int|null
 	 */
 	public function getSiblingOfLevel( $levelId, $loadPrevious = false ) {
-		
+
 		$loadPrevious = $loadPrevious === true ? 1 : -1;
-		$parentId = get_term( $levelId )->parent;
-	
-		if ( empty( $parentId ) ){
+		$parentId     = get_term( $levelId )->parent;
+
+		if ( empty( $parentId ) ) {
 
 			return null;
-			
+
 		}
 
 		$envelopes = $this->loadAsTermEnvelopes();
-		
-		$filteredLevels = array_filter( $envelopes, function ( $obj ) use ( $parentId ) {
-			return $obj->getTerm()->parent === $parentId;
-		});
 
-		usort($filteredLevels, function ($a, $b) {
-			return $a->getOrder() - $b->getOrder();
-		});
+		$filteredLevels = array_filter(
+			$envelopes,
+			function ( $obj ) use ( $parentId ) {
+				return $obj->getTerm()->parent === $parentId;
+			}
+		);
 
-		foreach ( $filteredLevels as $arrIndex => $level ){
-			if ( $level->getTerm()->term_id === $levelId ){
+		usort(
+			$filteredLevels,
+			function ( $a, $b ) {
+				return $a->getOrder() - $b->getOrder();
+			}
+		);
 
-				if ( $arrIndex + $loadPrevious < 0 || $arrIndex + $loadPrevious > ( count($filteredLevels) - 1 )  ) {
+		foreach ( $filteredLevels as $arrIndex => $level ) {
+			if ( $level->getTerm()->term_id === $levelId ) {
+
+				if ( $arrIndex + $loadPrevious < 0 || $arrIndex + $loadPrevious > ( count( $filteredLevels ) - 1 ) ) {
 					return null;
 				} else {
-					return $filteredLevels[$arrIndex+$loadPrevious]->getTerm()->term_id;
+					return $filteredLevels[ $arrIndex + $loadPrevious ]->getTerm()->term_id;
 				}
 			}
 		}
@@ -441,19 +447,19 @@ final class FapiLevels {
 	}
 
 	/**
-	 * @param int			$postId
+	 * @param int $postId
 	 * @return array<int>
 	 */
-	public function getLevelsForPostId ( $postId ){
+	public function getLevelsForPostId( $postId ) {
 		$levelsAndPages = $this->levelsToPages();
-		$levelsForPost	= array();
+		$levelsForPost  = array();
 
-		foreach ($levelsAndPages as $levelId => $postIds) {
-			if (in_array($postId, $postIds)) {
+		foreach ( $levelsAndPages as $levelId => $postIds ) {
+			if ( in_array( $postId, $postIds ) ) {
 				$levelsForPost[] = $levelId;
 			}
 		}
-		
+
 		return $levelsForPost;
 
 	}

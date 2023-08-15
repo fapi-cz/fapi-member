@@ -66,9 +66,8 @@ echo FapiMemberTools::heading();
                             <input type="number" min="0" max="100" name="days_to_unlock" value="<?php echo $daysToUnlockVal ?>" oninput="this.value = Math.abs(this.value)">
                         </div>
                         <hr>
-                        <h3><?php _e('Vyžadovat dokončení úrovně', 'fapi-member') ?></h3>
-                        <p><?php _e('Uživatel musí dokončit tuto úroveň pro odemknutí nasledující úrovně. 
-                                     Pokud je úroveň posledná v sekci, nastavení nemá žádný efekt', 'fapi-member') ?></p>
+                        <h3><?php _e('Uzamknout úroveň', 'fapi-member') ?></h3>
+                        <p><?php _e('Úroveň musí být odemčena pomocí tlačítka. Tlačítko můžete na stránku přidat pomocí Elementoru či pomocí shortcodu v části "Prvky pro web"', 'fapi-member') ?></p>
                         <div class="row submitInline noLabel">
                             <label for="require_completion">
                                 <input type="checkbox" 
@@ -77,7 +76,7 @@ echo FapiMemberTools::heading();
                                        value="1" 
                                        <?php echo $requireCompletion ? 'checked' : '' ?>
                                        >
-                                       <?php _e( 'Vyžadovat dokončení', 'fapi-member' ) ?>
+                                       <?php _e( 'Uzamknout', 'fapi-member' ) ?>
                             </label>           
                         </div>
                         <input type="submit" class="primary" value="<?php _e('Uložit', 'fapi-member'); ?>">
