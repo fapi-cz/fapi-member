@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .resolutionAlert {
   margin-left: 260px;
   background-color: #ca4a1f;
@@ -170,7 +171,8 @@
   color: #838383;
 }
 .baseGrid input[type=submit],
-.baseGrid .btn {
+.baseGrid .btn,
+.baseGrid #generateButton {
   display: inline-block;
   height: 40px;
   line-height: 40px;
@@ -178,49 +180,58 @@
   padding: 0 22px;
 }
 .baseGrid input[type=submit]:hover,
-.baseGrid .btn:hover {
+.baseGrid .btn:hover,
+.baseGrid #generateButton:hover {
   cursor: pointer;
 }
 .baseGrid input[type=submit].outline,
-.baseGrid .btn.outline {
+.baseGrid .btn.outline,
+.baseGrid .outline#generateButton {
   border: 1px solid #0074e2;
   background-color: white;
   color: #0074e2;
   font-weight: bold;
 }
 .baseGrid input[type=submit].outline:hover,
-.baseGrid .btn.outline:hover {
+.baseGrid .btn.outline:hover,
+.baseGrid .outline#generateButton:hover {
   background-color: #0074e2;
   color: white;
 }
 .baseGrid input[type=submit].outline.danger,
-.baseGrid .btn.outline.danger {
+.baseGrid .btn.outline.danger,
+.baseGrid .outline.danger#generateButton {
   border: 1px solid #ff0200;
   color: #ff0200;
 }
 .baseGrid input[type=submit].outline.danger:hover,
-.baseGrid .btn.outline.danger:hover {
+.baseGrid .btn.outline.danger:hover,
+.baseGrid .outline.danger#generateButton:hover {
   background-color: #ff0200;
   color: white;
 }
 .baseGrid input[type=submit].outline[disabled],
-.baseGrid .btn.outline[disabled] {
+.baseGrid .btn.outline[disabled],
+.baseGrid .outline[disabled]#generateButton {
   border: 1px solid #eeeeee;
   color: #838383;
 }
 .baseGrid input[type=submit].primary,
-.baseGrid .btn.primary {
+.baseGrid .btn.primary,
+.baseGrid #generateButton {
   border: 1px solid #0074e2;
   background-color: #0074e2;
   color: white;
 }
 .baseGrid input[type=submit].primary:hover,
-.baseGrid .btn.primary:hover {
+.baseGrid .btn.primary:hover,
+.baseGrid #generateButton:hover {
   box-shadow: 0 0 0 3px rgba(0, 116, 226, 0.2);
   transition: all 200ms ease-out;
 }
 .baseGrid input[type=submit].primary[disabled],
-.baseGrid .btn.primary[disabled] {
+.baseGrid .btn.primary[disabled],
+.baseGrid [disabled]#generateButton {
   border: 1px solid #eeeeee;
   background-color: #eeeeee;
   color: #838383;
@@ -669,4 +680,66 @@
   line-height: 40px;
   border-radius: 0.25rem !important;
   padding: 0 22px;
-}/*# sourceMappingURL=fapi-member.css.map */
+}
+
+.tag {
+  border: 1px solid #0074e2;
+  background-color: #0074e2;
+  color: white;
+  display: inline-block;
+  border-radius: 0.25rem;
+  padding: 2px 7px;
+  margin-right: 5px;
+}
+
+.tag small {
+  padding: 0 4px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: bold;
+  color: #56809B;
+  margin: 0 0 0 4px;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border-radius: 100%;
+}
+
+#custom-classes {
+  background-color: white;
+  border-radius: 0.25rem;
+  border: 1px solid #9ca3af;
+  height: 25px;
+}
+
+#custom-classes:focus-visible {
+  outline: none;
+}
+
+a.close {
+  display: block;
+  float: right;
+  white-space: nowrap;
+  overflow: hidden;
+  height: 1em;
+  margin: 0.125em 0 0 0.5em;
+  text-indent: -999em;
+}
+
+a.close:before {
+  cursor: pointer;
+  display: block;
+  float: left;
+  content: "✖";
+  font-size: 0.6em;
+  font-weight: bold;
+  text-indent: 0;
+  line-height: 1em;
+  color: white;
+  margin-top: 2px;
+}
+
+#generateButton {
+  margin-top: 10px;
+}
+
+/*# sourceMappingURL=fapi-member.css.map */

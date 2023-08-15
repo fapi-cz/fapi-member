@@ -1,4 +1,4 @@
 /*!
-* sweetalert2 v10.16.9
+* sweetalert2 v10.16.11
 * Released under the MIT License.
 */

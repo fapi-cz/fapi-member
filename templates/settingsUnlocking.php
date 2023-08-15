@@ -47,9 +47,14 @@ echo FapiMemberTools::heading();
                     <h3><?php _e('Zvolili jste členskou sekci, prosím zvolte úroveň.', 'fapi-member') ?></h3>
                 <?php
                 } else {
-                    $inputVal = get_term_meta($level, FapiMemberPlugin::DAYS_TO_UNLOCK_META_KEY, true) ?
-                        get_term_meta($level, FapiMemberPlugin::DAYS_TO_UNLOCK_META_KEY, true) :
-                        '0';
+                    $daysToUnlockVal = get_term_meta($level, FapiMemberPlugin::LEVEL_UNLOCKING_META_KEY, true) ?
+                                       get_term_meta($level, FapiMemberPlugin::LEVEL_UNLOCKING_META_KEY, true)['days_to_unlock'] :
+                                       '0';
+
+                    $requireCompletion = get_term_meta($level, FapiMemberPlugin::LEVEL_UNLOCKING_META_KEY, true) ? 
+                                         get_term_meta($level, FapiMemberPlugin::LEVEL_UNLOCKING_META_KEY, true)["require_completion"] :
+                                         false;
+                    
                 ?>
                     <div class="onePageOther">
                         <h3><?php _e('Počet dní od registrace uživatele, po kterých má být vybraná sekce/úroveň zpřístupněna.', 'fapi-member') ?></h3>
@@ -58,9 +63,24 @@ echo FapiMemberTools::heading();
                         <?php echo FapiMemberTools::formStart('set_section_unlocking') ?>
                         <input type="hidden" name="level_id" value="<?php echo $level ?>">
                         <div style="justify-content:start" class="row submitInline noLabel">
-                            <input type="number" min="0" max="100" name="days_to_unlock" value="<?php echo $inputVal ?>" oninput="this.value = Math.abs(this.value)">
-                            <input type="submit" class="primary" value="<?php _e('Uložit', 'fapi-member'); ?>">
+                            <input type="number" min="0" max="100" name="days_to_unlock" value="<?php echo $daysToUnlockVal ?>" oninput="this.value = Math.abs(this.value)">
                         </div>
+                        <hr>
+                        <h3><?php _e('Vyžadovat dokončení úrovně', 'fapi-member') ?></h3>
+                        <p><?php _e('Uživatel musí dokončit tuto úroveň pro odemknutí nasledující úrovně. 
+                                     Pokud je úroveň posledná v sekci, nastavení nemá žádný efekt', 'fapi-member') ?></p>
+                        <div class="row submitInline noLabel">
+                            <label for="require_completion">
+                                <input type="checkbox" 
+                                       name="require_completion"
+                                       id="require_completion"
+                                       value="1" 
+                                       <?php echo $requireCompletion ? 'checked' : '' ?>
+                                       >
+                                       <?php _e( 'Vyžadovat dokončení', 'fapi-member' ) ?>
+                            </label>           
+                        </div>
+                        <input type="submit" class="primary" value="<?php _e('Uložit', 'fapi-member'); ?>">
                         </form>
                     </div>
                 <?php } ?>

@@ -745,12 +745,12 @@ final class FapiMemberTools {
 		);
 
 		if ( $level === null ) {
-			return __( 'Nepodařilo se identifikovat členskou sekci', 'fapi-member' );
+			return __( 'Do této sekce/úrovně nemáte aktuálně přístup.', 'fapi-member' );
 		}
 
 		$memberships      = $FapiPlugin->fapiMembershipLoader()->loadForUser( get_current_user_id() );
 		$registrationDate = $FapiPlugin->fapiMembershipLoader()->getUserRegistrationDateForLevel( $memberships, $level );
-		$daysToUnlock     = get_term_meta( $level, FapiMemberPlugin::DAYS_TO_UNLOCK_META_KEY, true );
+		$daysToUnlock     = get_term_meta( $level, FapiMemberPlugin::LEVEL_UNLOCKING_META_KEY, true )[ 'days_to_unlock' ];
 		$unlockDate       = strtotime( "+{$daysToUnlock} days", $registrationDate );
 
 		return wp_date( 'd.m.Y\ \o H:i', $unlockDate );
@@ -923,4 +923,23 @@ final class FapiMemberTools {
 		return sprintf( '<a href="%s" class="%s">%s</a>', self::fapilink( $subpage ), implode( ' ', $classes ), $label );
 	}
 
+	/**
+	 * @return string
+	 */
+	public static function shortcodeLevelUnlockButton( $atts ) {
+		
+		$attributes = shortcode_atts(array(
+			'level' => '',
+			'cssclasses' => ''
+		), $atts);
+
+		$out = FapiMemberTools::formStart('level_button_unlocking');
+		$out .= '<input type="hidden" name="unlock_level" value="'. $attributes['level'] .'">';
+		$out .= '<button type="submit" class="'.$attributes['cssclasses'].'">
+					Odemknout uroven
+				</button>
+			</form>';
+
+		return $out;
+	}
 }

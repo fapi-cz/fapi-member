@@ -812,3 +812,59 @@
 		padding: 0 22px;
 	}
 }
+
+.tag {
+	border: 1px solid $blue;
+	background-color: $blue;
+	color: white;
+	display: inline-block;
+	border-radius: 0.25rem;
+	padding: 2px 7px;
+	margin-right: 5px;
+ }
+.tag small {
+    padding: 0 4px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+    color: #56809B;
+    margin: 0 0 0 4px;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+}
+#custom-classes {
+	background-color: white;
+	border-radius: 0.25rem;
+	border: 1px solid #9ca3af;
+	height: 25px;
+}
+#custom-classes:focus-visible{
+	outline: none;
+}
+a.close {
+	display: block;
+	float: right;
+	white-space: nowrap;
+	overflow: hidden;
+	height: 1em;
+	margin: .125em 0 0 .5em;
+	text-indent: -999em;
+  }
+a.close:before {
+	cursor: pointer;
+	display:block;
+	float: left;
+	content: "\2716";
+	font-size: 0.6em;
+	font-weight: bold;
+	text-indent: 0;
+	line-height: 1em;
+	color: white;
+	margin-top: 2px;
+  }
+  #generateButton{
+	@extend .btn;
+	@extend .primary;
+	margin-top: 10px;
+  }

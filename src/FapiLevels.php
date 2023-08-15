@@ -336,7 +336,7 @@ final class FapiLevels {
 	 * @return FapiTermEnvelope[]
 	 */
 	protected function termsToEnvelopes( $terms ) {
-		$ordering = (array) get_option( self::OPTION_KEY_LEVELS_ORDER, ( new stdClass() ) );
+		$ordering = get_option( self::OPTION_KEY_LEVELS_ORDER, ( new stdClass() ) );
 
 		$envelopes = array_map(
 			static function ( $term ) use ( $ordering ) {
@@ -399,6 +399,63 @@ final class FapiLevels {
 			$this->constructEmailTemplateKey( self::EMAIL_TYPE_AFTER_ADDING ),
 			EmailTemplatesProvider::FAPI_EMAILS[ $emailKind ][ self::EMAIL_TYPE_AFTER_ADDING ]
 		);
+	}
+
+	/**
+	 * @param int		$levelId
+	 * @param bool		$loadPrevious If true, returns the previous sibling's ID. Otherwise returns the next sibling's ID.
+	 * @return int|null
+	 */
+	public function getSiblingOfLevel( $levelId, $loadPrevious = false ) {
+		
+		$loadPrevious = $loadPrevious === true ? 1 : -1;
+		$parentId = get_term( $levelId )->parent;
+	
+		if ( empty( $parentId ) ){
+
+			return null;
+			
+		}
+
+		$envelopes = $this->loadAsTermEnvelopes();
+		
+		$filteredLevels = array_filter( $envelopes, function ( $obj ) use ( $parentId ) {
+			return $obj->getTerm()->parent === $parentId;
+		});
+
+		usort($filteredLevels, function ($a, $b) {
+			return $a->getOrder() - $b->getOrder();
+		});
+
+		foreach ( $filteredLevels as $arrIndex => $level ){
+			if ( $level->getTerm()->term_id === $levelId ){
+
+				if ( $arrIndex + $loadPrevious < 0 || $arrIndex + $loadPrevious > ( count($filteredLevels) - 1 )  ) {
+					return null;
+				} else {
+					return $filteredLevels[$arrIndex+$loadPrevious]->getTerm()->term_id;
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * @param int			$postId
+	 * @return array<int>
+	 */
+	public function getLevelsForPostId ( $postId ){
+		$levelsAndPages = $this->levelsToPages();
+		$levelsForPost	= array();
+
+		foreach ($levelsAndPages as $levelId => $postIds) {
+			if (in_array($postId, $postIds)) {
+				$levelsForPost[] = $levelId;
+			}
+		}
+		
+		return $levelsForPost;
+
 	}
 
 }
