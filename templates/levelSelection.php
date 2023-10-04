@@ -32,7 +32,11 @@
 						get_the_content(null, null, $post)
 					)
 				);
-				$excerpt = wp_trim_words($text, 16, '');
+				if (strpos($text, '[') === 0) {
+					$excerpt = '';
+				} else {
+					$excerpt = wp_trim_words($text, 16, '');
+				}
 			}
 
 			?>
