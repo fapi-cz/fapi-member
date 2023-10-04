@@ -23,6 +23,9 @@ Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org
 
 == Changelog ==
 
+= 1.9.31 =
+* Fixed FAPI level selection DIVI bug
+
 = 1.9.30 =
 * Translations
 
