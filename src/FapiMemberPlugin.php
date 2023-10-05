@@ -2506,7 +2506,9 @@ final class FapiMemberPlugin {
 
 	public function levelTimeLock() {
 
-		if ( current_user_can( self::REQUIRED_CAPABILITY ) ) {
+		$isValidLevelPage = empty( $this->levels()->getLevelsForPostId( get_the_ID() ) ) ? false : true;
+
+		if ( ! $isValidLevelPage ) {
 			return true;
 		}
 
@@ -2516,11 +2518,15 @@ final class FapiMemberPlugin {
 
 		foreach ( $levels as $key => $pages ) {
 
-			$innerKey = array_search( $pageId, $pages );
+			foreach ( $pages as $page ) {
 
-			if ( $innerKey !== false ) {
-				$termId = $key;
-				break;
+				if ( $page == $pageId ) {
+
+					$termId = $key;
+					if ( empty( get_term_children( $key, FapiLevels::TAXONOMY ) ) ) {
+						break;
+					}
+				}
 			}
 		}
 
@@ -2545,17 +2551,37 @@ final class FapiMemberPlugin {
 
 		$unlockDate     = strtotime( "+{$daysToUnlock} days", $registrationDate );
 		$timeLockedPage = $this->getSetting( 'time_locked_page_id' );
+		$currentPage    = get_queried_object_id();
+
+		if ( empty( $timeLockedPage ) ) {
+			$timeLockedPage = ! empty( get_term_meta( $termId, 'fapi_page_afterLogin', true ) ) ?
+								get_term_meta( $termId, 'fapi_page_afterLogin', true ) :
+								get_option( 'page_on_front' );
+		}
 
 		if ( time() > $unlockDate ) {
+
 			return true;
-		} else {
+
+		} elseif ( $currentPage !== (int) $timeLockedPage ) {
+
 			$redirectTo = get_permalink( $timeLockedPage );
 			wp_redirect( add_query_arg( 'level', $termId, $redirectTo ) );
+
 		}
+
+		return true;
 
 	}
 
 	public function levelCompletionLock() {
+
+		$isValidLevelPage = empty( $this->levels()->getLevelsForPostId( get_the_ID() ) ) ? false : true;
+
+		if ( ! $isValidLevelPage ) {
+			return true;
+		}
+
 		if ( current_user_can( self::REQUIRED_CAPABILITY ) ) {
 
 			return true;
@@ -2564,6 +2590,12 @@ final class FapiMemberPlugin {
 
 		$user   = get_current_user_id();
 		$levels = $this->levels()->getLevelsForPostId( get_the_ID() );
+
+		if ( empty( $levels ) ) {
+
+			return true;
+
+		}
 
 		foreach ( $levels as $level ) {
 
@@ -2595,8 +2627,24 @@ final class FapiMemberPlugin {
 			}
 		}
 
-		$redirectTo = get_permalink( $this->getSetting( 'time_locked_page_id' ) );
-		wp_redirect( $redirectTo );
+		$currentPage      = get_queried_object_id();
+		$timeLockedPageId = $this->getSetting( 'time_locked_page_id' );
+
+		if ( empty( $timeLockedPageId ) ) {
+
+			$pages            = $this->levels()->loadOtherPagesForLevel( get_the_ID(), true );
+			$timeLockedPageId = isset( $pages['afterLogin'] ) ? $pages['afterLogin'] : get_option( 'page_on_front' );
+
+		}
+
+		if ( $currentPage !== (int) $timeLockedPageId ) {
+
+			$redirectTo = get_permalink( $timeLockedPageId );
+			wp_redirect( $redirectTo );
+
+		}
+
+		return true;
 
 	}
 
