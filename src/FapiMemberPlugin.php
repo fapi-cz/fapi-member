@@ -137,6 +137,7 @@ final class FapiMemberPlugin {
 
 		// handle level unlocking via button
 		add_action( 'admin_post_fapi_member_level_button_unlocking', array( $this, 'handleLevelButtonUnlocking' ) );
+		add_action( 'admin_post_nopriv_fapi_member_level_button_unlocking', array( $this, 'handleLevelButtonUnlocking' ) );
 
 		// level selection in front-end
 		add_action( 'init', array( $this, 'checkIfLevelSelection' ) );
@@ -1138,6 +1139,14 @@ final class FapiMemberPlugin {
 	}
 
 	public function handleLevelButtonUnlocking() {
+
+		if ( ! is_user_logged_in() ) {
+
+			wp_redirect( wp_login_url() );
+			exit;
+
+		}
+
 		$this->verifyNonce( 'level_button_unlocking' );
 
 		(int) $levelId = $this->sanitization()->loadPostValue(
@@ -1145,17 +1154,17 @@ final class FapiMemberPlugin {
 			array( $this->sanitization(), FapiSanitization::VALID_LEVEL_ID )
 		);
 
-		$user            = get_current_user_id();
-		$userMemberships = $this->fapiMembershipLoader()->loadForUser( $user );
+		$user           = get_current_user_id();
+		$unlockedLevels = empty( get_user_meta( $user, 'fapi_user_unlocked_levels', true ) ) ?
+						   array() :
+						   get_user_meta( $user, 'fapi_user_unlocked_levels', true );
 
-		foreach ( $userMemberships as $membership ) {
-			if ( $membership->level === $levelId ) {
-				$membership->isUnlocked = true;
-			}
+		if ( ! in_array( $levelId, $unlockedLevels ) ) {
+
+			array_push( $unlockedLevels, $levelId );
+			update_user_meta( $user, 'fapi_user_unlocked_levels', $unlockedLevels );
+
 		}
-
-		$this->fapiMembershipLoader()->saveForUser( $user, $userMemberships );
-		$this->fapiMembershipLoader()->extendMembershipsToParents( $user );
 
 		$pages = $this->levels()->loadOtherPagesForLevel( $levelId, true );
 
@@ -2597,33 +2606,32 @@ final class FapiMemberPlugin {
 
 		}
 
+		$levelIsLocked = false;
+
 		foreach ( $levels as $level ) {
 
 			$unlockingMeta = get_term_meta( $level, 'fapi_level_unlocking', true );
 
-			if ( empty( $unlockingMeta )
-				|| ! array_key_exists( 'require_completion', $unlockingMeta )
-				|| $unlockingMeta['require_completion'] === false ) {
+			if ( ! empty( $unlockingMeta ) && $unlockingMeta['require_completion'] == true ) {
 
-					return true;
+				$levelIsLocked = true;
+				break;
 
 			}
 		}
 
-		$userMemberships = $this->fapiMembershipLoader()->loadForUser( $user, true );
+		if ( ! $levelIsLocked ) {
+			return true;
+		}
 
-		foreach ( $userMemberships as $membership ) {
+		$unlockedLevels = empty( get_user_meta( $user, 'fapi_user_unlocked_levels', true ) ) ?
+						   array() :
+						   get_user_meta( $user, 'fapi_user_unlocked_levels', true );
 
-			if ( ! in_array( $membership->level, $levels ) ) {
+		foreach ( $unlockedLevels as $unlockedLevel ) {
 
-				continue;
-
-			}
-
-			if ( $membership->isUnlocked ) {
-
+			if ( in_array( $unlockedLevel, $levels ) ) {
 				return true;
-
 			}
 		}
 
