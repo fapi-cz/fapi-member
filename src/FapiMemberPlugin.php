@@ -1015,7 +1015,11 @@ final class FapiMemberPlugin {
 			}
 
 			if ( $historicalMemberships === array() ) {
-				$toSend[] = array( FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $level );
+				if ( isset( $user->ID ) ) {
+					$toSend[] = array( FapiLevels::EMAIL_TYPE_AFTER_ADDING, $level );
+				} else {
+					$toSend[] = array( FapiLevels::EMAIL_TYPE_AFTER_REGISTRATION, $level );
+				}
 
 				return $toSend;
 			}
