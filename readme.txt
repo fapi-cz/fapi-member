@@ -5,7 +5,7 @@ Requires at least: 5.8
 Tested up to: 6.1
 Requires PHP: 7.4
 License: GPLv2 or later
-Stable tag: 1.9.31
+Stable tag: 1.9.32
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -22,6 +22,9 @@ Máte problém s nastavením FAPI Memberu. Obrátit se můžete na naší podpor
 Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org/plugins/fapi-member/#reviews).
 
 == Changelog ==
+
+= 1.9.32 =
+* Fixed sending emails to existing users
 
 = 1.9.31 =
 * Fixed FAPI level selection DIVI bug
