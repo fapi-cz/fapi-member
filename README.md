@@ -1,5 +1,6 @@
 ## Start up:
-1. run `make -C .docker-fapi-member dc-up-front`
+1. run `make -C .docker-fapi-member dc-up-front`   (pro macbook si doplnit do docker-compose.yml k db: platform: linux/x86_64)
+
 2. open browser and go to page `http://localhost:8080`
 3. install wordpress
 4. enable FAPI Member plugin in plugin section
