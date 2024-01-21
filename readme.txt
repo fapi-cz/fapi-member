@@ -2,10 +2,10 @@
 Contributors: Jiří Slischka, Monika Tomešková
 Tags: membership, fapi
 Requires at least: 5.8
-Tested up to: 6.1
+Tested up to: 6.4
 Requires PHP: 7.4
 License: GPLv2 or later
-Stable tag: 1.9.32
+Stable tag: 1.9.33
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -22,6 +22,9 @@ Máte problém s nastavením FAPI Memberu. Obrátit se můžete na naší podpor
 Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org/plugins/fapi-member/#reviews).
 
 == Changelog ==
+
+= 1.9.33 =
+* Updated compatible WP version
 
 = 1.9.32 =
 * Fixed sending emails to existing users
