@@ -955,6 +955,9 @@ final class FapiMemberPlugin {
 		if ( isset( $props['membership_level_added_level'] ) ) {
 			$props['login_link']     = sprintf( '<a href="%s">zde</a>', $this->getLoginUrl( $props['membership_level_added_level'] ) );
 			$props['login_link_url'] = $this->getLoginUrl( $props['membership_level_added_level'] );
+		} elseif ( isset( $props['membership_prolonged_level'] ) ) {
+			$props['login_link']     = sprintf( '<a href="%s">zde</a>', $this->getLoginUrl( $props['membership_prolonged_level'] ) );
+			$props['login_link_url'] = $this->getLoginUrl( $props['membership_prolonged_level'] );
 		} else {
 			$props['login_link']     = sprintf( '<a href="%s">zde</a>', $this->getLoginUrl() );
 			$props['login_link_url'] = $this->getLoginUrl();
