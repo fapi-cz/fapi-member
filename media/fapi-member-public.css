@@ -75,6 +75,17 @@
   grid-row: 2/3 !important;
   grid-column: 2/3 !important;
   font-size: 14px !important;
+  width: 65px !important;
+  height: 20px !important;
+  text-wrap: none !important;
+  word-break: break-all !important;
+  overflow: visible !important;
+  display: inline-block !important;
+  vertical-align: top !important;
+}
+.fapiShortcodeUser .dots {
+  display: inline-block !important;
+  margin-left: -4px;
 }
 .fapiShortcodeUser .f-m-submenu {
   display: block !important;

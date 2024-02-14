@@ -706,7 +706,9 @@ final class FapiMemberTools {
                 </svg>
             </span>
             <span class="h">' . __( 'Uživatel', 'fapi-member' ) . '</span>
-            <span class="l">' . self::trimName( $u->user_login, 8 ) . '</span>
+            <div>
+				<span class="l">' . $u->user_login . '</span><span class="dots">...</span>
+			</div>
             <div class="f-m-submenu">
                 <a href="' . wp_logout_url( get_permalink() ) . '">' . __( 'Odhlásit se', 'fapi-member' ) . '</a>
             </div>
