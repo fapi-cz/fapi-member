@@ -5,7 +5,7 @@ Requires at least: 5.8
 Tested up to: 6.4
 Requires PHP: 7.4
 License: GPLv2 or later
-Stable tag: 1.9.34
+Stable tag: 1.9.35
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -22,6 +22,9 @@ Máte problém s nastavením FAPI Memberu. Obrátit se můžete na naší podpor
 Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org/plugins/fapi-member/#reviews).
 
 == Changelog ==
+
+= 1.9.35 =
+* Updated function of Level Emails checkbox
 
 = 1.9.34 =
 * Small UI fixes
