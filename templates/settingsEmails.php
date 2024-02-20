@@ -63,8 +63,8 @@ echo FapiMemberTools::heading();
                                 <input type="hidden" name="email_type" value="<?php echo $key ?>">
 								<?php if (!$isSection) { ?>
                                     <div class="row">
-                                        <label for="SpecifyLevelEmails[<?php echo $key ?>]">
-                                            <input type="checkbox" id="SpecifyLevelEmails[<?php echo $key ?>]"
+                                        <label for="specify_level_emails[<?php echo $key ?>]">
+                                            <input type="checkbox" name="specify_level_emails" id="specify_level_emails[<?php echo $key ?>]"
                                                    class="specifyLevelEmailCheckbox"
 												<?php echo ($hasContentSet) ? 'checked' : '' ?>
                                             >

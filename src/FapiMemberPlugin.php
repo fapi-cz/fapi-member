@@ -1597,8 +1597,12 @@ final class FapiMemberPlugin {
 			'mail_body',
 			array( $this->sanitization(), FapiSanitization::ANY_STRING )
 		);
+		$mailCheckboxChecked    = $this->sanitization()->loadPostValue(
+			'specify_level_emails',
+			array( $this->sanitization(), FapiSanitization::ANY_STRING )
+		);
 
-		if ( $mailSubject === null || $mailBody === null ) {
+		if ( $mailSubject === null || $mailBody === null || $mailCheckboxChecked === null) {
 			// remove mail template
 			delete_term_meta(
 				$levelId,
