@@ -79,7 +79,7 @@
   height: 20px !important;
   text-wrap: none !important;
   word-break: break-all !important;
-  overflow: visible !important;
+  overflow: hidden !important;
   display: inline-block !important;
   vertical-align: top !important;
 }
