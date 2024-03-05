@@ -25,6 +25,9 @@ Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org
 = 1.9.36 =
 * Fixed user shortcode overflow
 
+= 1.9.35 =
+* Updated function of Level Emails checkbox
+
 = 1.9.34 =
 * Small UI fixes
 
