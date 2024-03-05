@@ -75,7 +75,7 @@
   grid-row: 2/3 !important;
   grid-column: 2/3 !important;
   font-size: 14px !important;
-  width: 65px !important;
+  max-width: 65px !important;
   height: 20px !important;
   text-wrap: none !important;
   word-break: break-all !important;
