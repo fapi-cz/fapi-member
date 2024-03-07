@@ -61,6 +61,11 @@ echo FapiMemberTools::heading();
 								<?php echo FapiMemberTools::formStart('edit_email') ?>
                                 <input type="hidden" name="level_id" value="<?php echo $level ?>">
                                 <input type="hidden" name="email_type" value="<?php echo $key ?>">
+                                <?php if ($isSection) { ?>
+                                    <input type="checkbox" style="display:none" name="specify_level_emails" id="specify_level_emails[<?php echo $key ?>]"
+                                        <?php echo 'checked'?>
+                                    >
+								<?php } ?>
 								<?php if (!$isSection) { ?>
                                     <div class="row">
                                         <label for="specify_level_emails[<?php echo $key ?>]">
