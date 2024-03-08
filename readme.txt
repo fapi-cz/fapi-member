@@ -5,7 +5,7 @@ Requires at least: 5.8
 Tested up to: 6.4
 Requires PHP: 7.4
 License: GPLv2 or later
-Stable tag: 1.9.37
+Stable tag: 1.9.38
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -20,6 +20,10 @@ Máte problém s nastavením FAPI Memberu. Obrátit se můžete na naší podpor
 
 == Ohodnoťte tento plugin a dejte nám zpětnou vazbu ==
 Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org/plugins/fapi-member/#reviews).
+
+== Changelog ==
+= 1.9.38 =
+* Changed showing FAPI Member settings in Elementor
 
 == Changelog ==
 = 1.9.37 =
