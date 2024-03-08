@@ -14,7 +14,7 @@ final class WidgetsSettingsExtender {
 		add_action(
 			'elementor/element/after_section_end',
 			function ( $section, $section_id ) {
-				if ( 'section_custom_css_pro' !== $section_id ) {
+				if ( 'section_custom_attributes_pro' !== $section_id ) {
 					return;
 				}
 
@@ -50,7 +50,7 @@ final class WidgetsSettingsExtender {
 						'title' => esc_html__( 'není členem sekce/úrovně', 'fapi-member' ),
 					),
 					''  => array(
-						'title' => esc_html__( 'zobrazit všem návštěvníkům (vybrané sekce a urovně se ignorují)', 'fapi-member' ),
+						'title' => esc_html__( 'zobrazit všem návštěvníkům (vybrané sekce a úrovně se ignorují)', 'fapi-member' ),
 					),
 				),
 				'description' => esc_html__( 'Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo úrovni nebo všem návštěvníkům.', 'fapi-member' ),
@@ -64,7 +64,7 @@ final class WidgetsSettingsExtender {
 		$section->add_control(
 			'fapiSectionAndLevels',
 			array(
-				'label'    => esc_html__( 'Členské sekce a urovně', 'fapi-member' ),
+				'label'    => esc_html__( 'Členské sekce a úrovně', 'fapi-member' ),
 				'type'     => Controls_Manager::SELECT2,
 				'multiple' => true,
 				'options'  => $levels,
