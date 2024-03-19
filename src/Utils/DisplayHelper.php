@@ -31,6 +31,10 @@ final class DisplayHelper {
 			return true;
 		}
 
+		if ( $sectionAndLevels === null ) {
+			return true;
+		}
+
 		$sectionAndLevels = array_map(
 			static function ( $item ) {
 				return (int) $item;

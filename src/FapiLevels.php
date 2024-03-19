@@ -325,7 +325,12 @@ final class FapiLevels {
 				)
 			);
 
-			$this->levelEnvelopes = $this->termsToEnvelopes( $terms );
+			//TODO: Why does get_terms return WP_ERROR?
+			if (!is_array($terms)) {
+				$this->levelEnvelopes = [];
+			} else {
+				$this->levelEnvelopes = $this->termsToEnvelopes( $terms );
+			}
 		}
 
 		return $this->levelEnvelopes;
