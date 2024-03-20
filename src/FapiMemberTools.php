@@ -735,6 +735,30 @@ final class FapiMemberTools {
 	}
 
 	/**
+	 * @return string
+	 */
+	public static function shortcodeLevelUnlockDate() {
+		global $FapiPlugin;
+
+		$level = $FapiPlugin->sanitization()->loadFormValue(
+			$FapiPlugin->sanitization()::GET,
+			'level',
+			array( $FapiPlugin->sanitization(), FapiSanitization::SINGLE_INT )
+		);
+
+		if ( $level === null ) {
+			return __( 'Do této sekce/úrovně nemáte aktuálně přístup.', 'fapi-member' );
+		}
+
+		$memberships      = $FapiPlugin->fapiMembershipLoader()->loadForUser( get_current_user_id() );
+		$registrationDate = $FapiPlugin->fapiMembershipLoader()->getUserRegistrationDateForLevel( $memberships, $level );
+		$daysToUnlock     = get_term_meta( $level, FapiMemberPlugin::LEVEL_UNLOCKING_META_KEY, true )['days_to_unlock'];
+		$unlockDate       = strtotime( "+{$daysToUnlock} days", $registrationDate );
+
+		return wp_date( 'd.m.Y\ \o H:i', $unlockDate );
+	}
+
+	/**
 	 * @param string        $hook
 	 * @param array<string> $formClasses
 	 * @return string
@@ -873,6 +897,7 @@ final class FapiMemberTools {
                     ' . self::submenuItem( 'settingsPages', __( 'Servisní stránky', 'fapi-member' ), $subpage ) . '
                     ' . self::submenuItem( 'settingsElements', __( 'Prvky pro web', 'fapi-member' ), $subpage ) . '
                     ' . self::submenuItem( 'settingsSettings', __( 'Společné', 'fapi-member' ), $subpage ) . '
+					' . self::submenuItem( 'settingsUnlocking', __( 'Postupné uvolňování obsahu', 'fapi-member' ), $subpage ) . '
                 </div>
                 ';
 		}
@@ -900,4 +925,26 @@ final class FapiMemberTools {
 		return sprintf( '<a href="%s" class="%s">%s</a>', self::fapilink( $subpage ), implode( ' ', $classes ), $label );
 	}
 
+	/**
+	 * @return string
+	 */
+	public static function shortcodeLevelUnlockButton( $atts ) {
+
+		$attributes = shortcode_atts(
+			array(
+				'level'      => '',
+				'cssclasses' => '',
+			),
+			$atts
+		);
+
+		$out  = self::formStart( 'level_button_unlocking' );
+		$out .= '<input type="hidden" name="unlock_level" value="' . $attributes['level'] . '">';
+		$out .= '<button type="submit" class="' . $attributes['cssclasses'] . '">
+					Odemknout uroven
+				</button>
+			</form>';
+
+		return $out;
+	}
 }

@@ -16,6 +16,7 @@
 use FapiMember\Elementor\Category\CategoryRegister;
 use FapiMember\Elementor\Filters\ContentProtector;
 use FapiMember\Elementor\Widgets\FapiFormWidget;
+use FapiMember\Elementor\Widgets\FapiUnlockButton;
 use FapiMember\Elementor\WidgetSettingsExtender\WidgetsSettingsExtender;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -26,6 +27,7 @@ add_action(
 	'elementor/widgets/register',
 	function ( $widgetsManager ) {
 		$widgetsManager->register( new FapiFormWidget() );
+		$widgetsManager->register( new FapiUnlockButton() );
 	}
 );
 CategoryRegister::register();

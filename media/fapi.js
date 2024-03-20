@@ -317,5 +317,152 @@
       });
     }
   })
-    
+
+  function generateUnlockShortcode(levelSelect, shortcodeField) {
+    const cssClasses = jQuery(".classTag");
+    levelId = levelSelect.value;
+    let classText;
+
+    if (cssClasses.length === 0) {
+      cssClassText = "";
+    } else {
+      cssClassText = ' cssclasses="';
+
+      jQuery(".classTag").each((index, current) => {
+        if (cssClasses.length - 1 !== index) {
+          cssClassText = cssClassText + current.outerText + " ";
+        } else {
+          cssClassText = cssClassText + current.outerText;
+        }
+      });
+    }
+
+    if (!levelId) {
+      shortcodeField.innerHTML = "Zde se zobrazí shortcode";
+    } else {
+      shortcodeField.innerHTML =
+        '[fapi-member-level-unlock-button level="' +
+        levelId +
+        '"' +
+        cssClassText +
+        '"]';
+    }
+  }
+
+  const levelUnlockShortcodeGenerator = () => {
+    const levelSelect = document.getElementById("levels");
+    const shortcodeField = document.getElementById("level-unlock-shortcode");
+
+    jQuery("#custom-classes").on("input", function () {
+      validateCssClassInput(this);
+    });
+
+    let levelId;
+
+    var methods = {
+      init: function (opts) {
+        opts = opts || {};
+        opts.tags = opts.tags || [];
+
+        var me = jQuery(this);
+        var clean = new RegExp(",", "g");
+        me.wrap('<div class="tag-cloud" />');
+        var cloud = me.parents(".tag-cloud");
+
+        cloud.click(function () {
+          me.focus();
+        });
+
+        var addTag = function (value) {
+          value = value.replace(clean, "");
+          if (value !== "") {
+            var tag = jQuery(
+              '<div class="tag"><span class="classTag">' +
+                value +
+                "</span></div>"
+            );
+            var del = jQuery('<a class="close">Delete</a>');
+
+            del.click(function (e) {
+              e.preventDefault();
+              del.parent().remove();
+            });
+
+            tag.append(del);
+            tag.insertBefore(me);
+          }
+        };
+
+        me.blur(function () {
+          addTag(this.value);
+          this.value = "";
+        });
+        me.keyup(function (e) {
+          var key = e.keyCode;
+          var isEnter = key == 13;
+          var isComma = key == 188;
+          var isBack = key == 8;
+
+          if (isEnter || isComma) {
+            addTag(this.value);
+            this.value = "";
+          }
+          if (isBack && jQuery(this).data("delete-prev")) {
+            jQuery(this).prev().remove();
+            jQuery(this).data("delete-prev", false);
+          } else if (isBack && this.value === "") {
+            jQuery(this).data("delete-prev", true);
+          }
+        });
+        jQuery.each(opts.tags, function (i, e) {
+          addTag(e);
+        });
+      },
+      get: function () {
+        return jQuery(".tag span", this.parent()).map(function () {
+          return jQuery(this).text();
+        });
+      },
+      clear: function () {
+        jQuery("div", this).remove();
+      },
+    };
+    jQuery.fn.tagcloud = function (method) {
+      if (methods[method]) {
+        return methods[method].apply(
+          this,
+          Array.prototype.slice.call(arguments, 1)
+        );
+      } else if (typeof method === "object" || !method) {
+        return methods.init.apply(this, arguments);
+      } else {
+        jQuery.error("Method " + method + " does not exist on tagcloud plugin");
+      }
+    };
+    jQuery("#custom-classes").tagcloud({
+      tags: [],
+    });
+    var tags = jQuery("#custom-classes").tagcloud("get");
+
+    jQuery("#generateButton").click(function () {
+      generateUnlockShortcode(levelSelect, shortcodeField);
+    });
+  };
+
+  const currentUrl = new URL(window.location.href);
+
+  if (currentUrl.searchParams.get("subpage") === "settingsElements") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      levelUnlockShortcodeGenerator
+    );
+  }
+
+  function validateCssClassInput(inputElement) {
+    let inputValue = inputElement.value;
+    let pattern = /^[0-9a-zA-Z-_]+$/;
+    if (!pattern.test(inputValue)) {
+      inputElement.value = inputValue.replace(/[^0-9a-zA-Z-_]/g, "");
+    }
+  }
 })();
