@@ -44,7 +44,7 @@ final class FapiMembership implements JsonSerializable {
 	/**
 	 * @return array<mixed>
 	 */
-	public function jsonSerialize(): mixed {
+	public function jsonSerialize(): array {
 		return array(
 			'level'       => $this->level,
 			'registered'  => $this->registered === null ? null : $this->registered->format( FapiMemberPlugin::DATE_TIME_FORMAT ),
