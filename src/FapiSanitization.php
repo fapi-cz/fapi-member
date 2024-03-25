@@ -18,6 +18,8 @@ final class FapiSanitization {
 	const VALID_PAGE_IDS        = 'validPageIds';
 	const VALID_PAGE_ID         = 'validPageId';
 	const ANY_STRING            = 'anyString';
+	const CHECKBOX       		= 'checkBox';
+	const SINGLE_INT 			= 'singleInt';
 	const INT_LIST              = 'intList';
 	const STR_LIST              = 'strList';
 	const VALID_EMAIL_TYPE      = 'validEmailType';
@@ -51,7 +53,7 @@ final class FapiSanitization {
 
 		$raw = ( isset( $arr[ $key ] ) ) ? $arr[ $key ] : $default;
 
-		if ( $raw === null ) {
+		if ( $raw === null && $sanitizer[1] !== 'checkBox') {
 			// input is missing
 			return null;
 		}
@@ -136,6 +138,22 @@ final class FapiSanitization {
 		}
 
 		return (string) $input;
+	}
+
+	public function singleInt( $input, $default ) {
+		if ( is_numeric( $input ) ) {
+			return intval( $input );
+		}
+
+		return $default;
+	}
+
+	public function checkBox($input) {
+		if ($input === 'on') {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

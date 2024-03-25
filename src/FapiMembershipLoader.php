@@ -206,6 +206,11 @@ final class FapiMembershipLoader {
 		}
 
 		update_user_meta( $userId, self::MEMBERSHIP_META_KEY, $meta );
+
+		$user = get_users(['include' => [$userId]])[0];
+		$fapiMemberPlugin = new FapiMemberPlugin();
+		$fapiMemberPlugin->levels()->registerTaxonomy();
+		$fapiMemberPlugin->timeUnlockLevelsForUser($user);
 	}
 
 	/**

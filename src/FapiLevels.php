@@ -98,6 +98,45 @@ final class FapiLevels {
 		return null;
 	}
 
+	/**
+	 * @param int $id
+	 * @return WP_Term|null
+	 */
+	public function loadParentById( $id ) {
+		$termEnvelopes = $this->loadAsTermEnvelopes();
+		$child = $this->loadById($id);
+
+		foreach ( $termEnvelopes as $term ) {
+			$term = $term->getTerm();
+			if ( $term->term_id === $child->parent ) {
+				return $term;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * @param int $id
+	 * @return array<WP_Term>|null
+	 */
+	public function loadByParentId( $id ) {
+		$termEnvelopes = $this->loadAsTermEnvelopes();
+		$terms = [];
+
+		foreach ( $termEnvelopes as $term ) {
+			$term = $term->getTerm();
+
+			if ( $term->parent !== (int) $id ) {
+				continue;
+			}
+
+			$terms[] = $term;
+		}
+
+		return $terms;
+	}
+
 	public function pageIdsForLevel( $levelTerm ) {
 		$lvlToPages = $this->levelsToPages();
 		$levelId    = $levelTerm->term_id;

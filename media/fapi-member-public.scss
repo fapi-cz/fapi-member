@@ -199,11 +199,23 @@
 					border-radius: 4px!important;
 					text-align: center!important;
 					text-decoration: none!important;
-					margin: ((100px-46px) / 2) auto!important;
+					margin: calc((100px - 46px) / 2) auto!important;
 					font-size: 15px!important;
 				}
 			}
 		}
 
 	}
+}
+
+button.unlock-level-button {
+	border-radius: 7px;
+	border: solid 1px #363636;
+	background-color: white;
+	color: #363636;
+	padding: 10px;
+}
+
+button.unlock-level-button:hover {
+	background-color: #eeeeee
 }

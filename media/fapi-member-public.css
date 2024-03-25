@@ -75,17 +75,6 @@
   grid-row: 2/3 !important;
   grid-column: 2/3 !important;
   font-size: 14px !important;
-  max-width: 65px !important;
-  height: 20px !important;
-  text-wrap: none !important;
-  word-break: break-all !important;
-  overflow: hidden !important;
-  display: inline-block !important;
-  vertical-align: top !important;
-}
-.fapiShortcodeUser .dots {
-  display: inline-block !important;
-  margin-left: -4px;
 }
 .fapiShortcodeUser .f-m-submenu {
   display: block !important;
@@ -183,4 +172,18 @@
   text-decoration: none !important;
   margin: 27px auto !important;
   font-size: 15px !important;
-}/*# sourceMappingURL=fapi-member-public.css.map */
+}
+
+button.unlock-level-button {
+  border-radius: 7px;
+  border: solid 1px #363636;
+  background-color: white;
+  color: #363636;
+  padding: 10px;
+}
+
+button.unlock-level-button:hover {
+  background-color: #eeeeee;
+}
+
+/*# sourceMappingURL=fapi-member-public.css.map */
