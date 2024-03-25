@@ -281,4 +281,20 @@ final class FapiMembershipLoader {
 		return $memberships;
 	}
 
+	/**
+	 * @param array $memberships
+	 * @param int   $levelId
+	 * @return string|false
+	 */
+	public function getUserRegistrationDateForLevel( $memberships, $levelId ) {
+
+		foreach ( $memberships as $membership ) {
+			if ( $membership->level === $levelId ) {
+				return $membership->registered->getTimestamp();
+			}
+		}
+
+		return false;
+	}
+
 }
