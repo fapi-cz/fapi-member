@@ -2278,6 +2278,10 @@ final class FapiMemberPlugin {
 		$levelsToPages     = $this->levels()->levelsToPages();
 		$levelsForThisPage = array();
 
+		if ($pageId === (int) get_option('page_on_front')) {
+			return true;
+		}
+
 		$post_type             = $wp_query->post->post_type;
 		$all_stored_post_types = get_option( 'fapi_member_post_types', array() );
 
