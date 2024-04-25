@@ -78,6 +78,8 @@ final class FapiMemberPlugin {
 
 	const DAYS_TO_UNLOCK_META_KEY = 'fapi_days_to_unlock';
 
+	const DATE_UNLOCK_META_KEY = 'fapi_date_unlock';
+
 	const TIME_UNLOCK_META_KEY = 'fapi_time_unlock';
 
 	const BUTTON_UNLOCK_META_KEY = 'fapi_button_unlock';
@@ -256,14 +258,22 @@ final class FapiMemberPlugin {
 					continue;
 				}
 
-				$unlockLevel = (bool) get_term_meta($subLevel->term_id, self::TIME_UNLOCK_META_KEY, true);
+				$unlockLevelType = get_term_meta($subLevel->term_id, self::TIME_UNLOCK_META_KEY, true);
 
-				if ($unlockLevel === false || $unlockLevel === "") {
-					continue;
+				$unlockDate = null;
+
+				if ($unlockLevelType === 'days') {
+					$daysToUnlock = get_term_meta($subLevel->term_id, self::DAYS_TO_UNLOCK_META_KEY, true);
+					$unlockDate = strtotime($registered) + (86400 * (int) $daysToUnlock);
+				} elseif ($unlockLevelType === 'date') {
+					$unlockDate =  strtotime(
+						get_term_meta($subLevel->term_id, self::DATE_UNLOCK_META_KEY, true)
+					);
 				}
 
-				$daysToUnlock = get_term_meta($subLevel->term_id, self::DAYS_TO_UNLOCK_META_KEY, true);
-				$unlockDate = strtotime($registered) + (86400 * (int) $daysToUnlock);
+				if ($unlockDate === null) {
+					continue;
+				}
 
 				if (time() >= $unlockDate) {
 					$unlockedLevels = $this->unlockLevel($subLevel->term_id, $userId, $unlockedLevels, $unlockDate);
@@ -1857,7 +1867,7 @@ final class FapiMemberPlugin {
 
 		$timeUnlock = $this->sanitization()->loadPostValue(
 			'time_unlock',
-			array( $this->sanitization(), FapiSanitization::CHECKBOX)
+			array( $this->sanitization(), FapiSanitization::ANY_STRING)
 		);
 
 		$daysToUnlock = $this->sanitization()->loadPostValue(
@@ -1865,9 +1875,15 @@ final class FapiMemberPlugin {
 			array( $this->sanitization(), FapiSanitization::SINGLE_INT)
 		);
 
+		$dateUnlock = $this->sanitization()->loadPostValue(
+			'unlock_date',
+			array( $this->sanitization(), FapiSanitization::ANY_STRING)
+		);
+
 		update_term_meta( $levelId, self::BUTTON_UNLOCK_META_KEY, $buttonUnlock );
 		update_term_meta( $levelId, self::TIME_UNLOCK_META_KEY, $timeUnlock );
 		update_term_meta( $levelId, self::DAYS_TO_UNLOCK_META_KEY, $daysToUnlock );
+		update_term_meta( $levelId, self::DATE_UNLOCK_META_KEY, $dateUnlock );
 
 		$this->redirect( 'settingsUnlocking', 'settingsSettingsUpdated' );
 	}

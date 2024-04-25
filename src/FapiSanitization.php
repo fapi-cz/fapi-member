@@ -25,6 +25,7 @@ final class FapiSanitization {
 	const VALID_EMAIL_TYPE      = 'validEmailType';
 	const VALID_OTHER_PAGE_TYPE = 'validOtherPageType';
 	const VALID_DIRECTION       = 'validDirection';
+	const DATE       			= 'date';
 
 	public $fapiLevels;
 
