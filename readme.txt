@@ -23,6 +23,10 @@ Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org
 
 == Changelog ==
 
+= 1.9.41 =
+* Added gradual level release
+* Fixed too many redirects error
+
 = 1.9.40 =
 * Fixed type error
 
