@@ -656,6 +656,101 @@ final class FapiMemberTools {
 	}
 
 	/**
+	 * @param array<mixed> $attrs
+	 * @return string
+	 */
+	public static function shortcodeUnlockLevel( array $attrs )
+	{
+		if ( ! isset( $attrs['level'] ) ) {
+			return __( 'neznámá sekce nebo úrověň', 'fapi-member' );
+		}
+
+		$sectionOrLevelId = (int) $attrs['level'];
+		$html = self::formStart('button_level_unlock');
+		$html .= '<input type="hidden" name="level" value="' . $sectionOrLevelId . '">';
+
+		if (isset($attrs['page'])) {
+			$html .= '<input type="hidden" name="page" value="' . $attrs['page'] . '">';
+		}
+
+		$html .= '<button class="unlock-level-button" type="submit" name="submit"">Odemknout úroveň</button></form>';
+
+		return $html;
+	}
+
+	/**
+	 * @param array<mixed> $attrs
+	 * @return string
+	 */
+	public static function shortcodeLevelUnlockDate( array $attrs ) {
+		global $FapiPlugin;
+
+		if ( ! isset( $attrs['section'] ) ) {
+			return __( 'neznámá sekce nebo úrověň', 'fapi-member' );
+		}
+
+		$user = wp_get_current_user();
+
+		if ( $user === null ) {
+			return __( 'uživatel není přihlášen', 'fapi-member' );
+		}
+
+		$sectionOrLevelId = (int) $attrs['section'];
+
+		$dateFormat = get_option( 'date_format' );
+
+		if ( $dateFormat === null ) {
+			$dateFormat = 'Y-m-d';
+		}
+
+		$memberships       = $FapiPlugin->fapiMembershipLoader()->loadForUser( $user->ID );
+		$parentLevel = $FapiPlugin->levels()->loadParentById($sectionOrLevelId);
+		$currentMemberShip = null;
+		$parentMembership = null;
+
+		/** @var FapiMembership $membership */
+		foreach ($memberships as $membership) {
+			if ($membership->level === $sectionOrLevelId) {
+				$currentMemberShip = $membership;
+			}
+
+			if ($membership->level === $parentLevel->term_id) {
+				$parentMembership = $membership;
+			}
+
+			if ($currentMemberShip !== null && $parentMembership !== null) {
+				break;
+			}
+		}
+
+		if ( $currentMemberShip === null ||
+			($currentMemberShip === null &&
+			(bool) get_term_meta($sectionOrLevelId, $FapiPlugin::TIME_UNLOCK_META_KEY, true) === false)
+		) {
+			return __( 'bez přístupu', 'fapi-member' );
+		}
+
+
+		if ( $currentMemberShip === null && $parentMembership->registered !== null) {
+			$daysToUnlock = get_term_meta($sectionOrLevelId, $FapiPlugin::DAYS_TO_UNLOCK_META_KEY, true);
+
+			$unlockDate = date(
+					'd.m.Y',
+					strtotime($parentMembership->registered->format($dateFormat))
+					+ (86400 * (int) $daysToUnlock),
+			);
+
+			return __( 'Bude odemčeno', 'fapi-member' ) . " " . $unlockDate;
+		}
+
+		if ( $currentMemberShip->until === null ) {
+			return __( 'neomezeně', 'fapi-member' );
+		}
+
+		return $currentMemberShip->until->format( $dateFormat );
+	}
+
+	/**
 	 * @return string
 	 */
 	public static function shortcodeLoginForm() {
@@ -873,6 +968,7 @@ final class FapiMemberTools {
                     ' . self::submenuItem( 'settingsPages', __( 'Servisní stránky', 'fapi-member' ), $subpage ) . '
                     ' . self::submenuItem( 'settingsElements', __( 'Prvky pro web', 'fapi-member' ), $subpage ) . '
                     ' . self::submenuItem( 'settingsSettings', __( 'Společné', 'fapi-member' ), $subpage ) . '
+                    ' . self::submenuItem( 'settingsUnlocking', __( 'Uvolňování obsahu', 'fapi-member' ), $subpage ) . '
                 </div>
                 ';
 		}

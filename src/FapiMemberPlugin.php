@@ -2,6 +2,7 @@
 
 namespace FapiMember;
 
+use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use FapiMember\Email\EmailShortCodesReplacer;
@@ -75,6 +76,16 @@ final class FapiMemberPlugin {
 
 	const FAPI_MEMBER_PLUGIN_VERSION_KEY = 'fapi_member_plugin_version';
 
+	const DAYS_TO_UNLOCK_META_KEY = 'fapi_days_to_unlock';
+
+	const DATE_UNLOCK_META_KEY = 'fapi_date_unlock';
+
+	const TIME_UNLOCK_META_KEY = 'fapi_time_unlock';
+
+	const BUTTON_UNLOCK_META_KEY = 'fapi_button_unlock';
+
+	const LEVEL_UNLUCK_UPDATE = 'scheduled_level_unlock_update';
+
 	/** @var FapiLevels|null */
 	private $fapiLevels = null;
 
@@ -130,7 +141,7 @@ final class FapiMemberPlugin {
 		add_action( 'template_redirect', array( $this, 'checkPage' ) );
 
 		// level selection in front-end
-		add_action( 'init', array( $this, 'checkIfLevelSelection' ) );
+		add_action( 'init', array( $this, 'checkIfLevelSelection') );
 
 		// user profile
 		add_action( 'edit_user_profile', array( $this, 'addUserProfileForm' ) );
@@ -148,6 +159,11 @@ final class FapiMemberPlugin {
 		add_action( 'admin_post_fapi_member_edit_email', array( $this, 'handleEditEmail' ) );
 		add_action( 'admin_post_fapi_member_set_other_page', array( $this, 'handleSetOtherPage' ) );
 		add_action( 'admin_post_fapi_member_set_settings', array( $this, 'handleSetSettings' ) );
+		add_action( 'admin_post_fapi_member_set_section_unlocking', array( $this, 'handleSetUnlocking' ));
+
+		add_action( 'init', array($this, 'checkLevelUnlock'));
+		add_action( 'admin_post_fapi_member_button_level_unlock', array( $this, 'handleButtonLevelUnlock' ) );
+
 
 		// user profile save
 		add_action( 'edit_user_profile_update', array( $this, 'handleUserProfileSave' ) );
@@ -181,6 +197,107 @@ final class FapiMemberPlugin {
 		// Hacks and fixes
 		// WPS hide login plugin
 		add_filter( 'whl_logged_in_redirect', array( $this, 'loggedInRedirect' ), 1 );
+	}
+
+	function nextFullHour() {
+		$dateTime = new DateTime();
+		$dateTime->setTimestamp(time());
+		$dateTime->modify('+1 hour');
+		$dateTime->setTime((int)$dateTime->format('H'), 0, 0);
+		return $dateTime->getTimestamp();
+	}
+
+	public function checkLevelUnlock(): void {
+		if (wp_next_scheduled(self::LEVEL_UNLUCK_UPDATE)) {
+			$scheduledTime = wp_get_scheduled_event(self::LEVEL_UNLUCK_UPDATE)->timestamp;
+
+			if ($scheduledTime <= time()) {
+				$this->timeUnlockLevelsForAllUsers();
+				wp_clear_scheduled_hook(self::LEVEL_UNLUCK_UPDATE);
+			} else {
+				return;
+			}
+		}
+
+		wp_schedule_single_event($this->nextFullHour() , self::LEVEL_UNLUCK_UPDATE);
+	}
+
+	public function timeUnlockLevelsForAllUsers() {
+		$users = get_users();
+
+		$this->levels()->registerTaxonomy();
+
+		foreach ($users as $user) {
+			$this->timeUnlockLevelsForUser($user);
+		}
+	}
+
+	public function timeUnlockLevelsForUser($user) {
+		$userId = $user->data->ID;
+		$levels = [];
+
+		if (isset(get_user_meta($userId)[FapiMembershipLoader::MEMBERSHIP_META_KEY])) {
+			$levels = unserialize(
+				get_user_meta($userId)[FapiMembershipLoader::MEMBERSHIP_META_KEY][0],
+			);
+		}
+
+		$registeredLevelIds = [];
+
+		foreach ($levels as $level) {
+			$registeredLevelIds[] = $level['level'];
+		}
+
+		$unlockedLevels = $levels;
+		foreach ($levels as $level){
+			$registered = $level['registered'];
+			$subLevels = $this->levels()->loadByParentId($level['level']);
+
+			foreach ($subLevels as $subLevel) {
+				if (in_array($subLevel->term_id, $registeredLevelIds)) {
+					continue;
+				}
+
+				$unlockLevelType = get_term_meta($subLevel->term_id, self::TIME_UNLOCK_META_KEY, true);
+
+				$unlockDate = null;
+
+				if ($unlockLevelType === 'days') {
+					$daysToUnlock = get_term_meta($subLevel->term_id, self::DAYS_TO_UNLOCK_META_KEY, true);
+					$unlockDate = strtotime($registered) + (86400 * (int) $daysToUnlock);
+				} elseif ($unlockLevelType === 'date') {
+					$unlockDate =  strtotime(
+						get_term_meta($subLevel->term_id, self::DATE_UNLOCK_META_KEY, true)
+					);
+				}
+
+				if ($unlockDate === null) {
+					continue;
+				}
+
+				if (time() >= $unlockDate) {
+					$unlockedLevels = $this->unlockLevel($subLevel->term_id, $userId, $unlockedLevels, $unlockDate);
+				}
+			}
+		}
+	}
+
+
+	public function unlockLevel($levelId, $userId, $unlockedLevels, $registered = null): array {
+		if ($registered === null) {
+			$registered = time();
+		}
+
+		$unlockedLevels[] = [
+			'level' => (int) $levelId,
+			'registered' => date('Y-m-d\TH:i:s', $registered),
+			'until' => null,
+			'isUnlimited' => true,
+		];
+
+		update_user_meta($userId, FapiMembershipLoader::MEMBERSHIP_META_KEY, $unlockedLevels);
+
+		return $unlockedLevels;
 	}
 
 	public function hideAdminBar( $original ) {
@@ -224,6 +341,8 @@ final class FapiMemberPlugin {
 		add_shortcode( 'fapi-member-login', array( FapiMemberTools::class, 'shortcodeLoginForm' ) );
 		add_shortcode( 'fapi-member-user', array( FapiMemberTools::class, 'shortcodeUser' ) );
 		add_shortcode( 'fapi-member-user-section-expiration', array( FapiMemberTools::class, 'shortcodeSectionExpirationDate' ) );
+		add_shortcode( 'fapi-member-level-unlock-date', array( FapiMemberTools::class, 'shortcodeLevelUnlockDate' ) );
+		add_shortcode( 'fapi-member-unlock-level', array( FapiMemberTools::class, 'shortcodeUnlockLevel' ) );
 	}
 
 	public function addRestEndpoints() {
@@ -1703,6 +1822,129 @@ final class FapiMemberPlugin {
 		$this->redirect( 'settingsSettings', 'settingsSettingsUpdated' );
 	}
 
+	public function handleSetUnlocking() {
+		$this->verifyNonceAndCapability( 'set_section_unlocking' );
+
+		if ( isset( $_POST['time_locked_page_id'] ) ){
+
+			$timeLockedPageId = $this->sanitization()->loadPostValue(
+				'time_locked_page_id',
+				array(
+					$this->sanitization(),
+					FapiSanitization::VALID_PAGE_ID,
+				)
+			);
+
+			$currentSettings = get_option( self::OPTION_KEY_SETTINGS );
+
+			if ($timeLockedPageId === null) {
+				unset( $currentSettings['time_locked_page_id'] );
+			} else {
+				$page = get_post($timeLockedPageId);
+
+				if ( $page === null ) {
+					$this->redirect( 'settingsUnlocking', 'settingsSettingsNoValidPage' );
+				}
+
+				$currentSettings['time_locked_page_id'] = $timeLockedPageId;
+			}
+
+			update_option( self::OPTION_KEY_SETTINGS, $currentSettings );
+
+			$this->redirect( 'settingsUnlocking', 'settingsSettingsUpdated' );
+
+		}
+
+		$levelId  = $this->sanitization()->loadPostValue(
+			'level_id',
+			array( $this->sanitization(), FapiSanitization::VALID_LEVEL_ID)
+		);
+
+		$buttonUnlock = $this->sanitization()->loadPostValue(
+			'button_unlock',
+			array( $this->sanitization(), FapiSanitization::CHECKBOX)
+		);
+
+		$timeUnlock = $this->sanitization()->loadPostValue(
+			'time_unlock',
+			array( $this->sanitization(), FapiSanitization::ANY_STRING)
+		);
+
+		$daysToUnlock = $this->sanitization()->loadPostValue(
+			'days_to_unlock',
+			array( $this->sanitization(), FapiSanitization::SINGLE_INT)
+		);
+
+		$dateUnlock = $this->sanitization()->loadPostValue(
+			'unlock_date',
+			array( $this->sanitization(), FapiSanitization::ANY_STRING)
+		);
+
+		update_term_meta( $levelId, self::BUTTON_UNLOCK_META_KEY, $buttonUnlock );
+		update_term_meta( $levelId, self::TIME_UNLOCK_META_KEY, $timeUnlock );
+		update_term_meta( $levelId, self::DAYS_TO_UNLOCK_META_KEY, $daysToUnlock );
+		update_term_meta( $levelId, self::DATE_UNLOCK_META_KEY, $dateUnlock );
+
+		$this->redirect( 'settingsUnlocking', 'settingsSettingsUpdated' );
+	}
+
+	public function handleButtonLevelUnlock(){
+		$hook = 'button_level_unlock';
+
+		$nonce = sprintf( 'fapi_member_%s_nonce', $hook );
+
+		if ( ! isset( $_POST[ $nonce ] )
+			|| ! wp_verify_nonce( $_POST[ $nonce ], $nonce )
+		) {
+			wp_die( __( 'Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a odeslat znovu.', 'fapi-member' ) );
+		}
+
+		if (isset($_POST['level'])) {
+			$levelId = (int) $_POST['level'];
+			$userId = get_current_user_id();
+			$this->levels()->registerTaxonomy();
+			$level = $this->levels()->loadById($levelId);
+			$unlockLevel = (bool) get_term_meta($levelId, self::BUTTON_UNLOCK_META_KEY, true);
+
+			if($level->parent === false || $level->parent === 0 || $unlockLevel === false) {
+				$this->redirectToNoAccessPage($levelId);
+			}
+
+			$ownedLevels = [];
+			if (isset(get_user_meta($userId)[FapiMembershipLoader::MEMBERSHIP_META_KEY])) {
+				$ownedLevels = unserialize(
+					get_user_meta($userId)[FapiMembershipLoader::MEMBERSHIP_META_KEY][0],
+				);
+			}
+
+			$pageId = null;
+
+			if (isset($_POST['page'])) {
+				$pageId = (int) $_POST['page'];
+			} else {
+				$pageId = (int) $this->levels()->levelsToPages()[$levelId][0];
+			}
+
+			$ownsParent = false;
+			foreach ($ownedLevels as $ownedLevel) {
+				if ($ownedLevel['level'] === $level->parent ) {
+					$ownsParent = true;
+				}
+
+				if ($ownedLevel['level'] === $levelId) {
+					wp_redirect(home_url() .'/?page_id=' . $pageId);
+				}
+			}
+
+			if ($ownsParent === false) {
+				$this->redirectToNoAccessPage($levelId);
+			}
+
+			$this->unlockLevel($levelId, $userId, $ownedLevels);
+			wp_redirect(home_url() . '/?page_id=' . $pageId);
+		}
+	}
+
 	public function registerSettings() {
 		register_setting(
 			'options',
@@ -2052,6 +2294,10 @@ final class FapiMemberPlugin {
 		$levelsToPages     = $this->levels()->levelsToPages();
 		$levelsForThisPage = array();
 
+		if ($pageId === (int) get_option('page_on_front')) {
+			return true;
+		}
+
 		$post_type             = $wp_query->post->post_type;
 		$all_stored_post_types = get_option( 'fapi_member_post_types', array() );
 
@@ -2104,6 +2350,11 @@ final class FapiMemberPlugin {
 
 		// no, he does not
 		$firstLevel = $levelsForThisPage[0];
+
+		if ((bool) get_term_meta($firstLevel, self::TIME_UNLOCK_META_KEY, true) === true) {
+			$this->redirectToTimedUnlockNoAccessPage();
+		}
+
 		$this->redirectToNoAccessPage( $firstLevel );
 	}
 
@@ -2118,6 +2369,14 @@ final class FapiMemberPlugin {
 		}
 
 		wp_redirect( home_url() );
+
+		exit;
+	}
+
+	protected function redirectToTimedUnlockNoAccessPage() {
+		$timeLockedPage = $this->getSetting('time_locked_page_id');
+		$redirectTo = get_permalink($timeLockedPage);
+		wp_redirect($redirectTo);
 
 		exit;
 	}
@@ -2261,6 +2520,10 @@ final class FapiMemberPlugin {
 		}
 
 		return get_site_url() . '?fapi-level-selection=1';
+	}
+
+	protected function showSettingsUnlocking() {
+		$this->showTemplate( 'settingsUnlocking' );
 	}
 
 	protected function showIndex() {
