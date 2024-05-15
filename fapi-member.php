@@ -23,6 +23,6 @@ require __DIR__ . '/multiple-blocks/multiple-blocks.php';
 require __DIR__ . '/src/Elementor/fapi-member.php';
 require __DIR__ . '/src/Utils/functions.php';
 
-define('FAPI_MEMBER_PLUGIN_VERSION', '1.9.40');
+define('FAPI_MEMBER_PLUGIN_VERSION', '1.9.41');
 
 $FapiPlugin = new FapiMemberPlugin();
