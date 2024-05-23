@@ -1,6 +1,6 @@
 <?php
 
-namespace FapiMember;
+namespace FapiMemberOld;
 
 // if uninstall.php is not called by WordPress, die
 use FapiMember\Model\Enums\Keys\MetaKey;

@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types = 1);
+
+passthru(
+	escapeshellarg(
+		__DIR__ . '/../vendor/bin/phpstan'
+	)
+	. ' analyse'
+	. ' -c ' . escapeshellarg(
+		__DIR__ . '/../tools/phpstan/phpstan.neon'
+	)
+	. ' --memory-limit=256M',
+	$return
+);
+
+exit($return);
