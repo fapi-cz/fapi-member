@@ -1,6 +1,7 @@
 <?php
 
-use FapiMember\FapiMemberTools;
+use FapiMember\Deprecated\FapiMemberTools;
+use FapiMember\Utils\AlertProvider;
 
 echo FapiMemberTools::heading();
 $selectedLevel = (isset($_GET['level'])) ? (int) $_GET['level'] : null;
@@ -13,7 +14,7 @@ $selectedLevel = (isset($_GET['level'])) ? (int) $_GET['level'] : null;
     <div class="withSections">
         <div class="a">
             <h3><?php echo __( 'Členské sekce/úrovně', 'fapi-member' ); ?></h3>
-			<?php echo FapiMemberTools::showErrors(); ?>
+			<?php echo AlertProvider::showErrors(); ?>
 			<?php echo FapiMemberTools::levelsSelection() ?>
         </div>
         <div class="b">

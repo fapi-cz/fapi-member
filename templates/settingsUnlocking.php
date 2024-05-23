@@ -1,7 +1,10 @@
 <?php
 
-use FapiMember\FapiMemberPlugin;
-use FapiMember\FapiMemberTools;
+use FapiMember\Container\Container;
+use FapiMember\Deprecated\FapiMemberTools;
+use FapiMember\Model\Enums\Keys\MetaKey;
+use FapiMember\Repository\PageRepository;
+use FapiMember\Utils\AlertProvider;
 
 echo FapiMemberTools::heading();
 ?>
@@ -10,7 +13,7 @@ echo FapiMemberTools::heading();
     <div class="withSections">
         <div class="a">
             <h3><?php echo __('Členské sekce/úrovně', 'fapi-member'); ?></h3>
-            <?php echo FapiMemberTools::showErrors(); ?>
+            <?php echo AlertProvider::showErrors(); ?>
             <?php echo FapiMemberTools::levelsSelectionNonJs() ?>
         </div>
         <div class="b">
@@ -25,7 +28,8 @@ echo FapiMemberTools::heading();
                 }
 
                 if ($level === null) {
-                	$currentTimeLockedPageId = $FapiPlugin->getSetting('time_locked_page_id');
+					$pageRepository = Container::get(PageRepository::class);
+                	$currentTimeLockedPageId = $pageRepository->getTimedUnlockNoAccessPageId();;
                 ?>
                     <div class="onePageOther">
                         <h3><?php _e('Stránka, která se zobrazí, když obsah ještě nebyl odemčen.', 'fapi-member') ?></h3>
@@ -48,20 +52,20 @@ echo FapiMemberTools::heading();
                     <h3><?php _e('Zvolili jste členskou sekci, prosím zvolte úroveň.', 'fapi-member') ?></h3>
                 <?php
 					} else {
-						$daysToUnlockVal = get_term_meta($level, FapiMemberPlugin::DAYS_TO_UNLOCK_META_KEY, true) ?
-							get_term_meta($level, FapiMemberPlugin::DAYS_TO_UNLOCK_META_KEY, true) :
+						$daysToUnlockVal = get_term_meta($level, MetaKey::DAYS_TO_UNLOCK, true) ?
+							get_term_meta($level, MetaKey::DAYS_TO_UNLOCK, true) :
 							'0';
 
-						$dateUnlockVal = get_term_meta($level, FapiMemberPlugin::DATE_UNLOCK_META_KEY, true) ?
-							get_term_meta($level, FapiMemberPlugin::DATE_UNLOCK_META_KEY, true) :
+						$dateUnlockVal = get_term_meta($level, MetaKey::DATE_UNLOCK, true) ?
+							get_term_meta($level, MetaKey::DATE_UNLOCK, true) :
 							null;
 
-						$timeUnlockVal = get_term_meta($level, FapiMemberPlugin::TIME_UNLOCK_META_KEY, true) ?
-							get_term_meta($level, FapiMemberPlugin::TIME_UNLOCK_META_KEY, true) :
+						$timeUnlockVal = get_term_meta($level, MetaKey::TIME_UNLOCK, true) ?
+							get_term_meta($level, MetaKey::TIME_UNLOCK, true) :
 							false;
 
-						$buttonUnlockVal = get_term_meta($level, FapiMemberPlugin::BUTTON_UNLOCK_META_KEY, true) ?
-							get_term_meta($level, FapiMemberPlugin::BUTTON_UNLOCK_META_KEY, true) :
+						$buttonUnlockVal = get_term_meta($level, MetaKey::BUTTON_UNLOCK, true) ?
+							get_term_meta($level, MetaKey::BUTTON_UNLOCK, true) :
 							false;
                 ?>
                     <div class="onePageOther">

@@ -1,10 +1,13 @@
 <?php
 
 global $FapiPlugin;
+global $membershipRepository;
 
-use FapiMember\FapiMembership;
-use FapiMember\FapiMemberTools;
-use FapiMember\FapiLevels;
+use FapiMember\Deprecated\FapiMemberTools;
+use FapiMember\Model\Enums\Keys\OptionKey;
+use FapiMember\Utils\AlertProvider;
+use FapiMember\Deprecated\FapiLevels;
+use FapiMember\Deprecated\FapiMembership;
 
 $fapiLevels = $FapiPlugin->levels();
 
@@ -13,11 +16,11 @@ echo FapiMemberTools::heading();
 
 <div class="page smallerPadding">
     <h3><?php echo __( 'Přehled členských sekcí a úrovní', 'fapi-member' ); ?></h3>
-	<?php echo FapiMemberTools::showErrors(); ?>
+	<?php echo AlertProvider::showErrors(); ?>
     <div class="sectionsOverview">
 		<?php
 
-		$all_stored_post_types = get_option('fapi_member_post_types', array());
+		$all_stored_post_types = get_option(OptionKey::POST_TYPES, array());
 
 		$envelopes = $fapiLevels->loadAsTermEnvelopes();
 		$mapToParent = array_reduce($envelopes,
@@ -69,22 +72,27 @@ echo FapiMemberTools::heading();
 
 		$empty = true;
 
-		$memberships = $FapiPlugin->getAllMemberships();
+		$memberships = $membershipRepository->getAll();
 		$usersInLevel = [];
-		foreach ($memberships as $userId => $ms) {
+
+		foreach ($memberships as $userId => $userMemberships) {
 			/** @var FapiMembership[] $ms */
 			{
-				foreach ($ms as $m) {
-					if (!isset($usersInLevel[$m->level])) {
-						$usersInLevel[$m->level] = [];
+				foreach ($userMemberships as $membership) {
+					if (!isset($usersInLevel[$membership->getLevelId()])) {
+						$usersInLevel[$membership->getLevelId()] = [];
 					}
-					$usersInLevel[$m->level][$userId] = true;
-					if (isset($mapToParent[$m->level]) && $mapToParent[$m->level] !== 0) {
+					$usersInLevel[$membership->getLevelId()][$userId] = true;
+
+					if (
+						isset($mapToParent[$membership->getLevelId()]) &&
+						$mapToParent[$membership->getLevelId()] !== 0
+					) {
 						// is child, count unique to parent too
-						if (!isset($carry[$mapToParent[$m->level]])) {
-							$carry[$mapToParent[$m->level]] = [];
+						if (!isset($carry[$mapToParent[$membership->getLevelId()]])) {
+							$carry[$mapToParent[$membership->getLevelId()]] = [];
 						}
-						$carry[$mapToParent[$m->level]][$userId] = true;
+						$carry[$mapToParent[$membership->getLevelId()]][$userId] = true;
 					}
 				}
 			}

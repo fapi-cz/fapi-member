@@ -44,7 +44,7 @@ js-outdated: ## List editor outdated dependencies
 	docker exec node /bin/sh -c 'yarn outdated'
 
 build: ## Builds the plugin source code
-	rm -d -r wp-build
+	[ -d wp-build ] && rm -d -r wp-build
 	mkdir wp-build
 	mkdir wp-build/multiple-blocks
 	cp fapi-member.php wp-build/fapi-member.php

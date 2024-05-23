@@ -1,6 +1,8 @@
 <?php
 
-use FapiMember\FapiMemberTools;
+use FapiMember\Deprecated\FapiMemberTools;
+use FapiMember\Model\Enums\Keys\SettingsKey;
+use FapiMember\Utils\AlertProvider;
 
 echo FapiMemberTools::heading();
 ?>
@@ -9,7 +11,7 @@ echo FapiMemberTools::heading();
     <div class="withSections">
         <div class="a">
             <h3><?php echo __( 'Členské sekce/úrovně', 'fapi-member' ); ?></h3>
-			<?php echo FapiMemberTools::showErrors(); ?>
+			<?php echo AlertProvider::showErrors(); ?>
 			<?php echo FapiMemberTools::levelsSelectionNonJs() ?>
         </div>
         <div class="b">
@@ -20,12 +22,14 @@ echo FapiMemberTools::heading();
 					echo '<p>' . __( 'Zvolte prosím sekci/úroveň vlevo.', 'fapi-member' ) . '</p>';
 				} else {
 					global $FapiPlugin;
+					global $settingsRepository;
+
 					$fapiLevels = $FapiPlugin->levels();
 					$levelTerm = $fapiLevels->loadById($level);
 					$isSection = $levelTerm->parent === 0;
 					$defaultPages = [
-						'login' => $FapiPlugin->getSetting('login_page_id'),
-						'afterLogin' => $FapiPlugin->getSetting('dashboard_page_id')
+						'login' => $settingsRepository->getSetting(SettingsKey::LOGIN_PAGE),
+						'afterLogin' => $settingsRepository->getSetting(SettingsKey::DASHBOARD_PAGE)
 					];
 					$templates = $fapiLevels->loadEmailTemplatesForLevel($level);
 

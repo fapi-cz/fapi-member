@@ -6,5 +6,8 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'FapiMember\\Library\\SmartEmailing\\Types\\' => array($baseDir . '/libs/smartemailing/types/src'),
+    'FapiMember\\Library\\Nette\\Utils\\' => array($baseDir . '/libs/nette/utils/src/Utils'),
+    'FapiMember\\Library\\Nette\\' => array($baseDir . '/libs/nette/utils/src'),
     'FapiMember\\' => array($baseDir . '/src'),
 );

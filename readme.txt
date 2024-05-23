@@ -1,11 +1,11 @@
 === FAPI Member ===
-Contributors: Jiří Slischka, Monika Tomešková
-Tags: membership, fapi
+Contributors: Jiří Slischka, Monika Tomešková, Marek Klein
+Tags: membership, fapi, member
 Requires at least: 5.8
 Tested up to: 6.4
-Requires PHP: 7.4
+Requires PHP: 8.1
 License: GPLv2 or later
-Stable tag: 1.9.45
+Stable tag: 1.9.46
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -22,6 +22,9 @@ Máte problém s nastavením FAPI Memberu. Obrátit se můžete na naší podpor
 Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org/plugins/fapi-member/#reviews).
 
 == Changelog ==
+
+= 1.9.46 =
+* Refactored the entire backend - preparation for Fapi Member 2.0.0
 
 = 1.9.45 =
 * Made it possible to hide elements with type 'container' based on membership ownership in elementor

@@ -1,3 +1,9 @@
+
+<?php
+	use FapiMember\Utils\PostTypeHelper;
+
+?>
+
 <!doctype html>
 <html lang="cs">
 <head>
@@ -16,7 +22,7 @@
     <div class="pages">
 		<?php
 		$args = [
-			'post_type' => \FapiMember\Utils\PostTypeHelper::getSupportedPostTypes(),
+			'post_type' => PostTypeHelper::getSupportedPostTypes(),
 			'post__in'  => array_values($pages),
 			'orderby'   => 'post_title',
 			'order'     => 'ASC'

@@ -8,13 +8,21 @@
         }
     ],
     "require": {
-        "php": "^7.4 | ^8.0",
+        "php": "^8.1",
         "ext-json": "*"
     },
     "config": {
         "platform-check": false
     },
     "autoload": {
-        "psr-4": { "FapiMember\\": ["src/"] }
+        "psr-4": {
+            "FapiMember\\": ["src/"],
+            "FapiMember\\Library\\SmartEmailing\\Types\\": ["libs/smartemailing/types/src"],
+            "FapiMember\\Library\\Nette\\Utils\\": ["libs/nette/utils/src/Utils"],
+            "FapiMember\\Library\\Nette\\": ["libs/nette/utils/src"]
+        }
+    },
+    "scripts": {
+        "post-update-cmd": ["composer dump-autoload"]
     }
 }

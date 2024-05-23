@@ -11,13 +11,14 @@ use FapiMember\Utils\DisplayHelper;
 final class ContentProtector {
 
 
-	const ELEMENTS_TO_PROTECT = array( 'section', 'column', 'widget', 'container');
+	const ELEMENTS_TO_PROTECT = array('section', 'column', 'widget', 'container');
 
-	public static function register() {
+	public static function register(): void
+	{
 		foreach ( self::ELEMENTS_TO_PROTECT as $key ) {
 			add_filter(
 				'elementor/frontend/' . $key . '/should_render',
-				array( self::class, 'protect' ),
+				array(self::class, 'protect'),
 				10,
 				2
 			);
@@ -25,7 +26,7 @@ final class ContentProtector {
 	}
 
 	public static function protect( $shouldRender, $element ) {
-		if ( ! is_object( $element ) || ! method_exists( $element, 'get_settings' ) ) {
+		if (!is_object( $element ) || !method_exists( $element, 'get_settings' )) {
 			return $shouldRender;
 		}
 
