@@ -63,12 +63,12 @@ final class DisplayHelper {
 		}
 
 		foreach ( $memberships as $membership ) {
-			if ( ! in_array( $membership->level, $sectionAndLevels, true ) ) {
-				return true;
+			if (in_array( $membership->level, $sectionAndLevels, true ) ) {
+				return false;
 			}
 		}
 
-		return false;
+		return true;
 	}
 
 }
