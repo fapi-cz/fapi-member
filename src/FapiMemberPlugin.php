@@ -6,6 +6,7 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use FapiMember\Email\EmailShortCodesReplacer;
+use FapiMember\Model\Format;
 use FapiMember\Utils\DisplayHelper;
 use FapiMember\Utils\PostTypeHelper;
 use FapiMember\Utils\Random;
@@ -275,7 +276,9 @@ final class FapiMemberPlugin {
 					continue;
 				}
 
-				if (time() >= $unlockDate) {
+				$now = new DateTimeImmutable('now', wp_timezone());
+
+				if (strtotime($now->format('Y-m-d H:m:s')) >= $unlockDate) {
 					$unlockedLevels = $this->unlockLevel($subLevel->term_id, $userId, $unlockedLevels, $unlockDate);
 				}
 			}
@@ -719,7 +722,7 @@ final class FapiMemberPlugin {
 		$emailsToSend = $this->findEmailsToSend( $user, $levels, $wasUserCreatedNow, $this->fapiMembershipLoader(), $historicalMemberships );
 
 		foreach ( $emailsToSend as $emailToSend ) {
-			list($type, $level) = $emailToSend;
+			[$type, $level] = $emailToSend;
 
 			$this->sendEmail( $user->user_email, $type, $level->term_id, $props );
 		}
