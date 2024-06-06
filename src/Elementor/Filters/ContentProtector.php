@@ -11,7 +11,7 @@ use FapiMember\Utils\DisplayHelper;
 final class ContentProtector {
 
 
-	const ELEMENTS_TO_PROTECT = array( 'section', 'column', 'widget' );
+	const ELEMENTS_TO_PROTECT = array( 'section', 'column', 'widget', 'container');
 
 	public static function register() {
 		foreach ( self::ELEMENTS_TO_PROTECT as $key ) {
