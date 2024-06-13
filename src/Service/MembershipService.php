@@ -107,7 +107,7 @@ class MembershipService
 	public function createOrProlongMembership(
 		int $userId,
 		int $levelId,
-		bool $isUnlimited,
+		bool $isUnlimited = true,
 		int|null $days = null,
 	): array
 	{

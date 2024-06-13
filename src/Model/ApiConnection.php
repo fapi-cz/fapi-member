@@ -25,4 +25,12 @@ class ApiConnection
 		return $this->apiKey;
 	}
 
+	public function toArray(): array
+	{
+		return [
+			'api_user' => $this->apiUser,
+			'api_key' => $this->apiKey,
+		];
+	}
+
 }

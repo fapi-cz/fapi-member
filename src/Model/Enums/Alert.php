@@ -20,28 +20,14 @@ class Alert extends Enum
 
 	const SECTION_NAME_EMPTY = 'sectionNameEmpty';
 
-	const LEVEL_NAME_OR_PARENT_EMPTY = 'levelNameOrParentEmpty';
-
-	const SECTION_NOT_FOUND = 'sectionNotFound';
-
 	const REMOVE_LEVEL_SUCCESSFUL = 'removeLevelSuccessful';
 
-	const EDIT_LEVEL_SUCCESSFUL = 'editLevelSuccessful';
+	const INTERNAL_ERROR = 'internalError';
 
-	const LEVEL_ID_OR_TO_ADD_EMPTY = 'levelIdOrToAddEmpty';
+	const SETTINGS_SAVED = 'settingsSaved';
 
-	const EDIT_LEVEL_NO_NAME = 'editLevelNoName';
+	const LEVEL_ALREADY_EXISTS = 'levelAlreadyExists';
 
-	const EDIT_MAILS_REMOVED = 'editMailsRemoved';
-
-	const EDIT_MAILS_UPDATED = 'editMailsUpdated';
-
-	const EDIT_OTHER_PAGES_REMOVED = 'editOtherPagesRemoved';
-
-	const EDIT_OTHER_PAGES_UPDATED = 'editOtherPagesUpdated';
-
-	const SETTINGS_SETTINGS_UPDATED = 'settingsSettingsUpdated';
-
-	const SETTINGS_SETTINGS_NO_VALID_PAGE = 'settingsSettingsNoValidPage';
+	const REORDER_FAILED = 'reorderFailed';
 
 }

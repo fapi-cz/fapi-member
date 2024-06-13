@@ -1,0 +1,80 @@
+@import "vars";
+
+.content-overview {
+  padding: 10px;
+  display: grid;
+  grid-template-columns: auto max-content;
+  grid-template-rows: auto;
+  height: 100%;
+
+  .content-sections-overview, .content-levels-overview {
+    .levels-overview {
+      display: grid;
+      grid-template-columns: 300px auto;
+      justify-items: center;
+      min-height: 200px;
+      margin-bottom: 50px;
+
+      .levels-overview-list {
+        width: 100%;
+        border-right: $greyLine;
+
+        .levels-overview-item {
+          display: grid;
+          grid-template-columns: 15px auto;
+          gap: 10px;
+          align-items: center;
+          padding: 5px;
+
+          .color {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border-radius: $borderRadius;
+          }
+
+          .name {
+            transition: padding-left $transitionTime;
+            overflow: hidden;
+            height: 18px;
+          }
+
+          &.clickable-option {
+            .name {
+              text-decoration: underline;
+
+              &:hover {
+                padding-left: 10px;
+              }
+            }
+          }
+        }
+      }
+
+      .no-data {
+        height: 18px;
+        align-self: center;
+      }
+    }
+  }
+
+  .statistics-bar {
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    justify-content: center;
+    gap: 40px;
+    width: 100%;
+
+    .label {
+      padding: 0px 10px;
+      margin-bottom: 10px
+    }
+
+    .value {
+      font-size: 20px;
+      text-align: center;
+      font-weight: bolder;
+    }
+  }
+}

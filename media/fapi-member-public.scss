@@ -208,14 +208,15 @@
 	}
 }
 
-button.unlock-level-button {
+a.button-level-unlock-link {
 	border-radius: 7px;
 	border: solid 1px #363636;
 	background-color: white;
 	color: #363636;
 	padding: 10px;
-}
+	font-size: 15px;
 
-button.unlock-level-button:hover {
-	background-color: #eeeeee
+	&:hover {
+		background-color: #eeeeee
+	}
 }

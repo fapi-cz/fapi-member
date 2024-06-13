@@ -29,6 +29,7 @@ class MembershipRepository extends Repository
 		foreach ($this->userRepository->getAllUsers() as $user) {
 			$memberships[$user->getId()] = $this->getAllByUserId($user->getId());
 		}
+
 		return $memberships;
 	}
 
@@ -38,6 +39,23 @@ class MembershipRepository extends Repository
 		$meta = $this->getUserMeta($userId);
 
 		return $this->metaToMemberships($userId, $meta);
+	}
+
+	/** @return array<Membership> */
+	public function getAllByLevelId(int $levelId): array
+	{
+		$membershipsByUser = $this->getAll();
+		$filteredMemberships = [];
+
+		foreach ($membershipsByUser as $memberships) {
+			foreach ($memberships as $membership) {
+				if ($membership->getLevelId() === $levelId) {
+					$filteredMemberships[] =  $membership;
+				}
+			}
+		}
+
+		return $filteredMemberships;
 	}
 
 	/** @return array<Membership> */

@@ -5,6 +5,9 @@ namespace FapiMember\Repository;
 use FapiMember\Container\Container;
 use FapiMember\Model\Enums\Keys\MetaKey;
 use FapiMember\Model\Enums\Keys\OptionKey;
+use FapiMember\Model\Page;
+use FapiMember\Utils\PostTypeHelper;
+use WP_Post;
 
 class PageRepository extends Repository
 {
@@ -21,13 +24,84 @@ class PageRepository extends Repository
 		$this->deleteTermMeta($levelId, $this->getPageTemplateKey($pageType));
 	}
 
-	public function updateServicePage(int $levelId, string $pageType, int $page): void
+	public function updateServicePage(int $levelId, string $pageType, int|null $page): void
 	{
 		$this->updateTermMeta(
 			$levelId,
 			$this->getPageTemplateKey($pageType),
 			$page,
 		);
+	}
+
+	/**
+	 * @return array<Page>
+	 */
+	public function getAllPages($includingCpt = false): array
+	{
+		$posts = get_posts(
+			array(
+				'post_type'   => PostTypeHelper::getSupportedPostTypes(),
+				'post_status' => array( 'publish' ),
+				'numberposts' => -1,
+				'orderby'     => 'page_title',
+				'order'       => 'ASC',
+			)
+		);
+
+		$cpts = [];
+
+		if ($includingCpt) {
+			$cpts = PostTypeHelper::getSupportedPostTypes(true);
+		}
+
+		return $this->postsToPages($posts, $cpts);
+	}
+
+	/**
+	 * @param array<WP_Post> $posts
+	 * @return array<Page>
+	 */
+	private function postsToPages(array $posts, array $cpts): array
+	{
+		$pages = [];
+		foreach ($posts as $post) {
+			$pages[] = new Page([
+				'id' => $post->ID,
+				'title' => $post->post_title,
+				'type' => $post->post_type,
+			]);
+		}
+
+		foreach ($cpts as $cpt) {
+			$pages[] = new Page([
+				'id' => $cpt,
+				'title' => $cpt,
+				'type' => 'cpt'
+			]);
+		}
+
+		return $pages;
+	}
+
+	/**
+	 * @return array<int, string>
+	 */
+	public function getPageIdsByLevelId(int $levelId): array
+	{
+		$pages = $this->getTermMeta($levelId, $this->key);
+		$pages = (empty($pages)) ? [] : array_values(json_decode($pages, true));
+
+		$cptsByLevels = get_option(OptionKey::POST_TYPES, array());
+
+		if (!isset($cptsByLevels[$levelId])) {
+			return $pages;
+		}
+
+		foreach ($cptsByLevels[$levelId] as $cpt) {
+			$pages[] = $cpt;
+		}
+
+		return $pages;
 	}
 
 	public function getPageTemplateKey(string $type): string
@@ -42,28 +116,28 @@ class PageRepository extends Repository
 
 		$all = ($old === null) ? $newPageIds : array_merge( $old, $newPageIds);
 
-		$this->updatePages($levelId, $all);
+		$this->updatePagesForLevel($levelId, $all);
 	}
 
-	public function updatePages(int $levelId, array $pages): void
+	public function updatePagesForLevel(int $levelId, array $pagesData): void
 	{
-		$pages = array_values(array_unique($pages));
-		$pages = array_map('intval', $pages);
+		$pagesData = array_values(array_unique($pagesData));
+		$pages = [];
+		$cpts = [];
+
+		foreach ($pagesData as $pageData) {
+			if (gettype($pageData) === 'string') {
+				$cpts[] = $pageData;
+			} elseif (gettype($pageData) === 'integer') {
+				$pages[] = $pageData;
+			}
+		}
+
 		$this->updateTermMeta($levelId, $this->key, json_encode($pages));
-	}
 
-	/**
-	 * @param array<int> $pageIds
-	 * @param array<string> $cptSelection
-	 */
-	public function removePages(int $levelId, array $pageIds, array $cptSelection): void
-	{
-		$this->updateTermMeta($levelId, $this->key, json_encode($pageIds));
-
-		$all_stored_post_types = get_option(OptionKey::POST_TYPES, array());
-		$all_stored_post_types[$levelId] = $cptSelection;
-
-		update_option(OptionKey::POST_TYPES, $all_stored_post_types);
+		$allStoredPostTypes = get_option(OptionKey::POST_TYPES, array());
+		$allStoredPostTypes[$levelId] = $cpts;
+		update_option(OptionKey::POST_TYPES, $allStoredPostTypes);
 	}
 
 	public function getPageUrlById(int|null $pageId): string|null

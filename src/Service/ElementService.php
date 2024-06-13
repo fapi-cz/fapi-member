@@ -32,161 +32,32 @@ class ElementService
 		$this->userRepository = Container::get(UserRepository::class);
 	}
 
-	public function addUserProfileForm(WP_User $user): void
-	{
-		$sections = $this->levelRepository->getAllSections();
-		$output[] = '<h2>' . __( 'Členské sekce', 'fapi-member' ) . '</h2>';
-
-		foreach ($sections as $section ) {
-			$output[] = $this->addUserProfileSection($section, $user->ID);
-		}
-
-		echo implode('', $output);
-	}
-
-	public function addUserProfileSection(MemberSection $section, int $userId): string
-	{
-		$levelsHtml = [];
-
-		foreach ($section->getLevels() as $level) {
-			$membership = $this->membershipRepository->getOneByUserIdAndLevelId(
-				$userId,
-				$level->getId(),
-			);
-
-			$checked = '';
-			$isUnlimited = '';
-			$regDate = '';
-			$regTime = 'value="00:00"';
-			$untilDate = '';
-
-			if ($membership !== null) {
-				$checked = 'checked';
-
-				if ($membership->isUnlimited()) {
-					$isUnlimited = 'checked';
-				}
-
-				if ($membership->getRegistered() !== null) {
-					$regDate = sprintf( 'value="%s"', $membership->getRegistered()->format( 'Y-m-d' ) );
-					$regTime = sprintf( 'value="%s"', $membership->getRegistered()->format( 'H:i' ) );
-				}
-
-				if ($membership->getUntil() !== null) {
-					$untilDate = sprintf( 'value="%s"', $membership->getUntil()->format( 'Y-m-d' ) );
-				}
-			}
-
-			$levelsHtml[] = sprintf(
-				'
-                    <div class="oneLevel">
-                        <input class="check" type="checkbox" name="Levels[%s][check]" id="Levels[%s][check]" %s>
-                        <label class="levelName"  for="Levels[%s][check]">%s</label>
-                        <label class="registrationDate" for="Levels[%s][registrationDate]">' . __( 'Datum registrace', 'fapi-member' ) . '</label>
-                        <input class="registrationDateInput" type="date" name="Levels[%s][registrationDate]" %s>
-                        <label class="registrationTime" for="Levels[%s][registrationTime]">' . __( 'Čas registrace', 'fapi-member' ) . '</label>
-                        <input class="registrationTimeInput" type="time" name="Levels[%s][registrationTime]" %s>
-                        <label class="membershipUntil" data-for="Levels[%s][membershipUntil]" for="Levels[%s][membershipUntil]">' . __( 'Členství do', 'fapi-member' ) . '</label>
-                        <input class="membershipUntilInput" type="date" name="Levels[%s][membershipUntil]" %s>
-                        <label class="isUnlimited" for="Levels[%s][isUnlimited]">' . __( 'Bez expirace', 'fapi-member' ) . '</label>
-                        <input class="isUnlimitedInput" type="checkbox" name="Levels[%s][isUnlimited]" %s>
-                    </div>
-                    ',
-				$level->getId(), $level->getId(), $checked, $level->getId(), $level->getName(), $level->getId(),
-				$level->getId(), $regDate, $level->getId(), $level->getId(), $regTime, $level->getId(),
-				$level->getId(), $level->getId(), $untilDate, $level->getId(), $level->getId(), $isUnlimited
-			);
-		}
-
-		$membership = $this->membershipRepository->getOneByUserIdAndLevelId(
-			$userId,
-			$section->getId(),
-		);
-
-		$checked = '';
-		$isUnlimited = '';
-		$regDate = '';
-		$regTime = 'value="00:00"';
-		$untilDate = '';
-
-		if ($membership !== null) {
-			$checked = 'checked';
-
-			if ($membership->isUnlimited()) {
-				$isUnlimited = 'checked';
-			}
-
-			if (is_a($membership->getRegistered(), DateTimeInterface::class)) {
-				$regDate = sprintf('value="%s"', $membership->getRegistered()->format('Y-m-d'));
-				$regTime = sprintf('value="%s"', $membership->getRegistered()->format('H:i'));
-			}
-
-			if (is_a($membership->getUntil(), DateTimeInterface::class)) {
-				$untilDate = sprintf( 'value="%s"', $membership->getUntil()->format('Y-m-d'));
-			}
-		}
-
-		return '
-        <table class="wp-list-table widefat fixed striped fapiMembership">
-            <thead>
-            <tr>
-                <td id="cb" class="manage-column column-cb check-column">
-                    <label class="screen-reader-text" for="Levels[' . $section->getId() . '][check]">' . __( 'Vybrat', 'fapi-member' ) . '</label>
-                    <input id="Levels[' . $section->getId() . '][check]" name="Levels[' . $section->getId() . '][check]" type="checkbox" ' . $checked . '>
-                </td>
-                <th scope="col" id="title" class="manage-column column-title column-primary">
-                    <span>' . $section->getName() . '</span>
-                </th>
-                <th scope="col" class="manage-column fields">
-                    <span class="a">' . __( 'Datum registrace', 'fapi-member' ) . '</span>
-                    <span class="b">
-                    <input type="date" name="Levels[' . $section->getId() . '][registrationDate]" ' . $regDate . '>
-                    </span>
-                </th>
-                <th scope="col" class="manage-column fields">
-                    <span class="a">' . __( 'Čas registrace', 'fapi-member' ) . '</span>
-                    <span class="b">
-                    <input type="time" name="Levels[' . $section->getId() . '][registrationTime]" ' . $regTime . '>
-                    </span>
-                </th>
-                <th scope="col" class="manage-column fields">
-                    <span class="a" data-for="Levels[' . $section->getId() . '][membershipUntil]">Členství do</span>
-                    <span class="b">
-                    <input type="date" name="Levels[' . $section->getId() . '][membershipUntil]" ' . $untilDate . '>
-                    </span>
-                </th>
-                <th scope="col" class="manage-column fields">
-                    <span class="a">' . __( 'Bez expirace', 'fapi-member' ) . '</span>
-                    <span class="b">
-                    <input class="isUnlimitedInput" type="checkbox" name="Levels[' . $section->getId() . '][isUnlimited]" ' . $isUnlimited . '>
-                    </span>
-                </th>
-            </thead>
-        
-            <tbody id="the-list">
-                <tr><td colspan="6">
-                    ' . implode('', $levelsHtml) . '
-                </td></tr>
-            </tbody>
-        </table>
-        ';
-	}
-
 	public function addAdminMenu(): void
 	{
-		add_menu_page(
-			'FAPI Member',
-			'FAPI Member',
-			UserPermission::REQUIRED_CAPABILITY,
-			'fapi-member-options',
-			array($this->templateProvider, 'displayCurrentTemplate'),
-			sprintf(
+        $slug = 'fapi-member-settings';
+
+        add_menu_page(
+            __( 'Fapi Member', 'fapi-member' ),
+            __( 'Fapi Member', 'fapi-member' ),
+            UserPermission::REQUIRED_CAPABILITY,
+            $slug,
+            [$this, 'addMenuPage'],
+            sprintf(
 				'data:image/svg+xml;base64,%s',
-				base64_encode(file_get_contents( __DIR__ . '/../../_sources/F_fapi2.svg' ) )
-			),
-			81
-		);
-	}
+				base64_encode( file_get_contents( __DIR__ . '/../../_sources/F_fapi2.svg') )
+			)
+        );
+    }
+
+    public function addMenuPage(): void
+	{
+        echo '<div class="wrap"><div id="fm-settings"></div></div>';
+    }
+
+	public function addUserMenuPage(): void
+	{
+        echo '<div class="wrap"><div id="fm-user-settings"></div></div>';
+    }
 
 	public function addMetaBoxes(): void
 	{

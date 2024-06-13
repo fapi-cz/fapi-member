@@ -2,6 +2,7 @@
 
 namespace FapiMember\Repository;
 
+use FapiMember\Container\Container;
 use FapiMember\Model\User;
 use WP_Error;
 use WP_User;

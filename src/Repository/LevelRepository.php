@@ -3,10 +3,12 @@
 namespace FapiMember\Repository;
 
 use FapiMember\Container\Container;
+use FapiMember\Model\Enums\Format;
 use FapiMember\Model\Enums\Keys\MetaKey;
 use FapiMember\Model\Enums\Types\EmailType;
 use FapiMember\Model\MemberLevel;
 use FapiMember\Model\MemberSection;
+use FapiMember\Utils\DateTimeHelper;
 use FapiMember\Utils\EmailHelper;
 use WP_Error;
 use WP_Term;
@@ -24,6 +26,12 @@ class LevelRepository extends Repository
 
 	public function create(string $name, int|null $parentId = null): int|null
 	{
+		$termByName = get_term_by('name', $name, $this->key);
+
+		if ($termByName instanceof WP_Term && $termByName->parent === $parentId) {
+			return null;
+		}
+
 		if ($parentId === null) {
 			$term = wp_insert_term($name, $this->key);
 		} else {
@@ -158,6 +166,39 @@ class LevelRepository extends Repository
 		return (bool) $this->getTermMeta($levelId, MetaKey::BUTTON_UNLOCK);
 	}
 
+	public function getTimeUnlock(int $levelId): string
+	{
+		$termMeta = $this->getTermMeta($levelId, MetaKey::TIME_UNLOCK);
+
+		if ($termMeta === false || $termMeta === '') {
+			return 'disallow';
+		}
+
+		return $termMeta;
+	}
+
+	public function getDaysUnlock(int $levelId): int
+	{
+		$termMeta = $this->getTermMeta($levelId, MetaKey::DAYS_TO_UNLOCK);
+
+		if ($termMeta === false || $termMeta === '') {
+			return 0;
+		}
+
+		return (int) $termMeta;
+	}
+
+	public function getDateUnlock(int $levelId): string
+	{
+		$termMeta = $this->getTermMeta($levelId, MetaKey::DATE_UNLOCK);
+
+		if ($termMeta === false || $termMeta === '') {
+			return '';
+		}
+
+		return $termMeta;
+	}
+
 	/**
 	 * @param array<WP_Term> $terms
 	 * @return array<MemberSection>
@@ -221,7 +262,7 @@ class LevelRepository extends Repository
 			'id' => $levelTerm->term_id,
 			'name' => $levelTerm->name,
 			'parent_id' => $levelTerm->parent,
-			'unlock_type' => $this->getTermMeta($levelTerm->term_id, MetaKey::TIME_UNLOCK),
+			'unlock_type' => $this->getTimeUnlock($levelTerm->term_id),
 			'page_ids' => $this->pageRepository->getLockedPageIdsByLevelId($levelTerm->term_id),
 			'no_access_page_id' => $this->pageRepository->getNoAccessPageId($levelTerm->term_id),
 			'login_page_id' =>  $this->pageRepository->getLoginPageId($levelTerm->term_id),

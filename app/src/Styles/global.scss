@@ -1,0 +1,340 @@
+@import "vars";
+
+.fm-settings, #fm-user-settings {
+  .text-center {
+    text-align: center !important;
+  }
+
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  td {
+    color: $lightBlack !important;
+  }
+
+  p {
+    margin: 13px 0px;
+  }
+
+  h2 {
+    margin-top: 0px !important;
+    margin-bottom: 17px !important;
+    font-size: 17px !important;
+  }
+
+  h3 {
+    margin-top: 0px !important;
+    margin-bottom: 16px !important;
+    font-size: 16px !important;
+  }
+
+  h4 {
+    margin-top: 0px !important;
+    margin-bottom: 20px !important;
+    font-size: 15px !important;
+  }
+
+  h5 {
+    margin: 23px 0px !important;
+    font-size: 14px !important;
+  }
+
+  .popup-window {
+      border: $darkGreyLine;
+      border-radius: $borderRadius;
+      position: absolute;
+      background-color: $whiteBackground;
+      padding: 10px;
+      z-index: 10;
+  }
+
+  .clickable-icon {
+    filter: $blackToDarkGreyFilter;
+    transition: filter $transitionTime;
+    cursor: pointer;
+
+    &:hover {
+      filter: $blackToLightBlackFilter;
+    }
+  }
+
+  .clickable-option {
+    color: $lightBlack;
+    transition: color $transitionTime, background-color $transitionTime;
+    cursor: pointer;
+    border-radius: $borderRadius;
+    padding: 5px;
+
+    &:hover {
+      color: black;
+    }
+  }
+
+  .loading {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+
+    .loading-animation {
+      width: 11px;
+      padding: 4.5px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: $blue;
+      --_m:
+        conic-gradient(#0000 10%,#000),
+        linear-gradient(#000 0 0) content-box;
+      -webkit-mask: var(--_m);
+              mask: var(--_m);
+      -webkit-mask-composite: source-out;
+              mask-composite: subtract;
+      animation: l3 1s infinite linear;
+    }
+      @keyframes l3 {to{transform: rotate(2turn)}}
+  }
+
+  .fm-link-button {
+    display: inline-block;
+    width: fit-content;
+    background-color: $whiteBackground;
+    color: $blue;
+    border: $blueLine;
+    text-decoration: none;
+    border-radius: $borderRadius;
+    transition: $transitionTime;
+    padding: 5px 10px;
+
+    &:focus {
+      border-color: $blue !important;
+      outline: none !important;
+      color: $blue;
+    }
+
+    &:hover {
+      background-color: $blue;
+      color: $whiteBackground;
+    }
+
+    &.center {
+      display: block;
+      margin: 5px auto;
+    }
+
+  }
+
+  .fm-submit-button {
+    display: inline-block;
+    border: none;
+    border-radius: $borderRadius;
+    padding: 6px 8px;
+    transition: background-color $transitionTime;
+    text-decoration: none;
+
+    &.submit {
+      background-color: $blue;
+      color: $whiteBackground;
+
+      &:hover {
+        background-color: $darkBlue;
+        color: $whiteBackground;
+      }
+    }
+
+    &.delete {
+      background-color: $red;
+      color: $whiteBackground;
+
+      &:hover {
+        background-color: $darkRed;
+        color: $whiteBackground;
+      }
+    }
+
+    &.light {
+      background-color: $whiteBackground;
+      color: $blue;
+      border: $blueLine;
+
+      &:hover {
+        background-color: $blue;
+        color: $whiteBackground;
+      }
+    }
+
+
+
+    &.center {
+      display: block;
+      margin: 0 auto !important;
+    }
+
+    &.big {
+      padding: 8px 30px;
+    }
+
+  }
+
+  .fm-input, label {
+    &.centered {
+      display: block !important;
+      margin: 0px auto !important;
+    }
+
+    &.big {
+      display: block !important;
+      width: 400px !important;
+    }
+  }
+
+  .fm-input {
+    border: $darkGreyLine !important;
+    background-color: $whiteTransparentBackground !important;
+
+    &:focus {
+      border-color: $blue !important;
+      outline: none !important;
+    }
+
+    &[type=date] {
+      width: 130px !important;
+    }
+
+    &[type=time] {
+      width: 90px !important;
+    }
+
+    &.big {
+      padding: 6px 16px !important;
+      margin-top: 10px !important;
+      margin-bottom: 30px !important;
+    }
+  }
+
+  .fm-checkbox {
+    display: inline-block;
+    position: relative;
+
+    input {
+      display: none;
+
+      &:checked + label {
+        background-image: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%237e8993%27%2F%3E%3C%2Fsvg%3E");
+      }
+    }
+
+    label {
+      display: block;
+      width: 18px;
+      height: 18px;
+      border-radius: $borderRadius;
+      border: $darkGreyLine;
+      background-color: $whiteTransparentBackground;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      cursor: pointer;
+      transition: $transitionTime;
+      padding: 0px !important;
+
+      &:hover {
+        background-color: $grey;
+      }
+
+      &.small {
+        width: 15px;
+        height: 15px;
+      }
+    }
+  }
+
+  select.fm-select {
+    border-radius: $borderRadius !important;
+    border: $darkGreyLine !important;
+    color: $lightBlack !important;
+
+    &:hover {
+      border-color: black !important;
+      color: black !important;
+    }
+
+    &:focus {
+      border-color: $blue !important;
+      color: $blue !important;
+    }
+
+    &.big {
+      display: block !important;
+      width: auto !important;
+      padding-top: 5px !important;
+      padding-bottom: 5px !important;
+    }
+  }
+
+  .popup-title {
+    border-bottom: $darkGreyLine;
+    margin-bottom: 10px;
+    padding: 3px;
+    text-align: center;
+  }
+
+  .vertical-divider {
+    display: block;
+    height: 0px;
+    border-bottom: $greyLine;
+    width: 100%;
+    margin: 10px 0px;
+
+    &.fat {
+      border-bottom: $darkGreyLine;
+    }
+
+    &.large-margin {
+      margin: 20px 0px;
+    }
+  }
+
+  .return-link {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .recharts-wrapper *:focus {
+    outline: none;
+    border: none;
+  }
+
+  table {
+    width: 100%;
+    overflow: hidden;
+    border-collapse: collapse;
+    border-radius: $borderRadius !important;
+    border: $darkGreyLine !important;
+
+    thead tr{
+      background-color: $grey;
+    }
+
+    tbody {
+      tr:nth-child(odd) {
+        background-color: $lightGrey;
+      }
+    }
+
+    th, td {
+      padding: 6px 13px;
+    }
+  }
+
+  a, .return-link {
+    color: $blue;
+    transition: color $transitionTime;
+
+    &:hover {
+      color: $darkBlue;
+      text-decoration: underline;
+    }
+  }
+}

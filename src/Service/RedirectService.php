@@ -111,7 +111,7 @@ class RedirectService
 	{
 		$level = $this->levelRepository->getLevelById($levelId);
 
-		if ($level->getNoAccessPageId() !== null) {
+		if ($level?->getNoAccessPageId() !== null) {
 			$this->redirectToPage($level->getNoAccessPageId());
 		}
 

@@ -170,19 +170,19 @@
   border-radius: 4px !important;
   text-align: center !important;
   text-decoration: none !important;
-  margin: 27px auto !important;
+  margin: calc((100px - 46px) / 2) auto !important;
   font-size: 15px !important;
 }
 
-button.unlock-level-button {
+a.button-level-unlock-link {
   border-radius: 7px;
   border: solid 1px #363636;
   background-color: white;
   color: #363636;
   padding: 10px;
+  font-size: 15px;
 }
-
-button.unlock-level-button:hover {
+a.button-level-unlock-link:hover {
   background-color: #eeeeee;
 }
 

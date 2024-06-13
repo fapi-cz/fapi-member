@@ -19,14 +19,19 @@ class EmailRepository extends Repository
 		$this->deleteTermMeta($levelId, $this->getEmailTemplateKey($emailType));
 	}
 
-	public function update(int $levelId, string $emailType, string $mailSubject, string $mailBody): void
+	public function update(
+		int $levelId,
+		string $emailType,
+		string|null $mailSubject,
+		string|null $mailBody,
+	): void
 	{
 		$this->updateTermMeta(
 			$levelId,
 			$this->getEmailTemplateKey($emailType),
 			[
-				's' => $mailSubject,
-				'b' => $mailBody,
+				's' => $mailSubject ?? '',
+				'b' => $mailBody ?? '',
 			],
 		);
 	}
@@ -61,7 +66,7 @@ class EmailRepository extends Repository
 		return $meta;
 	}
 
-	public function getEmailTemplateKey(string $type): string
+	private function getEmailTemplateKey(string $type): string
 	{
 		return sprintf('fapi_email_%s', $type);
 	}

@@ -3,7 +3,6 @@
 namespace FapiMember;
 
 use FapiMember\Container\Container;
-use FapiMember\Deprecated\FapiLevels;
 use FapiMember\Model\Enums\Keys\OptionKey;
 use FapiMember\Model\Enums\Keys\ScheduleKey;
 use FapiMember\Service\MembershipService;
@@ -17,8 +16,6 @@ final class FapiMemberPlugin
 	const FAPI_MEMBER_PLUGIN_VERSION_KEY = 'fapi_member_plugin_version';
 
 	const CONNECTED_API_KEYS_LIMIT = 5;
-
-	private FapiLevels|null $fapiLevels = null;
 
 	private Bootstrap $bootstrap;
 	private DateTimeHelper $dateTimeHelper;
@@ -67,16 +64,6 @@ final class FapiMemberPlugin
 		}
 
 		return $this->redirectService->loginRedirect($userId);
-	}
-
-	/** @deprecated  */
-	public function levels(): ?FapiLevels
-	{
-		if ( $this->fapiLevels === null ) {
-			$this->fapiLevels = new FapiLevels();
-		}
-
-		return $this->fapiLevels;
 	}
 
 }

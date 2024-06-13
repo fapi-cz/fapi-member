@@ -1,0 +1,77 @@
+@import "vars";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+
+#fm-user-settings .user-settings {
+  .user-section {
+    border: $darkGreyLine;
+    margin-bottom: 20px;
+    border-radius: $borderRadius;
+    overflow: hidden;
+
+    .user-section-settings, .user-level {
+      display: grid;
+      grid-template-columns: 50px auto 360px;
+      align-items: center;
+    }
+
+    .fm-checkbox {
+      justify-self: center;
+    }
+
+    .user-input-container {
+      display: inline-grid;
+      grid-template-columns: max-content;
+      grid-template-rows: auto;
+      width: max-content;
+      margin-bottom: 5px;
+
+      > label {
+        font-size: 10px;
+        color: $lightBlack;
+        padding-left: 3px;
+      }
+
+      .is-unlimited {
+      height: 30px;
+      width: 130px;
+      display: grid;
+      grid-template-columns: 15px auto;
+      align-items: center;
+      gap: 5px;
+      margin-left: 5px;
+
+      label {
+        color: $lightBlack
+      }
+    }
+    }
+
+    .fm-input {
+      background-color: rgba(0, 0, 0, 0);
+    }
+
+    .user-section-settings {
+      background-color: $whiteBackground;
+      padding: 10px 5px;
+      border-bottom: $darkGreyLine;
+    }
+
+    .user-level:nth-child(even) {
+      background-color: $grey;
+    }
+
+    .user-level {
+      padding: 7px;
+      padding-left: 20px;
+      height: 55px;
+    }
+
+    .user-section-name, .user-level-name {
+      font-size: 15px;
+    }
+
+  }
+
+
+}

@@ -2,5 +2,6 @@
 /app/node_modules/
 .idea/
 /wp-build/
+/wp-build-test/
 /wp-svn/
 /fapi-member/node_modules/

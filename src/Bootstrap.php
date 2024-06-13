@@ -2,11 +2,12 @@
 
 namespace FapiMember;
 
-use FapiMember\Api\RequestHandler;
+use FapiMember\Api\V1\RequestHandler;
+use FapiMember\Api\V2\ApiController;
 use FapiMember\Container\Container;
 use FapiMember\Model\Enums\Keys\OptionKey;
 use FapiMember\Model\Enums\Types\RequestMethodType;
-use FapiMember\Service\AdminMenuService;
+use FapiMember\Model\Enums\UserPermission;
 use FapiMember\Service\ApiService;
 use FapiMember\Service\ElementService;
 use FapiMember\Service\RedirectService;
@@ -14,8 +15,6 @@ use FapiMember\Utils\DisplayHelper;
 use FapiMember\Utils\PostTypeHelper;
 use FapiMember\Utils\Random;
 use FapiMember\Utils\ShortcodeSubstitutor;
-use WP_Error;
-use WP_User;
 
 final class Bootstrap
 {
@@ -23,9 +22,9 @@ final class Bootstrap
 	private ApiService $apiService;
 	private ElementService $elementService;
 	private RedirectService $redirectService;
-	private AdminMenuService $adminMenuService;
 	private RequestHandler $requestHandler;
 	private ShortcodeSubstitutor $shortcodeSubstitutor;
+	private ApiController $apiController;
 
 	public function __construct(FapiMemberPlugin $fapiMemberPlugin)
 	{
@@ -35,9 +34,9 @@ final class Bootstrap
 		$this->apiService = Container::get(ApiService::class);
 		$this->elementService = Container::get(ElementService::class);
 		$this->redirectService = Container::get(RedirectService::class);
-		$this->adminMenuService = Container::get(AdminMenuService::class);
 		$this->requestHandler = Container::get(RequestHandler::class);
 		$this->shortcodeSubstitutor = Container::get(ShortcodeSubstitutor::class);
+		$this->apiController = Container::get(ApiController::class);
 	}
 
 	public function initialize(): void
@@ -46,7 +45,7 @@ final class Bootstrap
 		$this->generateTokenIfNeeded();
 		$this->migrateCredentialsIfNeeded();
 
-		update_option(OptionKey::FAPI_MEMBER_VERSION, FAPI_MEMBER_PLUGIN_VERSION );
+		update_option(OptionKey::FAPI_MEMBER_VERSION, FAPI_MEMBER_PLUGIN_VERSION);
 	}
 
 	private function generateTokenIfNeeded(): void
@@ -111,17 +110,11 @@ final class Bootstrap
 		// adds meta boxed to setting page/post side bar
 		add_action('add_meta_boxes', array($this->elementService, 'addMetaBoxes'));
 
-		// saves related post to sections or levels
-		add_action('save_post', array($this->adminMenuService, 'savePostMetadata'));
-
 		// check if page in fapi level
 		add_action('template_redirect', array($this->redirectService, 'checkPageForRedirects'));
 
 		// user profile
-		add_action('edit_user_profile', array($this->elementService, 'addUserProfileForm'));
-
-		// user profile save
-		add_action('edit_user_profile_update', array($this->adminMenuService, 'handleUserProfileSave'));
+		add_action('edit_user_profile', array($this->elementService, 'addUserMenuPage'));
 
 		add_image_size('level-selection', 300, 164, true );
 		add_filter('login_redirect', array($this->fapiMemberPlugin, 'loginRedirect'), 5, 3 );
@@ -154,6 +147,7 @@ final class Bootstrap
 
 		// WPS hide login plugin
 		add_filter('whl_logged_in_redirect', array($this->redirectService, 'loggedInRedirect'), 1);
+		add_filter('whl_logged_in_redirect', array($this->redirectService, 'loggedInRedirect'), 1);
 	}
 
 	private function addInitHooks(): void
@@ -169,38 +163,55 @@ final class Bootstrap
 		add_action('admin_init', array($this, 'registerSettings'));
 		add_action('admin_menu', array($this->elementService, 'addAdminMenu'));
 		add_action('admin_enqueue_scripts', array($this, 'addScripts'));
+		add_action('admin_enqueue_scripts', [$this, 'addApiNonce']);
+	}
 
-		add_action('admin_post_fapi_member_api_credentials_submit', array($this->adminMenuService, 'handleApiCredentialsSubmit'));
-		add_action('admin_post_fapi_member_api_credentials_remove', array($this->adminMenuService, 'handleApiCredentialsRemove'));
-		add_action('admin_post_fapi_member_new_section', array($this->adminMenuService, 'handleNewSection'));
-		add_action('admin_post_fapi_member_new_level', array($this->adminMenuService, 'handleNewLevel'));
-		add_action('admin_post_fapi_member_remove_level', array($this->adminMenuService, 'handleRemoveLevel'));
-		add_action('admin_post_fapi_member_edit_level', array($this->adminMenuService, 'handleEditLevel'));
-		add_action('admin_post_fapi_member_order_level', array($this->adminMenuService, 'handleOrderLevel'));
-		add_action('admin_post_fapi_member_add_pages', array($this->adminMenuService, 'handleUpdatePages'));
-		add_action('admin_post_fapi_member_remove_pages', array($this->adminMenuService, 'handleRemovePages'));
-		add_action('admin_post_fapi_member_edit_email', array($this->adminMenuService, 'handleEditEmail'));
-		add_action('admin_post_fapi_member_set_other_page', array($this->adminMenuService, 'handleSetServicePage'));
-		add_action('admin_post_fapi_member_set_settings', array($this->adminMenuService, 'handleSetSettings'));
-		add_action('admin_post_fapi_member_set_section_unlocking', array($this->adminMenuService, 'handleSetUnlocking'));
-		add_action('admin_post_fapi_member_button_level_unlock', array($this->adminMenuService, 'handleButtonLevelUnlock'));
+	function addApiNonce(): void
+	{
+		if (current_user_can(UserPermission::REQUIRED_CAPABILITY)) {
+			$nonce = wp_create_nonce('wp_rest');
+			echo "<script>window.apiInternalAccessNonce = '{$nonce}'</script>";
+		}
+
 	}
 
 	public function addRestEndpoints(): void
 	{
-		$this->addRestEndpoint('sections', 'handleApiSections', RequestMethodType::GET);
-		$this->addRestEndpoint('sections-simple', 'handleApiSectionsSimple', RequestMethodType::GET);
-		$this->addRestEndpoint('callback', 'handleApiCallback', RequestMethodType::POST);
-		$this->addRestEndpoint('check-connection', 'handleApiCheckConnectionCallback', RequestMethodType::POST);
-		$this->addRestEndpoint(
+		$this->addRestEndpointV1('sections', 'handleApiSections', RequestMethodType::GET);
+		$this->addRestEndpointV1('sections-simple', 'handleApiSectionsSimple', RequestMethodType::GET);
+		$this->addRestEndpointV1('callback', 'handleApiCallback', RequestMethodType::POST);
+		$this->addRestEndpointV1('check-connection', 'handleApiCheckConnectionCallback', RequestMethodType::POST);
+		$this->addRestEndpointV1(
 			'list-forms/(?P<user>[^/]+(?:\+[^/]+)?)',
 			'handleApiListFormsCallback',
 			RequestMethodType::GET,
 		);
-		$this->addRestEndpoint('list-users', 'handleApiUsernamesCallback', RequestMethodType::GET);
+		$this->addRestEndpointV1('list-users', 'handleApiUsernamesCallback', RequestMethodType::GET);
+
+		$this->addRestEndpointV2('sections');
+		$this->addRestEndpointV2('pages');
+		$this->addRestEndpointV2('emails');
+		$this->addRestEndpointV2('memberships');
+		$this->addRestEndpointV2('users');
+		$this->addRestEndpointV2('apiConnections');
 	}
 
-	public function addRestEndpoint(string $route, string $functionName, string $method): void
+	public function addRestEndpointV2(string $route): void
+	{
+		register_rest_route(
+			'fapi/v2',
+			'/' . $route,
+			[
+				'methods' => [RequestMethodType::GET, RequestMethodType::POST],
+				'callback' => array($this->apiController, 'handleRequest'),
+				'permission_callback' => function () {
+					return true;
+				},
+			],
+		);
+	}
+
+	public function addRestEndpointV1(string $route, string $functionName, string $method): void
 	{
 		register_rest_route(
 			'fapi/v1',
@@ -228,11 +239,11 @@ final class Bootstrap
 	{
 		$this->registerStyles();
 		$this->registerScripts();
+
 		global $pagenow;
 
 		if ($pagenow === 'admin.php' || $pagenow === 'options-general.php') {
 			wp_enqueue_style('fapi-member-admin-font');
-			wp_enqueue_style('fapi-member-admin');
 			wp_enqueue_style('fapi-member-swal-css');
 			wp_enqueue_script('fapi-member-swal');
 			wp_enqueue_script('fapi-member-swal-promise-polyfill');
@@ -243,14 +254,22 @@ final class Bootstrap
 			wp_enqueue_style('fapi-member-user-profile');
 			wp_enqueue_script('fapi-member-main');
 		}
+
+		wp_enqueue_script(
+			'fm-react-app',
+			trailingslashit(plugins_url('/', __FILE__ )) . '../app/dist/bundle.js',
+			['jquery', 'wp-element'],
+			filemtime(plugin_dir_path(__FILE__) . '../app/dist/bundle.js'),
+			true,
+		);
+
+		wp_localize_script('fm-react-app', 'environmentData', array(
+        'timeZone' => wp_timezone_string(),
+    ));
 	}
 
 	public function registerStyles(): void
 	{
-		wp_register_style(
-			'fapi-member-admin',
-			plugins_url('fapi-member/media/fapi-member.css')
-		);
 		wp_register_style(
 			'fapi-member-user-profile',
 			plugins_url('fapi-member/media/fapi-user-profile.css')

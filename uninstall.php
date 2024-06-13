@@ -17,7 +17,7 @@ $options = [
 	OptionKey::SETTINGS,
 	OptionKey::API_USER,
 	OptionKey::API_KEY,
-	OptionKey::API_CREDENTIALS
+	OptionKey::API_CREDENTIALS,
 ];
 
 foreach ($options as $o) {
