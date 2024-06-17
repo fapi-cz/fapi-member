@@ -4,7 +4,8 @@ namespace FapiMember\Elementor\Category;
 
 final class CategoryRegister {
 
-	public static function register() {
+	public static function register(): void
+	{
 		add_action(
 			'elementor/elements/categories_registered',
 			function ( $elementsManager ) {

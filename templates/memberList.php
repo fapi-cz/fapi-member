@@ -2,8 +2,8 @@
 
 global $FapiPlugin;
 
-use FapiMember\FapiMemberTools;
-use FapiMember\FapiLevels;
+use FapiMember\Deprecated\FapiMemberTools;
+use FapiMember\Deprecated\FapiLevels;
 
 $section = get_term($_GET['sectionID']);
 ?>

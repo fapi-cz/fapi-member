@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Plugin Name: FAPI Member - Elementor extended
  * Description: FAPI Member plugin fot elementor.
@@ -18,16 +17,17 @@ use FapiMember\Elementor\Filters\ContentProtector;
 use FapiMember\Elementor\Widgets\FapiFormWidget;
 use FapiMember\Elementor\WidgetSettingsExtender\WidgetsSettingsExtender;
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
 	return; // Exit if accessed directly.
 }
 
 add_action(
 	'elementor/widgets/register',
 	function ( $widgetsManager ) {
-		$widgetsManager->register( new FapiFormWidget() );
+		$widgetsManager->register(new FapiFormWidget());
 	}
 );
+
 CategoryRegister::register();
 WidgetsSettingsExtender::register();
 ContentProtector::register();

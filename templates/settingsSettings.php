@@ -1,17 +1,21 @@
 <?php
 
-use FapiMember\FapiMemberTools;
+use FapiMember\Deprecated\FapiMemberTools;
+use FapiMember\Model\Enums\Keys\SettingsKey;
+use FapiMember\Utils\AlertProvider;
 
 echo FapiMemberTools::heading();
 
 global $FapiPlugin;
-$currentLoginPageId = $FapiPlugin->getSetting('login_page_id');
-$currentDashboardPageId = $FapiPlugin->getSetting('dashboard_page_id');
+global $settingsRepository;
+
+$currentLoginPageId = $settingsRepository->getSetting(SettingsKey::LOGIN_PAGE);
+$currentDashboardPageId = $settingsRepository->getSetting(SettingsKey::DASHBOARD_PAGE);
 
 ?>
 
 <div class="page wider">
-	<?php echo FapiMemberTools::showErrors(); ?>
+	<?php echo AlertProvider::showErrors(); ?>
 
     <div class="onePageOther" style="max-width: 36rem">
 		<?php echo FapiMemberTools::formStart('set_settings') ?>

@@ -1,6 +1,7 @@
 <?php
 
-use FapiMember\FapiMemberTools;
+use FapiMember\Deprecated\FapiMemberTools;
+use FapiMember\Utils\AlertProvider;
 
 echo FapiMemberTools::heading();
 ?>
@@ -9,7 +10,7 @@ echo FapiMemberTools::heading();
     <div class="withSections">
         <div class="a">
             <h3><?php echo __( 'Členské sekce/úrovně', 'fapi-member' ); ?></h3>
-			<?php echo FapiMemberTools::showErrors(); ?>
+			<?php echo AlertProvider::showErrors(); ?>
 			<?php echo FapiMemberTools::levelsSelectionNonJs() ?>
         </div>
         <div class="b">

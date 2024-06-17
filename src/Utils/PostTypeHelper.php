@@ -2,38 +2,38 @@
 
 namespace FapiMember\Utils;
 
-class PostTypeHelper {
-
-	public static $excluded_post_type_prefixes = array( 'jet-', 'elementor_', 'elemental_' );
+class PostTypeHelper
+{
+	public static array $excludedPostTypePrefixes = ['jet-', 'elementor_', 'elemental_'];
 
 	/**
-	 * @param bool $cpt_only
 	 * @return array<string>
 	 */
-	public static function getSupportedPostTypes( $cpt_only = false ) {
-		$supported_post_types         = array();
-		$excluded_post_types          = $cpt_only ? array( 'attachment', 'page', 'post' ) : array( 'attachment' );
-		$supported_post_types_objects = get_post_types( array( 'public' => true ), 'objects', 'and' );
+	public static function getSupportedPostTypes(bool $cptOnly = false): array
+	{
+		$supportedPostTypes = [];
+		$excludedPostTypes = $cptOnly ? ['attachment', 'page', 'post'] : ['attachment'];
+		$supportedPostTypesObjects = get_post_types(['public' => true], 'objects');
 
-		foreach ( $supported_post_types_objects as $obj ) {
+		foreach ($supportedPostTypesObjects as $obj) {
 			$name = $obj->name;
 
-			if ( in_array( $name, $excluded_post_types, true ) ) {
+			if (in_array($name, $excludedPostTypes, true)) {
 				continue;
 			}
 
-			foreach ( self::$excluded_post_type_prefixes as $prefix ) {
-				if ( strpos( $name, $prefix ) === 0 ) {
+			foreach (self::$excludedPostTypePrefixes as $prefix) {
+				if (str_starts_with($name, $prefix)) {
 					continue 2;
 				}
 			}
 
-			$supported_post_types[] = $name;
+			$supportedPostTypes[] = $name;
 		}
 
-		sort( $supported_post_types );
+		sort($supportedPostTypes);
 
-		return $supported_post_types;
+		return $supportedPostTypes;
 	}
 
 }

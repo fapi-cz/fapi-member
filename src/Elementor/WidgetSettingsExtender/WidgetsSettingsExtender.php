@@ -3,11 +3,9 @@
 namespace FapiMember\Elementor\WidgetSettingsExtender;
 
 use Elementor\Controls_Manager;
-use WP_Term;
 
-final class WidgetsSettingsExtender {
-
-
+final class WidgetsSettingsExtender
+{
 	private static $sections = null;
 
 	public static function register() {
@@ -78,28 +76,21 @@ final class WidgetsSettingsExtender {
 	 * @return array<mixed>
 	 */
 	private static function getLevels() {
-		global $FapiPlugin;
+		global $levelRepository;
 
-		if ( self::$sections !== null ) {
+		if (self::$sections !== null) {
 			return self::$sections;
 		}
 
-		self::$sections = array();
-		$termEnvelopes  = $FapiPlugin->levels()->loadAsTermEnvelopes();
+		self::$sections = [];
+		$sections  = $levelRepository->getAllSections();
 
-		foreach ( $termEnvelopes as $termEnvelope ) {
-			$term = $termEnvelope->getTerm();
+		foreach ($sections as $section) {
+			self::$sections[$section->getId()] = $section->getName();
 
-			if ( $term->parent === 0 ) {
-				self::$sections[ $term->term_id ] = $term->name;
-
-				continue;
+			foreach ($section->getLevels() as $level) {
+				self::$sections[$level->getId()] = $section->getName() . ' - ' . $level->getName();
 			}
-
-			/** @var WP_Term $parentTerm */
-			$parentTerm = $FapiPlugin->levels()->loadById( $term->parent );
-
-			self::$sections[ $term->term_id ] = $parentTerm->name . ' - ' . $term->name;
 		}
 
 		return self::$sections;

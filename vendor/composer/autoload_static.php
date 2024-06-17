@@ -9,11 +9,26 @@ class ComposerStaticInit78a461af818662ed4da1f023e7895462
     public static $prefixLengthsPsr4 = array (
         'F' => 
         array (
+            'FapiMember\\Library\\SmartEmailing\\Types\\' => 39,
+            'FapiMember\\Library\\Nette\\Utils\\' => 31,
+            'FapiMember\\Library\\Nette\\' => 25,
             'FapiMember\\' => 11,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'FapiMember\\Library\\SmartEmailing\\Types\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/libs/smartemailing/types/src',
+        ),
+        'FapiMember\\Library\\Nette\\Utils\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/libs/nette/utils/src/Utils',
+        ),
+        'FapiMember\\Library\\Nette\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/libs/nette/utils/src',
+        ),
         'FapiMember\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',

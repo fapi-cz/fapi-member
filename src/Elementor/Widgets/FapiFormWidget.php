@@ -10,7 +10,7 @@ final class FapiFormWidget extends Widget_Base {
 	/**
 	 * @var array<mixed>|null
 	 */
-	private $formOptions = null;
+	private array|null $formOptions = null;
 
 	public function get_name() {
 		return 'fapi_form';
@@ -79,12 +79,13 @@ final class FapiFormWidget extends Widget_Base {
 		}
 
 		global $FapiPlugin;
+		global $apiService;
 
 		$allClientsForms = array();
-		$clients         = $FapiPlugin->getFapiClients()->getFapiApis();
+		$clients = $apiService->getApiClients();
 
-		foreach ( $clients as $client ) {
-			$allClientsForms[ $client->getApiUser() ] = $client->getForms();
+		foreach ($clients as $client) {
+			$allClientsForms[$client->getConnection()->getApiUser()] = $client->getForms();
 		}
 
 		$this->formOptions = array(
@@ -98,8 +99,8 @@ final class FapiFormWidget extends Widget_Base {
 			return $this->formOptions;
 		}
 
-		foreach ( $allClientsForms as $client => $clientForms ) {
-			foreach ( $clientForms as $form ) {
+		foreach ($allClientsForms as $client => $clientForms) {
+			foreach ($clientForms as $form) {
 				$this->formOptions[ $form['path'] ] = $form['name'] . sprintf( ' (%s)', $client );
 			}
 		}

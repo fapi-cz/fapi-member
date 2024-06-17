@@ -1,6 +1,6 @@
 <?php
 
-use FapiMember\FapiMemberTools;
+use FapiMember\Deprecated\FapiMemberTools;
 
 echo FapiMemberTools::heading();
 ?>

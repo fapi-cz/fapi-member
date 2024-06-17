@@ -3,6 +3,9 @@
 namespace FapiMember;
 
 // if uninstall.php is not called by WordPress, die
+use FapiMember\Model\Enums\Keys\MetaKey;
+use FapiMember\Model\Enums\Keys\OptionKey;
+
 if (!defined('WP_UNINSTALL_PLUGIN')) {
 	die;
 }
@@ -10,11 +13,11 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
 require __DIR__ . '/fapi-member.php';
 
 $options = [
-	FapiMemberPlugin::OPTION_KEY_API_CHECKED,
-	FapiMemberPlugin::OPTION_KEY_SETTINGS,
-	FapiMemberPlugin::OPTION_KEY_API_USER,
-	FapiMemberPlugin::OPTION_KEY_API_KEY,
-	FapiMemberPlugin::OPTION_KEY_API_CREDENTIALS
+	OptionKey::API_CHECKED,
+	OptionKey::SETTINGS,
+	OptionKey::API_USER,
+	OptionKey::API_KEY,
+	OptionKey::API_CREDENTIALS
 ];
 
 foreach ($options as $o) {
@@ -22,16 +25,16 @@ foreach ($options as $o) {
 }
 
 // unregistering taxonomy does not remote its terms and their meta
-$terms = get_terms(['taxonomy' => FapiLevels::TAXONOMY, 'hide_empty' => false,]);
+$terms = get_terms(['taxonomy' => 'fapi_levels', 'hide_empty' => false,]);
 foreach ($terms as $term) {
-	wp_delete_term($term->term_id, FapiLevels::TAXONOMY);
+	wp_delete_term($term->term_id, 'fapi_levels');
 }
-unregister_taxonomy(FapiLevels::TAXONOMY);
+unregister_taxonomy('fapi_levels');
 
 $users = get_users();
 $metaKeys = [
-	FapiMembershipLoader::MEMBERSHIP_META_KEY,
-	FapiMembershipLoader::MEMBERSHIP_HISTORY_META_KEY,
+	MetaKey::MEMBERSHIP,
+	MetaKey::MEMBERSHIP_HISTORY,
 ];
 
 foreach ($metaKeys as $k) {
