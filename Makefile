@@ -52,6 +52,7 @@ build: ## Builds the plugin source code
 	cp -r src wp-build/src
 	cp -r templates wp-build/templates
 	cp -r vendor wp-build/vendor
+	cp -r libs wp-build/libs
 	cp -r media wp-build/media
 	cp -r languages wp-build/languages
 	cp -r _sources wp-build/_sources
