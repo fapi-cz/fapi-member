@@ -33,6 +33,7 @@ class UserService
 		}
 
 		$password = wp_generate_password(16);
+
 		$userId = $this->userRepository->save(
 			StringType::extractOrNull($userData, 'first_name'),
 			StringType::extractOrNull($userData, 'last_name'),

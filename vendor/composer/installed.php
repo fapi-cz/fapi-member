@@ -3,7 +3,7 @@
         'name' => 'fapi-cz/fapi-member',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'baa98211f3acc4f2e341aa6faee3d43597cece0f',
+        'reference' => '1c0ad0c844ead6140c7329b8271c3286c0a24fe5',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'fapi-cz/fapi-member' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'baa98211f3acc4f2e341aa6faee3d43597cece0f',
+            'reference' => '1c0ad0c844ead6140c7329b8271c3286c0a24fe5',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -8,7 +8,14 @@ use FapiMember\Model\Settings;
 class SettingsRepository extends Repository
 {
 
-	public function getSettings(): Settings
+	public function createSettingsIfNeeded(): void
+	{
+		if ($this->getSettings() === null) {
+			add_option(OptionKey::SETTINGS, []);
+		}
+	}
+
+	public function getSettings(): Settings|null
 	{
 		$option = get_option(OptionKey::SETTINGS);
 
@@ -31,8 +38,12 @@ class SettingsRepository extends Repository
 		update_option(OptionKey::SETTINGS, $settings->toArray());
 	}
 
-	private function optionToSettings(array $option): Settings
+	private function optionToSettings(array|bool $option): Settings|null
 	{
+		if ($option === false) {
+			return null;
+		}
+
 		return new Settings($option);
 	}
 

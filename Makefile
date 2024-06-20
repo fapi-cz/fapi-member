@@ -67,3 +67,21 @@ build: ## Builds the plugin source code
 	find wp-build -type f -name '*.html' -delete
 	cp readme.txt wp-build/readme.txt
 	rm -d -r wp-build/media/font/specimen_files
+
+prepare-deploy: isset-version ## prepares everything for a deploy
+	docker exec node /bin/sh -c 'yarn --cwd multiple-blocks install'
+	docker exec node /bin/sh -c 'yarn --cwd multiple-blocks build'
+	composer update
+	make -B build -i
+	rm -rf wp-svn
+	svn co https://plugins.svn.wordpress.org/fapi-member wp-svn
+	mkdir wp-svn/tags/$(version)
+	cp -r wp-build/* wp-svn/tags/$(version)/
+	rm -rf wp-svn/trunk/*
+	cp -r wp-build/* wp-svn/trunk/
+
+
+isset-version:
+ifndef version
+	$(error version not found. Please provide a version like 'make prepare-deploy version=x.y.z')
+endif
