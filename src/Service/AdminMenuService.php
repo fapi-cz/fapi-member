@@ -351,6 +351,8 @@ class AdminMenuService
 				->redirect(SubPage::SETTINGS_SETTINGS, Alert::SETTINGS_SETTINGS_NO_VALID_PAGE);
 		}
 
+		$this->settingsRepository->createSettingsIfNeeded();
+
 		$settings = $this->settingsRepository->getSettings();
 		$settings->setLoginPageId($loginPageId);
 		$settings->setDashboardPageId($dashboardPageId);

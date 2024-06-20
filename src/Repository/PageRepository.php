@@ -111,17 +111,17 @@ class PageRepository extends Repository
 
 	public function getCommonLoginPageId(): int|null
 	{
-		return $this->settingsRepository->getSettings()->getLoginPageId();
+		return $this->settingsRepository->getSettings()?->getLoginPageId();
 	}
 
 	public function getCommonDashboardPageId(): int|null
 	{
-		return $this->settingsRepository->getSettings()->getDashboardPageId();
+		return $this->settingsRepository->getSettings()?->getDashboardPageId();
 	}
 
 	public function getTimedUnlockNoAccessPageId(): int|null
 	{
-		return $this->settingsRepository->getSettings()->getTimeLockedPageId();
+		return $this->settingsRepository->getSettings()?->getTimeLockedPageId();
 	}
 
 	public function getLockedPageIdsByLevelId(int $levelId): array
