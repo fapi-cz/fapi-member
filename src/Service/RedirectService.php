@@ -155,13 +155,11 @@ class RedirectService
 			}
 		}
 
-		if (count($pages) > 0) {
-			$pageId = array_shift($pages);
-			$pageUrl = $this->pageRepository->getPageUrlById($pageId);
+		if (count($pages) > 1) {
+			define( 'FAPI_SHOWING_LEVEL_SELECTION', 1 );
+			include __DIR__ . '/../Templates/levelSelection.php';
 
-			if ($pageUrl !== null) {
-				return $pageUrl;
-			}
+			exit;
 		}
 
 		return get_site_url();

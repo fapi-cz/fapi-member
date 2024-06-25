@@ -5,7 +5,7 @@ Requires at least: 5.9
 Tested up to: 6.4
 Requires PHP: 8.1
 License: GPLv2 or later
-Stable tag: 2.0.02
+Stable tag: 2.0.03
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -23,20 +23,17 @@ Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org
 
 == Changelog ==
 
+= 2.0.03 =
+* Bug fixes
+
 = 2.0.02 =
 * Bug fixes
 
 = 2.0.01 =
-* Bug fixes
-
-= 2.0.0 =
-* Backend refactoring
+* Redactored FM backend
 
 = 1.9.47 =
 * Bug Fixed
-
-= 1.9.46 =
-* Refactored the entire backend - preparation for Fapi Member 2.0.0
 
 = 1.9.45 =
 * Made it possible to hide elements with type 'container' based on membership ownership in elementor
