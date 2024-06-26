@@ -135,7 +135,6 @@ class LevelRepository extends Repository
 
 		foreach ($ids as $id) {
 			$levels[] = $this->getLevelById($id);
-
 		}
 
 		return $levels;
