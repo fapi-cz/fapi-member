@@ -97,7 +97,6 @@ class MembershipService
 	): array
 	{
 		$membership = $this->membershipRepository->getOneByUserIdAndLevelId($userId, $levelId);
-		$props = [];
 
 		if ($membership !== null) {
 			$props = $this->prolongMembership($membership, $isUnlimited, $days);

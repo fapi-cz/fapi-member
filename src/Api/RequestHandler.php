@@ -81,7 +81,7 @@ class RequestHandler
 		wp_send_json($simplifiedSections);
 	}
 
-	public function handleApiCallback(WP_REST_Request $request): void //TODO: test
+	public function handleApiCallback(WP_REST_Request $request): void
 	{
 		$params = $request->get_params();
 		$body = $request->get_body();
@@ -143,11 +143,10 @@ class RequestHandler
 		if (isset($params['days'])) {
 			$days = (int) $params['days'];
 		} else {
-			$days = false;
+			$days = null;
 		}
 
-		$isUnlimited = $days === false;
-
+		$isUnlimited = $days === null;
 		$props = [];
 		$user = $this->userService->getOrCreateUser($userData, $props);
 
@@ -159,11 +158,16 @@ class RequestHandler
 		}
 
 		foreach ($levelIds as $levelId) {
-			$props = $this->membershipService->createOrProlongMembership($user->getId(), $levelId, $isUnlimited, $days);
-			$props = $this->enhanceProps($props);
+			$props = $this->membershipService->createOrProlongMembership(
+				$user->getId(),
+				$levelId,
+				$isUnlimited,
+				$days
+			) + $props;
+			$props = $this->enhanceProps($props) + $props;
 		}
 
-		$wasUserCreatedNow = isset($props['new_user']) && $props['new_user'];
+		$wasUserCreatedNow = isset($props['new_user']) && $props['new_user'] === true;
 		$levels = $this->levelRepository->getLevelsByIds($levelIds);
 
 		$emailsToSend = $this->emailService->findEmailsToSend($user->getId(), $levels, $wasUserCreatedNow);

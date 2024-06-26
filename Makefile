@@ -85,3 +85,8 @@ isset-version:
 ifndef version
 	$(error version not found. Please provide a version like 'make prepare-deploy version=x.y.z')
 endif
+
+git-branch-update:
+	git add -A
+	git commit --amend
+	git push --force
