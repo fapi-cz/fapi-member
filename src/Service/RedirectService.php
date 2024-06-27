@@ -146,13 +146,22 @@ class RedirectService
 
 		$pages = array_unique(array_filter($pages));
 
-		if (count($pages) !== 1) {
-			$dashboardPageId = $this->pageRepository->getCommonDashboardPageId();
-			$defaultDashboardUrl = $this->pageRepository->getPageUrlById($dashboardPageId);
 
-			if ($defaultDashboardUrl !== null) {
-				return $defaultDashboardUrl;
+
+		if (count($pages) === 1) {
+			$pageId = array_shift($pages);
+			$pageUrl = $this->pageRepository->getPageUrlById($pageId);
+
+			if ($pageUrl !== null) {
+				return $pageUrl;
 			}
+		}
+
+		$dashboardPageId = $this->pageRepository->getCommonDashboardPageId();
+		$defaultDashboardUrl = $this->pageRepository->getPageUrlById($dashboardPageId);
+
+		if ($defaultDashboardUrl !== null) {
+			return $defaultDashboardUrl;
 		}
 
 		if (count($pages) > 1) {
