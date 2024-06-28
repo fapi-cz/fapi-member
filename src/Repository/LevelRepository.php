@@ -164,6 +164,10 @@ class LevelRepository extends Repository
 	 */
 	private function termsToSections(array $terms): array
 	{
+		if ($terms === []) {
+			return $terms;
+		}
+
 		$sectionTerms = $this->filterSections($terms);
 		$levelTerms = $this->filterLevels($terms);
 		$sections = [];
