@@ -2,6 +2,7 @@
 
 namespace FapiMember\Repository;
 
+use WP_Error;
 use WP_Term;
 
 abstract class Repository
@@ -18,7 +19,13 @@ abstract class Repository
 
 		$query = array_merge($query, $params);
 
-		return get_terms($query);
+		$terms = get_terms($query);
+
+		if ($terms instanceof WP_Error) {
+			return [];
+		}
+
+		return $terms;
 	}
 
 	protected function getTermById(int $id): WP_Term|null
