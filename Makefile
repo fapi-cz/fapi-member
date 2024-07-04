@@ -86,7 +86,22 @@ ifndef version
 	$(error version not found. Please provide a version like 'make prepare-deploy version=x.y.z')
 endif
 
-git-branch-update:
+git-commit:
 	git add -A
-	git commit --amend
+	@if [ -z "$(m)" ]; then \
+		git commit --amend --no-edit; \
+	else \
+		git commit -m "$(m)"; \
+	fi
+
+git-push:
+	@if [ -z "$(m)" ]; then \
+		$(MAKE) git-commit; \
+	else \
+		$(MAKE) git-commit m="$(m)"; \
+	fi
 	git push --force
+
+git-rebase-master:
+	git fetch --all --prune
+	git rebase origin/master
