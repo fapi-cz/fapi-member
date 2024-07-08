@@ -105,6 +105,7 @@ class MembershipService
 		}
 
 		$this->extendMembershipsToSections($userId);
+		$this->timeUnlockLevelsForUser($userId);
 
 		return $props;
 	}
