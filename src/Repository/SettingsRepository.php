@@ -15,7 +15,7 @@ class SettingsRepository extends Repository
 		}
 	}
 
-	public function getSettings(): Settings|null
+	public function getSettings(): Settings
 	{
 		$option = get_option(OptionKey::SETTINGS);
 
@@ -38,10 +38,10 @@ class SettingsRepository extends Repository
 		update_option(OptionKey::SETTINGS, $settings->toArray());
 	}
 
-	private function optionToSettings(array|bool $option): Settings|null
+	private function optionToSettings(array|bool $option): Settings
 	{
 		if ($option === false) {
-			return null;
+			return new Settings([]);
 		}
 
 		return new Settings($option);
