@@ -129,9 +129,8 @@ class RedirectService
 			return get_site_url();
 		}
 
-		if (current_user_can(UserPermission::REQUIRED_CAPABILITY)) {
-			// todo change this to admin dashboard
-			return '';
+		if (user_can($userId, UserPermission::REQUIRED_CAPABILITY)) {
+			return admin_url();
 		}
 
 		$memberships = $this->membershipService->getActiveByUserIdAndUpdate($userId);
@@ -145,8 +144,6 @@ class RedirectService
 		);
 
 		$pages = array_unique(array_filter($pages));
-
-
 
 		if (count($pages) === 1) {
 			$pageId = array_shift($pages);
