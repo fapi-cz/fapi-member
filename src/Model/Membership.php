@@ -50,6 +50,11 @@ class Membership
 		return $this->isUnlimited;
 	}
 
+	public function setRegistered(DateTimeImmutable|null $registered): void
+	{
+		$this->registered = DateTimesImmutable::fromOrNull($registered);
+	}
+
 	public function setUntil(DateTimeImmutable|null $until): void
 	{
 		$this->until = DateTimesImmutable::fromOrNull($until);
