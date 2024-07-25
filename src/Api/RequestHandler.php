@@ -146,6 +146,32 @@ class RequestHandler
 			$days = null;
 		}
 
+		if (isset($data['id']) && $days !== null) {
+			$invoice = $this->apiService->getInvoice((int) $data['id']);
+			$repaymentNumber = $invoice['repayment_number'] ?? 1;
+			$repaymentInvoices = $this->apiService->getAllInvoicesInRepayment((int) $data['id']);
+			$highestRepayment = 1;
+
+			if ($repaymentNumber !== 0 && $repaymentNumber !== null) {
+				foreach ($repaymentInvoices as $repaymentInvoice) {
+					if (
+						isset($repaymentInvoice['repayment_number']) &&
+						$repaymentInvoice['repayment_number'] > $highestRepayment
+					) {
+						$highestRepayment = $repaymentInvoice['repayment_number'];
+					}
+				}
+
+				$repaymentDays = intdiv($days, $highestRepayment);
+
+				if ($repaymentNumber === 1) {
+					$repaymentDays += $days % $highestRepayment;
+				}
+
+				$days = $repaymentDays;
+			}
+		}
+
 		$isUnlimited = $days === null;
 		$props = [];
 		$user = $this->userService->getOrCreateUser($userData, $props);
