@@ -6,7 +6,6 @@ use FapiMember\Container\Container;
 use FapiMember\Model\Enums\Format;
 use FapiMember\Model\Enums\Keys\MetaKey;
 use FapiMember\Model\Enums\Types\LevelUnlockType;
-use FapiMember\Model\MemberSection;
 use FapiMember\Model\Membership;
 use FapiMember\Repository\LevelRepository;
 use FapiMember\Repository\MembershipHistoryRepository;
@@ -41,12 +40,27 @@ class MembershipService
 	}
 
 	/**
+	 * @return  array<Membership>
+	 */
+	public function getActiveByUserId(int $userId): array
+	{
+		return $this->membershipRepository->getActiveByUserId($userId);
+	}
+
+	/**
 	 * @param array<Membership> $memberships
 	 */
 	public function saveAll(int $userId, array $memberships): void
 	{
 		$this->membershipRepository->saveAll($userId, $memberships);
+		$this->fixMemberships($userId);
+	}
+
+	public function fixMemberships(int $userId): void
+	{
 		$this->timeUnlockLevelsForUser($userId);
+		$this->extendSectionsDates($userId);
+		$this->extendMembershipsToSections($userId);
 	}
 
 	public function saveOne(Membership $newMembership): void
@@ -69,7 +83,7 @@ class MembershipService
 
 	public function update(Membership $updatedMembership): void
 	{
-		$memberships = $this->getActiveByUserIdAndUpdate($updatedMembership->getUserId());
+		$memberships = $this->getActiveByUserId($updatedMembership->getUserId());
 		$found = false;
 
 		foreach ($memberships as $key => $membership) {
@@ -105,8 +119,7 @@ class MembershipService
 			$props = $this->createMembership($userId, $levelId, $isUnlimited, $days);
 		}
 
-		$this->extendMembershipsToSections($userId);
-		$this->timeUnlockLevelsForUser($userId);
+		$this->fixMemberships($userId);
 
 		return $props;
 	}
@@ -297,52 +310,57 @@ class MembershipService
 
 				$this->saveOne($newMembership);
 			}
-
-			$this->extendSectionDatesByLevels($section, $userId);
 		}
 	}
 
-	private function extendSectionDatesByLevels(MemberSection $section, int $userId): void
+	private function extendSectionsDates(int $userId): void
 	{
-		$parentMembership = $this->membershipRepository->getOneByUserIdAndLevelId($userId, $section->getId());
-		$memberships = $this->membershipRepository->getAllLevelMembershipsByUserIdAndSectionId($userId, $section->getId());
-		$newRegistered = null;
-		$newUntil = null;
-		$newIsUnlimited = null;
+		$sections = $this->levelRepository->getAllSections();
 
-		foreach ($memberships as $membership) {
-			if (
-				$membership->getRegistered() < $parentMembership->getRegistered()
-				&& ($newRegistered === null || $membership->getRegistered() < $newRegistered)
-			) {
-				$newRegistered = $membership->getRegistered();
+		foreach ($sections as $section) {
+			$parentMembership = $this->membershipRepository->getOneByUserIdAndLevelId($userId, $section->getId());
+			$memberships = $this->membershipRepository->getAllLevelMembershipsByUserIdAndSectionId($userId, $section->getId());
+			$newRegistered = null;
+			$newUntil = null;
+			$newIsUnlimited = null;
+			
+			foreach ($memberships as $membership) {
+				if (
+					$membership->getRegistered() < $parentMembership->getRegistered()
+					&& ($newRegistered === null || $membership->getRegistered() < $newRegistered)
+				) {
+					$newRegistered = $membership->getRegistered();
+				}
+
+				if (
+					$parentMembership->isUnlimited() !== true
+					&& $membership->getUntil() !== null
+					&& $membership->getUntil() > $parentMembership->getUntil()
+					&& ($newUntil === null || $membership->getUntil() > $newUntil)
+				) {
+					$newUntil = $membership->getUntil();
+				}
+
+				if ($membership->isUnlimited() && !$parentMembership->isUnlimited()) {
+					$newIsUnlimited = true;
+				}
 			}
 
-			if (
-				$parentMembership->isUnlimited() !== true
-				&& $membership->getUntil() !== null
-				&& $membership->getUntil() > $parentMembership->getUntil()
-				&& ($newUntil === null || $membership->getUntil() > $newUntil)
-			) {
-				$newUntil = $membership->getUntil();
+			if ($newRegistered !== null) {
+				$parentMembership->setRegistered($newRegistered);
 			}
 
-			if ($membership->isUnlimited()) {
-				$newIsUnlimited = true;
+			if ($newIsUnlimited === true) {
+				$parentMembership->setIsUnlimited(true);
+				$parentMembership->setUntil(null);
+			} else if ($newUntil !== null) {
+				$parentMembership->setUntil($newUntil);
+			}
+
+			if ($newUntil !== null || $newRegistered !== null || $newIsUnlimited === true) {
+				$this->update($parentMembership);
 			}
 		}
-
-		if ($newRegistered !== null) {
-			$parentMembership->setRegistered($newRegistered);
-		}
-
-		if ($newIsUnlimited === true) {
-			$parentMembership->setIsUnlimited(true);
-		} else if ($newUntil !== null) {
-			$parentMembership->setUntil($newUntil);
-		}
-
-		$this->update($parentMembership);
 	}
 
 	public function timeUnlockLevelsForAllUsers(): void
