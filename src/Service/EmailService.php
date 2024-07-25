@@ -133,9 +133,9 @@ class EmailService
 
 	public function getEmailFromPaidInvoice(array $data): array
 	{
-		$invoice = $this->apiService->getInvoice( $data['id'] );
+		$invoice = $this->apiService->getInvoice((int) $data['id']);
 
-		if ( $invoice === false ) {
+		if ($invoice === false) {
 			$this->apiService->callbackError(
 				array(
 					'class' => self::class,

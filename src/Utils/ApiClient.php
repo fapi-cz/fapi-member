@@ -132,6 +132,19 @@ class ApiClient
 		return json_decode($response['body'], true);
 	}
 
+	public function getAllRepaymentInvoices(int $partialParent): false|array
+	{
+		$response = $this->retryRequest(
+			$this->apiUrl . 'invoices/?partial_parent=' . $partialParent,
+		);
+
+		if (!$response) {
+			return false;
+		}
+
+		return json_decode($response['body'], true);
+	}
+
 	public function getForms(): mixed
 	{
 		$response = $this->retryRequest($this->apiUrl . 'forms');

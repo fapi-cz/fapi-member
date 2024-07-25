@@ -80,13 +80,29 @@ class ApiService
 		return false;
 	}
 
-	public function getInvoice(int $id ): false|array
+	public function getInvoice(int $id): false|array
 	{
-		foreach ($this->getApiClients() as $apiClient ) {
+		foreach ($this->getApiClients() as $apiClient) {
 			$response = $apiClient->getInvoice($id);
 
 			if (is_array($response) && ! isset($response['error'])) {
 				return $response;
+			}
+		}
+
+		return false;
+	}
+
+	public function getAllInvoicesInRepayment(int $invoiceId): false|array
+	{
+		$invoice = $this->getInvoice($invoiceId);
+		$partialParent = (int) $invoice['partial_parent'];
+
+		foreach ($this->getApiClients() as $apiClient) {
+			$response = $apiClient->getAllRepaymentInvoices($partialParent);
+
+			if ($response !== false && isset($response['invoices']) && count($response['invoices']) > 0) {
+				return $response['invoices'];
 			}
 		}
 
