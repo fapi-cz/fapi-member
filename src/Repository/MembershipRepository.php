@@ -78,6 +78,25 @@ class MembershipRepository extends Repository
 		return null;
 	}
 
+	/** @return  array<Membership> */
+
+	public function getAllLevelMembershipsByUserIdAndSectionId(int $userId, int $sectionId): array
+	{
+		$memberships = $this->getAllByUserId($userId);
+		$section = $this->levelRepository->getSectionById($sectionId);
+		$result = [];
+
+		foreach ($memberships as $membership) {
+			foreach ($section->getLevels() as $level) {
+				if ($level->getId() === $membership->getLevelId()) {
+					$result[] = $membership;
+				}
+			}
+		}
+
+		return $result;
+	}
+
 	public function update(int $userId, Membership $membership): void
 	{
 		$meta = $this->getUserMeta($userId);
