@@ -58,9 +58,9 @@ class MembershipService
 
 	public function fixMemberships(int $userId): void
 	{
+		$this->extendMembershipsToSections($userId);
 		$this->timeUnlockLevelsForUser($userId);
 		$this->extendSectionsDates($userId);
-		$this->extendMembershipsToSections($userId);
 	}
 
 	public function saveOne(Membership $newMembership): void
@@ -319,12 +319,18 @@ class MembershipService
 
 		foreach ($sections as $section) {
 			$parentMembership = $this->membershipRepository->getOneByUserIdAndLevelId($userId, $section->getId());
+
 			$memberships = $this->membershipRepository->getAllLevelMembershipsByUserIdAndSectionId($userId, $section->getId());
 			$newRegistered = null;
 			$newUntil = null;
 			$newIsUnlimited = null;
+
 			
 			foreach ($memberships as $membership) {
+				if ($membership?->getRegistered() === null) {
+					continue;
+				}
+
 				if (
 					$membership->getRegistered() < $parentMembership->getRegistered()
 					&& ($newRegistered === null || $membership->getRegistered() < $newRegistered)
