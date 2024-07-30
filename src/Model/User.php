@@ -69,4 +69,15 @@ class User
 		return $this->login;
 	}
 
+	public function toArray(): array
+	{
+		return [
+			'id' => $this->id,
+			'email' => $this->email,
+			'first_name' => $this->firstName,
+			'last_name' => $this->lastName,
+			'login_name' => $this->loginName,
+		];
+	}
+
 }

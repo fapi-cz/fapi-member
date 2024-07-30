@@ -45,12 +45,18 @@ js-outdated: ## List editor outdated dependencies
 
 build: ## Builds the plugin source code
 	[ -d wp-build ] && rm -d -r wp-build
+	[ -d wp-build-test ] && rm -d -r wp-build-test
+	(cd app && npm install)
+	make react-build
+	mkdir wp-build-test
+	mkdir wp-build-test/fapi-member
 	mkdir wp-build
+	mkdir wp-build/app
 	mkdir wp-build/multiple-blocks
 	cp fapi-member.php wp-build/fapi-member.php
 	cp uninstall.php wp-build/uninstall.php
 	cp -r src wp-build/src
-	cp -r templates wp-build/templates
+	cp -r app/dist wp-build/app/dist
 	cp -r vendor wp-build/vendor
 	cp -r libs wp-build/libs
 	cp -r media wp-build/media
@@ -67,11 +73,14 @@ build: ## Builds the plugin source code
 	find wp-build -type f -name '*.html' -delete
 	cp readme.txt wp-build/readme.txt
 	rm -d -r wp-build/media/font/specimen_files
+	cp -r wp-build/* wp-build-test/fapi-member/
+	(cd wp-build-test && zip -r fapi-member.zip fapi-member)
+	rm -rf wp-build-test/fapi-member
 
 prepare-deploy: isset-version ## prepares everything for a deploy
 	docker exec node /bin/sh -c 'yarn --cwd multiple-blocks install'
 	docker exec node /bin/sh -c 'yarn --cwd multiple-blocks build'
-	composer update
+	composer install
 	make -B build -i
 	rm -rf wp-svn
 	svn co https://plugins.svn.wordpress.org/fapi-member wp-svn
@@ -105,3 +114,6 @@ git-push:
 git-rebase-master:
 	git fetch --all --prune
 	git rebase origin/master
+
+react-build:
+	npm --prefix ./app run build

@@ -26,6 +26,6 @@ class OptionKey extends Enum
 
 	const POST_TYPES = 'fapi_member_post_types';
 
-	const LEVELS_ORDER = 'fapi_levels_order';
+	const LEVELS_ORDER = 'fapi_levels_order_new';
 
 }

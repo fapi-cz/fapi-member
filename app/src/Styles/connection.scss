@@ -1,0 +1,25 @@
+@import "vars";
+
+.content-connection {
+  padding: 10px;
+  display: grid;
+  grid-template-columns: auto max-content;
+  grid-template-rows: auto;
+  height: 100%;
+
+  table {
+    td {
+      text-align: center;
+    }
+  }
+
+  .connection-status {
+    &.connected {
+      color: $green;
+    }
+
+    &.error {
+      color: $red;
+    }
+  }
+}

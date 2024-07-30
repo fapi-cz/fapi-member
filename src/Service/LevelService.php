@@ -3,111 +3,74 @@
 namespace FapiMember\Service;
 
 use FapiMember\Container\Container;
-use FapiMember\Model\Enums\Keys\OptionKey;
+use FapiMember\Model\MemberSection;
 use FapiMember\Repository\LevelRepository;
 use FapiMember\Repository\PageRepository;
-use stdClass;
 
 class LevelService
 {
 	private LevelRepository $levelRepository;
+	private LevelOrderService $levelOrderService;
 	private PageRepository $pageRepository;
 
 	public function __construct()
 	{
 		$this->levelRepository = Container::get(LevelRepository::class);
+		$this->levelOrderService = Container::get(LevelOrderService::class);
 		$this->pageRepository = Container::get(PageRepository::class);
 	}
 
-	public function create(string $name, int|null $parentId = null): void
+	/** @return array<MemberSection>|null */
+	public function getAllSectionsInOrder(): array|null
+	{
+		$order = $this->levelOrderService->getOrder();
+		$sections = $this->levelRepository->getAllSections();
+		$orderedSections = [];
+
+		foreach ($sections as $section) {
+			$orderedLevels = [];
+			$levelOrder = $order[$section->getId()]['levels'];
+
+			foreach ($section->getLevels() as $level) {
+				$orderedLevels[$levelOrder[$level->getId()]] = $level;
+			}
+
+			if(count($section->getLevels()) !== count($orderedLevels)) {
+				return null;
+			}
+
+			ksort($orderedLevels);
+			$section->setLevels($orderedLevels);
+
+			$orderedSections[$order[$section->getId()]['index']] = $section;
+		}
+
+		if(count($sections) !== count($orderedSections)) {
+			return null;
+		}
+
+		ksort($orderedSections);
+
+		return $orderedSections;
+	}
+
+	public function create(string $name, int|null $parentId = null): bool
 	{
 		$levelId = $this->levelRepository->create($name, $parentId);
 
 		if ($levelId === null) {
-			return;
+			return false;
 		}
 
 		$level = $this->levelRepository->getLevelById($levelId);
 		$this->levelRepository->createDefaultLevelEmails($level);
+
+		return true;
 	}
 
 	public function updateName(int $id, string $name): void
 	{
 		$this->levelRepository->update($id, ['name' => $name]);
-	}
-
-	public function updateOrder(int $id, string $name): void
-	{
-	}
-
-	//TODO: refactor - doesnt work at all
-	// - need to update on level delete/create
-	// - throw away all data and save as an array
-	// - make a function that automatically deletes levels that dont exist
-	// - and orders levels that havenn't been ordered
-	public function order(int $id, string $direction): bool
-	{
-		$level = $this->levelRepository->getLevelById($id);
-		$sameParentLevels = $this->levelRepository->getLevelsByParentId($level->getParentId());
-
-		$currentPosition = 0;
-		$lastPosition = null;
-
-		foreach ($sameParentLevels as $sameParentLevel) {
-			if ($sameParentLevel->getId() === $level->getId()) {
-				$lastPosition = $currentPosition;
-				break;
-			}
-			$currentPosition++;
-		}
-
-		if ($direction === 'up') {
-			$newPosition = max(0, ($lastPosition - 1));
-		} else {
-			$newPosition = min((count($sameParentLevels) - 1), ($lastPosition + 1));
-		}
-
-		$siblings = [];
-
-		foreach ($sameParentLevels as $sameParentLevel) {
-			if ($sameParentLevel->getId() !== $level->getId()) {
-				$siblings[] = $sameParentLevel;
-			}
-		}
-
-		$newOrder = [];
-		$currentPosition = 0;
-
-		foreach ($siblings as $sibling) {
-			if ($newPosition === $currentPosition) {
-				$newOrder[] = (string) $level->getId();
-			}
-
-			$newOrder[] = (string) $sibling->getId();
-			$currentPosition++;
-		}
-
-		if ($newPosition === $currentPosition) {
-			$newOrder[] = (string) $level->getId();
-		}
-
-		$orderingPatch = new stdClass();
-
-		foreach ($newOrder as $order => $orderId ) {
-			$orderingPatch->{$orderId} = $order;
-		}
-
-		$oldOrdering = get_option(OptionKey::LEVELS_ORDER, (new stdClass()));
-
-		$ordering = clone $oldOrdering;
-
-		foreach (get_object_vars($orderingPatch) as $key => $val ) {
-			$ordering->{$key} = $val;
-		}
-
-//		update_option(OptionKey::LEVELS_ORDER, $ordering);
-
-		return true;
 	}
 
 	public function getLoginUrl(int|null $levelId = null): string

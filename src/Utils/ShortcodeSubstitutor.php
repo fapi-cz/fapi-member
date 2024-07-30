@@ -84,10 +84,10 @@ class ShortcodeSubstitutor
 
 		$setLoginPageId = $this->settingsRepository->getSetting(SettingsKey::LOGIN_PAGE);
 
-		if ( $setLoginPageId === null ) {
+		if ($setLoginPageId === null) {
 			$url = wp_login_url();
 		} else {
-			$url = get_permalink( $setLoginPageId );
+			$url = get_permalink($setLoginPageId);
 		}
 
 		return '
@@ -145,8 +145,8 @@ class ShortcodeSubstitutor
 
 	public function shortcodeLevelUnlockDate(array $attrs): string
 	{
-		if ( ! isset( $attrs['section'] ) ) {
-			return __( 'neznámá sekce nebo úrověň', 'fapi-member' );
+		if (!isset( $attrs['level'] ) ) {
+			return __( 'neznámá úrověň', 'fapi-member' );
 		}
 
 		$user = wp_get_current_user();
@@ -155,9 +155,9 @@ class ShortcodeSubstitutor
 			return __( 'uživatel není přihlášen', 'fapi-member' );
 		}
 
-		$sectionOrLevelId = (int) $attrs['section'];
+		$sectionOrLevelId = (int) $attrs['level'];
 
-		$dateFormat = get_option( 'date_format' );
+		$dateFormat = get_option('date_format');
 
 		if ( $dateFormat === null ) {
 			$dateFormat = 'Y-m-d';
@@ -170,15 +170,6 @@ class ShortcodeSubstitutor
 		foreach ($memberships as $membership) {
 			if ($membership->getLevelId() === $sectionOrLevelId) {
 				$currentMemberShip = $membership;
-			}
-
-			$level = $this->levelRepository->getLevelById($membership->getLevelId());
-
-			if ($membership->getLevelId() === $level->getParentId()) {
-				$parentMembership = $membership;
-			}
-
-			if ($currentMemberShip !== null && $parentMembership !== null) {
 				break;
 			}
 		}
@@ -190,6 +181,20 @@ class ShortcodeSubstitutor
 			return __( 'bez přístupu', 'fapi-member' );
 		}
 
+		$level = $this->levelRepository->getLevelById($sectionOrLevelId);
+
+		foreach ($memberships as $membership) {
+			if ($membership->getLevelId() === $level->getParentId()) {
+				$parentMembership = $membership;
+				break;
+			}
+		}
+
+		if (
+			$parentMembership === null
+		) {
+			return __( 'bez přístupu', 'fapi-member' );
+		}
 
 		if ($currentMemberShip === null && $parentMembership->getRegistered() !== null) {
 			$daysToUnlock = get_term_meta($sectionOrLevelId, MetaKey::DAYS_TO_UNLOCK, true);
@@ -204,7 +209,7 @@ class ShortcodeSubstitutor
 		}
 
 		if ($currentMemberShip->getUntil() === null) {
-			return __( 'neomezeně', 'fapi-member' );
+			return __( 'Neomezeně', 'fapi-member' );
 		}
 
 		return $currentMemberShip->getUntil()->format($dateFormat);
@@ -212,34 +217,18 @@ class ShortcodeSubstitutor
 
 	public function shortcodeUnlockLevel(array $attrs): string
 	{
-		if ( ! isset( $attrs['level'] ) ) {
-			return __( 'neznámá sekce nebo úrověň', 'fapi-member' );
+		if (!isset($attrs['level']) || $attrs['level'] === '') {
+			return __('neznámá sekce nebo úrověň', 'fapi-member');
 		}
 
-		$sectionOrLevelId = (int) $attrs['level'];
-		$html = $this->formStart('button_level_unlock');
-		$html .= '<input type="hidden" name="level" value="' . $sectionOrLevelId . '">';
+		$levelId = (int) $attrs['level'];
+		$page = isset($attrs['page'])
+			? '&page_id=' . (int) $attrs['page']
+			: '';
 
-		if (isset($attrs['page'])) {
-			$html .= '<input type="hidden" name="page" value="' . $attrs['page'] . '">';
-		}
-
-		$html .= '<button class="unlock-level-button" type="submit" name="submit"">Odemknout úroveň</button></form>';
-
-		return $html;
-	}
-
-	/** @param string $hook */ //TODO: change or remove when adding react
-	public static function formStart(string $hook, array $formClasses = []): string
-	{
-		$class = ( empty( $formClasses ) ) ? '' : sprintf( ' class="%s"', implode( ' ', $formClasses ) );
-
-		return '
-			<form ' . $class . ' method="post" action="' . admin_url( 'admin-post.php' ) . '">
-				<input type="hidden" name="action" value="fapi_member_' . $hook . '">
-				<input type="hidden" name="fapi_member_' . $hook . '_nonce"
-					   value="' . wp_create_nonce( 'fapi_member_' . $hook . '_nonce' ) . '">
-		';
+		return '<a href="?rest_route=/fapi/v2/memberships&action=unlockLevelForLoggedInUser&level_id='
+			. $levelId . '&user_id=' . $this->userRepository->getCurrentUser()->getId() . $page .
+			'" class="button-level-unlock-link">Odemknout úroveň</a>';
 	}
 
 }

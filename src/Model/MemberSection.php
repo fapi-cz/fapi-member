@@ -13,11 +13,17 @@ final class MemberSection extends MemberLevel
 	{
 		parent::__construct($data);
 
-		$this->setLevels(Arrays::extractOrNull($data, 'levels') ?? []);
+		$this->setLevelsFromData(Arrays::extractOrNull($data, 'levels') ?? []);
+	}
+
+	/**@return  array<MemberLevel>*/
+	public function getLevels(): array
+	{
+		return $this->levels;
 	}
 
 	/**@param array<mixed>*/
-	private function setLevels(array $levelsData): void
+	private function setLevelsFromData(array $levelsData): void
 	{
 		$levels = [];
 
@@ -28,10 +34,10 @@ final class MemberSection extends MemberLevel
 		$this->levels = $levels;
 	}
 
-	/**@return  array<MemberLevel>*/
-	public function getLevels(): array
+	/**@param  array<MemberLevel> $levels*/
+	public function setLevels(array $levels): void
 	{
-		return $this->levels;
+		$this->levels = $levels;
 	}
 
 	public function toArray(): array

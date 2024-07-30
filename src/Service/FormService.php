@@ -64,7 +64,7 @@ class FormService
 	{
 		$nonce = sprintf( 'fapi_member_%s_nonce', $hook );
 
-		if (!isset($_POST[ $nonce ])
+		if (!isset($_POST[$nonce])
 			|| !wp_verify_nonce($_POST[$nonce], $nonce)
 		) {
 			wp_die(__('Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a odeslat znovu.', 'fapi-member'));

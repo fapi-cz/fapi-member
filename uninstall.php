@@ -1,6 +1,6 @@
 <?php
 
-namespace FapiMember;
+namespace FapiMemberOld;
 
 // if uninstall.php is not called by WordPress, die
 use FapiMember\Model\Enums\Keys\MetaKey;
@@ -17,7 +17,7 @@ $options = [
 	OptionKey::SETTINGS,
 	OptionKey::API_USER,
 	OptionKey::API_KEY,
-	OptionKey::API_CREDENTIALS
+	OptionKey::API_CREDENTIALS,
 ];
 
 foreach ($options as $o) {

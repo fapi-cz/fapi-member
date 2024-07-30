@@ -38,6 +38,39 @@ class ApiService
 		return $fapiConnections;
 	}
 
+	/** @return array<ApiConnection> */
+	public function getApiConnections(): array
+	{
+		$clients = $this->getApiClients();
+		$connections = [];
+
+		foreach ($clients as $client) {
+			$connections[] = $client->getConnection();
+		}
+
+		return $connections;
+	}
+
+	public function removeCredentials(string $token): void
+	{
+		$credentials = json_decode(get_option(OptionKey::API_CREDENTIALS)) ?? [];
+
+		foreach ($credentials as $user => $credential) {
+			if  ($credential->token === $token) {
+				unset( $credentials[$user]);
+			}
+		}
+
+		if (empty($credentials)) {
+			update_option(OptionKey::API_CREDENTIALS, '');
+		} else {
+			update_option(OptionKey::API_CREDENTIALS, json_encode(array_values($credentials)));
+		}
+
+		$credentialsOk = $this->checkCredentials();
+		update_option(OptionKey::API_CHECKED, $credentialsOk);
+	}
+
 	/** @return array<string> */
 	public function getLastErrors(): array
 	{
@@ -125,6 +158,29 @@ class ApiService
 		return $credentialsOk;
 	}
 
+	public function getCredentialsStatuses(): array
+	{
+		$credentialsOk = true;
+		$clients = $this->getApiClients();
+
+		if (count($clients) === 0) {
+			return [];
+		}
+
+		$statuses = [];
+
+		foreach ($clients as $client) {
+			$statuses[$client->getConnection()->getApiKey()] = $client->checkCredentials();
+		}
+
+		return $statuses;
+	}
+
+	public function getApiToken(): string
+	{
+		return get_option(OptionKey::TOKEN, '');
+	}
+
 	public function createConnection($webUrl, ApiClient $apiClient): ApiConnection|null
 	{
 		$response = wp_remote_request(
@@ -160,6 +216,7 @@ class ApiService
 		return get_option(OptionKey::API_CHECKED, false);
 	}
 
+	/** @deprecated  */ //used only in API V1
 	public function callbackError(array $data): never
 	{
 		wp_send_json_error(

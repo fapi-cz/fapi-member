@@ -68,13 +68,25 @@ class Membership
 	/**
 	 * @return array<mixed>
 	 */
-	public function jsonSerialize(): array {
+	public function jsonSerialize(): array
+	{
 		return array(
 			'level' => $this->levelId,
 			'registered' => $this->registered->format(Format::DATE_TIME) ?? null,
 			'until' => $this->until?->format(Format::DATE_TIME) ?? null,
 			'isUnlimited' => $this->isUnlimited,
 		);
+	}
+
+	public function toArray(): array
+	{
+		return [
+			'level' => $this->levelId,
+			'user_id' => $this->userId,
+			'registered' => $this->registered->format(Format::DATE_TIME) ?? null,
+			'until' => $this->until?->format(Format::DATE_TIME) ?? null,
+			'is_unlimited' => $this->isUnlimited,
+		];
 	}
 
 }

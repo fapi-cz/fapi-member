@@ -33,8 +33,8 @@ class EmailService
 			return false;
 		}
 
-		$subject = $emails[ $type ]['s'];
-		$body = $emails[ $type ]['b'];
+		$subject = $emails[$type]['s'];
+		$body = $emails[$type]['b'];
 		$subject = EmailHelper::replaceShortcodes($subject, $props);
 		$body = EmailHelper::replaceShortcodes($body, $props);
 
@@ -83,7 +83,7 @@ class EmailService
 		$itemTemplate = $this->apiService->getItemTemplate($voucherItemTemplateCode);
 
 		if ($voucher === false) {
-			$this->apiService->callbackError(
+			$this->apiController->callbackError(
 				array(
 					'class' => self::class,
 					'description' => 'Error getting voucher.',
@@ -102,7 +102,7 @@ class EmailService
 				$data['time'],
 				$data['security'],
 		)) {
-			$this->apiService->callbackError(
+			$this->apiController->callbackError(
 				array(
 					'class' => self::class,
 					'description' => 'Voucher security is not valid.',
@@ -111,7 +111,7 @@ class EmailService
 		}
 
 		if (!isset($voucher['status']) || $voucher['status'] !== 'applied') {
-			$this->apiService->callbackError(
+			$this->apiController->callbackError(
 				array(
 					'class' => self::class,
 					'description' => 'Voucher is not applied.',
@@ -120,7 +120,7 @@ class EmailService
 		}
 
 		if (!isset( $voucher['applicant']['email'])) {
-			$this->apiService->callbackError(
+			$this->apiController->callbackError(
 				array(
 					'class' => self::class,
 					'description' => 'Cannot find applicant email in API response.',
@@ -136,7 +136,7 @@ class EmailService
 		$invoice = $this->apiService->getInvoice((int) $data['id']);
 
 		if ($invoice === false) {
-			$this->apiService->callbackError(
+			$this->apiController->callbackError(
 				array(
 					'class' => self::class,
 					'description' => 'Error getting invoice.',
@@ -148,7 +148,7 @@ class EmailService
 		if (!FapiMemberPlugin::isDevelopment() &&
 			!SecurityValidator::isInvoiceSecurityValid($invoice, $data['time'], $data['security'])
 		) {
-			$this->apiService->callbackError(
+			$this->apiController->callbackError(
 				array(
 					'class' => self::class,
 					'description' => 'Invoice security is not valid.',
@@ -157,7 +157,7 @@ class EmailService
 		}
 
 		if (isset($invoice['parent'])) {
-			$this->apiService->callbackError(
+			$this->apiController->callbackError(
 				array(
 					'class' => self::class,
 					'description' => 'Invoice parent is set and not null.',
@@ -166,7 +166,7 @@ class EmailService
 		}
 
 		if (!isset($invoice['customer']['email'])) {
-			$this->apiService->callbackError(
+			$this->apiController->callbackError(
 				array(
 					'class' => self::class,
 					'description' => 'Cannot find customer email in API response.',
@@ -186,7 +186,7 @@ class EmailService
 		$token = get_option(OptionKey::TOKEN, null);
 
 		if ($data['token'] !== $token) {
-			$this->apiService->callbackError(
+			$this->apiController->callbackError(
 				array(
 					'class' => self::class,
 					'description' => 'Invalid token provided. Check token correctness.',
@@ -195,7 +195,7 @@ class EmailService
 		}
 
 		if (!isset($data['email'])) {
-			$this->apiService->callbackError(
+			$this->apiController->callbackError(
 				array(
 					'class' => self::class,
 					'description' => 'Parameter email is missing.',
