@@ -4,7 +4,8 @@ class DateTimeHelper {
 
   static getCurrentDateTime() {
         const currentDateTime = new Date();
-        const offset = window.environmentData.timeZone;
+        const offset = window.environmentData.timeZoneOffset;
+        const offsetMilliseconds = offset * 60 * 60 * 1000;
 
         const utcDateTime = new Date(Date.UTC(
             currentDateTime.getUTCFullYear(),
@@ -15,14 +16,10 @@ class DateTimeHelper {
             currentDateTime.getUTCSeconds()
         ));
 
-        const [offsetSign, offsetHours, offsetMinutes] = offset.match(/([+-])(\d{2}):(\d{2})/).slice(1);
-        const offsetTotalMinutes = parseInt(offsetHours) * 60 + parseInt(offsetMinutes);
-        const offsetInMilliseconds = offsetTotalMinutes * 60 * 1000 * (offsetSign === '+' ? 1 : -1);
-
-        const adjustedDateTime = new Date(utcDateTime.getTime() + offsetInMilliseconds);
+        const adjustedDateTime = new Date(utcDateTime.getTime() + offsetMilliseconds);
 
         const year = adjustedDateTime.getUTCFullYear();
-        const month = String(adjustedDateTime.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const month = String(adjustedDateTime.getUTCMonth() + 1).padStart(2, '0');
         const day = String(adjustedDateTime.getUTCDate()).padStart(2, '0');
         const hours = String(adjustedDateTime.getUTCHours()).padStart(2, '0');
         const minutes = String(adjustedDateTime.getUTCMinutes()).padStart(2, '0');
