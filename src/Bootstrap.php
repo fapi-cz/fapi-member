@@ -264,7 +264,7 @@ final class Bootstrap
 		);
 
 		wp_localize_script('fm-react-app', 'environmentData', array(
-        'timeZone' => wp_timezone_string(),
+        'timeZoneOffset' => get_option('gmt_offset'),
     ));
 	}
 
