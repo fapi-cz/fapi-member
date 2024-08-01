@@ -26,7 +26,7 @@ class DateTimeHelper
 		$dateTime = DateTimeImmutable::createFromFormat(
 			$format,
 			$dateTimeString,
-			wp_timezone()
+			wp_timezone(),
 		);
 
 		return $dateTime !== false ? $dateTime : null;

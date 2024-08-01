@@ -82,12 +82,14 @@ class LevelRepository extends Repository
 		string|null $timeUnlock,
 		int|null $daysToUnlock,
 		string|null $dateUnlock,
+		int $hourUnlock,
 	): void
 	{
 		update_term_meta($levelId, MetaKey::BUTTON_UNLOCK, $buttonUnlock);
 		update_term_meta($levelId, MetaKey::TIME_UNLOCK, $timeUnlock);
 		update_term_meta($levelId, MetaKey::DAYS_TO_UNLOCK, $daysToUnlock);
 		update_term_meta($levelId, MetaKey::DATE_UNLOCK, $dateUnlock);
+		update_term_meta($levelId, MetaKey::HOUR_UNLOCK, $hourUnlock);
 	}
 
 	/**
@@ -188,15 +190,26 @@ class LevelRepository extends Repository
 		return (int) $termMeta;
 	}
 
-	public function getDateUnlock(int $levelId): string
+	public function getDateUnlock(int $levelId): string|null
 	{
 		$termMeta = $this->getTermMeta($levelId, MetaKey::DATE_UNLOCK);
 
 		if ($termMeta === false || $termMeta === '') {
-			return '';
+			return null;
 		}
 
 		return $termMeta;
+	}
+
+	public function getHourUnlock(int $levelId): int
+	{
+		$termMeta = $this->getTermMeta($levelId, MetaKey::HOUR_UNLOCK);
+
+		if ($termMeta === false || $termMeta === '') {
+			return 0;
+		}
+
+		return (int) $termMeta;
 	}
 
 	/**

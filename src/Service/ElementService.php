@@ -2,33 +2,25 @@
 
 namespace FapiMember\Service;
 
-use DateTimeInterface;
 use FapiMember\Container\Container;
 use FapiMember\Model\Enums\PostValue;
 use FapiMember\Model\Enums\UserPermission;
 use FapiMember\Model\MemberLevel;
 use FapiMember\Model\MemberSection;
 use FapiMember\Repository\LevelRepository;
-use FapiMember\Repository\MembershipRepository;
 use FapiMember\Repository\UserRepository;
 use FapiMember\Utils\PostTypeHelper;
-use FapiMember\Utils\TemplateProvider;
 use WP_Post;
-use WP_User;
 use function add_meta_box;
 
 class ElementService
 {
-	private TemplateProvider $templateProvider;
 	private LevelRepository $levelRepository;
-	private MembershipRepository $membershipRepository;
 	private UserRepository $userRepository;
 
 	public function __construct()
 	{
-		$this->templateProvider = Container::get(TemplateProvider::class);
 		$this->levelRepository = Container::get(LevelRepository::class);
-		$this->membershipRepository = Container::get(MembershipRepository::class);
 		$this->userRepository = Container::get(UserRepository::class);
 	}
 

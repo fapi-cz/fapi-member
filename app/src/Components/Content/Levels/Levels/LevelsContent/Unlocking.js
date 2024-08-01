@@ -4,6 +4,7 @@ import SubmitButton from "Components/Elements/SubmitButton";
 import Loading from "Components/Elements/Loading";
 import MemberSectionClient from "Clients/MemberSectionClient";
 import {UnlockingType} from "Enums/UnlockingType";
+import HourPicker from "Components/Elements/HourPicker";
 
 function Unlocking({level}) {
     if (level.parentId === null) {
@@ -11,15 +12,16 @@ function Unlocking({level}) {
     }
 
     const [buttonUnlock, setButtonUnlock] = useState(null);
-    const [timeUnlock, setTimeUnlock] = useState(null);
+    const [timeUnlockType, setTimeUnlockType] = useState(null);
     const [daysUnlock, setDaysUnlock] = useState(0);
     const [dateUnlock, setDateUnlock] = useState(null);
+    const [hourUnlock, setHourUnlock] = useState(null);
     const [load, setLoad] = useState(true);
 
     const sectionClient = new MemberSectionClient();
 
     useEffect(() => {
-        setTimeUnlock(null);
+        setTimeUnlockType(null);
         setLoad(true);
     }, [level.id])
 
@@ -27,9 +29,10 @@ function Unlocking({level}) {
     const reloadUnlocking = async () => {
       await sectionClient.getUnlocking(level.id).then((data) => {
         setButtonUnlock(data[UnlockingType.BUTTON_UNLOCK]);
-        setTimeUnlock(data[UnlockingType.TIME_UNLOCK]);
+        setTimeUnlockType(data[UnlockingType.TIME_UNLOCK]);
         setDateUnlock(data[UnlockingType.DATE_UNLOCK]);
         setDaysUnlock(data[UnlockingType.DAYS_UNLOCK]);
+        setHourUnlock(data[UnlockingType.HOUR_UNLOCK]);
       });
 
       setLoad(false);
@@ -45,7 +48,7 @@ function Unlocking({level}) {
     }
 
     const handleChangeTimeUnlock = (event) => {
-        setTimeUnlock(
+        setTimeUnlockType(
             event.target.value,
         );
     }
@@ -62,20 +65,27 @@ function Unlocking({level}) {
         );
     }
 
+    const handleChangeHourUnlock = (event) => {
+        setHourUnlock(
+            parseInt(event.target.value),
+        );
+    }
+
     const handleUpdateUnlocking = async (event) => {
         event.preventDefault();
         await sectionClient.updateUnlocking(
             level.id,
             buttonUnlock,
-            timeUnlock,
+            timeUnlockType,
             daysUnlock,
             dateUnlock,
+            hourUnlock,
         )
 
         setLoad(true);
     }
 
-    if (timeUnlock === null || buttonUnlock === null) {
+    if (timeUnlockType === null || buttonUnlock === null) {
         return (<Loading/>);
     }
 
@@ -111,7 +121,7 @@ function Unlocking({level}) {
                     value="disallow"
                     id="disallow"
                     onClick={handleChangeTimeUnlock}
-                    defaultChecked={timeUnlock === 'disallow'}
+                    defaultChecked={timeUnlockType === 'disallow'}
                 />
                 <label htmlFor="disallow">Nepovolovat</label>
             </div>
@@ -123,7 +133,7 @@ function Unlocking({level}) {
                     value="date"
                     id="date"
                     onClick={handleChangeTimeUnlock}
-                    defaultChecked={timeUnlock === 'date'}
+                    defaultChecked={timeUnlockType === 'date'}
                 />
                 <label htmlFor="date">Od pevného data</label>
             </div>
@@ -135,12 +145,12 @@ function Unlocking({level}) {
                     value="days"
                     id="days"
                     onClick={handleChangeTimeUnlock}
-                    defaultChecked={timeUnlock === 'days'}
+                    defaultChecked={timeUnlockType === 'days'}
                 />
                 <label htmlFor="days">Počet dní od registrace</label>
             </div>
 
-            <div id="date-settings-content" hidden={timeUnlock !== 'date'}>
+            <div id="date-settings-content" hidden={timeUnlockType !== 'date'}>
                 <p>Datum kdy bude sekce/úroveň odemčena pro všechny uživatele.</p>
                 <input
                     className='fm-input'
@@ -149,8 +159,12 @@ function Unlocking({level}) {
                     defaultValue={dateUnlock}
                     onInput={handleChangeDateUnlock}
                 />
+                <span style={{margin: '0px 5px'}}>v</span>
+                {timeUnlockType === 'date'
+                    ? <HourPicker id={'unlock-hour'} onChange={handleChangeHourUnlock} defaultValue={hourUnlock}/>
+                    : null}
             </div>
-            <div id="days-settings-content" hidden={timeUnlock !== 'days'}>
+            <div id="days-settings-content" hidden={timeUnlockType !== 'days'}>
                 <p>Počet dní od registrace uživatele do členské sekce, po kterých má být vybraná sekce/úroveň zpřístupněna.</p>
                 <input
                     className='fm-input'
@@ -164,8 +178,12 @@ function Unlocking({level}) {
                         handleChangeDaysUnlock(e);
                     }}
                 />
-                <p>0 = Sekce bude přístupná ihned po registraci</p>
-                <p>3 = Sekce bude přístupná 3 den po registraci</p>
+                <span style={{margin: '0px 5px'}}>dní po registraci v</span>
+                {timeUnlockType === 'days'
+                    ? <HourPicker id={'unlock-hour'} onChange={handleChangeHourUnlock} defaultValue={hourUnlock}/>
+                    : null}
+                <p>0 dní po registraci v 0:00 = Sekce bude přístupná ihned po registraci</p>
+                <p>5 dní po registraci v 8:00 = Sekce bude přístupná 5. den po registraci v 8 hodin ráno</p>
             </div>
 
             <div className='vertical-divider'/>

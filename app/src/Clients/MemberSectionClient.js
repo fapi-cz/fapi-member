@@ -49,12 +49,14 @@ export default class MemberSectionClient extends Client {
 		timeUnlock = null,
 		daysUnlock = null,
 		dateUnlock = null,
+		hourUnlock = 0,
 	) {
 		const unlocking = {
 			[UnlockingType.BUTTON_UNLOCK]: buttonUnlock,
 			[UnlockingType.TIME_UNLOCK]: timeUnlock,
 			[UnlockingType.DAYS_UNLOCK]: daysUnlock,
 			[UnlockingType.DATE_UNLOCK]: dateUnlock,
+			[UnlockingType.HOUR_UNLOCK]: hourUnlock,
 		}
 
 		return await this.sendRequest('updateUnlocking', RequestMethodType.POST, {id: levelId, unlocking});

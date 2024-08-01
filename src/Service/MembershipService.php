@@ -391,19 +391,22 @@ class MembershipService
 
 			foreach ($section->getLevels() as $level) {
 				$unlockDate = null;
+				$unlockHour = $this->levelRepository->getHourUnlock($level->getId());
 
 				if ($level->getUnlockType() === LevelUnlockType::DAYS) {
-					$daysToUnlock = get_term_meta($level->getId(), MetaKey::DAYS_TO_UNLOCK, true);
-					$unlockDate = $membership->getRegistered()->getTimestamp() + (86400 * (int) $daysToUnlock);
+					$daysToUnlock = (int) get_term_meta($level->getId(), MetaKey::DAYS_TO_UNLOCK, true);
+					$date = $membership->getRegistered()->getTimestamp();
+					$unlockDate = $date - ($date % 86400) + (86400 * $daysToUnlock) + (3600 * $unlockHour);
 				} elseif ($level->getUnlockType() === LevelUnlockType::DATE) {
-					$unlockDate =  strtotime(
-						get_term_meta($level->getId(), MetaKey::DATE_UNLOCK, true)
-					);
+					$date = strtotime(get_term_meta($level->getId(), MetaKey::DATE_UNLOCK, true));
+					$unlockDate = $date - ($date % 86400) + (3600 * $unlockHour);
 				}
 
 				if ($unlockDate === null) {
 					continue;
 				}
+
+				$unlockDate -= 60;
 
 				if (DateTimeHelper::getNowTimestamp() >= $unlockDate) {
 					$this->saveOne(new Membership([
