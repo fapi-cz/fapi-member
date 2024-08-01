@@ -83,6 +83,7 @@ class LevelRepository extends Repository
 		int|null $daysToUnlock,
 		string|null $dateUnlock,
 		int $hourUnlock,
+		bool $afterDateUnlock,
 	): void
 	{
 		update_term_meta($levelId, MetaKey::BUTTON_UNLOCK, $buttonUnlock);
@@ -90,6 +91,7 @@ class LevelRepository extends Repository
 		update_term_meta($levelId, MetaKey::DAYS_TO_UNLOCK, $daysToUnlock);
 		update_term_meta($levelId, MetaKey::DATE_UNLOCK, $dateUnlock);
 		update_term_meta($levelId, MetaKey::HOUR_UNLOCK, $hourUnlock);
+		update_term_meta($levelId, MetaKey::AFTER_DATE_UNLOCK, $afterDateUnlock);
 	}
 
 	/**
@@ -199,6 +201,11 @@ class LevelRepository extends Repository
 		}
 
 		return $termMeta;
+	}
+
+	public function getAfterDateUnlock(int $levelId): bool
+	{
+		return (bool) $this->getTermMeta($levelId, MetaKey::AFTER_DATE_UNLOCK);
 	}
 
 	public function getHourUnlock(int $levelId): int

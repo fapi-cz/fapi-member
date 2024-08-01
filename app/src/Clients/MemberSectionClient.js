@@ -39,16 +39,13 @@ export default class MemberSectionClient extends Client {
 		await this.sendRequest('reorder', RequestMethodType.POST, {id: levelId, direction: direction});
 	}
 
-	async getUnlocking(levelId) {
-		return await this.sendRequest('getUnlocking', RequestMethodType.POST, {id: levelId});
-	}
-
 	async updateUnlocking(
 		levelId,
 		buttonUnlock = null,
 		timeUnlock = null,
 		daysUnlock = null,
 		dateUnlock = null,
+		afterDateUnlock = false,
 		hourUnlock = 0,
 	) {
 		const unlocking = {
@@ -56,9 +53,14 @@ export default class MemberSectionClient extends Client {
 			[UnlockingType.TIME_UNLOCK]: timeUnlock,
 			[UnlockingType.DAYS_UNLOCK]: daysUnlock,
 			[UnlockingType.DATE_UNLOCK]: dateUnlock,
+			[UnlockingType.AFTER_DATE_UNLOCK]: afterDateUnlock,
 			[UnlockingType.HOUR_UNLOCK]: hourUnlock,
 		}
 
 		return await this.sendRequest('updateUnlocking', RequestMethodType.POST, {id: levelId, unlocking});
+	}
+
+	async getUnlocking(levelId) {
+		return await this.sendRequest('getUnlocking', RequestMethodType.POST, {id: levelId});
 	}
 }

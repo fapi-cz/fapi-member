@@ -15,6 +15,7 @@ function Unlocking({level}) {
     const [timeUnlockType, setTimeUnlockType] = useState(null);
     const [daysUnlock, setDaysUnlock] = useState(0);
     const [dateUnlock, setDateUnlock] = useState(null);
+    const [afterDateUnlock, setAfterDateUnlock] = useState(null);
     const [hourUnlock, setHourUnlock] = useState(null);
     const [load, setLoad] = useState(true);
 
@@ -33,6 +34,7 @@ function Unlocking({level}) {
         setDateUnlock(data[UnlockingType.DATE_UNLOCK]);
         setDaysUnlock(data[UnlockingType.DAYS_UNLOCK]);
         setHourUnlock(data[UnlockingType.HOUR_UNLOCK]);
+        setAfterDateUnlock(data[UnlockingType.AFTER_DATE_UNLOCK] ?? false);
       });
 
       setLoad(false);
@@ -45,6 +47,10 @@ function Unlocking({level}) {
 
     const handleChangeButtonUnlock = (event) => {
         setButtonUnlock(event.target.checked);
+    }
+
+    const handleChangeAfterDateUnlock = (event) => {
+        setAfterDateUnlock(event.target.checked);
     }
 
     const handleChangeTimeUnlock = (event) => {
@@ -79,13 +85,14 @@ function Unlocking({level}) {
             timeUnlockType,
             daysUnlock,
             dateUnlock,
+            afterDateUnlock,
             hourUnlock,
         )
 
         setLoad(true);
     }
 
-    if (timeUnlockType === null || buttonUnlock === null) {
+    if (timeUnlockType === null || buttonUnlock === null || afterDateUnlock === null) {
         return (<Loading/>);
     }
 
@@ -163,6 +170,18 @@ function Unlocking({level}) {
                 {timeUnlockType === 'date'
                     ? <HourPicker id={'unlock-hour'} onChange={handleChangeHourUnlock} defaultValue={hourUnlock}/>
                     : null}
+                <br/><br/>
+                <div className='button-unlock-container'>
+                    <Checkbox
+                        id='after-date-unlocking'
+                        checked={afterDateUnlock}
+                        small={true}
+                        onClick={handleChangeAfterDateUnlock}
+                    />
+                    <p style={{margin: '0px'}}>
+                        Neodemykat pro uživatele registrované po uplynutí data
+                    </p>
+                </div>
             </div>
             <div id="days-settings-content" hidden={timeUnlockType !== 'days'}>
                 <p>Počet dní od registrace uživatele do členské sekce, po kterých má být vybraná sekce/úroveň zpřístupněna.</p>

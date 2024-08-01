@@ -10,6 +10,8 @@ class MetaKey extends Enum
 
 	const DATE_UNLOCK = 'fapi_date_unlock';
 
+	const AFTER_DATE_UNLOCK = 'fapi_after_date_unlock';
+
 	const HOUR_UNLOCK = 'fapi_hour_unlock';
 
 	const TIME_UNLOCK = 'fapi_time_unlock';
