@@ -399,7 +399,14 @@ class MembershipService
 					$unlockDate = $date - ($date % 86400) + (86400 * $daysToUnlock) + (3600 * $unlockHour);
 				} elseif ($level->getUnlockType() === LevelUnlockType::DATE) {
 					$date = strtotime(get_term_meta($level->getId(), MetaKey::DATE_UNLOCK, true));
-					$unlockDate = $date - ($date % 86400) + (3600 * $unlockHour);
+					$date = $date - ($date % 86400) + (3600 * $unlockHour);
+
+					if (
+						$this->levelRepository->getAfterDateUnlock($level->getId()) === false
+						|| $membership->getRegistered()->getTimestamp() < $date
+					) {
+						$unlockDate = $date;
+					}
 				}
 
 				if ($unlockDate === null) {

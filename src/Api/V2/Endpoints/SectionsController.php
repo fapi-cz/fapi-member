@@ -158,6 +158,7 @@ class SectionsController
 			MetaKey::DATE_UNLOCK => $this->levelRepository->getDateUnlock($levelId),
 			MetaKey::DAYS_TO_UNLOCK => $this->levelRepository->getDaysUnlock($levelId),
 			MetaKey::HOUR_UNLOCK => $this->levelRepository->getHourUnlock($levelId),
+			MetaKey::AFTER_DATE_UNLOCK => $this->levelRepository->getAfterDateUnlock($levelId),
 		];
 	}
 
@@ -176,6 +177,7 @@ class SectionsController
 				$body['unlocking'][MetaKey::DAYS_TO_UNLOCK] ?? null,
 				$body['unlocking'][MetaKey::DATE_UNLOCK] ?? null,
 				$body['unlocking'][MetaKey::HOUR_UNLOCK] ?? 0,
+				$body['unlocking'][MetaKey::AFTER_DATE_UNLOCK] ?? false,
 			);
 		} else {
 			$this->apiController->invalidParameterError('unlocking');

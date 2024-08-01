@@ -338,7 +338,7 @@
 .levels-unlocking {
     .button-unlock-container {
         display: grid;
-        grid-template-columns: 53px 22px;
+        grid-template-columns: max-content max-content;
         grid-template-rows: auto;
         gap: 7px;
     }
