@@ -258,22 +258,8 @@
 }
 
 .page-item {
-    display: grid;
-    grid-template-columns: min-content auto;
-    gap: 0px 0px;
-
-    .fm-checkbox {
-        grid-column: 1/2;
-        margin: 5px;
-    }
-
     .label {
-        grid-column: 2/3;
         padding: 0px !important;
-    }
-
-    .vertical-divider {
-        grid-column: 1/3
     }
 }
 

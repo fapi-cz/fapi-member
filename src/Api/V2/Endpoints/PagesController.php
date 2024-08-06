@@ -14,7 +14,6 @@ use FapiMember\Model\Settings;
 use FapiMember\Repository\LevelRepository;
 use FapiMember\Repository\PageRepository;
 use FapiMember\Repository\SettingsRepository;
-use FapiMember\Service\ApiService;
 use Throwable;
 use WP_REST_Request;
 
@@ -23,7 +22,6 @@ class PagesController
 	private PageRepository $pageRepository;
 	private SettingsRepository $settingsRepository;
 	private LevelRepository $levelRepository;
-	private ApiService $apiService;
 	private ApiController $apiController;
 
 	public function __construct()
@@ -31,7 +29,6 @@ class PagesController
 		$this->pageRepository = Container::get(PageRepository::class);
 		$this->settingsRepository = Container::get(SettingsRepository::class);
 		$this->levelRepository = Container::get(LevelRepository::class);
-		$this->apiService = Container::get(ApiService::class);
 		$this->apiController = Container::get(ApiController::class);
 	}
 

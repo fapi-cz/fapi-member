@@ -337,4 +337,44 @@
       text-decoration: underline;
     }
   }
+
+  .paginator {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: max-content max-content max-content;
+    align-items: center;
+    justify-items: center;
+    justify-content: space-between;
+    border-radius: $borderRadius;
+    background-color: $lightGrey;
+    padding: 7px 5px;
+
+    .paginator-controls {
+      display: inline-grid;
+      grid-template-rows: auto;
+      grid-template-columns: max-content max-content max-content;
+      align-items: center;
+      justify-items: center;
+      gap: 5px;
+    }
+  }
+
+  .pages-filter {
+    border-radius: $borderRadius;
+    background-color: $lightGrey;
+    padding: 7px 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .filter-field {
+      display: grid;
+      grid-template-rows: auto;
+      grid-template-columns: max-content max-content max-content;
+      align-items: center;
+      justify-items: center;
+      gap: 7px;
+    }
+  }
 }
