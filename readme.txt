@@ -5,7 +5,7 @@ Requires at least: 5.9
 Tested up to: 6.4
 Requires PHP: 8.1
 License: GPLv2 or later
-Stable tag: 2.1.3
+Stable tag: 2.1.4
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -22,6 +22,9 @@ Máte problém s nastavením FAPI Memberu. Obrátit se můžete na naší podpor
 Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org/plugins/fapi-member/#reviews).
 
 == Changelog ==
+
+= 2.1.4 =
+* Added option to disallow automatic email when user is added to a section/level using API (parameter 'send_email' = true/false)
 
 = 2.1.3 =
 * Added option to disallow automatic unlocking when user is registered after unlock date

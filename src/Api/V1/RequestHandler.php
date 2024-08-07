@@ -196,12 +196,14 @@ class RequestHandler
 		$wasUserCreatedNow = isset($props['new_user']) && $props['new_user'] === true;
 		$levels = $this->levelRepository->getLevelsByIds($levelIds);
 
-		$emailsToSend = $this->emailService->findEmailsToSend($user->getId(), $levels, $wasUserCreatedNow);
+		if (!isset($data['send_email']) || (bool) $data['send_email'] === true) {
+			$emailsToSend = $this->emailService->findEmailsToSend($user->getId(), $levels, $wasUserCreatedNow);
 
-		foreach ($emailsToSend as $emailToSend) {
-			[$type, $level] = $emailToSend;
+			foreach ($emailsToSend as $emailToSend) {
+				[$type, $level] = $emailToSend;
 
-			$this->emailService->sendEmail($user->getEmail(), $type, $level->getId(), $props);
+				$this->emailService->sendEmail($user->getEmail(), $type, $level->getId(), $props);
+			}
 		}
 
 		wp_send_json_success([FapiMemberPlugin::FAPI_MEMBER_PLUGIN_VERSION_KEY => FAPI_MEMBER_PLUGIN_VERSION]);

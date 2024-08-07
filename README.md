@@ -131,5 +131,6 @@ to je možné využít při vývoji na testování např. zakládání uživatel
    1. změnit verzi v `fapi-member.php`' - všude kde je uvedena verze
    2. změnit verzi v `readme.txt` - všude kde je uvedena verze
 3. Připravit deploy `make prepare-deploy version=x.x.x`
-3. Dát do stavu track `svn add --force * --auto-props --parents --depth infinity -q`
-4. A vše commitnout `svn ci -m '{Message s update zprávou}' --username fapi --password '{your_password}'`
+4. Otevřít slořku wp-svn `cd wp-svn`
+5. Dát do stavu track `svn add --force * --auto-props --parents --depth infinity -q`
+6. A vše commitnout `svn ci -m '{Message s update zprávou}' --username fapi --password '{your_password}'`
