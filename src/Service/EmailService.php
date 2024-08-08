@@ -2,6 +2,7 @@
 
 namespace FapiMember\Service;
 
+use FapiMember\Api\V2\ApiController;
 use FapiMember\Container\Container;
 use FapiMember\FapiMemberPlugin;
 use FapiMember\Model\Enums\Keys\OptionKey;
@@ -17,12 +18,14 @@ class EmailService
 	private ApiService $apiService;
 	private MembershipHistoryRepository $membershipHistoryRepository;
 	private EmailRepository $emailRepository;
+	private ApiController $apiController;
 
 	public function __construct()
 	{
 		$this->apiService = Container::get(ApiService::class);
 		$this->membershipHistoryRepository = Container::get(MembershipHistoryRepository::class);
 		$this->emailRepository = Container::get(EmailRepository::class);
+		$this->apiController = Container::get(ApiController::class);
 	}
 
 	public function sendEmail(string $email, string $type, int $levelId, array $props): bool
