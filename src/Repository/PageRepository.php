@@ -69,6 +69,7 @@ class PageRepository extends Repository
 				'id' => $post->ID,
 				'title' => $post->post_title,
 				'type' => $post->post_type,
+				'url' => wp_make_link_relative(get_permalink($post->ID)),
 			]);
 		}
 
@@ -76,7 +77,8 @@ class PageRepository extends Repository
 			$pages[] = new Page([
 				'id' => $cpt,
 				'title' => $cpt,
-				'type' => 'cpt'
+				'type' => 'cpt',
+				'url' => wp_make_link_relative(get_permalink($cpt->ID)),
 			]);
 		}
 

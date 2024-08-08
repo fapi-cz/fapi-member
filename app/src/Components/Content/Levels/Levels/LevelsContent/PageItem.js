@@ -1,25 +1,49 @@
 import React from 'react';
 import Checkbox from "Components/Elements/Checkbox";
+import check from 'Images/check.svg';
+import cross from 'Images/cross.svg';
 
-function PageItem({page, checked}) {
+function PageItem({page, assigned, hidden}) {
+    const typeLabels = {
+        post: 'Příspěvek',
+        page: 'Stránka',
+        cpt: 'CPT',
+    };
+
     return (
-        <div
+        <tr
            className="page-item"
            key={page.id}
+           style={{display: hidden ? 'none' : 'table-row'}}
         >
-            <Checkbox
-                id={'page_' + page.id + '_selected'}
-                className='page-selected'
-                checked={checked}
-            />
-            <label
-                className="clickable-option"
-                htmlFor={'page_' + page.id + '_selected'}
-            >
-                {page.title}
-            </label>
-            <div className="vertical-divider"></div>
-        </div>
+            <td>
+                <Checkbox
+                    id={'page_' + page.id + '_selected'}
+                    className='page-selected'
+                    checked={assigned}
+                />
+            </td>
+            <td>
+                <label
+                    className="clickable-option"
+                    htmlFor={'page_' + page.id + '_selected'}
+                >
+                    {page.title}
+                </label>
+            </td>
+            <td>
+                {(page.url
+                    ? <a href={window.location.origin + page.url}>{page.url}</a>
+                    : ''
+                )}
+            </td>
+            <td>
+                {typeLabels[page.type]}
+            </td>
+            <td style={{textAlign: 'center'}}>
+                <img src={assigned ? check : cross}/>
+            </td>
+        </tr>
     )
 }
 

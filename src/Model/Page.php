@@ -10,11 +10,13 @@ class Page
 	private int|string $id;
 	private string $title;
 	private string $type;
+	private string|null $url;
 
 	public function __construct(array $data)
 	{
 		$this->title = StringType::extract($data, 'title');
 		$this->type = StringType::extract($data, 'type');
+		$this->url = StringType::extractOrNull($data, 'url');
 
 		if ($this->type === 'cpt') {
 			$this->id = StringType::extract($data, 'id');
@@ -47,6 +49,7 @@ class Page
 			'id' => $this->id,
 			'title' => $this->title,
 			'type' => $this->type,
+			'url' => $this->url,
 		];
 	}
 
