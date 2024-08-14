@@ -159,6 +159,7 @@
         border-bottom: $greyLine;
         border-bottom-width: 2px;
         transition: border-bottom-color $transitionTime;
+        cursor: pointer;
 
         &:hover {
             border-bottom-color: $darkGrey;
