@@ -93,15 +93,18 @@ function UserSettings() {
         }).filter(element => element !== undefined);
     }
 
-     const handleFormSubmit = async () => {
-      const memberships = prepareSubmitData();
+     const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        const memberships = prepareSubmitData();
 
-      if(memberships !== null){
-          await membershipClient.update(userId, memberships);
-      }
+        await membershipClient.update(userId, memberships).then((data) => {
+          if (data !== undefined) {
+            HTMLFormElement.prototype.submit.call(form);
+          }
+        });
     }
 
-    form.addEventListener('submit', handleFormSubmit);
+    submitButton.addEventListener('click', handleFormSubmit);
 
 
      if (items === null) {

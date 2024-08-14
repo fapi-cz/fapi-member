@@ -55,7 +55,12 @@ export default class MembershipClient extends Client {
 	}
 
 	async update(userId, memberships) {
-		await this.sendRequest(
+
+		if (memberships === null) {
+			return;
+		}
+
+		var response = await this.sendRequest(
 			'updateAllForUser',
 			RequestMethodType.POST,
 			{
@@ -63,6 +68,8 @@ export default class MembershipClient extends Client {
 				memberships: memberships,
 			},
 		);
+
+		return response.success;
 	}
 
 }
