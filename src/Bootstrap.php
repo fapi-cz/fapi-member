@@ -109,6 +109,7 @@ final class Bootstrap
 
 		// adds meta boxed to setting page/post side bar
 		add_action('add_meta_boxes', array($this->elementService, 'addMetaBoxes'));
+		add_action('save_post', array($this->elementService, 'savePostMetadata'));
 
 		// check if page in fapi level
 		add_action('template_redirect', array($this->redirectService, 'checkPageForRedirects'));

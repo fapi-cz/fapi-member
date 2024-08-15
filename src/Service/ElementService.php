@@ -8,6 +8,7 @@ use FapiMember\Model\Enums\UserPermission;
 use FapiMember\Model\MemberLevel;
 use FapiMember\Model\MemberSection;
 use FapiMember\Repository\LevelRepository;
+use FapiMember\Repository\PageRepository;
 use FapiMember\Repository\UserRepository;
 use FapiMember\Utils\PostTypeHelper;
 use WP_Post;
@@ -17,11 +18,13 @@ class ElementService
 {
 	private LevelRepository $levelRepository;
 	private UserRepository $userRepository;
+	private PageRepository $pageRepository;
 
 	public function __construct()
 	{
 		$this->levelRepository = Container::get(LevelRepository::class);
 		$this->userRepository = Container::get(UserRepository::class);
+		$this->pageRepository = Container::get(PageRepository::class);
 	}
 
 	public function addAdminMenu(): void
@@ -86,6 +89,41 @@ class ElementService
 			$screens,
 			'side'
 		);
+	}
+
+	public function savePostMetadata(mixed $postId): void
+	{
+		$newLevelIds = null;
+
+		if (isset($_POST[PostValue::SECTIONS])) {
+			$newLevelIds = $_POST[PostValue::SECTIONS];
+		}
+
+		if ($newLevelIds === null) {
+			return;
+		}
+
+		$newLevelIds = array_map(function($levelId) {return (int) $levelId;}, $newLevelIds);
+
+		$levels = $this->levelRepository->getAllAsLevels();
+
+		foreach ($levels as $level) {
+			$pageIds = $this->pageRepository->getLockedPageIdsByLevelId($level->getId());
+
+			if (in_array($level->getId(), $newLevelIds, true)) {
+				$pageIds[] = (int) $postId;
+			} else {
+				foreach ($pageIds as $key => $levelPostId) {
+					if ($levelPostId !== $postId) {
+						continue;
+					}
+
+					unset($pageIds[$key]);
+				}
+			}
+
+			$this->pageRepository->updatePagesForLevel($level->getId(), $pageIds);
+		}
 	}
 
 	public function hideAdminBar($original) {
