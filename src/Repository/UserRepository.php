@@ -46,7 +46,7 @@ class UserRepository extends Repository
 		string|null $lastName,
 		string $email,
 		string $password
-	): int|null
+	): int|WP_Error
 	{
 		$userId = wp_insert_user([
 			'user_pass' => $password,
@@ -58,7 +58,7 @@ class UserRepository extends Repository
 		]);
 
 		if ($userId instanceof WP_Error) {
-			return null;
+			return $userId;
 		}
 
 		$user = get_user_by('id', $userId);
