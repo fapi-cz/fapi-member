@@ -216,7 +216,7 @@ class RequestHandler
 				isset($data['token']) && $data['token'] === $token
 				&& isset($data['debug']) && (bool) $data['debug'] === true
 			) {
-				wp_send_json_error($exception);
+				wp_send_json_error($exception->getMessage());
 			} else {
 				$this->apiService->callbackError([
 						'class' => self::class,
