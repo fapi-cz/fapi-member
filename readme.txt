@@ -12,6 +12,9 @@ Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 == Description ==
 Plugin FAPI Member umožňuje jednoduchou správu členských sekcí, tedy webových stránek přístupných jen oprávněným uživatelům. Ve spojení s aplikací FAPI tak můžete velmi snadno a automatizovaně prodávat přístup do svých on-line kurzů, klubů nebo k prémiovému obsahu na svém webu. Dále přidává jednoduchou možnost vkládání prodejního formuláře skrze Wordpress komponentu FAPI form.
 
+Seznam nekompatibilních pluginů:
+- WP Cerber Security, Anti-spam & Malware Scan - Zakazuje FM vytvořit uživatele
+
 == Frequently Asked Questions ==
 Jak napojit FAPI a plugin na členskou sekci FAPI Member se dozvíte v nápovědě FAPI: [FAPI Member](https://napoveda.fapi.cz/category/129-fapi-member)
 Máte problém s nastavením FAPI Memberu. Obrátit se můžete na naší podporu. Kontakt naleznete na naších stránkách: [FAPI](https://fapi.cz/kontakty/)
