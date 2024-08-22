@@ -5,7 +5,7 @@ Requires at least: 5.9
 Tested up to: 6.4
 Requires PHP: 8.1
 License: GPLv2 or later
-Stable tag: 2.1.11
+Stable tag: 2.1.12
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -13,7 +13,7 @@ Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 Plugin FAPI Member umožňuje jednoduchou správu členských sekcí, tedy webových stránek přístupných jen oprávněným uživatelům. Ve spojení s aplikací FAPI tak můžete velmi snadno a automatizovaně prodávat přístup do svých on-line kurzů, klubů nebo k prémiovému obsahu na svém webu. Dále přidává jednoduchou možnost vkládání prodejního formuláře skrze Wordpress komponentu FAPI form.
 
 Seznam nekompatibilních pluginů:
-- WP Cerber Security, Anti-spam & Malware Scan - Zakazuje FM vytvořit uživatele
+- WP Cerber Security, Anti-spam & Malware Scan => Zakazuje FM vytvořit uživatele
 
 == Frequently Asked Questions ==
 Jak napojit FAPI a plugin na členskou sekci FAPI Member se dozvíte v nápovědě FAPI: [FAPI Member](https://napoveda.fapi.cz/category/129-fapi-member)
@@ -25,6 +25,9 @@ Máte problém s nastavením FAPI Memberu. Obrátit se můžete na naší podpor
 Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org/plugins/fapi-member/#reviews).
 
 == Changelog ==
+
+= 2.1.12 =
+* Added support for Divi Builder (hiding/showing elements based user's memberships)
 
 = 2.1.11 =
 * Internal fixes

@@ -5,16 +5,16 @@ namespace FapiMember\Utils;
 final class DisplayHelper
 {
 	public static function shouldContentBeRendered(
-		string $hasSectionOrLevel,
-		array|string $fapiSectionAndLevels,
+		string|bool $hasSectionOrLevel,
+		array|string|null $fapiSectionAndLevels,
 		$wpUserId = null,
 	): bool
 	{
-		if (!in_array($hasSectionOrLevel, array( '1', '0' ), true)) {
+		if (!in_array($hasSectionOrLevel, array( '1', '0', true, false), true)) {
 			return true;
 		}
 
-		if (!isset($fapiSectionAndLevels)) {
+		if (!isset($fapiSectionAndLevels) || $fapiSectionAndLevels === null) {
 			return true;
 		}
 
@@ -37,14 +37,13 @@ final class DisplayHelper
 			$sectionAndLevels
 		);
 
-		$hasMemberSectionOrLevel = $hasSectionOrLevel;
-
+		$hasMemberSectionOrLevel = (bool) $hasSectionOrLevel;
 		$userId = isset( $wpUserId ) && $wpUserId ? $wpUserId : get_current_user_id();
 
 		global $membershipRepository;
 		$memberships = $membershipRepository->getAllByUserId($userId);
 
-		if ($hasMemberSectionOrLevel === '1') {
+		if ($hasMemberSectionOrLevel === true) {
 			foreach ($memberships as $membership) {
 				if (in_array($membership->getLevelId(), $sectionAndLevels, true)) {
 					return true;
