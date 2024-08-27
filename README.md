@@ -118,6 +118,20 @@ Javascript je transpilován webpackem, pro kompilaci po úpravách:
 npx webpack
 ~~~
 
+## Build Reactu pro Divi / fix node_modules
+- `make divi-build`
+
+- Pokud nemáte stažené node_modules - fix
+  - `cd src/Divi`
+  - (`nvm install 14`)
+  - `nvm use 14`
+  - `npm install`
+  - `cd node_modules/divi-scripts`
+  - `npm install --save-dev webpack@3.10.0`
+  - jít do souboru /fapi-member/src/Divi/node_modules/divi-scripts/scripts/utils/verifyPackageTree.js
+  - pod řádek 18 přidat `return;`
+  - `nvm use 22` Nebo jinou verzi, kterou používáte
+
 ## Testovací akce
 
 Pokud ve `wp_options` nastavíte klíč `fapiIsDevelopment` na hodnotu `1`, pak se

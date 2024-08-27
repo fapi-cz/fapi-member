@@ -5,6 +5,7 @@ namespace FapiMember;
 use FapiMember\Api\V1\RequestHandler;
 use FapiMember\Api\V2\ApiController;
 use FapiMember\Container\Container;
+use FapiMember\Divi\FapiMemberDivi;
 use FapiMember\Model\Enums\Keys\OptionKey;
 use FapiMember\Model\Enums\Types\RequestMethodType;
 use FapiMember\Model\Enums\UserPermission;
@@ -19,6 +20,7 @@ use FapiMember\Utils\ShortcodeSubstitutor;
 final class Bootstrap
 {
 	private FapiMemberPlugin $fapiMemberPlugin;
+	private FapiMemberDivi $fapiMemberDivi;
 	private ApiService $apiService;
 	private ElementService $elementService;
 	private RedirectService $redirectService;
@@ -37,6 +39,7 @@ final class Bootstrap
 		$this->requestHandler = Container::get(RequestHandler::class);
 		$this->shortcodeSubstitutor = Container::get(ShortcodeSubstitutor::class);
 		$this->apiController = Container::get(ApiController::class);
+		$this->fapiMemberDivi = Container::get(FapiMemberDivi::class);
 	}
 
 	public function initialize(): void
@@ -116,6 +119,9 @@ final class Bootstrap
 
 		// user profile
 		add_action('edit_user_profile', array($this->elementService, 'addUserMenuPage'));
+
+		add_action('divi_extensions_init', [$this, 'initializeDiviExtension']);
+		$this->addDiviFilters();
 
 		add_image_size('level-selection', 300, 164, true );
 		add_filter('login_redirect', array($this->fapiMemberPlugin, 'loginRedirect'), 5, 3 );
@@ -234,6 +240,22 @@ final class Bootstrap
 		add_shortcode('fapi-member-user-section-expiration', array($this->shortcodeSubstitutor, 'shortcodeSectionExpirationDate'));
 		add_shortcode('fapi-member-level-unlock-date', array($this->shortcodeSubstitutor, 'shortcodeLevelUnlockDate'));
 		add_shortcode('fapi-member-unlock-level', array($this->shortcodeSubstitutor, 'shortcodeUnlockLevel'));
+	}
+
+	public function initializeDiviExtension(): void
+	{
+		require_once plugin_dir_path( __FILE__ ) . 'Divi/includes/FmDivi.php';
+	}
+
+	public function addDiviFilters(): void
+	{
+		add_filter( 'et_builder_get_parent_modules', [$this->fapiMemberDivi, 'addToggle']);
+
+		foreach ($this->fapiMemberDivi->allowedModuleSlugs as $slug) {
+			add_filter("et_pb_all_fields_unprocessed_" . $slug, [$this->fapiMemberDivi, 'addFields']);
+		}
+
+		add_filter('et_pb_module_content', [$this->fapiMemberDivi, 'hideElements'], 10, 4 );
 	}
 
 	public function addScripts(): void

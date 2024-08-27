@@ -48,6 +48,7 @@ build: ## Builds the plugin source code
 	[ -d wp-build-test ] && rm -d -r wp-build-test
 	(cd app && npm install)
 	make react-build
+	make divi-build
 	mkdir wp-build-test
 	mkdir wp-build-test/fapi-member
 	mkdir wp-build
@@ -55,7 +56,12 @@ build: ## Builds the plugin source code
 	mkdir wp-build/multiple-blocks
 	cp fapi-member.php wp-build/fapi-member.php
 	cp uninstall.php wp-build/uninstall.php
-	cp -r src wp-build/src
+	rsync -av --exclude='Divi' src/ wp-build/src/
+	mkdir -p wp-build/src/Divi/includes
+	mkdir -p wp-build/src/Divi/scripts
+	cp -r src/Divi/includes/ wp-build/src/Divi/includes
+	cp -r src/Divi/scripts/ wp-build/src/Divi/scripts
+	cp src/Divi/FapiMemberDivi.php wp-build/src/Divi/FapiMemberDivi.php
 	cp -r app/dist wp-build/app/dist
 	cp -r vendor wp-build/vendor
 	cp -r libs wp-build/libs
@@ -117,3 +123,6 @@ git-rebase-master:
 
 react-build:
 	npm --prefix ./app run build
+
+divi-build:
+	npm --prefix ./src/divi run build
