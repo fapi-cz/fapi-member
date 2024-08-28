@@ -1,6 +1,7 @@
 import Client from './Client';
 import {RequestMethodType} from "Enums/RequestMethodType";
 import Membership from "Models/Membership";
+import DateTime from "Models/DateTime";
 
 export default class MembershipClient extends Client {
 
@@ -70,6 +71,24 @@ export default class MembershipClient extends Client {
 		);
 
 		return response.success;
+	}
+
+	async getUnlockDate(levelId, userId, registrationDate) {
+		var date = await this.sendRequest(
+			'getUnlockDate',
+			RequestMethodType.POST,
+			{
+				user_id: userId,
+				level_id: levelId,
+				registration_date: registrationDate,
+			},
+		);
+
+		if (date !== null && date !== undefined) {
+			date =  new DateTime(date);
+		}
+
+		return date;
 	}
 
 }

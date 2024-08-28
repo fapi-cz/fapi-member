@@ -21,8 +21,12 @@ class DateTimeHelper
 		return strtotime($now->format(Format::DATE_TIME));
 	}
 
-	public static function createOrNull(string $dateTimeString, string $format): DateTimeImmutable|null
+	public static function createOrNull(string|null $dateTimeString, string $format): DateTimeImmutable|null
 	{
+		if ($dateTimeString === null) {
+			return null;
+		}
+
 		$dateTime = DateTimeImmutable::createFromFormat(
 			$format,
 			$dateTimeString,

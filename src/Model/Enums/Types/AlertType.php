@@ -8,5 +8,7 @@ class AlertType extends Enum
 {
 	const ERROR = 'error';
 
+	const WARNING = 'warning';
+
 	const SUCCESS = 'success';
 }

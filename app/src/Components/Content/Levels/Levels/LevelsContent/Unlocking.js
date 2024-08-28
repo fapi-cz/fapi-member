@@ -5,6 +5,7 @@ import Loading from "Components/Elements/Loading";
 import MemberSectionClient from "Clients/MemberSectionClient";
 import {UnlockingType} from "Enums/UnlockingType";
 import HourPicker from "Components/Elements/HourPicker";
+import DateTimeHelper from "Helpers/DateTimeHelper";
 
 function Unlocking({level}) {
     if (level.parentId === null) {
@@ -158,7 +159,7 @@ function Unlocking({level}) {
             </div>
 
             <div id="date-settings-content" hidden={timeUnlockType !== 'date'}>
-                <p>Datum kdy bude sekce/úroveň odemčena pro všechny uživatele.</p>
+                <p>Datum kdy bude sekce/úroveň odemčena pro všechny členy sekce.</p>
                 <input
                     className='fm-input'
                     type="date"
@@ -201,8 +202,16 @@ function Unlocking({level}) {
                 {timeUnlockType === 'days'
                     ? <HourPicker id={'unlock-hour'} onChange={handleChangeHourUnlock} defaultValue={hourUnlock}/>
                     : null}
-                <p>0 dní po registraci v 0:00 = Sekce bude přístupná ihned po registraci</p>
-                <p>5 dní po registraci v 8:00 = Sekce bude přístupná 5. den po registraci v 8 hodin ráno</p>
+                <p>
+                    Pokud bude uživatel do sekce registrován {
+                        DateTimeHelper.getCurrentDateTime().getDateCzech()
+                    }, úroveň bude odemčena <span style={{color: 'black'}}>{
+                     DateTimeHelper.addDaysToDateTime(
+                         DateTimeHelper.getCurrentDateTime(),
+                         daysUnlock,
+                     ).getDateCzech()
+                    } v {hourUnlock}:00 </span>
+                </p>
             </div>
 
             <div className='vertical-divider'/>

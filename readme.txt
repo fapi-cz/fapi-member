@@ -5,7 +5,7 @@ Requires at least: 5.9
 Tested up to: 6.4
 Requires PHP: 8.1
 License: GPLv2 or later
-Stable tag: 2.1.12
+Stable tag: 2.1.13
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -26,6 +26,12 @@ Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org
 
 == Changelog ==
 
+= 2.1.13 =
+* Added alerts to user settings
+* Added UI elements communicating additional information about automatic level unlocking
+* When a level is automatically unlocked, the expiration date is now set to the expiration date of it's section (instead of "Bez expirace")
+* Membership now expires at the end of the expiration date
+
 = 2.1.12 =
 * Added support for Divi Builder (hiding/showing elements based user's memberships)
 
@@ -36,7 +42,7 @@ Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org
 * Internal fixes
 
 = 2.1.9 =
-* Added internal debuging features
+* Added internal debugging features
 
 = 2.1.8 =
 * Bug fix - page/post editor - assign sections/levels
@@ -48,7 +54,7 @@ Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org
 * Api bug fix
 
 = 2.1.5 =
-* Reworked Page a post and cpts - Added ordering, filtering and pagination
+* Reworked Page, posts and cpts - Added ordering, filtering and pagination
 
 = 2.1.4 =
 * Added option to disallow automatic email when user is added to a section/level using API (parameter 'send_email' = true/false)

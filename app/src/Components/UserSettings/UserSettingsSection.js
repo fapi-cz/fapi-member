@@ -7,6 +7,7 @@ import DateTimeHelper from "Helpers/DateTimeHelper";
 function UserSettingsSection({section, membership, levelItems}) {
 
 	const [checked, setChecked] = useState(membership !== null);
+	const [registrationDate, setRegistrationDate] = useState(null);
 	const newMembership = {
 		registered: DateTimeHelper.getCurrentDateTime(),
 		until: null,
@@ -33,6 +34,8 @@ function UserSettingsSection({section, membership, levelItems}) {
 					level={section}
 					membership={membership}
 					checked={checked}
+					setSectionRegistrationDate={setRegistrationDate}
+					sectionRegistrationDate={registrationDate}
 				/>
 			</div>
 			{ checked
@@ -43,6 +46,7 @@ function UserSettingsSection({section, membership, levelItems}) {
 								key={levelItem.level.id}
 								level={levelItem.level}
 								membership={levelItem.membership}
+								sectionRegistrationDate={registrationDate}
 							/>
 						))}
 					</div>

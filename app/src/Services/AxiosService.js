@@ -60,7 +60,9 @@ class AxiosService {
 	}
 
 	handleAlert(alert) {
-		if (alert?.type === 'error' || alert?.type === 'success') {
+		if (alert?.type === 'error' || alert?.type === 'success' || alert?.type === 'warning') {
+			sessionStorage.setItem('fmLastAlertMessage', alert.message);
+			sessionStorage.setItem('fmLastAlertType', alert.type);
 			AlertService.showAlert(alert.message, alert.type);
 		}
 	}

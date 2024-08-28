@@ -9,12 +9,6 @@ document.addEventListener( 'DOMContentLoaded', function() {
 
     var settingsContainer = document.getElementById( 'fm-settings' );
     if( typeof settingsContainer !== 'undefined' && settingsContainer !== null ) {
-        const wpBody = document.getElementById('wpbody');
-        const alertContainer = document.createElement('div');
-
-        ReactDOM.render(<Alert/>, alertContainer);
-        wpBody.insertBefore(alertContainer, wpBody.firstChild);
-
         const root = createRoot(settingsContainer);
         root.render(<Settings />);
     }
@@ -24,4 +18,4 @@ document.addEventListener( 'DOMContentLoaded', function() {
         const root = createRoot(userSettingsContainer);
         root.render(<UserSettings />);
     }
-} )
+})
