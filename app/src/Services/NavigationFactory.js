@@ -2,6 +2,7 @@ import React, {lazy, useState} from 'react';
 
 import iconOverview from 'Images/overview.svg';
 import iconLevels from 'Images/levels.svg';
+import iconMembers from 'Images/member.svg';
 import iconConnect from 'Images/connect.svg';
 
 import { SubNavItemType } from "Enums/SubNavItemType";
@@ -14,6 +15,7 @@ const Overview = lazy(() => import('Components/Content/Overview/Overview'));
 const Levels = lazy(() => import('Components/Content/Levels/Levels'));
 const Common = lazy(() => import('Components/Content/Levels/Common'));
 const Elements = lazy(() => import('Components/Content/Levels/Elements'));
+const Members = lazy(() => import('Components/Content/Members/Members'));
 const Connection = lazy(() => import('Components/Content/Connection/Connection'));
 
 export class NavigationFactory {
@@ -50,6 +52,18 @@ export class NavigationFactory {
 						SubNavItemType.ELEMENTS,
 						'Prvky pro web',
 						Elements,
+					),
+				],
+			),
+			new NavItem(
+				NavItemType.MEMBERS,
+				'Členové',
+				iconMembers,
+				[
+					new SubNavItem(
+						SubNavItemType.MEMBERS,
+						'Členové',
+						Members,
 					),
 				],
 			),

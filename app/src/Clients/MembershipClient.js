@@ -73,6 +73,16 @@ export default class MembershipClient extends Client {
 		return response.success;
 	}
 
+	async create(
+		data,
+	) {
+		await this.sendRequest(
+			'create',
+			RequestMethodType.POST,
+			data,
+		);
+	}
+
 	async getUnlockDate(levelId, userId, registrationDate) {
 		var date = await this.sendRequest(
 			'getUnlockDate',

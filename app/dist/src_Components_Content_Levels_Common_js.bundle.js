@@ -39,16 +39,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
-/***/ "./src/Components/Elements/SubmitButton.js":
-/*!*************************************************!*\
-  !*** ./src/Components/Elements/SubmitButton.js ***!
-  \*************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var Components_Elements_Loading__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! Components/Elements/Loading */ \"./src/Components/Elements/Loading.js\");\n\n\nfunction SubmitButton(_ref) {\n  let {\n    text,\n    show = true,\n    centered = false,\n    big = false,\n    type = 'submit',\n    onClick = () => {}\n  } = _ref;\n  if (!show) {\n    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Components_Elements_Loading__WEBPACK_IMPORTED_MODULE_1__[\"default\"], {\n      height: big ? '34px' : '29px'\n    });\n  }\n  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(\"button\", {\n    className: 'fm-submit-button ' + type + ' ' + (centered ? 'center ' : '') + (big ? 'big ' : ''),\n    type: \"submit\",\n    onClick: onClick\n  }, text);\n}\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SubmitButton);\n\n//# sourceURL=webpack://app/./src/Components/Elements/SubmitButton.js?");
-
-/***/ }),
-
 /***/ "./src/Enums/CommonPageType.js":
 /*!*************************************!*\
   !*** ./src/Enums/CommonPageType.js ***!

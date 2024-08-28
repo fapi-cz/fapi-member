@@ -2,14 +2,12 @@
 
 namespace FapiMember\Repository;
 
-use FapiMember\Container\Container;
 use FapiMember\Model\User;
 use WP_Error;
 use WP_User;
 
 class UserRepository extends Repository
 {
-
 	public function getCurrentUser(): User|null
 	{
 		if (!is_user_logged_in()) {
@@ -73,6 +71,19 @@ class UserRepository extends Repository
 		return $this->toEntities(get_users());
 	}
 
+	/** @return array<User> */
+	public function getAllMemberUsers(): array
+	{
+		$users = $this->getAllUsers();
+
+		return array_filter(
+			$users,
+			static function ($user) {
+				return in_array('member', $user->getRoles());
+			}
+		);
+	}
+
 	/**
 	 * @param array<mixed> $users
 	 * @return array<User>
@@ -81,7 +92,11 @@ class UserRepository extends Repository
 	{
 		$entities = [];
 		foreach ($users as $user) {
-			$entities[] = $this->toEntity($user);
+			$entity = $this->toEntity($user);
+
+			if ($entity !== null) {
+				$entities[] = $entity;
+			}
 		}
 
 		return $entities;
@@ -101,6 +116,8 @@ class UserRepository extends Repository
 			'first_name' => $user->first_name,
 			'last_name' => $user->last_name,
 			'roles' => $user->roles,
+			'create_date' => $user->user_registered,
+			'picture' => get_avatar($user->ID, 25),
 		]);
 	}
 
