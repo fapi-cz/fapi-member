@@ -8,6 +8,8 @@ import Loading from "Components/Elements/Loading";
 import UserSettingsSection from "Components/UserSettings/UserSettingsSection";
 import {InputHelper} from "Helpers/InputHelper";
 import DateTimeHelper from "Helpers/DateTimeHelper";
+import Alert from "Components/Elements/Alert";
+import AlertService from "Services/AlertService";
 
 function UserSettings() {
     const [sectionsLoading, setSectionsLoading] = useState(true);
@@ -82,7 +84,7 @@ function UserSettings() {
            }
 
            const untilDate = InputHelper.getValue('until-date-input-' + levelId);
-           const until = untilDate !== null ? untilDate + 'T00:00:00' : null;
+           const until = untilDate !== null ? untilDate + 'T23:59:59' : null;
 
            return {
                 level_id: levelId,
@@ -106,14 +108,15 @@ function UserSettings() {
 
     submitButton.addEventListener('click', handleFormSubmit);
 
-
      if (items === null) {
          return (<div style={{padding: '50px'}}><Loading/></div>);
      }
 
     return (
         <div className='user-settings'>
-            <h1>Členské sekce</h1>
+            {/*{alertMessage !== null ? (<Alert/>) : null}*/}
+            <Alert/>
+            <h1>FAPI Member - Členské sekce</h1>
             <br/>
             {items.map((item) => (
                 <UserSettingsSection

@@ -5,7 +5,7 @@ class AlertService
 	static async showAlert(message, type = 'error') {
 		var showDuration = 2;
 
-		if (type === 'error') {
+		if (type === 'error' || type === 'warning') {
 			showDuration = 3;
 		}
 
@@ -37,6 +37,11 @@ class AlertService
 
 	static async close(alert) {
 		alert.className = alert.className.replace('alert-visible', 'alert-hidden');
+
+		if (sessionStorage.getItem('fmLastAlertMessage') !== null) {
+			sessionStorage.removeItem('fmLastAlertMessage');
+			sessionStorage.removeItem('fmLastAlertType');
+		}
 	}
 
 	static async open(alert, alertContent, message, type) {

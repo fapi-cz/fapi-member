@@ -5,7 +5,10 @@ namespace FapiMember\Api\V2\Endpoints;
 use FapiMember\Api\V2\ApiController;
 use FapiMember\Container\Container;
 use FapiMember\Library\SmartEmailing\Types\IntType;
+use FapiMember\Library\SmartEmailing\Types\StringType;
+use FapiMember\Model\Enums\Alert;
 use FapiMember\Model\Enums\Format;
+use FapiMember\Model\Enums\Types\AlertType;
 use FapiMember\Model\Enums\Types\RequestMethodType;
 use FapiMember\Model\Membership;
 use FapiMember\Repository\LevelRepository;
@@ -100,7 +103,25 @@ class MembershipsController
 			]);
 		}
 
-		$this->apiController->callbackSuccess();
+		$savedMemberships = $this->membershipService->getActiveByUserId($userId);
+
+		foreach ($savedMemberships as $savedMembership) {
+			foreach ($memberships as $membership) {
+				if (
+					$membership->getLevelId() === $savedMembership->getLevelId()
+				) {
+					if ($membership->getRegistered()->format(Format::DATE_TIME) !== $savedMembership->getRegistered()->format(Format::DATE_TIME)) {
+						$this->apiController->callbackResponse([], Alert::MEMBERSHIP_REGISTERED_EXTENDED);
+					}
+
+					if ($membership->getUntil()?->format(Format::DATE_TIME) !== $savedMembership->getUntil()?->format(Format::DATE_TIME)) {
+						$this->apiController->callbackResponse([], Alert::MEMBERSHIP_UNTIL_EXTENDED);
+					}
+				}
+			}
+		}
+
+		$this->apiController->callbackResponse([], Alert::SETTINGS_SAVED);
 	}
 
 	public function unlockLevelForLoggedInUser(WP_REST_Request $request): void
@@ -153,6 +174,27 @@ class MembershipsController
 		}
 
 		wp_redirect(home_url() . '/?page_id=' . $pageId);
+	}
+
+	public function getUnlockDate(WP_REST_Request $request): string|null
+	{
+		$this->apiController->checkRequestMethod($request, RequestMethodType::POST);
+		$body = json_decode($request->get_body(), true);
+
+		$levelId = $this->apiController->extractParam($body, 'level_id', IntType::class);
+		$userId = $this->apiController->extractParam($body, 'user_id', IntType::class);
+		$registrationDate = $this->apiController->extractParamOrNull($body, 'registration_date', StringType::class);
+		$registrationDate = DateTimeHelper::createOrNull($registrationDate, Format::DATE);
+
+		try {
+			return $this->membershipService
+				->getUnlockDate($levelId, $userId, $registrationDate)?->format(Format::DATE_TIME);
+		} catch (Throwable) {
+			$this->apiController->callbackError([
+				'class'=> self::class,
+				'description' => "Failed to get unlock date",
+			]);
+		}
 	}
 
 }

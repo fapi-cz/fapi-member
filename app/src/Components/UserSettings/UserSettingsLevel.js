@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState} from 'react';
 import Checkbox from "Components/Elements/Checkbox";
 import UserSettingsInputs from "Components/UserSettings/UserSettingsInputs";
 
-function UserSettingsLevel({level, membership}) {
+function UserSettingsLevel({level, membership, sectionRegistrationDate}) {
 	const [checked, setChecked] = useState(membership !== null);
 
     return (
@@ -24,6 +24,7 @@ function UserSettingsLevel({level, membership}) {
 				level={level}
 				membership={membership}
 				checked={checked}
+				sectionRegistrationDate={sectionRegistrationDate}
 			/>
 		</div>
 	);

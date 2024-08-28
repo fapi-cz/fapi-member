@@ -2,15 +2,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 #alert {
-  display: grid;
+  display: inline;
   position: fixed;
-  align-items: center;
-  justify-content: center;
   right: 40px;
   top: 50px;
   opacity: 0;
   transition: opacity 0.2s, width 0.2s;
-  overflow: hidden;
   border-top: none;
   border-bottom: none;
   border-left: none;
@@ -18,15 +15,17 @@
   border-right-width: 5px;
   border-radius: $borderRadius;
   z-index: 9;
-  height: 40px;
+  min-height: 18.2px;
   width: 0px;
   background-color: $whiteBackground;
   box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.37);
+  padding: 10px;
+  text-align: center;
 
   div {
-    overflow: hidden;
-    word-break: break-all;
     height: 18px;
+    opacity: 0;
+    transition: opacity 0.1s;
   }
 
   &.error {
@@ -42,10 +41,25 @@
     }
   }
 
+  &.warning {
+    border-color: $yellow;
+
+    strong {
+      display: none;
+    }
+  }
+
   &.alert-visible {
     opacity: 1;
     width: 300px;
     transition: opacity $transitionTime, width $transitionTime;
+
+    div {
+      opacity: 1;
+      transition: opacity 0.5s;
+      height: fit-content;
+
+    }
   }
 
 }

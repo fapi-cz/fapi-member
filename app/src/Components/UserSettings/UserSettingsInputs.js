@@ -1,13 +1,57 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import DateTimeHelper from "Helpers/DateTimeHelper";
 import Checkbox from "Components/Elements/Checkbox";
+import MembershipClient from "Clients/MembershipClient";
+import Loading from "Components/Elements/Loading";
 
-function UserSettingsInputs({level, membership, checked}) {
+function UserSettingsInputs({level, membership, checked, sectionRegistrationDate = null, setSectionRegistrationDate = () => {}}) {
 	const today = DateTimeHelper.getCurrentDateTime();
 	const [showUntilInput, setShowUntilInput] = useState((membership?.until?.getDate() ?? null) !== null)
+	const [unlockDate, setUnlockDate] = useState(null)
+	const membershipClient = new MembershipClient();
+
+	if(sectionRegistrationDate === null) {
+		setSectionRegistrationDate(today.getDate());
+	}
+
+	useEffect(() => {
+		const loadData = async () => {
+			var newUnlockDate = await membershipClient.getUnlockDate(
+				level.id,
+				new URLSearchParams(window.location.search).get('user_id'),
+				sectionRegistrationDate,
+			)
+			setUnlockDate(newUnlockDate);
+		}
+
+		if (
+			level.parentId !== null
+			&& level.unlockType !== 'disallow'
+			&& level.unlockType !== null
+		) {
+			setUnlockDate(null);
+			loadData();
+		}
+
+	}, [sectionRegistrationDate]);
+
 
 	if (!checked) {
-		return null;
+		if (level.unlockType === 'disallow' || level.unlockType === null || level.parentId === null) {
+			return null;
+		}
+
+		if (unlockDate === null) {
+			return <Loading/>;
+		}
+
+		return (
+			<div className='user-inputs'>
+				<div className='user-settings-automatic-unlocking-overlay'>
+					{'Úroveň bude odemčena ' + unlockDate?.getDateCzech() + ' v ' + unlockDate?.getHoursAndMinutes()}
+				</div>
+			</div>
+		);
 	}
 
 	return (
@@ -19,6 +63,9 @@ function UserSettingsInputs({level, membership, checked}) {
 					id={'registered-date-input-' + level.id}
 					type='date'
 					defaultValue={membership?.registered?.getDate() ?? today.getDate()}
+					onChange={(e) => {if (level.parentId === null) {
+						setSectionRegistrationDate(e.target.value);
+					}}}
 				/>
 			</div>
 			<div className='user-input-container'>

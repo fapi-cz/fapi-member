@@ -31,6 +31,13 @@ class DateTimeHelper {
         return new DateTime(date, time);
     }
 
+    static addDaysToDateTime(dateTime, days) {
+        const newDate = new Date(dateTime.date);
+        newDate.setDate(newDate.getDate() + days);
+
+        return new DateTime(newDate);
+      }
+
 }
 
 export default DateTimeHelper;

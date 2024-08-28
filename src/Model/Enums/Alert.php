@@ -30,4 +30,8 @@ class Alert extends Enum
 
 	const REORDER_FAILED = 'reorderFailed';
 
+	const MEMBERSHIP_REGISTERED_EXTENDED = 'membershipRegisteredExtended';
+
+	const MEMBERSHIP_UNTIL_EXTENDED = 'membershipUntilExtended';
+
 }

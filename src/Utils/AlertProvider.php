@@ -21,6 +21,8 @@ class AlertProvider
 		Alert::SETTINGS_SAVED => [AlertType::SUCCESS, 'Nastavení uložena.'],
 		Alert::LEVEL_ALREADY_EXISTS => [AlertType::ERROR, 'Sekce/úroveň s tímto názvem již existuje.'],
 		Alert::REORDER_FAILED => [AlertType::ERROR, 'Nelze přeřadit sekci/úroveň.'],
+		Alert::MEMBERSHIP_REGISTERED_EXTENDED => [AlertType::WARNING, 'Datum registrace sekce bylo přenastaveno dle úrovně.'],
+		Alert::MEMBERSHIP_UNTIL_EXTENDED => [AlertType::WARNING, 'Datum expirace sekce bylo přenastaveno dle úrovně.'],
 	];
 
 	/** @return array<string> */

@@ -2,6 +2,8 @@
 
 namespace FapiMember\Service;
 
+use DateInterval;
+use DateTimeImmutable;
 use FapiMember\Container\Container;
 use FapiMember\Model\Enums\Format;
 use FapiMember\Model\Enums\Keys\MetaKey;
@@ -420,11 +422,51 @@ class MembershipService
 						'level_id' => $level->getId(),
 						'user_id' => $userId,
 						'registered' => DateTimeHelper::getNow()->format(Format::DATE_TIME),
-						'is_unlimited' => true,
+						'until' => $membership->getUntil()?->format(Format::DATE_TIME),
+						'is_unlimited' => $membership->isUnlimited(),
 					]));
 				}
 			}
 		}
+	}
+
+	/**
+	 * @throws \Exception
+	 */
+	public function getUnlockDate(int $levelId, int $userId, DateTimeImmutable|null $registrationDate = null): DateTimeImmutable|null
+	{
+		$level = $this->levelRepository->getLevelById($levelId);
+
+		if ($level?->getParentId() === null || $level->getUnlockType() === null || $level->getUnlockType() === LevelUnlockType::NONE) {
+			return null;
+		}
+
+		$date = null;
+
+		if ($level->getUnlockType() === LevelUnlockType::DATE) {
+			$date = DateTimeHelper::createOrNull($this->levelRepository->getDateUnlock($level->getId()), Format::DATE);
+
+		} elseif ($level->getUnlockType() === LevelUnlockType::DAYS) {
+			if ($registrationDate === null) {
+				$parentMembership = $this->membershipRepository->getOneByUserIdAndLevelId($userId, $level->getParentId());
+
+				if ($parentMembership === null) {
+					return null;
+				}
+				$registrationDate = $parentMembership->getRegistered();
+			}
+
+			$date = $registrationDate->add(
+				new DateInterval('P' . $this->levelRepository->getDaysUnlock($level->getId()) . 'D'),
+			);
+		}
+
+		if ($date !== null) {
+			$hour = $this->levelRepository->getHourUnlock($level->getId());
+			$date = $date->setTime($hour, 0);
+		}
+
+		return $date;
 	}
 
 }
