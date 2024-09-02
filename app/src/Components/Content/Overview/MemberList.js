@@ -64,7 +64,12 @@ function MemberList({level}) {
                         <td>
                             <a href={'user-edit.php?user_id=' + user.id}>{user.loginName}</a>
                         </td>
-                        <td>{(user.firstName ?? '') + ' ' + (user.lastName ?? '')}</td>
+                        <td>
+                            {(user.firstName === null && user.lastName === null)
+                                ? ('---')
+                                : ((user.firstName ?? '') + ' ' + (user.lastName ?? ''))
+                            }
+                        </td>
                         <td>{user.email}</td>
                       </tr>
                   ))}

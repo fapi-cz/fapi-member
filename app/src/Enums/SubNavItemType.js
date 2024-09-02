@@ -4,5 +4,6 @@ export const SubNavItemType = Object.freeze({
     LEVELS: 'levels',
     COMMON: 'common',
     ELEMENTS: 'elements',
+    MEMBERS: 'members',
     CONNECTION: 'connection',
 });

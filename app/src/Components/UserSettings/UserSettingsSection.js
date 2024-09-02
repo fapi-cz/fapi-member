@@ -4,7 +4,7 @@ import UserSettingsLevel from "Components/UserSettings/UserSettingsLevel";
 import UserSettingsInputs from "Components/UserSettings/UserSettingsInputs";
 import DateTimeHelper from "Helpers/DateTimeHelper";
 
-function UserSettingsSection({section, membership, levelItems}) {
+function UserSettingsSection({section, membership, levelItems, userId}) {
 
 	const [checked, setChecked] = useState(membership !== null);
 	const [registrationDate, setRegistrationDate] = useState(null);
@@ -33,6 +33,7 @@ function UserSettingsSection({section, membership, levelItems}) {
 				<UserSettingsInputs
 					level={section}
 					membership={membership}
+					userId={userId}
 					checked={checked}
 					setSectionRegistrationDate={setRegistrationDate}
 					sectionRegistrationDate={registrationDate}
@@ -44,6 +45,7 @@ function UserSettingsSection({section, membership, levelItems}) {
 						{levelItems.map((levelItem) => (
 							<UserSettingsLevel
 								key={levelItem.level.id}
+								userId={userId}
 								level={levelItem.level}
 								membership={levelItem.membership}
 								sectionRegistrationDate={registrationDate}

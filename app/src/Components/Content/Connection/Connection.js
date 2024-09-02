@@ -81,6 +81,7 @@ function Connection() {
                         <td>
                             <SubmitButton
                                 text={'Odstranit'}
+                                type={'delete'}
                                 onClick={() => {handleConnectionRemove(connection.apiKey)}}
                             />
                         </td>

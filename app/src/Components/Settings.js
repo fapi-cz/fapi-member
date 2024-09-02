@@ -52,6 +52,7 @@ function Settings() {
            url.searchParams.set('fm-page', navItem);
            url.searchParams.delete('fm-levels-page')
            url.searchParams.delete('level')
+           url.searchParams.delete('member')
 
            if (navItem !== subNavItem) {
                 url.searchParams.set('fm-sub-page', subNavItem);

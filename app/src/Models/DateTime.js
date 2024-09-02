@@ -8,6 +8,10 @@ class DateTime {
     }
   }
 
+  getDateTime() {
+    return this.getDate() + ' ' + this.getTime();
+  }
+
   getDate() {
     const year = this.date.getFullYear();
     const month = String(this.date.getMonth() + 1).padStart(2, '0'); // Months are zero-based

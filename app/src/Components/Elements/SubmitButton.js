@@ -1,7 +1,7 @@
 import React from "react";
 import Loading from "Components/Elements/Loading";
 
-function SubmitButton({text, show = true, centered = false, big = false, type= 'submit', onClick = () => {}}) {
+function SubmitButton({text, show = true, centered = false, big = false, type= 'default', onClick = () => {}}) {
     if (!show) {
         return (<Loading height={big ? '34px' :'29px'}/>);
     }

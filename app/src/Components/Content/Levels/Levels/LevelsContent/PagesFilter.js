@@ -64,7 +64,7 @@ function PagesFilter({pages, setFilteredPages, assignedPageIds, loadPages}) {
 
     return (
         <div
-            className='pages-filter'
+            className='pages-filter table-filter'
         >
             <input
                 className='fm-input'

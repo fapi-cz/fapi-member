@@ -26,6 +26,39 @@ class UsersController
 		$this->apiController = Container::get(ApiController::class);
 	}
 
+	public function list(): array
+	{
+		$users = $this->userRepository->getAllUsers();
+		$userData = [];
+
+		foreach ($users as $user) {
+			$userData[] = $user->toArray();
+		}
+		return $userData;
+	}
+
+	public function listMembers(WP_REST_Request $request): array
+	{
+		$this->apiController->checkRequestMethod($request, RequestMethodType::GET);
+		$users = $this->userRepository->getAllMemberUsers();
+		$usersData = [];
+
+		foreach ($users as $user) {
+			$memberships = $this->membershipRepository->getActiveByUserId($user->getId());
+			$levelIds = [];
+
+			foreach ($memberships as $membership) {
+				$levelIds[] = $membership->getLevelId();
+			}
+
+			$user->setLevelIds($levelIds);
+
+			$usersData[] = $user->toArray();
+		}
+
+		return $usersData;
+	}
+
 	public function getByLevel(WP_REST_Request $request): array
 	{
 		$this->apiController->checkRequestMethod($request, RequestMethodType::POST);
