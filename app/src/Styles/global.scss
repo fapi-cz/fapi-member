@@ -133,7 +133,7 @@
     transition: background-color $transitionTime;
     text-decoration: none;
 
-    &.submit {
+    &.default {
       background-color: $blue;
       color: $whiteBackground;
 
@@ -159,8 +159,7 @@
       border: $blueLine;
 
       &:hover {
-        background-color: $blue;
-        color: $whiteBackground;
+        background-color: $lightGrey;
       }
     }
 
@@ -200,6 +199,10 @@
 
     &[type=date] {
       width: 130px !important;
+    }
+
+    &[type=text] {
+      height: 30px;
     }
 
     &[type=time] {
@@ -325,6 +328,26 @@
 
     th, td {
       padding: 6px 13px;
+      text-align: center;
+      word-break: break-all;
+      height: max-content;
+
+      button {
+        word-break: keep-all;
+      }
+    }
+  }
+
+  tbody {
+    td {
+      padding: 6px 13px;
+      text-align: center;
+      word-break: break-all;
+      height: max-content;
+
+      button {
+        word-break: keep-all;
+      }
     }
   }
 
@@ -348,6 +371,7 @@
     border-radius: $borderRadius;
     background-color: $lightGrey;
     padding: 7px 5px;
+    height: max-content;
 
     .paginator-controls {
       display: inline-grid;
@@ -359,7 +383,7 @@
     }
   }
 
-  .pages-filter {
+  .table-filter {
     border-radius: $borderRadius;
     background-color: $lightGrey;
     padding: 7px 20px;
@@ -367,6 +391,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     gap: 10px;
+    height: max-content;
 
     .filter-field {
       display: grid;

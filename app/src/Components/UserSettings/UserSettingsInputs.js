@@ -4,7 +4,7 @@ import Checkbox from "Components/Elements/Checkbox";
 import MembershipClient from "Clients/MembershipClient";
 import Loading from "Components/Elements/Loading";
 
-function UserSettingsInputs({level, membership, checked, sectionRegistrationDate = null, setSectionRegistrationDate = () => {}}) {
+function UserSettingsInputs({level, membership, userId, checked, sectionRegistrationDate = null, setSectionRegistrationDate = () => {}}) {
 	const today = DateTimeHelper.getCurrentDateTime();
 	const [showUntilInput, setShowUntilInput] = useState((membership?.until?.getDate() ?? null) !== null)
 	const [unlockDate, setUnlockDate] = useState(null)
@@ -18,7 +18,7 @@ function UserSettingsInputs({level, membership, checked, sectionRegistrationDate
 		const loadData = async () => {
 			var newUnlockDate = await membershipClient.getUnlockDate(
 				level.id,
-				new URLSearchParams(window.location.search).get('user_id'),
+				userId,
 				sectionRegistrationDate,
 			)
 			setUnlockDate(newUnlockDate);

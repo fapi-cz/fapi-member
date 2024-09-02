@@ -8,11 +8,20 @@ export default class UserClient extends Client {
 		super('users');
 	}
 
+	async list(membersOnly = false) {
+		var usersData = await this.sendRequest(
+			membersOnly ? 'listMembers' : 'list',
+			RequestMethodType.GET,
+		);
+
+		return usersData.map((userData) => (new User(userData)));
+	}
+
 	async getByLevel(levelId) {
 		var usersData = await this.sendRequest(
 			'getByLevel',
 			RequestMethodType.POST,
-			{level_id: levelId}
+			{level_id: levelId},
 		);
 
 		return usersData.map((userData) => (new User(userData)));

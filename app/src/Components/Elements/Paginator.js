@@ -47,7 +47,7 @@ function Paginator({page, setPage, itemsPerPage, setItemsPerPage, itemCount}) {
 					{value: 50, text: '50'},
 					{value: 100, text: '100'},
 				]}
-				defaultValue={5}
+				defaultValue={25}
 				onChangeUpdateFunction={setItemsPerPage}
 				includeEmptyOption={false}
 			/>

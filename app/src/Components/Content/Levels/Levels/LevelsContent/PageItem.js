@@ -40,7 +40,7 @@ function PageItem({page, assigned, hidden}) {
             <td>
                 {typeLabels[page.type]}
             </td>
-            <td style={{textAlign: 'center'}}>
+            <td>
                 <img src={assigned ? check : cross}/>
             </td>
         </tr>

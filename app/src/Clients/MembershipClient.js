@@ -2,11 +2,15 @@ import Client from './Client';
 import {RequestMethodType} from "Enums/RequestMethodType";
 import Membership from "Models/Membership";
 import DateTime from "Models/DateTime";
+import ApiConnectionClient from "Clients/ApiConnectionClient";
 
 export default class MembershipClient extends Client {
+	apiConnectionClient;
 
 	constructor() {
 		super('memberships');
+
+		this.apiConnectionClient = new ApiConnectionClient();
 	}
 
 	async getAll() {
@@ -71,6 +75,21 @@ export default class MembershipClient extends Client {
 		);
 
 		return response.success;
+	}
+
+	async create(
+		data,
+	) {
+		await this.apiConnectionClient.getApiToken().then(async (tokenData) => {
+			data.token = tokenData?.apiToken;
+			data.send_email = false;
+
+			await this.sendRequest(
+				'create',
+				RequestMethodType.POST,
+				data,
+			);
+		});
 	}
 
 	async getUnlockDate(levelId, userId, registrationDate) {

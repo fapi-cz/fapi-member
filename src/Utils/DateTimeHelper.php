@@ -46,4 +46,11 @@ class DateTimeHelper
 		return $dateTime;
 	}
 
+	public static function getDaysDifference(DateTimeImmutable $from, DateTimeImmutable $to): int
+	{
+		$interval = $from->diff($to);
+
+		return (int) $interval->format('%r%a');
+	}
+
 }

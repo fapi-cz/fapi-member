@@ -9,9 +9,8 @@ export default class Client {
 		this.namespace = namespace;
 	}
 
-	async sendRequest(action, method, data) {
+	async sendRequest(action, method, data = []) {
         document.body.style.cursor = 'wait';
-
 		var response = null;
 
 		if (action !== null) {

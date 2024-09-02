@@ -107,7 +107,6 @@ function Pages({level}) {
                     />
                 ))}
                 {pages.filter(item => !filteredPages.includes(item)).map(page => {
-                    console.log(page)
                     return (
                         <PageItem
                             key={page.id}

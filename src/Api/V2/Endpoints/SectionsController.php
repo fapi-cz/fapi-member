@@ -52,6 +52,20 @@ class SectionsController
 		return $array;
 	}
 
+	public function getAllAsLevels(WP_REST_Request $request): array
+	{
+		$this->apiController->checkRequestMethod($request, RequestMethodType::GET);
+		$array = [];
+
+		$levels = $this->levelRepository->getAllAsLevels();
+
+		foreach ($levels as $level) {
+			$array[] = $level->toArray();
+		}
+
+		return $array;
+	}
+
 	public function get(int $id): array
 	{
 		$section = $this->levelRepository->getSectionById($id);

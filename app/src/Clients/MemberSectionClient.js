@@ -3,6 +3,8 @@ import MemberSection from 'Models/MemberSection';
 import {RequestMethodType} from "Enums/RequestMethodType";
 import AlertService from "Services/AlertService";
 import {UnlockingType} from "Enums/UnlockingType";
+import MemberLevel from "Models/MemberLevel";
+import levels from "Components/Content/Levels/Levels";
 
 export default class MemberSectionClient extends Client {
 
@@ -23,9 +25,22 @@ export default class MemberSectionClient extends Client {
 		return sections;
 	}
 
+	async getAllAsLevels () {
+		var levels = [];
+		var levelsData = await this.sendRequest('getAllAsLevels', RequestMethodType.GET, []);
+
+		if (levelsData) {
+			levelsData.forEach((levelData) => {
+				levels.push(new MemberLevel(levelData));
+			});
+		}
+
+		return levels;
+	}
+
 	async delete(id) {
 		await this.sendRequest('delete', RequestMethodType.POST, {id: id});
-	}xx
+	}
 
 	async create(name, parentId = null) {
 		await this.sendRequest('create', RequestMethodType.POST, {name: name, parent_id: parentId});

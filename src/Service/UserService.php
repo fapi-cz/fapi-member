@@ -21,7 +21,7 @@ class UserService
 	/**
 	 * @throws Exception
 	 */
-	public function getOrCreateUser(array $userData, array &$props, $retryCount = 0): User|null
+	public function getOrCreateUser(array $userData, array &$props = [], $retryCount = 0): User|null
 	{
 		$email = $userData['email'];
 		$user = $this->userRepository->getUserByEmail($email);
@@ -31,7 +31,6 @@ class UserService
 		}
 
 		if ($user instanceof User) {
-			$props['user_id']  = $user->getId();
 			$props['new_user'] = false;
 
 			return $user;
@@ -53,11 +52,8 @@ class UserService
 		}
 
 		if ($user !== null) {
-			$props['email'] = $user->getEmail();
-			$props['login'] = $user->getEmail();
 			$props['password'] = $password;
 			$props['new_user'] = true;
-			$props['user_id'] = $userId;
 		} elseif ($retryCount < 5) {
 			return $this->getOrCreateUser($userData, $props, ++$retryCount);
 		} elseif ($userId instanceof WP_Error) {

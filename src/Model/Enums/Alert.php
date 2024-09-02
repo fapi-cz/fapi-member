@@ -34,4 +34,10 @@ class Alert extends Enum
 
 	const MEMBERSHIP_UNTIL_EXTENDED = 'membershipUntilExtended';
 
+	const INVALID_EMAIL = 'invalidEmail';
+
+	const IMPORT_FAILED = 'importFailed';
+
+	const IMPORT_LEVEL_ID_DOESNT_EXIST = 'importLevelIdDoesntExist';
+
 }

@@ -12,4 +12,8 @@ class Format extends Enum
 
 	const DATE = 'Y-m-d';
 
+	const DATE_CZECH = 'd.m.Y';
+
+	const DATE_TIME_BASIC = 'Y-m-d H:i:s';
+
 }

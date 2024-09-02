@@ -5,7 +5,6 @@ namespace FapiMember\Api\V2\Endpoints;
 use FapiMember\Api\V2\ApiController;
 use FapiMember\Container\Container;
 use FapiMember\Library\SmartEmailing\Types\Arrays;
-use FapiMember\Library\SmartEmailing\Types\IntArray;
 use FapiMember\Library\SmartEmailing\Types\IntType;
 use FapiMember\Model\Enums\Keys\SettingsKey;
 use FapiMember\Model\Enums\Types\RequestMethodType;
