@@ -273,10 +273,11 @@ class MembershipsController
 			}
 
 			$wasUserCreatedNow = isset($props['new_user']) && $props['new_user'] === true;
+			$newToMembership = $props['oldMembership'] === null;
 			$levels = $this->levelRepository->getLevelsByIds($levelIds);
 
 			if ($sendEmail === true || $sendEmail === null) {
-				$emailsToSend = $this->emailService->findEmailsToSend($user->getId(), $levels, $wasUserCreatedNow);
+				$emailsToSend = $this->emailService->findEmailsToSend($levels, $wasUserCreatedNow, $newToMembership);
 
 				foreach ($emailsToSend as $emailToSend) {
 					[$type, $level] = $emailToSend;
