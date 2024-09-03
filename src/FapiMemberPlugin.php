@@ -5,6 +5,7 @@ namespace FapiMember;
 use FapiMember\Container\Container;
 use FapiMember\Model\Enums\Keys\OptionKey;
 use FapiMember\Model\Enums\Keys\ScheduleKey;
+use FapiMember\Repository\MembershipHistoryRepository;
 use FapiMember\Service\MembershipService;
 use FapiMember\Service\RedirectService;
 use FapiMember\Utils\DateTimeHelper;

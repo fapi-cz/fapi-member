@@ -49,9 +49,9 @@ class EmailService
 	 * @return array<array<string|MemberLevel>>
 	 */
 	public function findEmailsToSend(
-		int $userId,
 		array $levels,
 		bool $wasUserCreated,
+		bool $newToMembership,
 	): array
 	{
 		$toSend = [];
@@ -63,10 +63,7 @@ class EmailService
 				return $toSend;
 			}
 
-			$hadUserMembershipBefore = $this->membershipHistoryRepository
-				->hadUserMembershipBefore($userId, $level->getId());
-
-			if (!$hadUserMembershipBefore) {
+			if ($newToMembership) {
 				$toSend[] = [EmailType::AFTER_ADDING, $level];
 
 				continue;

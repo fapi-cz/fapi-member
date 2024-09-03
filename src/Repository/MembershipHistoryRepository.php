@@ -32,6 +32,7 @@ class MembershipHistoryRepository extends MembershipRepository
 		return $this->metaToMemberships($userId, $meta);
 	}
 
+	/** @deprecated  */
 	public function hadUserMembershipBefore(int $userId, int $levelId): bool
 	{
 		$memberships = $this->getHistoryByUserId($userId);

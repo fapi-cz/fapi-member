@@ -99,7 +99,9 @@ export default class MembershipClient extends Client {
 			var data = rows.map((row) => {
 				var rowData = row;
 				rowData.token = tokenData?.apiToken;
-				rowData.send_email = false;
+				rowData.send_email = (rowData.send_email === undefined || '' === rowData.send_email)
+				? false
+				: rowData.send_email === true || rowData.send_email === 'true';
 
 				return rowData;
 			});
