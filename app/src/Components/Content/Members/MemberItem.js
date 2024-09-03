@@ -13,16 +13,13 @@ function MemberItem({member, setActiveMember, hidden = false}) {
                 style={{padding: '5px', paddingTop: '6px'}}
             />
             <td>
-                {member.loginName}
+                {member.email}
             </td>
             <td>
                 {(member.firstName === null && member.lastName === null)
                     ? ('---')
                     : ((member.firstName ?? '') + ' ' + (member.lastName ?? ''))
                 }
-            </td>
-            <td>
-                {member.email}
             </td>
             <td>
                 {member.levelIds.length}

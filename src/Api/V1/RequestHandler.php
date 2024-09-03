@@ -94,7 +94,7 @@ class RequestHandler
 			$data['level'] = $params['level'];
 		}
 
-		$this->membershipsController->create($data);
+		$this->membershipsController->create($data, false);
 	}
 
 	public function handleApiCheckConnectionCallback(WP_REST_Request $request) {

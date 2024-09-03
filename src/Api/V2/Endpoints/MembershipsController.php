@@ -135,7 +135,19 @@ class MembershipsController
 		$this->apiController->callbackResponse([], Alert::SETTINGS_SAVED);
 	}
 
-	public function create(array $body): void
+	public function createMultiple(WP_REST_Request $request): void
+	{
+		$this->apiController->checkRequestMethod($request, RequestMethodType::POST);
+		$rows = json_decode($request->get_body(), true);
+
+		foreach ($rows as $row) {
+			if (isset($row['email']) && $row['email'] !== null && $row['email'] !== '') {
+				$this->create($row, true);
+			}
+		}
+	}
+
+	public function create(array $body, bool $creatingMultiple = false): void
 	{
 		if (!isset($body['level'])) {
 			$this->apiController->callbackError([
@@ -289,9 +301,10 @@ class MembershipsController
 			}
 		}
 
-		wp_send_json_success([FapiMemberPlugin::FAPI_MEMBER_PLUGIN_VERSION_KEY => FAPI_MEMBER_PLUGIN_VERSION]);
-
-		die;
+		if (!$creatingMultiple) {
+			wp_send_json_success([FapiMemberPlugin::FAPI_MEMBER_PLUGIN_VERSION_KEY => FAPI_MEMBER_PLUGIN_VERSION]);
+			die;
+		}
 	}
 
 	public function unlockLevelForLoggedInUser(WP_REST_Request $request): void

@@ -51,19 +51,14 @@ export class MemberService {
 			const obj = {};
 
 			headers.forEach((header, index) => {
-				obj[header.trim()] = values[index].trim();
+				obj[header?.trim()] = values[index]?.trim();
 			});
 
 			return obj;
 		});
 
-			// data.forEach((row) => {
-			// 	this.membershipClient.create(row);
-			// });
+		await this.membershipClient.createMultiple(data);
 
-			await Promise.all(data.map(async (row) => {
-					await this.membershipClient.create(row);
-					return null;
-			}));
+		return null;
 	}
 }
