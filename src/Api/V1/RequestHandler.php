@@ -2,6 +2,7 @@
 
 namespace FapiMember\Api\V1;
 
+use FapiMember\Api\V2\Endpoints\MembershipsController;
 use FapiMember\Container\Container;
 use FapiMember\FapiMemberPlugin;
 use FapiMember\Model\Enums\Keys\OptionKey;
@@ -16,21 +17,17 @@ use WP_REST_Request;
 
 class RequestHandler
 {
-	private MembershipService $membershipService;
-	private EmailService $emailService;
 	private ApiService $apiService;
 	private LevelService $levelService;
-	private UserService $userService;
 	private LevelRepository $levelRepository;
+	private MembershipsController $membershipsController;
 
 	public function __construct()
 	{
-		$this->emailService = Container::get(EmailService::class);
-		$this->membershipService = Container::get(MembershipService::class);
 		$this->apiService = Container::get(ApiService::class);
 		$this->levelService = Container::get(LevelService::class);
-		$this->userService = Container::get(UserService::class);
 		$this->levelRepository = Container::get(LevelRepository::class);
+		$this->membershipsController = Container::get(MembershipsController::class);
 	}
 
 	public function handleApiSections(WP_REST_Request $request): void
@@ -89,171 +86,15 @@ class RequestHandler
 		$data = [];
 		parse_str($body, $data);
 
-		try {
-			if (!isset($params['level'])) {
-				$this->apiService->callbackError([
-					'class'=> self::class,
-					'description' => 'Level parameter missing in get params.',
-				]);
-			}
-
-			if (is_array($params['level'])) {
-				$levelIds = [];
-
-				foreach ($params['level'] as $level) {
-					$levelIds[] = (int) $level;
-				}
-			} else {
-				$levelIds = [(int) $params['level']];
-			}
-
-			foreach ($levelIds as $levelId) {
-				$level = $this->levelRepository->getLevelById((int) $levelId);
-
-				if ($level === null) {
-					$this->apiService->callbackError([
-						'class' => self::class,
-						'description' => sprintf(
-							'Section or level with ID %s, does not exist.',
-							$levelId,
-						),
-					]);
-				}
-			}
-
-			if (isset($data['voucher'])) {
-				$userData = $this->emailService->getEmailFromValidVoucher($data);
-			} elseif (isset($data['id'])) {
-				$userData = $this->emailService->getEmailFromPaidInvoice($data);
-			} elseif (isset($data['token'])) {
-				$userData = $this->emailService->getEmailFromBodyWithValidToken($data);
-			} else {
-				$this->apiService->callbackError([
-					'class' => self::class,
-					'description' => 'Invalid notification received. Missing voucher, id or token.',
-				]);
-			}
-
-			if (!is_email($userData['email'])) {
-				$this->apiService->callbackError([
-					'class' => self::class,
-					'description' => 'Invalid email provided. Email given: ' . $userData['email'],
-				]);
-			}
-
-
-			if (isset($params['days'])) {
-				$days = (int) $params['days'];
-			} else {
-				$days = null;
-			}
-
-			if (isset($data['id']) && $days !== null) {
-				$invoice = $this->apiService->getInvoice((int) $data['id']);
-				$repaymentNumber = $invoice['repayment_number'] ?? 1;
-				$repaymentInvoices = $this->apiService->getAllInvoicesInRepayment((int) $data['id']);
-				$highestRepayment = 1;
-
-				if ($repaymentNumber !== 0 && $repaymentNumber !== null) {
-					foreach ($repaymentInvoices as $repaymentInvoice) {
-						if (
-							isset($repaymentInvoice['repayment_number']) &&
-							$repaymentInvoice['repayment_number'] > $highestRepayment
-						) {
-							$highestRepayment = $repaymentInvoice['repayment_number'];
-						}
-					}
-
-					$repaymentDays = intdiv($days, $highestRepayment);
-
-					if ($repaymentNumber === 1) {
-						$repaymentDays += $days % $highestRepayment;
-					}
-
-					$days = $repaymentDays;
-				}
-			}
-
-			$isUnlimited = $days === null;
-			$props = [];
-			$user = $this->userService->getOrCreateUser($userData, $props);
-
-			if ($user === null) {
-				$this->apiService->callbackError([
-						'class' => self::class,
-						'description' => 'Failed to create user.',
-				]);
-			}
-
-			foreach ($levelIds as $levelId) {
-				$props = $this->membershipService->createOrProlongMembership(
-					$user->getId(),
-					$levelId,
-					$isUnlimited,
-					$days
-				) + $props;
-				$props = $this->enhanceProps($props) + $props;
-			}
-
-			$wasUserCreatedNow = isset($props['new_user']) && $props['new_user'] === true;
-			$levels = $this->levelRepository->getLevelsByIds($levelIds);
-
-			if (!isset($data['send_email']) || (bool) $data['send_email'] === true) {
-				$emailsToSend = $this->emailService->findEmailsToSend($user->getId(), $levels, $wasUserCreatedNow);
-
-				foreach ($emailsToSend as $emailToSend) {
-					[$type, $level] = $emailToSend;
-
-					$this->emailService->sendEmail($user->getEmail(), $type, $level->getId(), $props);
-				}
-			}
-
-			wp_send_json_success([FapiMemberPlugin::FAPI_MEMBER_PLUGIN_VERSION_KEY => FAPI_MEMBER_PLUGIN_VERSION]);
-		} catch (Throwable $exception) {
-			$token = get_option(OptionKey::TOKEN, null);
-
-			if (
-				isset($data['token']) && $data['token'] === $token
-				&& isset($data['debug']) && (bool) $data['debug'] === true
-			) {
-				wp_send_json_error($exception->getMessage());
-			} else {
-				$this->apiService->callbackError([
-						'class' => self::class,
-						'description' => 'An internal error occurred.',
-				]);
-			}
+		if (isset($params['days'])) {
+			$data['days'] = $params['days'];
 		}
 
-		die;
-	}
-
-	/**
-	 * @param array<mixed> $props
-	 * @return array<mixed>
-	 */
-	public function enhanceProps(array $props): array
-	{
-		if ( isset( $props['membership_level_added_level'] ) ) {
-			$props['membership_level_added_level_name'] = $this->levelRepository
-				->getLevelById($props['membership_level_added_level'])->getName();
+		if (isset($params['level'])) {
+			$data['level'] = $params['level'];
 		}
 
-		if ( isset( $props['membership_prolonged_level'] ) ) {
-			$props['membership_prolonged_level_name'] = $this->levelRepository
-				->getLevelById($props['membership_prolonged_level'])->getName();
-		}
-
-		if (isset($props['membership_level_added_level'])) {
-			$loginUrl = $this->levelService->getLoginUrl($props['membership_level_added_level']);
-		} else {
-			$loginUrl = $this->levelService->getLoginUrl();
-		}
-
-		$props['login_link'] = sprintf( '<a href="%s">zde</a>', $loginUrl);
-		$props['login_link_url'] = $loginUrl;
-
-		return $props;
+		$this->membershipsController->create($data);
 	}
 
 	public function handleApiCheckConnectionCallback(WP_REST_Request $request) {

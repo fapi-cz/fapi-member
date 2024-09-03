@@ -114,16 +114,19 @@ function Members() {
       const reader = new FileReader();
 
       reader.onload = async (e) => {
-        await MemberService.importCsv(e.target.result);
+        await MemberService.importCsv(e.target.result).then(() => {
+            setLoadMembers(true);
+        });
       };
 
       reader.readAsText(file);
       event.target.value = '';
     }
+
   };
 
 
-    if (filteredMembers === null || displayedMemberIds == null || levels == null) {
+    if (filteredMembers === null || displayedMemberIds === null || levels === null || loadMembers === true) {
         return (<Loading/>);
     }
 
@@ -147,18 +150,18 @@ function Members() {
                         type={'light'}
                         onClick={handleExport}
                     />
-                    {/*<SubmitButton*/}
-                    {/*    text={'Importovat (csv)'}*/}
-                    {/*    type={'light'}*/}
-                    {/*    onClick={() => {importFile.current.click()}}*/}
-                    {/*/>*/}
-                    {/*<input*/}
-                    {/*    type="file"*/}
-                    {/*    ref={importFile}*/}
-                    {/*    style={{display: 'none'}}*/}
-                    {/*    accept=".csv"*/}
-                    {/*    onChange={handleImport}*/}
-                    {/*/>*/}
+                    <SubmitButton
+                        text={'Importovat (csv)'}
+                        type={'light'}
+                        onClick={() => {importFile.current.click()}}
+                    />
+                    <input
+                        type="file"
+                        ref={importFile}
+                        style={{display: 'none'}}
+                        accept=".csv"
+                        onChange={handleImport}
+                    />
                     {/*<SubmitButton text={'Vytvořit'}/>*/}
                 </span>
             </h1>

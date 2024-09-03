@@ -9,16 +9,6 @@
  */
 (self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["src_Components_Content_Connection_Connection_js"],{
 
-/***/ "./src/Clients/ApiConnectionClient.js":
-/*!********************************************!*\
-  !*** ./src/Clients/ApiConnectionClient.js ***!
-  \********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ ApiConnectionClient)\n/* harmony export */ });\n/* harmony import */ var _Client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Client */ \"./src/Clients/Client.js\");\n/* harmony import */ var Enums_RequestMethodType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! Enums/RequestMethodType */ \"./src/Enums/RequestMethodType.js\");\n/* harmony import */ var Models_ApiConnection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! Models/ApiConnection */ \"./src/Models/ApiConnection.js\");\n\n\n\nclass ApiConnectionClient extends _Client__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n  constructor() {\n    super('apiConnections');\n  }\n  async list() {\n    var connectionsData = await this.sendRequest('list', Enums_RequestMethodType__WEBPACK_IMPORTED_MODULE_1__.RequestMethodType.GET, {});\n    return connectionsData.map(connectionData => {\n      return new Models_ApiConnection__WEBPACK_IMPORTED_MODULE_2__[\"default\"](connectionData);\n    });\n  }\n  async getStatusForAll() {\n    return await this.sendRequest('getStatusForAll', Enums_RequestMethodType__WEBPACK_IMPORTED_MODULE_1__.RequestMethodType.GET, {});\n  }\n  async getApiToken() {\n    return await this.sendRequest('getApiToken', Enums_RequestMethodType__WEBPACK_IMPORTED_MODULE_1__.RequestMethodType.GET, {});\n  }\n  async create(apiUser, apiKey) {\n    return await this.sendRequest('create', Enums_RequestMethodType__WEBPACK_IMPORTED_MODULE_1__.RequestMethodType.POST, {\n      api_key: apiKey,\n      api_user: apiUser\n    });\n  }\n  async remove(apiKey) {\n    return await this.sendRequest('remove', Enums_RequestMethodType__WEBPACK_IMPORTED_MODULE_1__.RequestMethodType.POST, {\n      api_key: apiKey\n    });\n  }\n}\n\n//# sourceURL=webpack://app/./src/Clients/ApiConnectionClient.js?");
-
-/***/ }),
-
 /***/ "./src/Components/Content/Connection/Connection.js":
 /*!*********************************************************!*\
   !*** ./src/Components/Content/Connection/Connection.js ***!
@@ -46,16 +36,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var Helpers_StringHelper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! Helpers/StringHelper */ \"./src/Helpers/StringHelper.js\");\n\n\nfunction HiddenText(_ref) {\n  let {\n    value\n  } = _ref;\n  const [hidden, setHidden] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);\n  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(\"span\", {\n    className: \"hidden-text\"\n  }, hidden ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(\"span\", {\n    className: \"hidden-text-value\"\n  }, Helpers_StringHelper__WEBPACK_IMPORTED_MODULE_1__.StringHelper.stringToDots(value)) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(\"code\", {\n    className: \"hidden-text-value\"\n  }, value), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(\"a\", {\n    className: \"hidden-text-toggle\",\n    onClick: () => {\n      setHidden(!hidden);\n    },\n    style: {\n      marginLeft: '10px'\n    }\n  }, hidden ? 'Zobrazit' : 'Skrýt'));\n}\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (HiddenText);\n\n//# sourceURL=webpack://app/./src/Components/Elements/HiddenText.js?");
-
-/***/ }),
-
-/***/ "./src/Models/ApiConnection.js":
-/*!*************************************!*\
-  !*** ./src/Models/ApiConnection.js ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ ApiConnection)\n/* harmony export */ });\nfunction _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }\nfunction _toPropertyKey(t) { var i = _toPrimitive(t, \"string\"); return \"symbol\" == typeof i ? i : i + \"\"; }\nfunction _toPrimitive(t, r) { if (\"object\" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || \"default\"); if (\"object\" != typeof i) return i; throw new TypeError(\"@@toPrimitive must return a primitive value.\"); } return (\"string\" === r ? String : Number)(t); }\nclass ApiConnection {\n  constructor(data) {\n    var _data$api_user, _data$api_key;\n    _defineProperty(this, \"apiUser\", void 0);\n    _defineProperty(this, \"apiKey\", void 0);\n    this.apiUser = (_data$api_user = data === null || data === void 0 ? void 0 : data.api_user) !== null && _data$api_user !== void 0 ? _data$api_user : null;\n    this.apiKey = (_data$api_key = data === null || data === void 0 ? void 0 : data.api_key) !== null && _data$api_key !== void 0 ? _data$api_key : null;\n  }\n}\n\n//# sourceURL=webpack://app/./src/Models/ApiConnection.js?");
 
 /***/ }),
 

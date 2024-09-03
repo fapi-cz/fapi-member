@@ -23,7 +23,7 @@ export class MemberService {
 					email: member.email,
 					first_name: member.firstName,
 					last_name: member.lastName,
-					level_id: membership.levelId,
+					level: membership.levelId,
 					registered: membership.registered?.getDateTime(),
 					until: membership.until?.getDate(),
 				}
@@ -42,23 +42,28 @@ export class MemberService {
 		document.body.removeChild(link);
 	}
 
-	// static async importCsv(csv) {
-	// 	const rows = csv.split('\n');
-    // 	const headers = rows[0].split(',');
-	//
-	// 	const data = rows.slice(1).map(row => {
-	// 		const values = row.split(',');
-	// 		const obj = {};
-	//
-	// 		headers.forEach((header, index) => {
-	// 			obj[header.trim()] = values[index].trim();
-	// 		});
-	//
-	// 		return obj;
-	// 	});
-	//
-	// 	data.forEach((row) => {
-	// 		this.membershipClient.create(row);
-	// 	})
-	// }
+	static async importCsv(csv) {
+		const rows = csv.split('\n');
+    	const headers = rows[0].split(',');
+
+		const data = rows.slice(1).map(row => {
+			const values = row.split(',');
+			const obj = {};
+
+			headers.forEach((header, index) => {
+				obj[header.trim()] = values[index].trim();
+			});
+
+			return obj;
+		});
+
+			// data.forEach((row) => {
+			// 	this.membershipClient.create(row);
+			// });
+
+			await Promise.all(data.map(async (row) => {
+					await this.membershipClient.create(row);
+					return null;
+			}));
+	}
 }

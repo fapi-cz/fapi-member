@@ -14,7 +14,7 @@ function EmailsSymbolTable() {
             <th>registraci nového člena</th>
             <th>prodloužení/přidání sekce
             </th>
-            <th>prodloužení/přidání sekce
+            <th>prodloužení/přidání úrovně
             </th>
         </tr>
         </thead>
@@ -47,7 +47,7 @@ function EmailsSymbolTable() {
             <td><code>%%CLENSTVI_DO%%</code></td>
             <td>Datum konce členství nebo 'neomezené'</td>
             <td>12. 1. 2022</td>
-            <td>✗</td>
+            <td>✓</td>
             <td>✓</td>
             <td>✓</td>
         </tr>
@@ -64,8 +64,8 @@ function EmailsSymbolTable() {
             <td>Přihlašovací jméno uživatele</td>
             <td>jan@example.com</td>
             <td>✓</td>
-            <td>✗</td>
-            <td>✗</td>
+            <td>✓</td>
+            <td>✓</td>
         </tr>
         <tr>
             <td><code>%%HESLO%%</code></td>

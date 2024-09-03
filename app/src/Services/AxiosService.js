@@ -50,11 +50,13 @@ class AxiosService {
 		  .then(response => {
 			responseData = response.data;
 			this.handleAlert(response?.data?.data?.alert);
+
 		  })
 		  .catch(error => {
-			  console.log(error)
+		  	console.log(error)
 			this.handleAlert(error.response?.data?.data?.alert);
 		  });
+
 
 		return responseData;
 	}

@@ -23,6 +23,9 @@ class AlertProvider
 		Alert::REORDER_FAILED => [AlertType::ERROR, 'Nelze přeřadit sekci/úroveň.'],
 		Alert::MEMBERSHIP_REGISTERED_EXTENDED => [AlertType::WARNING, 'Datum registrace sekce bylo přenastaveno dle úrovně.'],
 		Alert::MEMBERSHIP_UNTIL_EXTENDED => [AlertType::WARNING, 'Datum expirace sekce bylo přenastaveno dle úrovně.'],
+		Alert::INVALID_EMAIL => [AlertType::ERROR, 'E-mailová adresa není validní.'],
+		Alert::IMPORT_FAILED => [AlertType::ERROR, 'Import selhal.'],
+		Alert::IMPORT_LEVEL_ID_DOESNT_EXIST => [AlertType::ERROR, 'Soubor obsahuje neplatné ID sekce/úrovně.'],
 	];
 
 	/** @return array<string> */

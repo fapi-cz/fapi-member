@@ -106,19 +106,52 @@ class MembershipService
 	}
 
 	/** @return array<mixed> */
-	public function createOrProlongMembership(
+	public function createOrUpdateMembership(
 		int $userId,
 		int $levelId,
-		bool $isUnlimited = true,
+		DateTimeImmutable|null $registered,
+		DateTimeImmutable|null $until = null,
+	): array
+	{
+		$oldMembership = $this->membershipRepository->getOneByUserIdAndLevelId($userId, $levelId);
+
+		$newMembership = new Membership([
+			'level_id' => $levelId,
+			'user_id' => $userId,
+			'registered' => $registered,
+			'until' => $until,
+			'is_unlimited' => $until === null,
+		]);
+
+		if ($oldMembership !== null) {
+			$this->update($newMembership);
+		} else {
+			$this->saveOne($newMembership);
+		}
+
+		$this->fixMemberships($userId);
+
+		return [
+			'oldMembership' => $oldMembership,
+			'newMembership' => $newMembership,
+		];
+	}
+
+	/** @return array<mixed> */
+	public function createOrProlongMembershipByDays(
+		int $userId,
+		int $levelId,
 		int|null $days = null,
 	): array
 	{
 		$membership = $this->membershipRepository->getOneByUserIdAndLevelId($userId, $levelId);
 
+		$isUnlimited = $days === null;
+
 		if ($membership !== null) {
 			$props = $this->prolongMembership($membership, $isUnlimited, $days);
 		} else {
-			$props = $this->createMembership($userId, $levelId, $isUnlimited, $days);
+			$props = $this->createMembershipFromDays($userId, $levelId, $isUnlimited, $days);
 		}
 
 		$this->fixMemberships($userId);
@@ -130,7 +163,7 @@ class MembershipService
 	 * @return array<mixed>
 	 * @throws \Exception
 	 */
-	public function createMembership(
+	public function createMembershipFromDays(
 		int $userId,
 		int $levelId,
 		$isUnlimited,
@@ -138,28 +171,15 @@ class MembershipService
 	): array
 	{
 		$props = [];
-
-		$level = $this->levelRepository->getLevelById($levelId);
-
-		$props['membership_level_added'] = true;
-		$props['membership_level_added_level'] = $levelId;
-
-		if ($level->isSection()) {
-			$props['membership_level_added_is_section'] = true;
-		} else {
-			$props['membership_level_added_is_section'] = false;
-		}
+		$props['oldMembership'] = null;
 
 		$registered = DateTimeHelper::getNow();
 
 		if ($isUnlimited) {
-			$props['membership_level_added_unlimited'] = true;
 			$until = null;
 		} else {
 			$until = $registered;
 			$until = $until->modify(sprintf('+ %s days', $days ));
-			$props['membership_level_added_until'] = $until;
-			$props['membership_level_added_days'] = $days;
 		}
 
 		$newMembership = new Membership([
@@ -169,6 +189,8 @@ class MembershipService
 			'until' => $until,
 			'is_unlimited' => $isUnlimited
 		]);
+
+		$props['newMembership'] = $newMembership;
 
 		$this->saveOne($newMembership);
 
@@ -183,36 +205,17 @@ class MembershipService
 	): array
 	{
 		$props = [];
-
-		if ($membership->isUnlimited()){
-			$wasUnlimitedBefore = true;
-		} else {
-			$props['membership_prolonged'] = true;
-			$props['membership_prolonged_level'] = $membership->getLevelId();
-			$wasUnlimitedBefore = false;
-		}
+		$props['oldMembership'] = $membership;
 
 		if ($isUnlimited || $membership->isUnlimited()) {
 			$membership->setIsUnlimited(true);
-
-			if (!$wasUnlimitedBefore ) {
-				$props['membership_prolonged_to_unlimited'] = true;
-			}
 		} else {
 			$membership->setUntil(
 				$membership->getUntil()->modify(sprintf('+ %s days', $days))
 			);
-			$props['membership_prolonged_days']  = $days;
-			$props['membership_prolonged_until'] = $membership->getUntil();
 		}
 
-		$level = $this->levelRepository->getLevelById($membership->getLevelId());
-
-		if ($level->isSection()) {
-			$props['membership_prolonged_is_section'] = true;
-		} else {
-			$props['membership_prolonged_is_section'] = false;
-		}
+		$props['newMembership'] = $membership;
 
 		$this->update($membership);
 

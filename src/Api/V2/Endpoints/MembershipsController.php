@@ -135,174 +135,164 @@ class MembershipsController
 		$this->apiController->callbackResponse([], Alert::SETTINGS_SAVED);
 	}
 
-//	public function create(array $body): void
-//	{
-//		if (!isset($body['level'])) {
-//			$this->apiController->callbackError([
-//				'class'=> self::class,
-//				'description' => 'Level parameter missing in get params.',
-//			]);
-//		}
-//
-//		if (is_array($body['level'])) {
-//			$levelIds = [];
-//
-//			foreach ($body['level'] as $level) {
-//				$levelIds[] = (int) $level;
-//			}
-//		} else {
-//			$levelIds = [(int) $body['level']];
-//		}
-//
-//		$token = $this->apiController->extractParamOrNull($body, 'token', StringType::class);
-//		$voucher = $this->apiController->extractParamOrNull($body, 'voucher', IntType::class);
-//		$id = $this->apiController->extractParamOrNull($body, 'id', IntType::class);
-//
-//		$debug = $this->apiController->extractParamOrNull($body, 'debug', BoolType::class);
-//		$days = $this->apiController->extractParamOrNull($body, 'days', IntType::class);
-//
-//		$registered =  DateTimeHelper::createOrNull(
-//			$this->apiController->extractParamOrNull($body, 'registered', StringType::class),
-//			Format::DATE_TIME_BASIC,
-//		);
-//
-//		$until =  DateTimeHelper::createOrNull(
-//			$this->apiController->extractParamOrNull($body, 'until', StringType::class),
-//			Format::DATE,
-//		);
-//
-//		try {
-//			foreach ($levelIds as $levelId) {
-//				$level = $this->levelRepository->getLevelById($levelId);
-//
-//				if ($level === null) {
-//					$this->apiController->callbackError([
-//						'class' => self::class,
-//						'description' => sprintf(
-//							'Section or level with ID %s, does not exist.',
-//							$levelId,
-//						),
-//					]);
-//				}
-//			}
-//
-//			if ($voucher !== null) {
-//				$userData = $this->emailService->getEmailFromValidVoucher($body);
-//			} elseif ($id !== null) {
-//				$userData = $this->emailService->getEmailFromPaidInvoice($body);
-//			} elseif ($token !== null) {
-//				$userData = $this->emailService->getEmailFromBodyWithValidToken($body);
-//			} else {
-//				$this->apiController->callbackError([
-//					'class' => self::class,
-//					'description' => 'Invalid notification received. Missing voucher, id or token.',
-//				]);
-//			}
-//
-//			if (!is_email($userData['email'])) {
-//				$this->apiController->callbackError([
-//					'class' => self::class,
-//					'description' => 'Invalid email provided. Email given: ' . $userData['email'],
-//				]);
-//			}
-//
-//			if ($id !== null && $days !== null) {
-//				$invoice = $this->apiService->getInvoice($id);
-//				$repaymentNumber = $invoice['repayment_number'] ?? 1;
-//				$repaymentInvoices = $this->apiService->getAllInvoicesInRepayment($id);
-//				$highestRepayment = 1;
-//
-//				if ($repaymentNumber !== 0 && $repaymentNumber !== null) {
-//					foreach ($repaymentInvoices as $repaymentInvoice) {
-//						if (
-//							isset($repaymentInvoice['repayment_number']) &&
-//							$repaymentInvoice['repayment_number'] > $highestRepayment
-//						) {
-//							$highestRepayment = $repaymentInvoice['repayment_number'];
-//						}
-//					}
-//
-//					$repaymentDays = intdiv($days, $highestRepayment);
-//
-//					if ($repaymentNumber === 1) {
-//						$repaymentDays += $days % $highestRepayment;
-//					}
-//
-//					$days = $repaymentDays;
-//				}
-//			}
-//
-//			$props = [];
-//			$user = $this->userService->getOrCreateUser($userData, $props);
-//
-//			if ($user === null) {
-//				$this->apiController->callbackError([
-//						'class' => self::class,
-//						'description' => 'Failed to create user.',
-//				]);
-//			}
-//
-//			$props = [];
-//
-//			foreach ($levelIds as $levelId) {
-//				if ($registered === null) {
-//					$this->membershipService->createOrProlongMembershipByDays(
-//						$user->getId(),
-//						$levelId,
-//						$days,
-//					) + $props;
-//				} else {
-//					$this->membershipService->createOrUpdateMembership(
-//						$user->getId(),
-//						$levelId,
-//						$registered,
-//						$until,
-//					);
-//				}
-//
-//			}
-//
-//		} catch (Throwable $exception) {
-//			$actualToken = get_option(OptionKey::TOKEN, null);
-//
-//			if (
-//				$actualToken === $token &&
-//				$debug === true
-//			) {
-//				wp_send_json_error($exception->getMessage());
-//			} else {
-//				$this->apiController->callbackError([
-//						'class' => self::class,
-//						'description' => 'An internal error occurred.',
-//				]);
-//			}
-//		}
-//
-//
-//
-//
-//		wp_send_json_error([$registered, $until, $levelIds]);
-//
-//////////////////////////////////////////////////////////////////////
-//
-//			$wasUserCreatedNow = isset($props['new_user']) && $props['new_user'] === true;
-//			$levels = $this->levelRepository->getLevelsByIds($levelIds);
-//
-//			if (!isset($data['send_email']) || (bool) $data['send_email'] === true) {
-//				$emailsToSend = $this->emailService->findEmailsToSend($user->getId(), $levels, $wasUserCreatedNow);
-//
-//				foreach ($emailsToSend as $emailToSend) {
-//					[$type, $level] = $emailToSend;
-//
-//					$this->emailService->sendEmail($user->getEmail(), $type, $level->getId(), $props);
-//				}
-//			}
-//
-//			wp_send_json_success([FapiMemberPlugin::FAPI_MEMBER_PLUGIN_VERSION_KEY => FAPI_MEMBER_PLUGIN_VERSION]);
-//
-//		die;
-//
-//	}
+	public function create(array $body): void
+	{
+		if (!isset($body['level'])) {
+			$this->apiController->callbackError([
+				'class'=> self::class,
+				'description' => 'Level parameter missing in get params.',
+			], Alert::IMPORT_FAILED);
+		}
+
+		if (is_array($body['level'])) {
+			$levelIds = [];
+
+			foreach ($body['level'] as $level) {
+				$levelIds[] = (int) $level;
+			}
+		} else {
+			$levelIds = [(int) $body['level']];
+		}
+
+		$token = $this->apiController->extractParamOrNull($body, 'token', StringType::class);
+		$voucher = $this->apiController->extractParamOrNull($body, 'voucher', IntType::class);
+		$id = $this->apiController->extractParamOrNull($body, 'id', IntType::class);
+
+		$debug = $this->apiController->extractParamOrNull($body, 'debug', BoolType::class);
+		$sendEmail = $this->apiController->extractParamOrNull($body, 'send_email', BoolType::class);
+		$days = $this->apiController->extractParamOrNull($body, 'days', IntType::class);
+
+		$registered =  DateTimeHelper::createOrNull(
+			$this->apiController->extractParamOrNull($body, 'registered', StringType::class),
+			Format::DATE_TIME_BASIC,
+		);
+
+		$until =  DateTimeHelper::createOrNull(
+			$this->apiController->extractParamOrNull($body, 'until', StringType::class),
+			Format::DATE,
+		);
+
+		try {
+			foreach ($levelIds as $levelId) {
+				$level = $this->levelRepository->getLevelById($levelId);
+
+				if ($level === null) {
+					$this->apiController->callbackError([
+						'class' => self::class,
+						'description' => sprintf(
+							'Section or level with ID %s, does not exist.',
+							$levelId,
+						),
+					], Alert::IMPORT_LEVEL_ID_DOESNT_EXIST);
+				}
+			}
+
+			if ($voucher !== null) {
+				$userData = $this->emailService->getEmailFromValidVoucher($body);
+			} elseif ($id !== null) {
+				$userData = $this->emailService->getEmailFromPaidInvoice($body);
+			} elseif ($token !== null) {
+				$userData = $this->emailService->getEmailFromBodyWithValidToken($body);
+			} else {
+				$this->apiController->callbackError([
+					'class' => self::class,
+					'description' => 'Invalid notification received. Missing voucher, id or token.',
+				]);
+			}
+
+			if (!is_email($userData['email'])) {
+				$this->apiController->callbackError([
+					'class' => self::class,
+					'description' => 'Invalid email provided. Email given: ' . $userData['email'],
+				], Alert::INVALID_EMAIL);
+			}
+
+			if ($id !== null && $days !== null) {
+				$invoice = $this->apiService->getInvoice($id);
+				$repaymentNumber = $invoice['repayment_number'] ?? 1;
+				$repaymentInvoices = $this->apiService->getAllInvoicesInRepayment($id);
+				$highestRepayment = 1;
+
+				if ($repaymentNumber !== 0 && $repaymentNumber !== null) {
+					foreach ($repaymentInvoices as $repaymentInvoice) {
+						if (
+							isset($repaymentInvoice['repayment_number']) &&
+							$repaymentInvoice['repayment_number'] > $highestRepayment
+						) {
+							$highestRepayment = $repaymentInvoice['repayment_number'];
+						}
+					}
+
+					$repaymentDays = intdiv($days, $highestRepayment);
+
+					if ($repaymentNumber === 1) {
+						$repaymentDays += $days % $highestRepayment;
+					}
+
+					$days = $repaymentDays;
+				}
+			}
+
+			$props = [];
+			$user = $this->userService->getOrCreateUser($userData, $props);
+
+			if ($user === null) {
+				$this->apiController->callbackError([
+						'class' => self::class,
+						'description' => 'Failed to create user.',
+				], Alert::IMPORT_FAILED);
+			}
+
+			foreach ($levelIds as $levelId) {
+				if ($registered === null) {
+					$props = $this->membershipService->createOrProlongMembershipByDays(
+						$user->getId(),
+						$levelId,
+						$days,
+					) + $props;
+				} else {
+					$props = $this->membershipService->createOrUpdateMembership(
+						$user->getId(),
+						$levelId,
+						$registered,
+						$until,
+					) + $props;
+				}
+			}
+
+			$wasUserCreatedNow = isset($props['new_user']) && $props['new_user'] === true;
+			$levels = $this->levelRepository->getLevelsByIds($levelIds);
+
+			if ($sendEmail === true || $sendEmail === null) {
+				$emailsToSend = $this->emailService->findEmailsToSend($user->getId(), $levels, $wasUserCreatedNow);
+
+				foreach ($emailsToSend as $emailToSend) {
+					[$type, $level] = $emailToSend;
+
+					$this->emailService->sendEmail($user->getEmail(), $type, $level->getId(), $props);
+				}
+			}
+
+		} catch (Throwable $exception) {
+			$actualToken = get_option(OptionKey::TOKEN, null);
+
+			if (
+				$actualToken === $token &&
+				$debug === true
+			) {
+				wp_send_json_error($exception->getMessage());
+			} else {
+				$this->apiController->callbackError([
+						'class' => self::class,
+						'description' => 'An internal error occurred.',
+				]);
+			}
+		}
+
+		wp_send_json_success([FapiMemberPlugin::FAPI_MEMBER_PLUGIN_VERSION_KEY => FAPI_MEMBER_PLUGIN_VERSION]);
+
+		die;
+	}
 
 	public function unlockLevelForLoggedInUser(WP_REST_Request $request): void
 	{
