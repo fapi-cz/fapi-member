@@ -11,7 +11,7 @@ function Member({member, removeActiveMember}) {
 
 		  <h1 style={{marginBottom: '20px'}}>
 			  <strong>
-					Uživatel:
+					Člen:
 			  </strong>
 			  {' ' + member.loginName}
 
@@ -28,7 +28,9 @@ function Member({member, removeActiveMember}) {
 				  />
 			  </span>
 		  </h1>
-
+		  <a href={'user-edit.php?user_id=' + member.id}>Nastavení uživatele</a>
+		  <br/>
+		  <br/>
 		  <h1>Členské sekce</h1>
 		  <br/>
 		  <UserMembershipsForm

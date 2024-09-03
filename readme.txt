@@ -5,7 +5,7 @@ Requires at least: 5.9
 Tested up to: 6.4
 Requires PHP: 8.1
 License: GPLv2 or later
-Stable tag: 2.1.14
+Stable tag: 2.1.15
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -26,9 +26,14 @@ Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org
 
 == Changelog ==
 
+= 2.1.15 =
+* Added bulk member import
+* Refactored create membership API endpoint
+* Refactored email shortcodes
+
 = 2.1.14 =
 * Added members tab
-* Added bulk export
+* Added bulk member export
 
 = 2.1.13 =
 * Added alerts to user settings

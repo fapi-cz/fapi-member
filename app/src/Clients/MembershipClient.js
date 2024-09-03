@@ -78,14 +78,34 @@ export default class MembershipClient extends Client {
 	}
 
 	async create(
-		data,
+		row,
 	) {
 		await this.apiConnectionClient.getApiToken().then(async (tokenData) => {
-			data.token = tokenData?.apiToken;
-			data.send_email = false;
+			row.token = tokenData?.apiToken;
+			row.send_email = false;
 
 			await this.sendRequest(
 				'create',
+				RequestMethodType.POST,
+				row,
+			);
+		});
+	}
+
+	async createMultiple(
+		rows,
+	) {
+		await this.apiConnectionClient.getApiToken().then(async (tokenData) => {
+			var data = rows.map((row) => {
+				var rowData = row;
+				rowData.token = tokenData?.apiToken;
+				rowData.send_email = false;
+
+				return rowData;
+			});
+
+			await this.sendRequest(
+				'createMultiple',
 				RequestMethodType.POST,
 				data,
 			);

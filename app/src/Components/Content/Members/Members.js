@@ -24,6 +24,8 @@ function Members() {
     const [levels, setLevels] = useState(null);
     const [loadMembers, setLoadMembers] = useState(true);
     const [activeMember, setActiveMember] = useState(null);
+    const [exporting, setExporting] = useState(false);
+    const [importing, setImporting] = useState(false);
     const importFile = useRef();
 
     useEffect(() => {
@@ -104,26 +106,29 @@ function Members() {
     }, false);
 
     const handleExport = async () => {
+        setExporting(true);
         await MemberService.exportCsv(filteredMembers);
+        setExporting(false);
     }
 
     const handleImport = async (event) => {
-    const file = event.target.files[0];
-
-    if (file && file.type === 'text/csv') {
-      const reader = new FileReader();
-
-      reader.onload = async (e) => {
-        await MemberService.importCsv(e.target.result).then(() => {
-            setLoadMembers(true);
-        });
-      };
-
-      reader.readAsText(file);
-      event.target.value = '';
-    }
-
-  };
+        setImporting(true);
+        const file = event.target.files[0];
+    
+        if (file && file.type === 'text/csv') {
+          const reader = new FileReader();
+    
+          reader.onload = async (e) => {
+            await MemberService.importCsv(e.target.result).then(() => {
+                setLoadMembers(true);
+                setImporting(false);
+            });
+          };
+    
+          reader.readAsText(file);
+          event.target.value = '';
+        }
+    };
 
 
     if (filteredMembers === null || displayedMemberIds === null || levels === null || loadMembers === true) {
@@ -149,11 +154,13 @@ function Members() {
                         text={'Exportovat (' + filteredMembers.length + ')'}
                         type={'light'}
                         onClick={handleExport}
+                        show={!exporting}
                     />
                     <SubmitButton
                         text={'Importovat (csv)'}
                         type={'light'}
                         onClick={() => {importFile.current.click()}}
+                        show={!importing}
                     />
                     <input
                         type="file"
@@ -176,9 +183,8 @@ function Members() {
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Uživatelské jméno</th>
-                        <th>Jméno a příjmení</th>
                         <th>Email</th>
+                        <th>Jméno a příjmení</th>
                         <th>Členství</th>
                         <th>Datum registrace</th>
                         <th></th>
