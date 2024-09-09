@@ -15,8 +15,22 @@
     color: $lightBlack !important;
   }
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    display: block !important;
+  }
+
   p {
     margin: 13px 0px;
+  }
+  
+  a {
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   h2 {
@@ -184,7 +198,7 @@
 
     &.big {
       display: block !important;
-      width: 400px !important;
+      width: 300px !important;
     }
   }
 
@@ -212,8 +226,15 @@
     &.big {
       padding: 6px 16px !important;
       margin-top: 10px !important;
-      margin-bottom: 30px !important;
+      margin-bottom: 15px !important;
     }
+  }
+
+  .fm-checkbox-container {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-template-rows: auto;
+    gap: 7px;
   }
 
   .fm-checkbox {
@@ -302,6 +323,9 @@
   .return-link {
     display: block;
     margin-bottom: 10px;
+    width: fit-content;
+    
+    
   }
 
   .recharts-wrapper *:focus {

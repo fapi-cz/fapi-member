@@ -102,6 +102,8 @@ function Connection() {
             <label className='big' htmlFor="api-key">API klíč</label>
             <input className='fm-input big' type='text' id='api-key'/>
 
+            <br/>
+
             <SubmitButton
                 text={'Propojit s FAPI'}
                 big={true}

@@ -16,7 +16,7 @@ function Select({
             name={id}
             defaultValue={defaultValue}
             onChange={(e) => {
-                onChangeUpdateFunction(e.target.value === 'null' ? null : e.target.value)
+                onChangeUpdateFunction(e.target.value == 'null' ? null : e.target.value)
             }}
         >
             {includeEmptyOption

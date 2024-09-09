@@ -16,6 +16,7 @@ const Levels = lazy(() => import('Components/Content/Levels/Levels'));
 const Common = lazy(() => import('Components/Content/Levels/Common'));
 const Elements = lazy(() => import('Components/Content/Levels/Elements'));
 const Members = lazy(() => import('Components/Content/Members/Members'));
+const CreateMember = lazy(() => import('Components/Content/Members/CreateMember'));
 const Connection = lazy(() => import('Components/Content/Connection/Connection'));
 
 export class NavigationFactory {
@@ -64,6 +65,11 @@ export class NavigationFactory {
 						SubNavItemType.MEMBERS,
 						'Členové',
 						Members,
+					),
+					new SubNavItem(
+						SubNavItemType.CREATE_MEMBER,
+						'Vytvořit',
+						CreateMember,
 					),
 				],
 			),

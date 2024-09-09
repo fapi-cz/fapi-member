@@ -118,7 +118,7 @@ function Levels() {
   return (
     <div className="content-levels">
         <div className="levels-list-header">
-            <span>Členské sekce/úrovně</span>
+            <strong>Členské sekce/úrovně</strong>
         </div>
 
         <LevelList

@@ -10,6 +10,7 @@
     grid-column: 1/2;
     grid-row: 1/2;
     border-right: $greyLine;
+    color: $lightBlack;
 }
 
 .levels-list-header span {
@@ -319,14 +320,5 @@
         resize: none;
         width: 100% !important;
         height: 200px !important;
-    }
-}
-
-.levels-unlocking {
-    .button-unlock-container {
-        display: grid;
-        grid-template-columns: max-content max-content;
-        grid-template-rows: auto;
-        gap: 7px;
     }
 }

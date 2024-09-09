@@ -8,6 +8,28 @@ export default class UserClient extends Client {
 		super('users');
 	}
 
+	async create(email, firstName, lastName){
+		var result = await this.sendRequest(
+			'create',
+			RequestMethodType.POST,
+			{email: email ?? null, first_name: firstName ?? null, last_name: lastName ?? null}
+		);
+
+		return result;
+	}
+
+	async getByEmail(email) {
+		var user = await this.sendRequest(
+			'getByEmail',
+			RequestMethodType.POST,
+			{
+				email: email,
+			}
+		);
+
+		return user;
+	}
+
 	async list(membersOnly = false) {
 		var usersData = await this.sendRequest(
 			membersOnly ? 'listMembers' : 'list',

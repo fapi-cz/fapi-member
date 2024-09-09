@@ -18,12 +18,8 @@ class UserService
 		$this->userRepository = Container::get(UserRepository::class);
 	}
 
-	/**
-	 * @throws Exception
-	 */
-	public function getOrCreateUser(array $userData, array &$props = [], $retryCount = 0): User|null
+	public function getUser(string|null $email, array &$props = []): User|null
 	{
-		$email = $userData['email'];
 		$user = $this->userRepository->getUserByEmail($email);
 
 		if ($user === null) {
@@ -33,6 +29,22 @@ class UserService
 		if ($user instanceof User) {
 			$props['new_user'] = false;
 
+			return $user;
+		}
+
+		return null;
+	}
+
+	/**
+	 * @throws Exception
+	 */
+	public function getOrCreateUser(array $userData, array &$props = [], $retryCount = 0): User|null
+	{
+		$email = $userData['email'];
+
+		$user = $this->getUser($email, $props);
+
+		if ($user !== null) {
 			return $user;
 		}
 

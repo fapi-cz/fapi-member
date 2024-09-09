@@ -5,5 +5,6 @@ export const SubNavItemType = Object.freeze({
     COMMON: 'common',
     ELEMENTS: 'elements',
     MEMBERS: 'members',
+    CREATE_MEMBER: 'createMember',
     CONNECTION: 'connection',
 });

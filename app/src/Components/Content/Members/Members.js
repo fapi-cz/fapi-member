@@ -169,7 +169,6 @@ function Members() {
                         accept=".csv"
                         onChange={handleImport}
                     />
-                    {/*<SubmitButton text={'Vytvořit'}/>*/}
                 </span>
             </h1>
             <MembersFilter
