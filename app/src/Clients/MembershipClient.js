@@ -82,7 +82,9 @@ export default class MembershipClient extends Client {
 	) {
 		await this.apiConnectionClient.getApiToken().then(async (tokenData) => {
 			row.token = tokenData?.apiToken;
-			row.send_email = false;
+			row.send_email = (row.send_email === undefined || '' === row.send_email)
+				? false
+				: row.send_email === true || row.send_email === 'true';
 
 			await this.sendRequest(
 				'create',

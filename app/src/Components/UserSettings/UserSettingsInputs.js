@@ -28,6 +28,7 @@ function UserSettingsInputs({level, membership, userId, checked, sectionRegistra
 			level.parentId !== null
 			&& level.unlockType !== 'disallow'
 			&& level.unlockType !== null
+			&& userId !== null
 		) {
 			setUnlockDate(null);
 			loadData();

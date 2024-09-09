@@ -24,6 +24,7 @@ class AlertProvider
 		Alert::MEMBERSHIP_REGISTERED_EXTENDED => [AlertType::WARNING, 'Datum registrace sekce bylo přenastaveno dle úrovně.'],
 		Alert::MEMBERSHIP_UNTIL_EXTENDED => [AlertType::WARNING, 'Datum expirace sekce bylo přenastaveno dle úrovně.'],
 		Alert::INVALID_EMAIL => [AlertType::ERROR, 'E-mailová adresa není validní.'],
+		Alert::MISSING_EMAIL => [AlertType::ERROR, 'Zadejte prosím e-mailovou adresu.'],
 		Alert::IMPORT_FAILED => [AlertType::ERROR, 'Import selhal.'],
 		Alert::IMPORT_LEVEL_ID_DOESNT_EXIST => [AlertType::ERROR, 'Soubor obsahuje neplatné ID sekce/úrovně.'],
 	];

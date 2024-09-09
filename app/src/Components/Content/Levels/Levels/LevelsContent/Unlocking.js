@@ -100,7 +100,7 @@ function Unlocking({level}) {
     return (
         <form className="levels-content levels-unlocking" onSubmit={handleUpdateUnlocking}>
             <h4>Odemknutí tlačítkem</h4>
-            <div className='button-unlock-container'>
+            <div className='fm-checkbox-container'>
                 <label htmlFor='is-button-unlock'>Povolit:</label>
                 <Checkbox
                     checked={buttonUnlock}
@@ -172,7 +172,7 @@ function Unlocking({level}) {
                     ? <HourPicker id={'unlock-hour'} onChange={handleChangeHourUnlock} defaultValue={hourUnlock}/>
                     : null}
                 <br/><br/>
-                <div className='button-unlock-container'>
+                <div className='fm-checkbox-container'>
                     <Checkbox
                         id='after-date-unlocking'
                         checked={afterDateUnlock}

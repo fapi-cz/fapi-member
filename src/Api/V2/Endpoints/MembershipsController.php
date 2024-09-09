@@ -209,7 +209,7 @@ class MembershipsController
 				$this->apiController->callbackError([
 					'class' => self::class,
 					'description' => 'Invalid notification received. Missing voucher, id or token.',
-				]);
+				], Alert::MISSING_EMAIL);
 			}
 
 			if (!is_email($userData['email'])) {

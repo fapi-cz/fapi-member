@@ -36,6 +36,8 @@ class Alert extends Enum
 
 	const INVALID_EMAIL = 'invalidEmail';
 
+	const MISSING_EMAIL = 'missingEmail';
+
 	const IMPORT_FAILED = 'importFailed';
 
 	const IMPORT_LEVEL_ID_DOESNT_EXIST = 'importLevelIdDoesntExist';

@@ -4,7 +4,7 @@ import UserSettingsLevel from "Components/UserSettings/UserSettingsLevel";
 import UserSettingsInputs from "Components/UserSettings/UserSettingsInputs";
 import DateTimeHelper from "Helpers/DateTimeHelper";
 
-function UserSettingsSection({section, membership, levelItems, userId}) {
+function UserSettingsSection({section, membership, levelItems, userId, showCheckbox = true}) {
 
 	const [checked, setChecked] = useState(membership !== null);
 	const [registrationDate, setRegistrationDate] = useState(null);
@@ -13,7 +13,6 @@ function UserSettingsSection({section, membership, levelItems, userId}) {
 		until: null,
 		isUnlimited: true,
 	}
-
     return (
 		<div className='user-section'>
 			<div className='user-section-settings'>
@@ -21,8 +20,9 @@ function UserSettingsSection({section, membership, levelItems, userId}) {
 					key={section.id}
 					id={'level-checkbox-' + section.id}
 					className={'section-checkbox'}
-					checked={checked}
+					checked={(showCheckbox ? checked : true)}
 					onClick={(e) => {setChecked(e.target.checked)}}
+					hidden={!showCheckbox}
 				/>
 				<label
 					className='user-section-name clickable-option'
@@ -34,7 +34,7 @@ function UserSettingsSection({section, membership, levelItems, userId}) {
 					level={section}
 					membership={membership}
 					userId={userId}
-					checked={checked}
+					checked={(showCheckbox ? checked : true)}
 					setSectionRegistrationDate={setRegistrationDate}
 					sectionRegistrationDate={registrationDate}
 				/>

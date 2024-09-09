@@ -1,9 +1,9 @@
 import React from "react";
 
-function Checkbox({id, className, checked, small = false, onClick = () => {}}) {
+function Checkbox({id, className, checked, small = false, onClick = () => {}, hidden = false}) {
 
     return (
-        <div className="fm-checkbox">
+        <div className="fm-checkbox" style={{visibility: (hidden ? 'hidden' : 'visible')}}>
           <input
               id={id}
               name={id}
