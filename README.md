@@ -11,6 +11,8 @@ Poznámky
 
 ## Vývoj
 
+### Původní vývoj
+
 Plugin kód není moc pěkný, ale snažil jsem se maximálně využit Wordpressu a
 nestavět vedle WP nějaké další (cizí) struktury a způsoby (autoloading, šablony...), 
 které by ale pro větší projekt určitě byly potřeba.
@@ -22,6 +24,17 @@ budou měnit a ten systém s postupným plněním `$props` je nejpružnější, 
 
 Taky je použita stará verze PHP - protože [WP](https://cs.wordpress.org/about/requirements/) 
 zatím podporuje PHP 5.6.20
+
+### Refactoring back-endu (2024)
+
+Celý backend aplikace byl předělán. Až na některé vyjímky byla zachována struktura ukládaných dat,
+ale celá aplikace byla předělána do OOP. Bylo zjednodušeno zasílání e-mailů, 
+kdy je již pro nahrazení zástupných symbolů potřeba znát pouze stav původního členství a nového členství.
+
+### Refactoring front-endu (2024)
+
+Byly zahozeny php šablony a celý front-end byl předělán do reactu. Byla vytvořena nová verze API (v2),
+která je používána při komunikaci s front-endem. API v2 je momentálně pouze interní a není možné na ni posílat dotazy z jiných webů.
 
 ## Datové struktury
 
@@ -140,11 +153,13 @@ to je možné využít při vývoji na testování např. zakládání uživatel
 
 # Build a nasazení na WP
 ## POUZE POKUD VÍŠ CO DĚLÁŠ
-1. Je potřeba udělat build jak js tak css souborů
-2. Změnit verzi balíčku
+1. Změnit verzi balíčku
    1. změnit verzi v `fapi-member.php`' - všude kde je uvedena verze
    2. změnit verzi v `readme.txt` - všude kde je uvedena verze
-3. Připravit deploy `make prepare-deploy version=x.x.x`
-4. Otevřít slořku wp-svn `cd wp-svn`
+2. Připravit deploy `make prepare-deploy version=x.x.x`
+3. Případně otestovat aplikační build na živém webu
+   1. Po `prepare-deploy` se vytvoří složka `wp-build-test` se zipem produkčního buildu aplikace
+   2. Nahrát soubor na živou verzi WordPressu a otestovat, jestli vše funguje
+4. Otevřít složku wp-svn `cd wp-svn`
 5. Dát do stavu track `svn add --force * --auto-props --parents --depth infinity -q`
 6. A vše commitnout `svn ci -m '{Message s update zprávou}' --username fapi --password '{your_password}'`
