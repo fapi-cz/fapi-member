@@ -10,8 +10,14 @@ import { NavItemType } from "Enums/NavItemType";
 import { Navigation } from "Models/Navigation";
 import { NavItem } from "Models/NavItem";
 import { SubNavItem } from "Models/SubNavItem";
+import {LicenceHelper} from "Helpers/LicenceHelper";
 
 const Overview = lazy(() => import('Components/Content/Overview/Overview'));
+const Statistics = lazy(() => (
+	LicenceHelper.hasFmLicence()
+	? import('Components/Content/Overview/Statistics')
+	: import('Components/Content/NoFmLicence')
+));
 const Levels = lazy(() => import('Components/Content/Levels/Levels'));
 const Common = lazy(() => import('Components/Content/Levels/Common'));
 const Elements = lazy(() => import('Components/Content/Levels/Elements'));
@@ -31,6 +37,11 @@ export class NavigationFactory {
 						SubNavItemType.OVERVIEW,
 						'Přehled',
 						Overview,
+					),
+					new SubNavItem(
+						SubNavItemType.STATISTICS,
+						'Statistiky',
+						Statistics,
 					),
 				]
 			),

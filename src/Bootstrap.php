@@ -8,11 +8,16 @@ use FapiMember\Container\Container;
 use FapiMember\Divi\FapiMemberDivi;
 use FapiMember\Mioweb\FapiMemberMioweb;
 use FapiMember\Model\Enums\Keys\OptionKey;
+use FapiMember\Model\Enums\Types\MembershipChangeType;
 use FapiMember\Model\Enums\Types\RequestMethodType;
 use FapiMember\Model\Enums\UserPermission;
+use FapiMember\Repository\MemberActivityRepository;
+use FapiMember\Repository\MembershipChangeRepository;
+use FapiMember\Repository\MembershipRepository;
 use FapiMember\Service\ApiService;
 use FapiMember\Service\ElementService;
 use FapiMember\Service\RedirectService;
+use FapiMember\Service\StatisticsService;
 use FapiMember\Utils\DisplayHelper;
 use FapiMember\Utils\PostTypeHelper;
 use FapiMember\Utils\Random;
@@ -29,6 +34,10 @@ final class Bootstrap
 	private RequestHandler $requestHandler;
 	private ShortcodeSubstitutor $shortcodeSubstitutor;
 	private ApiController $apiController;
+	private MembershipRepository $membershipRepository;
+	private MembershipChangeRepository $membershipChangeRepository;
+	private MemberActivityRepository $memberActivityRepository;
+	private StatisticsService $statisticsService;
 
 	public function __construct(FapiMemberPlugin $fapiMemberPlugin)
 	{
@@ -43,6 +52,10 @@ final class Bootstrap
 		$this->apiController = Container::get(ApiController::class);
 		$this->fapiMemberDivi = Container::get(FapiMemberDivi::class);
 		$this->fapiMemberMioweb = Container::get(FapiMemberMioweb::class);
+		$this->membershipRepository = Container::get(MembershipRepository::class);
+		$this->membershipChangeRepository = Container::get(MembershipChangeRepository::class);
+		$this->memberActivityRepository = Container::get(MemberActivityRepository::class);
+		$this->statisticsService = Container::get(StatisticsService::class);
 	}
 
 	public function initialize(): void
@@ -122,6 +135,7 @@ final class Bootstrap
 
 		// user profile
 		add_action('edit_user_profile', array($this->elementService, 'addUserMenuPage'));
+		add_action('plugins_loaded', [$this, 'initializeStatisticsIfNeeded']);
 
 		add_action('wp_enqueue_scripts', array($this, 'addPublicScripts'));
 
@@ -168,6 +182,7 @@ final class Bootstrap
 		add_action('init', array($this, 'registerRoles'));
 		add_action('init', array($this, 'addShortcodes'));
 		add_action('init', array($this->fapiMemberPlugin, 'checkTimedLevelUnlock'));
+		add_action('init', array($this->statisticsService, 'handleUserActive'));
 	}
 
 	private function addAdminHooks(): void
@@ -176,6 +191,7 @@ final class Bootstrap
 		add_action('admin_menu', array($this->elementService, 'addAdminMenu'));
 		add_action('admin_enqueue_scripts', array($this, 'addScripts'));
 		add_action('admin_enqueue_scripts', [$this, 'addApiNonce']);
+		add_action('admin_enqueue_scripts', [$this, 'checkFapiMemberPlusStatus']);
 	}
 
 	private function addMiowebHooks(): void
@@ -212,6 +228,16 @@ final class Bootstrap
 
 	}
 
+	function checkFapiMemberPlusStatus(): void
+	{
+		if (current_user_can(UserPermission::REQUIRED_CAPABILITY)) {
+			$licenceActive = $this->apiService->checkLicence();
+
+			echo "<script>window.licenceActive = '{$licenceActive}'</script>";
+		}
+
+	}
+
 	public function addRestEndpoints(): void
 	{
 		$this->addRestEndpointV1('sections', 'handleApiSections', RequestMethodType::GET);
@@ -231,6 +257,7 @@ final class Bootstrap
 		$this->addRestEndpointV2('memberships');
 		$this->addRestEndpointV2('users');
 		$this->addRestEndpointV2('apiConnections');
+		$this->addRestEndpointV2('statistics');
 	}
 
 	public function addRestEndpointV2(string $route): void
@@ -421,6 +448,35 @@ final class Bootstrap
 				'show_in_rest' => false,
 			)
 		);
+	}
+
+	public function initializeStatisticsIfNeeded(): void
+	{
+		if (!$this->membershipChangeRepository->tableExists()) {
+			$this->initializeMembershipChanges();
+		}
+
+		if (!$this->memberActivityRepository->tableExists()) {
+			$this->memberActivityRepository->createTableIfNeeded();
+		}
+	}
+
+	private function initializeMembershipChanges(): void
+	{
+		$this->membershipChangeRepository->createTableIfNeeded();
+
+		$memberships = $this->membershipRepository->getAll();
+
+		foreach ($memberships as  $membershipsByUserId) {
+			foreach ($membershipsByUserId as $membership) {
+				$this->membershipChangeRepository->addChange(
+					$membership->toMembershipChange(
+						MembershipChangeType::CREATED,
+						$membership->getRegistered(),
+					)
+				);
+			}
+		}
 	}
 
 }

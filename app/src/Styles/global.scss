@@ -426,4 +426,23 @@
       gap: 7px;
     }
   }
+
+  .fm-chart {
+    border-radius: $borderRadius;
+    background-color: $lightGrey;
+    padding-top: 20px;
+    margin-bottom: 20px;
+    display: inline-block;
+
+    &.no-data {
+      text-align: center;
+      align-content: center;
+      padding: 0px;
+      min-height: 60px;
+    }
+
+    h4 {
+      margin: 0px !important;
+    }
+  }
 }

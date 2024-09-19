@@ -114,7 +114,7 @@ class MembershipsController
 			]);
 		}
 
-		$savedMemberships = $this->membershipService->getActiveByUserId($userId);
+		$savedMemberships = $this->membershipService->getActiveByUserIdAndUpdate($userId);
 
 		foreach ($savedMemberships as $savedMembership) {
 			foreach ($memberships as $membership) {

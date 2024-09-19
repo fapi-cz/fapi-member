@@ -63,6 +63,7 @@ function Connection() {
                         <th>Uživatelské jméno (email)</th>
                         <th>API klíč</th>
                         <th>Stav</th>
+                        <th>FAPI Member Plus</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -76,6 +77,12 @@ function Connection() {
                                 connectionStatuses[connection.apiKey]
                                     ? (<span className='connection-status connected'>Připojeno</span>)
                                     : (<span className='connection-status error'>Nepřipojeno</span>)
+                            }
+                        </td>
+                        <td>
+                            {connection.licenceActive && connection.licenceExpirationDate !== null
+                                ? (<span className='connection-status connected'>do {connection.licenceExpirationDate.getDateCzech()}</span>)
+                                : (<span className='connection-status error'>Neaktivní</span>)
                             }
                         </td>
                         <td>

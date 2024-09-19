@@ -10,7 +10,7 @@ import DateTimeHelper from "Helpers/DateTimeHelper";
 import Loading from "Components/Elements/Loading";
 import SubmitButton from "Components/Elements/SubmitButton";
 
-function UserMembershipsForm({userId, form = null}) {
+function UserMembershipsForm({userId, form = null, onSave = () => {}}) {
 	const [sectionsLoading, setSectionsLoading] = useState(true);
     const [items, setItems] = useState(null);
     const memberSectionClient = new MemberSectionClient();
@@ -111,6 +111,7 @@ function UserMembershipsForm({userId, form = null}) {
         await membershipClient.update(userId, memberships).then((data) => {
           if (data !== undefined) {
             setSectionsLoading(true);
+            onSave();
           }
         });
     }

@@ -67,6 +67,11 @@ class User
 		return $this->roles;
 	}
 
+	public function isMember(): bool
+	{
+		return in_array('member', $this->roles);
+	}
+
 	public function getFirstName(): string|null
 	{
 		return $this->firstName;

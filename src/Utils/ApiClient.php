@@ -93,6 +93,17 @@ class ApiClient
 		return true;
 	}
 
+	public function getLicenceData(): array
+	{
+		$response = $this->retryRequest($this->apiUrl . 'users/get-fm-licence');
+
+		if (!$response) {
+			return [];
+		}
+
+		return json_decode($response['body'], true);
+	}
+
 	public function getVoucher(int $id): false|array
 	{
 		$response = $this->retryRequest($this->apiUrl . 'vouchers' . $id);
