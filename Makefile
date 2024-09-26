@@ -95,7 +95,6 @@ prepare-deploy: isset-version ## prepares everything for a deploy
 	rm -rf wp-svn/trunk/*
 	cp -r wp-build/* wp-svn/trunk/
 
-
 isset-version:
 ifndef version
 	$(error version not found. Please provide a version like 'make prepare-deploy version=x.y.z')
@@ -120,6 +119,9 @@ git-push:
 git-rebase-master:
 	git fetch --all --prune
 	git rebase origin/master
+
+src-build:
+	make -B build -i
 
 react-build:
 	npm --prefix ./app run build
