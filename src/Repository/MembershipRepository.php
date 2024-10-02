@@ -6,11 +6,13 @@ use __PHP_Incomplete_Class;
 use FapiMember\Container\Container;
 use FapiMember\Model\Enums\Keys\MetaKey;
 use FapiMember\Model\Membership;
+use FapiMember\Service\StatisticsService;
 use FapiMember\Utils\DateTimeHelper;
 
 class MembershipRepository extends Repository
 {
 	private LevelRepository $levelRepository;
+	private StatisticsService $statisticsService;
 	private UserRepository $userRepository;
 
 	public function __construct()
@@ -19,6 +21,7 @@ class MembershipRepository extends Repository
 
 		$this->levelRepository = Container::get(LevelRepository::class);
 		$this->userRepository = Container::get(UserRepository::class);
+		$this->statisticsService = Container::get(StatisticsService::class);
 	}
 
 	/** @return array<array<Membership>> */
@@ -132,6 +135,7 @@ class MembershipRepository extends Repository
 	/** @param array<Membership> $memberships */
 	public function saveAll(int $userId, array $memberships): void
 	{
+		$oldMemberships = $this->getAllByUserId($userId);
 		$meta = [];
 
 		foreach ($memberships as $membership) {
@@ -139,6 +143,7 @@ class MembershipRepository extends Repository
 		}
 
 		$this->updateUserMeta($userId, $meta);
+		$this->statisticsService->saveChanges($oldMemberships, $memberships);
 	}
 
 	/** @return array<Membership> */

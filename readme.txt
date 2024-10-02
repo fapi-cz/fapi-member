@@ -5,7 +5,7 @@ Requires at least: 5.9
 Tested up to: 6.4
 Requires PHP: 8.1
 License: GPLv2 or later
-Stable tag: 2.1.18
+Stable tag: 2.2.0
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -25,6 +25,11 @@ Máte problém s nastavením FAPI Memberu. Obrátit se můžete na naší podpor
 Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org/plugins/fapi-member/#reviews).
 
 == Changelog ==
+
+= 2.2.0 =
+* Fapi Member Pro
+	* Tracking of statistics like user activity, churn and acquisition rates, membership ownership over time or gained vs lost members over a period
+	* Member history - displays a history of changes for every member
 
 = 2.1.18 =
 * Added support for Mioweb editor (hiding/showing elements based user's memberships)

@@ -1,6 +1,29 @@
 @import "vars";
 
-.content-members {
+.member-content {
   padding: 10px;
   height: 100%;
+
+  .membership-change {
+    display: flex;
+    justify-content: space-between;
+    border-radius: $borderRadius;
+    border: none;
+    border-left: 4px solid $green;
+    background-color: $lightGrey;
+    padding: 10px;
+    margin-bottom: 10px;
+
+    &.created, &.extended {
+      border-color: $green;
+    }
+
+    &.deleted, &.expired {
+      border-color: $red;
+    }
+
+    &.updated {
+      border-color: $yellow;
+    }
+  }
 }

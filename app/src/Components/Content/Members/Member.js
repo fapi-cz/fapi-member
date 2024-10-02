@@ -1,8 +1,34 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ReturnLink from "Components/Elements/ReturnLink";
 import UserMembershipsForm from "Components/Elements/UserMembershipsForm";
+import StatisticsClient from "Clients/StatisticsClient";
+import Loading from "Components/Elements/Loading";
+import MembershipChange from "Components/Content/Members/MembershipChange";
+import {LicenceHelper} from "Helpers/LicenceHelper";
 
 function Member({member, removeActiveMember}) {
+    const [memberChanges, setMemberChanges] = useState([]);
+    const statisticsClient = new StatisticsClient();
+    const [load, setLoad] = useState(true);
+
+	useEffect(() => {
+        const reload = async () => {
+		  await statisticsClient.getMembershipChangesForUser(member.id).then((data) => {
+			  setMemberChanges(data);
+		  });
+
+          setLoad(false);
+        }
+
+        if (load === true) {
+          reload();
+        }
+    }, [load]);
+
+	if (load === true) {
+		return <Loading/>
+	}
+
   return (
       <div className="member-content">
 		  <ReturnLink
@@ -35,8 +61,22 @@ function Member({member, removeActiveMember}) {
 		  <br/>
 		  <UserMembershipsForm
 		  	userId={member.id}
+			onSave={() => {setLoad(true)}}
 		  />
-
+		  {LicenceHelper.hasFmLicence()
+			  ? (
+				  <div>
+					  <br/>
+					  <h1>Historie Změn</h1>
+					  <br/>
+					  { memberChanges.map((change) => (
+						  <MembershipChange
+							  change={change}
+						  />
+					  ))}
+				  </div>
+			  ) : null
+		  }
       </div>
   );
 }

@@ -5,6 +5,7 @@ namespace FapiMember\Model;
 use DateTimeImmutable;
 use FapiMember\Model\Enums\Format;
 use FapiMember\Library\SmartEmailing\Types\BoolType;
+use FapiMember\Utils\DateTimeHelper;
 use FapiMember\Utils\DateTimesImmutable;
 use FapiMember\Library\SmartEmailing\Types\IntType;
 
@@ -78,6 +79,18 @@ class Membership
 		);
 	}
 
+	public function toMembershipChange(string $type, DateTimeImmutable|null $timestamp = null): MembershipChange
+	{
+		return new MembershipChange([
+			'level_id' => $this->levelId,
+			'user_id' => $this->userId,
+			'type' => $type,
+			'registered' => $this->registered?->format(Format::DATE_TIME_BASIC),
+			'until' => $this->until?->format(Format::DATE_TIME_BASIC),
+			'timestamp' => $timestamp?->format(Format::DATE_TIME_BASIC),
+		]);
+	}
+
 	public function toArray(): array
 	{
 		return [
@@ -88,5 +101,4 @@ class Membership
 			'is_unlimited' => $this->isUnlimited,
 		];
 	}
-
 }

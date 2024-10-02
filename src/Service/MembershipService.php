@@ -10,7 +10,7 @@ use FapiMember\Model\Enums\Keys\MetaKey;
 use FapiMember\Model\Enums\Types\LevelUnlockType;
 use FapiMember\Model\Membership;
 use FapiMember\Repository\LevelRepository;
-use FapiMember\Repository\MembershipHistoryRepository;
+use FapiMember\Repository\MembershipChangeRepository;
 use FapiMember\Repository\MembershipRepository;
 use FapiMember\Repository\UserRepository;
 use FapiMember\Utils\DateTimeHelper;
@@ -18,14 +18,12 @@ use FapiMember\Utils\DateTimeHelper;
 class MembershipService
 {
 	private MembershipRepository $membershipRepository;
-	private MembershipHistoryRepository $membershipHistoryRepository;
 	private LevelRepository $levelRepository;
 	private UserRepository $userRepository;
 
 	public function __construct()
 	{
 		$this->membershipRepository = Container::get(MembershipRepository::class);
-		$this->membershipHistoryRepository = Container::get(MembershipHistoryRepository::class);
 		$this->levelRepository = Container::get(LevelRepository::class);
 		$this->userRepository = Container::get(UserRepository::class);
 	}
@@ -79,13 +77,12 @@ class MembershipService
 		$memberships = $this->getActiveByUserIdAndUpdate($newMembership->getUserId());
 		$memberships[] = $newMembership;
 
-		$this->membershipHistoryRepository->update($newMembership->getUserId(), $newMembership);
 		$this->membershipRepository->saveAll($newMembership->getUserId(), $memberships);
 	}
 
 	public function update(Membership $updatedMembership): void
 	{
-		$memberships = $this->getActiveByUserId($updatedMembership->getUserId());
+		$memberships = $this->getActiveByUserIdAndUpdate($updatedMembership->getUserId());
 		$found = false;
 
 		foreach ($memberships as $key => $membership) {
@@ -98,10 +95,6 @@ class MembershipService
 
 		if ($found) {
 			$this->saveAll($updatedMembership->getUserId(), $memberships);
-			$this->membershipHistoryRepository->update(
-				$updatedMembership->getUserId(),
-				$updatedMembership
-			);
 		}
 	}
 

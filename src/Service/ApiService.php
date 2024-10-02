@@ -158,6 +158,26 @@ class ApiService
 		return $credentialsOk;
 	}
 
+	public function checkLicence(): bool
+	{
+		$clients = $this->getApiClients();
+		$licenceActive = false;
+
+		if (count($clients) === 0) {
+			return false;
+		}
+
+		foreach ($clients as $client) {
+			$licenceData = $client->getLicenceData();
+
+			if (isset($licenceData['active']) && $licenceData['active'] === true) {
+				$licenceActive = true;
+			}
+		}
+
+		return $licenceActive;
+	}
+
 	public function getCredentialsStatuses(): array
 	{
 		$credentialsOk = true;

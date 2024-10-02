@@ -67,8 +67,8 @@ function Members() {
 
     const updateActiveMemberFromUrl = (updatedMembers = members) => {
         if (updatedMembers === null) {
-             return;
-         }
+            return;
+        }
 
         var url = new URL(window.location.href);
         var memberId = parseInt(url.searchParams.get('member'));

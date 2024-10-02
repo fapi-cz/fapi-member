@@ -2,7 +2,6 @@ import React from 'react';
 import {createRoot} from 'react-dom/client';
 import Settings from './Components/Settings';
 import UserSettings from './Components/UserSettings';
-import Alert from "Components/Elements/Alert";
 
 document.addEventListener( 'DOMContentLoaded', function() {
     window.environmentData = environmentData;

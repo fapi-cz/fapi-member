@@ -26,15 +26,19 @@ class ApiConnectionsController
 
 	public function list(): array
 	{
-		$connections = $this->apiService->getApiConnections();
+		$clients = $this->apiService->getApiClients();
 		$connectionsData = [];
 
-		foreach ($connections as $connection) {
+		foreach ($clients as $client) {
+			$connection = $client->getConnection();
+
 			if ($connection->getApiKey() === null || $connection->getApiKey() === null) {
 				continue;
 			}
 
-			$connectionsData[] = $connection->toArray();
+			$connectionData = array_merge($connection->toArray(), $client->getLicenceData());
+
+			$connectionsData[] = $connectionData;
 		}
 
 		return $connectionsData;

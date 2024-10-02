@@ -128,3 +128,13 @@ react-build:
 
 divi-build:
 	npm --prefix ./src/divi run build
+
+dc-up:
+	make -C .docker-fapi-member dc-up
+
+dc-down:
+	make -C .docker-fapi-member dc-down
+
+dc-restart:
+	make -C .docker-fapi-member dc-down
+	make -C .docker-fapi-member dc-up
