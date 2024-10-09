@@ -66,4 +66,12 @@ export default class StatisticsClient extends Client {
 		);
 	}
 
+	async getAverageChurnRatePeriods(filterData){
+		return await this.sendRequest(
+			'getAverageChurnRatePeriods',
+			RequestMethodType.POST,
+			filterData,
+		);
+	}
+
 }

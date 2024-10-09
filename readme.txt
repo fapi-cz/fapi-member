@@ -5,7 +5,7 @@ Requires at least: 5.9
 Tested up to: 6.4
 Requires PHP: 8.1
 License: GPLv2 or later
-Stable tag: 2.2.0
+Stable tag: 2.2.2
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -25,6 +25,13 @@ Máte problém s nastavením FAPI Memberu. Obrátit se můžete na naší podpor
 Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org/plugins/fapi-member/#reviews).
 
 == Changelog ==
+
+= 2.2.2 =
+* Fixed updating password for members from wp administration
+
+= 2.2.1 =
+* Fapi Member Pro
+	* Added average churn rate period graph
 
 = 2.2.0 =
 * Fapi Member Pro
