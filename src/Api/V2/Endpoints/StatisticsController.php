@@ -146,4 +146,19 @@ class StatisticsController
 
 		return $this->statisticsService->getActiveCountsForPeriod($dateFrom, $dateTo);
 	}
+
+	public function getAverageChurnRatePeriods(WP_REST_Request $request): array
+	{
+		$this->apiController->checkRequestMethod($request, RequestMethodType::POST);
+		$body = json_decode($request->get_body(), true);
+		$groupLevels = $this->apiController->extractParam($body, 'group_levels', BoolType::class);
+
+		$levelIds = [];
+
+		foreach ($body['level_ids'] as $levelId) {
+			$levelIds[] = (int) $levelId;
+		}
+
+		return $this->statisticsService->getAverageChurnRatePeriodsForLevels($groupLevels, $levelIds);
+	}
 }

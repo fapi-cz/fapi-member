@@ -61,6 +61,12 @@ class MembershipChange
 		return $this->type;
 	}
 
+
+	public function getTimestamp(): DateTimeImmutable|null
+	{
+		return $this->timestamp;
+	}
+
 	public function isActive(): bool
 	{
 		return !in_array($this->type, [MembershipChangeType::EXPIRED, MembershipChangeType::DELETED]);
