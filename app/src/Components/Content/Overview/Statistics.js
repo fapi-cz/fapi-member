@@ -17,6 +17,7 @@ function Statistics() {
     const [memberCountChanges, setMemberCountChanges] = useState(null);
     const [churnRates, setChurnRates] = useState(null);
     const [acquisitionRates, setAcquisitionRates] = useState(null);
+    const [averageChurnRatePeriods, setAverageChurnRatePeriods] = useState(null);
     const [showingGroupedLevels, setShowingGroupedLevels] = useState(true);
 
     useEffect(() => {
@@ -40,6 +41,9 @@ function Statistics() {
                });
                statisticsClient.getActiveCountsForPeriod(filterData).then((data) => {
                    setActiveCounts(data);
+               });
+               statisticsClient.getAverageChurnRatePeriods(filterData).then((data) => {
+                   setAverageChurnRatePeriods(data);
                });
                setShowingGroupedLevels(filterData.group_levels);
            }
@@ -66,17 +70,21 @@ function Statistics() {
             filterData={filterData}
         />
         <StatisticsCharts
+            filterData={filterData}
             showingGroupedLevels={showingGroupedLevels}
             memberCounts={memberCounts}
             memberCountChanges={memberCountChanges}
             churnRates={churnRates}
             acquisitionRates={acquisitionRates}
             activeCounts={activeCounts}
+            averageChurnRatePeriods={averageChurnRatePeriods}
             resetStatsToNull={() => {
                 setMemberCounts(null);
                 setMemberCountChanges(null);
                 setChurnRates(null);
                 setAcquisitionRates(null);
+                setActiveCounts(null);
+                setAverageChurnRatePeriods(null)
             }}
         />
       </div>

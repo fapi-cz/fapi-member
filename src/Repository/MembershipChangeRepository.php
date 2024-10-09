@@ -143,6 +143,40 @@ class MembershipChangeRepository extends Repository
 		return $this->toEntities($results);
 	}
 
+	/** @return array<MembershipChange> */
+	public function getFirstCreatedForLevels(
+		array $levelIds,
+	): array
+	{
+		$levelIdsPlaceholder = implode(',', array_fill(0, count($levelIds), '%d'));
+
+		$queryParams = $levelIds === []
+			? ''
+			:'AND level_id IN (' . $levelIdsPlaceholder . ')';
+
+		$query = $this->wpdb->prepare("
+			SELECT t1.*
+			FROM $this->tableName t1
+			JOIN (
+				SELECT user_id, level_id, MIN(timestamp) as min_timestamp
+				FROM $this->tableName
+				WHERE type = 'created'
+				" . $queryParams . "
+				GROUP BY user_id, level_id
+			) t2
+			ON t1.user_id = t2.user_id
+			AND t1.level_id = t2.level_id
+			AND t1.timestamp = t2.min_timestamp
+			ORDER BY t1.user_id, t1.level_id, t1.id DESC;
+		",
+		$levelIds
+		);
+
+		$results = $this->wpdb->get_results($query, ARRAY_A);
+
+		return $this->toEntities($results);
+	}
+
 	/** @return array<MembershipChange>*/
 	private function toEntities(array|null $results, bool $allowMultiple = false): array
 	{

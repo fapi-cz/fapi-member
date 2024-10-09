@@ -1,9 +1,18 @@
 import React from 'react';
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 import { StringHelper } from 'Helpers/StringHelper';
+import Loading from "Components/Elements/Loading";
 
 function BarChartWidget({data, keys = [], width = '100%', height = 400, title = '', colors = null, isPercentage = false}) {
   let totalSum = 0;
+
+    if (data === null) {
+        return (
+            <div className='fm-chart' style={{width: '100%'}}>
+                <Loading height={height + 'px'}/>
+            </div>
+        );
+    }
 
   Object.values(data).forEach((dataPoint) => {
       Object.keys(dataPoint).forEach((key) => {
@@ -26,7 +35,7 @@ function BarChartWidget({data, keys = [], width = '100%', height = 400, title = 
     });
   });
 
-  if (totalSum === 0 || data === null) {
+  if (totalSum === 0) {
     return <div className='fm-chart no-data' style={{width: width}}>Žádná data</div>;
   }
 

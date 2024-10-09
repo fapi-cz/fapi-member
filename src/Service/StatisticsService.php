@@ -263,6 +263,76 @@ class StatisticsService
 		return $data;
 	}
 
+	public function getAverageChurnRatePeriodsForLevels(
+		bool $groupLevels,
+		array $levelIds,
+	): array
+	{
+		$firstCreatedChanges = $this->membershipChangeRepository
+			->getFirstCreatedForLevels($levelIds);
+
+		$totalCount = count($firstCreatedChanges);
+
+		if ($totalCount === 0) {
+			return [];
+		}
+
+		$graphColumns = [
+			'Měsíc' => '+1 month',
+			'2 Měsíce' => '+2 months',
+			'3 Měsíce' => '+3 months',
+			'4 Měsíce' => '+4 months',
+			'5 Měsíců' => '+5 months',
+			'Půl roku' => '+6 months',
+			'Rok' => '+1 year',
+			'2 Roky' => '+2 years',
+		];
+
+		$churnedOutCounts = [];
+
+		foreach ($firstCreatedChanges as $firstCreatedChange) {
+			$startDate = $firstCreatedChange->getTimestamp();
+			$levelKey = $groupLevels
+					? 'Churn rate'
+					: $this->levelRepository
+						->getLevelById($firstCreatedChange->getLevelId())
+						?->getName();
+
+			foreach ($graphColumns as $key => $value) {
+				if (!isset($churnedOutCounts[$key][$levelKey])) {
+					$churnedOutCounts[$key][$levelKey] = 0;
+				}
+
+				$endDate = $startDate->modify($value)->modify('-1 day');
+
+				if ($endDate > DateTimeHelper::getNow()) {
+					break;
+				}
+
+				$lastChange = $this->membershipChangeRepository->findLastChange(
+					$firstCreatedChange->getUserId(),
+					$firstCreatedChange->getLevelId(),
+					$endDate,
+				);
+
+				if ($firstCreatedChange->isActive() && !$lastChange->isActive()) {
+					$churnedOutCounts[$key][$levelKey]++;
+					break;
+				}
+			}
+		}
+
+		$churnedOutRates = [];
+
+		foreach ($churnedOutCounts as $key => $churnedOutPeriod) {
+			foreach ($churnedOutPeriod as $levelKey => $churnedOutLevel) {
+				$churnedOutRates[$key][$levelKey] = number_format(($churnedOutLevel) / $totalCount * 100, 2);
+			}
+		}
+
+		return $churnedOutRates;
+	}
+
 	/** @param array<MembershipChange> $changes */
 	private function calculateActiveMembershipCounts(array $changes, array $levelIds): array
 	{
