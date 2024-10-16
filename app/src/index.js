@@ -11,10 +11,4 @@ document.addEventListener( 'DOMContentLoaded', function() {
         const root = createRoot(settingsContainer);
         root.render(<Settings />);
     }
-
-    var userSettingsContainer = document.getElementById( 'fm-user-settings' );
-    if( typeof userSettingsContainer !== 'undefined' && userSettingsContainer !== null ) {
-        const root = createRoot(userSettingsContainer);
-        root.render(<UserSettings />);
-    }
 })
