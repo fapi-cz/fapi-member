@@ -83,7 +83,7 @@ build: ## Builds the plugin source code
 	(cd wp-build-test && zip -r fapi-member.zip fapi-member)
 	rm -rf wp-build-test/fapi-member
 
-prepare-deploy: isset-version ## prepares everything for a deploy
+prepare-deploy: isset-version ## Prepares everything for a deploy
 	docker exec node /bin/sh -c 'yarn --cwd multiple-blocks install'
 	docker exec node /bin/sh -c 'yarn --cwd multiple-blocks build'
 	composer install
@@ -100,7 +100,7 @@ ifndef version
 	$(error version not found. Please provide a version like 'make prepare-deploy version=x.y.z')
 endif
 
-git-commit:
+git-commit: ## Amends a commit. If parameter m="Commit Name" is added, it will create a new commit instead.
 	git add -A
 	@if [ -z "$(m)" ]; then \
 		git commit --amend --no-edit; \
@@ -108,7 +108,7 @@ git-commit:
 		git commit -m "$(m)"; \
 	fi
 
-git-push:
+git-push: ## Amends a commit and does a forced push. If parameter m="Commit Name" is added, it will create a new commit instead.
 	@if [ -z "$(m)" ]; then \
 		$(MAKE) git-commit; \
 	else \
@@ -116,17 +116,17 @@ git-push:
 	fi
 	git push --force
 
-git-rebase-master:
+git-rebase-master: ## Fetches data and rebases branch with master
 	git fetch --all --prune
 	git rebase origin/master
 
-src-build:
+src-build: ## Builds the src folder for deploy and creates a zip for testing on a live site.
 	make -B build -i
 
-react-build:
+react-build: ## Builds front end react
 	npm --prefix ./app run build
 
-divi-build:
+divi-build: ## Builds divi
 	npm --prefix ./src/divi run build
 
 dc-up:
