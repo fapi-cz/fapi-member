@@ -124,17 +124,17 @@ git-push: ## Amends a commit and does a forced push. If parameter m="Commit Name
 	@echo "\033[32mBranch was successfully pushed\033[0m"
 
 git-new-branch:
-	@if [ -z "$(i)" ] || [ -z "$(n)" ]; then \
+	@if [ -z "$(v)" ] || [ -z "$(m)" ]; then \
 		echo "Error: Both 'issue' and 'commit' parameters are required."; \
 		exit 1; \
 	fi
 
-	$(eval first_word := $(shell echo $(n) | awk '{ print tolower($$1) }' | sed 's/ed$$//'))
-	$(eval rest_of_commit := $(shell echo $(n) | cut -d' ' -f2- | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g'))
-	$(eval final_branch_name := FAPI-$(i)-$(first_word)-$(rest_of_commit))
+	$(eval first_word := $(shell echo $(m) | awk '{ print tolower($$1) }' | sed 's/ed$$//'))
+	$(eval rest_of_commit := $(shell echo $(m) | cut -d' ' -f2- | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g'))
+	$(eval final_branch_name := FAPI-MEMBER-$(v)-$(first_word)-$(rest_of_commit))
 
 	@git checkout -b $(final_branch_name)
-	make git-commit m="$(n)"
+	make git-commit m="$(m)"
 
 git-rebase-master: ## Fetches data and rebases branch with master
 	@echo "\033[33mRebasing with master...\033[34m"
