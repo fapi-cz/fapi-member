@@ -79,8 +79,6 @@ class EmailService
 	{
 		$voucherId = $data['voucher'];
 		$voucher = $this->apiService->getVoucher($voucherId);
-		$voucherItemTemplateCode = $voucher['item_template_code'];
-		$itemTemplate = $this->apiService->getItemTemplate($voucherItemTemplateCode);
 
 		if ($voucher === false) {
 			$this->apiController->callbackError(
@@ -88,24 +86,6 @@ class EmailService
 					'class' => self::class,
 					'description' => 'Error getting voucher.',
 					'errors' => $this->apiService->getLastErrors(),
-				)
-			);
-		}
-
-		$itemTemplate = ($itemTemplate === false) ? array() : $itemTemplate;
-
-		if (
-			!FapiMemberPlugin::isDevelopment() &&
-			!SecurityValidator::isVoucherSecurityValid(
-				$voucher,
-				$itemTemplate,
-				$data['time'],
-				$data['security'],
-		)) {
-			$this->apiController->callbackError(
-				array(
-					'class' => self::class,
-					'description' => 'Voucher security is not valid.',
 				)
 			);
 		}
@@ -119,7 +99,7 @@ class EmailService
 			);
 		}
 
-		if (!isset( $voucher['applicant']['email'])) {
+		if (!isset($voucher['applicant']['email'])) {
 			$this->apiController->callbackError(
 				array(
 					'class' => self::class,

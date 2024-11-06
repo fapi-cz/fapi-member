@@ -100,19 +100,6 @@ class ApiService
 		return false;
 	}
 
-	public function getItemTemplate(string $code) : false|array
-	{
-		foreach ($this->getApiClients() as $apiClient ) {
-			$response = $apiClient->getItemTemplate($code);
-
-			if (is_array($response) && !isset($response['error'])) {
-				return $response;
-			}
-		}
-
-		return false;
-	}
-
 	public function getInvoice(int $id): false|array
 	{
 		foreach ($this->getApiClients() as $apiClient) {
