@@ -106,30 +106,13 @@ class ApiClient
 
 	public function getVoucher(int $id): false|array
 	{
-		$response = $this->retryRequest($this->apiUrl . 'vouchers' . $id);
+		$response = $this->retryRequest($this->apiUrl . 'vouchers/' . $id);
 
 		if (!$response) {
 			return false;
 		}
 
 		return json_decode($response['body'], true);
-	}
-
-	public function getItemTemplate(string $code): false|array
-	{
-		$response = $this->retryRequest($this->apiUrl . 'item_templates/?code=' . $code);
-
-		if (!$response) {
-			return false;
-		}
-
-		$data = json_decode($response['body'], true);
-
-		if (!isset( $data['item_templates'][0])) {
-			return false;
-		}
-
-		return $data['item_templates'][0];
 	}
 
 	public function getInvoice(int $id): false|array

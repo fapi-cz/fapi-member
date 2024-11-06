@@ -100,25 +100,60 @@ ifndef version
 	$(error version not found. Please provide a version like 'make prepare-deploy version=x.y.z')
 endif
 
-git-commit: ## Amends a commit. If parameter m="Commit Name" is added, it will create a new commit instead.
-	git add -A
+git-commit: ## Amends a commit and rebases with master. If parameter m="Commit Name" is added, it will create a new commit instead.
+	@git add -A
 	@if [ -z "$(m)" ]; then \
-		git commit --amend --no-edit; \
+		echo "\033[33mUpdating last commit..."; \
+		$(MAKE) git-check-new-commits && git commit --amend --no-edit > /dev/null 2>&1; \
 	else \
-		git commit -m "$(m)"; \
+		echo "\033[33mCreating new commit with message $(m)..."; \
+		git commit --allow-empty -m "$(m)" > /dev/null 2>&1; \
 	fi
+	@make git-rebase-master
 
 git-push: ## Amends a commit and does a forced push. If parameter m="Commit Name" is added, it will create a new commit instead.
-	@if [ -z "$(m)" ]; then \
+	@if [ -z "$(m)" ] ; then \
 		$(MAKE) git-commit; \
+		echo "\033[33mUpdating github branch..."; \
+		$(MAKE) git-check-new-commits && echo "\033[37m" && git push --force-with-lease; \
 	else \
 		$(MAKE) git-commit m="$(m)"; \
+		echo "\033[33mPushing branch to github...\033[37m"; \
+		git push --force; \
 	fi
-	git push --force
+	@echo "\033[32mBranch was successfully pushed\033[0m"
+
+git-new-branch:
+	@if [ -z "$(i)" ] || [ -z "$(n)" ]; then \
+		echo "Error: Both 'issue' and 'commit' parameters are required."; \
+		exit 1; \
+	fi
+
+	$(eval first_word := $(shell echo $(n) | awk '{ print tolower($$1) }' | sed 's/ed$$//'))
+	$(eval rest_of_commit := $(shell echo $(n) | cut -d' ' -f2- | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g'))
+	$(eval final_branch_name := FAPI-$(i)-$(first_word)-$(rest_of_commit))
+
+	@git checkout -b $(final_branch_name)
+	make git-commit m="$(n)"
 
 git-rebase-master: ## Fetches data and rebases branch with master
-	git fetch --all --prune
-	git rebase origin/master
+	@echo "\033[33mRebasing with master...\033[34m"
+	@git fetch --all --prune
+	@git rebase origin/master
+	@echo "\033[0m"
+
+git-uncommit: git-check-new-commits ## Deletes last commit, but keeps changes
+	@echo "\033[33mReturning last commit...\033[0m"
+	@git reset --soft HEAD^
+
+git-check-new-commits:
+	@git fetch origin
+	@if [ -z "$$(git log origin/master..HEAD --oneline)" ]; then \
+		echo "\033[31mAction stopped \033[0m- No new commits in the current branch compared to master."; \
+		exit 1; \
+	else \
+		echo "\033[32mAction allowed \033[0m- There are new commits in this branch compared to master."; \
+	fi
 
 src-build: ## Builds the src folder for deploy and creates a zip for testing on a live site.
 	make -B build -i
