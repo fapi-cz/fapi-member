@@ -162,7 +162,7 @@ react-build: ## Builds front end react
 	npm --prefix ./app run build
 
 divi-build: ## Builds divi
-	npm --prefix ./src/divi run build
+	npm --prefix ./src/Divi run build
 
 dc-up:
 	make -C .docker-fapi-member dc-up

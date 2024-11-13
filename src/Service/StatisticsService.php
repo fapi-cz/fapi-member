@@ -401,7 +401,7 @@ class StatisticsService
 	public function handleUserActive(): void
 	{
 		$user = $this->userRepository->getCurrentUser();
-		if ($user === null || !$user->isMember() || !$this->memberActivityRepository->tableExists()) {
+		if ($user === null || !$user->isMemberOrSubscriber() || !$this->memberActivityRepository->tableExists()) {
 			return;
 		}
 

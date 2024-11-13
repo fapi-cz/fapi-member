@@ -101,6 +101,27 @@ class PagesController
 		$this->apiController->callbackSettingsSaved();
 	}
 
+	public function addPagesToLevel(WP_REST_Request $request): bool
+	{
+		$this->apiController->checkRequestMethod($request, RequestMethodType::POST);
+		$body = json_decode($request->get_body(), true);
+
+		$levelId = $this->apiController->extractParam($body, 'level_id', IntType::class);
+		$pages = $this->apiController->extractParam($body, 'pages', Arrays::class);
+
+		try{
+			$data = [];
+			$data['pages'] = $this->pageRepository->addPages($levelId, $pages);
+		} catch (Throwable) {
+			$this->apiController->callbackError([
+				'class'=> self::class,
+				'description' => "Page update failed",
+			]);
+		}
+
+		$this->apiController->callbackSettingsSaved($data);
+	}
+
 	public function getServicePagesByLevel(WP_REST_Request $request): array
 	{
 		$this->apiController->checkRequestMethod($request, RequestMethodType::POST);

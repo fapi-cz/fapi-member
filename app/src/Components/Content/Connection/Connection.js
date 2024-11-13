@@ -14,11 +14,11 @@ function Connection() {
     const [connections, setConnections] = useState(null);
     const [connectionStatuses, setConnectionStatuses] = useState(null);
     const [apiToken, setApiToken] = useState(null)
-    
+
     const connectionClient = new ApiConnectionClient();
 
     useEffect(() => {
-         const reloadData = async () => {
+        const reloadData = async () => {
             var updatedConnections = await connectionClient.list();
             setConnections(updatedConnections);
 
@@ -31,10 +31,10 @@ function Connection() {
             setLoading(false);
         }
 
-        if(loading === true) {
-           reloadData();
+        if (loading === true) {
+            reloadData();
         }
-     }, [loading]);
+    }, [loading]);
 
     const handleConnectionRemove = async (apiKey) => {
         await connectionClient.remove(apiKey);
@@ -44,7 +44,7 @@ function Connection() {
     const handleConnectionCreate = async () => {
         var apiUser = InputHelper.getValue('api-user');
         var apiKey = InputHelper.getValue('api-key');
-        await connectionClient.create(apiUser , apiKey);
+        await connectionClient.create(apiUser, apiKey);
 
         setLoading(true);
     }
@@ -53,23 +53,23 @@ function Connection() {
         return (<Loading/>);
     }
 
-  return (
+return (
     <div className='content-connection'>
         <div>
             <h3>Propojené účty FAPI:</h3>
             <table>
                 <thead>
-                    <tr>
-                        <th>Uživatelské jméno (email)</th>
-                        <th>API klíč</th>
-                        <th>Stav</th>
-                        <th>FAPI Member Plus</th>
-                        <th></th>
-                    </tr>
+                <tr>
+                    <th>Uživatelské jméno (email)</th>
+                    <th>API klíč</th>
+                    <th>Stav</th>
+                    <th>FAPI Member Plus</th>
+                    <th></th>
+                </tr>
                 </thead>
                 <tbody>
-                  {connections.map((connection) => (
-                      <tr key={connection.apiKey}>
+                {connections.map((connection) => (
+                    <tr key={connection.apiKey}>
                         <td>{connection.apiUser}</td>
                         <td><HiddenText value={connection.apiKey}/></td>
                         <td>
@@ -81,7 +81,8 @@ function Connection() {
                         </td>
                         <td>
                             {connection.licenceActive && connection.licenceExpirationDate !== null
-                                ? (<span className='connection-status connected'>do {connection.licenceExpirationDate.getDateCzech()}</span>)
+                                ? (<span
+                                    className='connection-status connected'>do {connection.licenceExpirationDate.getDateCzech()}</span>)
                                 : (<span className='connection-status error'>Neaktivní</span>)
                             }
                         </td>
@@ -89,11 +90,13 @@ function Connection() {
                             <SubmitButton
                                 text={'Odstranit'}
                                 type={'delete'}
-                                onClick={() => {handleConnectionRemove(connection.apiKey)}}
+                                onClick={() => {
+                                    handleConnectionRemove(connection.apiKey)
+                                }}
                             />
                         </td>
-                      </tr>
-                  ))}
+                    </tr>
+                ))}
                 </tbody>
             </table>
 
@@ -117,8 +120,8 @@ function Connection() {
                 onClick={handleConnectionCreate}
             />
 
-           <br/><br/><div className='vertical-divider'/>
-
+            <br/><br/>
+            <div className='vertical-divider'/>
             {apiToken === null
                 ? (<Loading height={'30px'}/>)
                 : (
@@ -132,7 +135,7 @@ function Connection() {
         </div>
         <Help/>
     </div>
-  );
+);
 }
 
 export default Connection;

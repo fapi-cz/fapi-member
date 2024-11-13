@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace FapiMember;
 
@@ -25,18 +25,31 @@ use FapiMember\Utils\ShortcodeSubstitutor;
 
 final class Bootstrap
 {
+
 	private FapiMemberPlugin $fapiMemberPlugin;
+
 	private FapiMemberDivi $fapiMemberDivi;
+
 	private FapiMemberMioweb $fapiMemberMioweb;
+
 	private ApiService $apiService;
+
 	private ElementService $elementService;
+
 	private RedirectService $redirectService;
+
 	private RequestHandler $requestHandler;
+
 	private ShortcodeSubstitutor $shortcodeSubstitutor;
+
 	private ApiController $apiController;
+
 	private MembershipRepository $membershipRepository;
+
 	private MembershipChangeRepository $membershipChangeRepository;
+
 	private MemberActivityRepository $memberActivityRepository;
+
 	private StatisticsService $statisticsService;
 
 	public function __construct(FapiMemberPlugin $fapiMemberPlugin)
@@ -80,7 +93,7 @@ final class Bootstrap
 	{
 		$oldVersion = get_option(OptionKey::FAPI_MEMBER_VERSION, '');
 
-		if (!empty($oldVersion)){
+		if (!empty($oldVersion)) {
 			return;
 		}
 
@@ -91,7 +104,7 @@ final class Bootstrap
 		}
 
 		$apiUser = get_option(OptionKey::API_USER, null);
-		$apiKey  = get_option(OptionKey::API_KEY, null );
+		$apiKey = get_option(OptionKey::API_KEY, null);
 
 		if (empty($apiKey) || empty($apiUser)) {
 			return;
@@ -100,17 +113,17 @@ final class Bootstrap
 		update_option(
 			OptionKey::API_CREDENTIALS,
 			json_encode(
-				array(
-					array(
+				[
+					[
 						'username' => $apiUser,
 						'token' => $apiKey,
-					),
-				)
+					],
+				]
 			)
 		);
 
 		$credentialsOk = $this->apiService->checkCredentials();
-		update_option( OptionKey::API_CHECKED, $credentialsOk );
+		update_option(OptionKey::API_CHECKED, $credentialsOk);
 
 		if (!$credentialsOk) {
 			update_option(OptionKey::API_CREDENTIALS, '0');
@@ -122,45 +135,45 @@ final class Bootstrap
 		$this->addInitHooks();
 		$this->addAdminHooks();
 
-		add_action('wp_enqueue_scripts', array($this, 'addPublicScripts'));
+		add_action('wp_enqueue_scripts', [$this, 'addPublicScripts']);
 
-		add_action('rest_api_init', array($this, 'addRestEndpoints'));
+		add_action('rest_api_init', [$this, 'addRestEndpoints']);
 
 		// adds meta boxed to setting page/post side bar
-		add_action('add_meta_boxes', array($this->elementService, 'addMetaBoxes'));
-		add_action('save_post', array($this->elementService, 'savePostMetadata'));
+		add_action('add_meta_boxes', [$this->elementService, 'addMetaBoxes']);
+		add_action('save_post', [$this->elementService, 'savePostMetadata']);
 
 		// check if page in fapi level
-		add_action('template_redirect', array($this->redirectService, 'checkPageForRedirects'));
+		add_action('template_redirect', [$this->redirectService, 'checkPageForRedirects']);
 
 		// user profile
-		add_action('edit_user_profile', array($this->elementService, 'addUserMenuPage'));
+		add_action('edit_user_profile', [$this->elementService, 'addUserMenuPage']);
 		add_action('plugins_loaded', [$this, 'initializeStatisticsIfNeeded']);
 
-		add_action('wp_enqueue_scripts', array($this, 'addPublicScripts'));
+		add_action('wp_enqueue_scripts', [$this, 'addPublicScripts']);
 
 		$this->addMiowebHooks();
 		$this->addDiviHooks();
 
-		add_image_size('level-selection', 300, 164, true );
-		add_filter('login_redirect', array($this->fapiMemberPlugin, 'loginRedirect'), 5, 3 );
-		add_filter('show_admin_bar', array($this->elementService, 'hideAdminBar'));
+		add_image_size('level-selection', 300, 164, true);
+		add_filter('login_redirect', [$this->fapiMemberPlugin, 'loginRedirect'], 5, 3);
+		add_filter('show_admin_bar', [$this->elementService, 'hideAdminBar']);
 
 		// filters block to render by section and levels provided
 		add_filter(
 			'render_block',
-			function ( $blockContent, $block ) {
-				if (!isset( $block['attrs']['hasSectionOrLevel'])) {
+			function ($blockContent, $block) {
+				if (!isset($block['attrs']['hasSectionOrLevel'])) {
 					return $blockContent;
 				}
 
-				if (!isset( $block['attrs']['fapiSectionAndLevels'])) {
+				if (!isset($block['attrs']['fapiSectionAndLevels'])) {
 					return $blockContent;
 				}
 
 				if (DisplayHelper::shouldContentBeRendered(
-						(string) $block['attrs']['hasSectionOrLevel'],
-						$block['attrs']['fapiSectionAndLevels']
+					(string) $block['attrs']['hasSectionOrLevel'],
+					$block['attrs']['fapiSectionAndLevels']
 				)) {
 					return $blockContent;
 				}
@@ -172,26 +185,28 @@ final class Bootstrap
 		);
 
 		// WPS hide login plugin
-		add_filter('whl_logged_in_redirect', array($this->redirectService, 'loggedInRedirect'), 1);
-		add_filter('whl_logged_in_redirect', array($this->redirectService, 'loggedInRedirect'), 1);
+		add_filter('whl_logged_in_redirect', [$this->redirectService, 'loggedInRedirect'], 1);
+		add_filter('whl_logged_in_redirect', [$this->redirectService, 'loggedInRedirect'], 1);
 	}
 
 	private function addInitHooks(): void
 	{
-		add_action('init', array($this, 'registerLevelsTaxonomy'));
-		add_action('init', array($this, 'registerRoles'));
-		add_action('init', array($this, 'addShortcodes'));
-		add_action('init', array($this->fapiMemberPlugin, 'checkTimedLevelUnlock'));
-		add_action('init', array($this->statisticsService, 'handleUserActive'));
+		add_action('init', [$this, 'registerLevelsTaxonomy']);
+		add_action('init', [$this, 'registerRoles']);
+		add_action('init', [$this, 'addShortcodes']);
+		add_action('init', [$this->fapiMemberPlugin, 'checkTimedLevelUnlock']);
+		add_action('init', [$this->statisticsService, 'handleUserActive']);
 	}
 
 	private function addAdminHooks(): void
 	{
-		add_action('admin_init', array($this, 'registerSettings'));
-		add_action('admin_menu', array($this->elementService, 'addAdminMenu'));
-		add_action('admin_enqueue_scripts', array($this, 'addScripts'));
+		add_action('admin_init', [$this, 'registerSettings']);
+		add_action('admin_menu', [$this->elementService, 'addAdminMenu']);
+		add_action('admin_enqueue_scripts', [$this, 'addScripts']);
 		add_action('admin_enqueue_scripts', [$this, 'addApiNonce']);
 		add_action('admin_enqueue_scripts', [$this, 'checkFapiMemberPlusStatus']);
+		add_action('admin_enqueue_scripts', [$this, 'checkSimpleShopStatus']);
+
 	}
 
 	private function addMiowebHooks(): void
@@ -205,18 +220,18 @@ final class Bootstrap
 	{
 		add_action('divi_extensions_init', [$this, 'initializeDiviExtension']);
 
-		add_filter( 'et_builder_get_parent_modules', [$this->fapiMemberDivi, 'addToggle']);
+		add_filter('et_builder_get_parent_modules', [$this->fapiMemberDivi, 'addToggle']);
 
 		foreach ($this->fapiMemberDivi->allowedModuleSlugs as $slug) {
 			add_filter("et_pb_all_fields_unprocessed_" . $slug, [$this->fapiMemberDivi, 'addFields']);
 		}
 
-		add_filter('et_pb_module_content', [$this->fapiMemberDivi, 'hideElements'], 10, 4 );
+		add_filter('et_pb_module_content', [$this->fapiMemberDivi, 'hideElements'], 10, 4);
 	}
 
 	public function initializeDiviExtension(): void
 	{
-		require_once plugin_dir_path( __FILE__ ) . 'Divi/includes/FmDivi.php';
+		require_once plugin_dir_path(__FILE__) . 'Divi/includes/FmDivi.php';
 	}
 
 	function addApiNonce(): void
@@ -233,9 +248,63 @@ final class Bootstrap
 		if (current_user_can(UserPermission::REQUIRED_CAPABILITY)) {
 			$licenceActive = $this->apiService->checkLicence();
 
-			echo "<script>window.licenceActive = '{$licenceActive}'</script>";
+			echo "<script>
+				window.licenceActive = '{$licenceActive}'
+			</script>";
 		}
+	}
 
+	function checkSimpleShopStatus(): void
+	{
+		if (current_user_can(UserPermission::REQUIRED_CAPABILITY)) {
+			$simpleShopActive = is_plugin_active('simpleshop-cz/simpleshop-cz.php');
+			$ssSections = [];
+
+			if (!$simpleShopActive) {
+				echo "<script>
+					window.simpleShopToFAPIMember = false
+				</script>";
+
+				return;
+			}
+
+			$groups = new \Redbit\SimpleShop\WpPlugin\Group();
+
+			foreach ($groups->get_groups() as $groupId => $group) {
+				$group = new \Redbit\SimpleShop\WpPlugin\Group($groupId);
+
+				$ssSections[] = [
+					'id' => $group->id,
+					'name' => $group->name,
+					'users' => array_values(array_map(function ($user) {
+						return ['id' => $user->ID, 'email' => $user->user_email];
+					}, $group->get_users())),
+				];
+			}
+
+			$pagesGroups = [];
+
+			$pages = get_posts([
+				'post_type' => 'page',
+				'numberposts' => -1,
+			]);
+
+			$ss = \Redbit\SimpleShop\WpPlugin\SimpleShop::getInstance();
+
+			foreach ($pages as $page) {
+				$pagesGroups[] = [
+						'id' => $page->ID,
+						'name' => $page->post_title,
+						'groups' => $ss->get_access()->get_post_groups($page->ID),
+					];
+			}
+
+			echo "<script>
+					window.simpleShopToFAPIMember = true
+					window.ssSections = " . json_encode($ssSections) . "
+					window.ssPagesGroups = " . json_encode($pagesGroups) . "
+				</script>";
+		}
 	}
 
 	public function addRestEndpoints(): void
@@ -260,14 +329,16 @@ final class Bootstrap
 		$this->addRestEndpointV2('statistics');
 	}
 
-	public function addRestEndpointV2(string $route): void
+	public function addRestEndpointV2(
+		string $route
+	): void
 	{
 		register_rest_route(
 			'fapi/v2',
 			'/' . $route,
 			[
 				'methods' => [RequestMethodType::GET, RequestMethodType::POST],
-				'callback' => array($this->apiController, 'handleRequest'),
+				'callback' => [$this->apiController, 'handleRequest'],
 				'permission_callback' => function () {
 					return true;
 				},
@@ -275,14 +346,16 @@ final class Bootstrap
 		);
 	}
 
-	public function addRestEndpointV1(string $route, string $functionName, string $method): void
+	public function addRestEndpointV1(
+		string $route, string $functionName, string $method
+	): void
 	{
 		register_rest_route(
 			'fapi/v1',
 			'/' . $route,
 			[
 				'methods' => $method,
-				'callback' => array($this->requestHandler, $functionName),
+				'callback' => [$this->requestHandler, $functionName],
 				'permission_callback' => function () {
 					return true;
 				},
@@ -292,11 +365,11 @@ final class Bootstrap
 
 	public function addShortcodes(): void
 	{
-		add_shortcode('fapi-member-login', array($this->shortcodeSubstitutor, 'shortcodeLoginForm'));
-		add_shortcode('fapi-member-user', array($this->shortcodeSubstitutor, 'shortcodeUser'));
-		add_shortcode('fapi-member-user-section-expiration', array($this->shortcodeSubstitutor, 'shortcodeSectionExpirationDate'));
-		add_shortcode('fapi-member-level-unlock-date', array($this->shortcodeSubstitutor, 'shortcodeLevelUnlockDate'));
-		add_shortcode('fapi-member-unlock-level', array($this->shortcodeSubstitutor, 'shortcodeUnlockLevel'));
+		add_shortcode('fapi-member-login', [$this->shortcodeSubstitutor, 'shortcodeLoginForm']);
+		add_shortcode('fapi-member-user', [$this->shortcodeSubstitutor, 'shortcodeUser']);
+		add_shortcode('fapi-member-user-section-expiration', [$this->shortcodeSubstitutor, 'shortcodeSectionExpirationDate']);
+		add_shortcode('fapi-member-level-unlock-date', [$this->shortcodeSubstitutor, 'shortcodeLevelUnlockDate']);
+		add_shortcode('fapi-member-unlock-level', [$this->shortcodeSubstitutor, 'shortcodeUnlockLevel']);
 	}
 
 	public function addScripts(): void
@@ -307,48 +380,56 @@ final class Bootstrap
 		global $pagenow;
 
 		if ($pagenow === 'admin.php' || $pagenow === 'options-general.php') {
-			wp_enqueue_style('fapi-member-admin-font');
-			wp_enqueue_style('fapi-member-swal-css');
-			wp_enqueue_script('fapi-member-swal');
-			wp_enqueue_script('fapi-member-swal-promise-polyfill');
-			wp_enqueue_script('fapi-member-clipboard');
-			wp_enqueue_script('fapi-member-main');
+			wp_enqueue_style('fapi-member-admin-font', '', [], FAPI_MEMBER_PLUGIN_VERSION);
+			wp_enqueue_style('fapi-member-swal-css', '', [], FAPI_MEMBER_PLUGIN_VERSION);
+			wp_enqueue_script('fapi-member-swal', '', [], FAPI_MEMBER_PLUGIN_VERSION);
+			wp_enqueue_script('fapi-member-swal-promise-polyfill', '', [], FAPI_MEMBER_PLUGIN_VERSION);
+			wp_enqueue_script('fapi-member-clipboard', '', [], FAPI_MEMBER_PLUGIN_VERSION);
+			wp_enqueue_script('fapi-member-main', '', [], FAPI_MEMBER_PLUGIN_VERSION);
 		}
 		if ($pagenow === 'user-edit.php') {
-			wp_enqueue_style('fapi-member-user-profile');
-			wp_enqueue_script('fapi-member-main');
+			wp_enqueue_style('fapi-member-user-profile', '', [], FAPI_MEMBER_PLUGIN_VERSION);
+			wp_enqueue_script('fapi-member-main', '', [], FAPI_MEMBER_PLUGIN_VERSION);
 		}
 
 		wp_enqueue_script(
 			'fm-react-app',
-			trailingslashit(plugins_url('/', __FILE__ )) . '../app/dist/bundle.js',
+			trailingslashit(plugins_url('/', __FILE__)) . '../app/dist/bundle.js',
 			['jquery', 'wp-element'],
-			filemtime(plugin_dir_path(__FILE__) . '../app/dist/bundle.js'),
+			FAPI_MEMBER_PLUGIN_VERSION,
 			true,
 		);
 
-		wp_localize_script('fm-react-app', 'environmentData', array(
-        'timeZoneOffset' => get_option('gmt_offset'),
-    ));
+		wp_localize_script('fm-react-app', 'environmentData', [
+			'timeZoneOffset' => get_option('gmt_offset'),
+		]);
 	}
 
 	public function registerStyles(): void
 	{
 		wp_register_style(
 			'fapi-member-user-profile',
-			plugins_url('fapi-member/media/fapi-user-profile.css')
+			plugins_url('fapi-member/media/fapi-user-profile.css'),
+			[],
+			FAPI_MEMBER_PLUGIN_VERSION
 		);
 		wp_register_style(
 			'fapi-member-admin-font',
-			plugins_url('fapi-member/media/font/stylesheet.css')
+			plugins_url('fapi-member/media/font/stylesheet.css'),
+			[],
+			FAPI_MEMBER_PLUGIN_VERSION
 		);
 		wp_register_style(
 			'fapi-member-swal-css',
-			plugins_url('fapi-member/media/dist/sweetalert2.min.css')
+			plugins_url('fapi-member/media/dist/sweetalert2.min.css'),
+			[],
+			FAPI_MEMBER_PLUGIN_VERSION
 		);
 		wp_register_style(
 			'fapi-member-public-style',
-			plugins_url('fapi-member/media/fapi-member-public.css')
+			plugins_url('fapi-member/media/fapi-member-public.css'),
+			[],
+			FAPI_MEMBER_PLUGIN_VERSION
 		);
 	}
 
@@ -356,44 +437,61 @@ final class Bootstrap
 	{
 		wp_register_script(
 			'fapi-member-swal',
-			plugins_url('fapi-member/media/dist/sweetalert2.js')
+			plugins_url('fapi-member/media/dist/sweetalert2.js'),
+			[],
+			FAPI_MEMBER_PLUGIN_VERSION
 		);
 
 		wp_register_script(
 			'fapi-member-swal-promise-polyfill',
-			plugins_url('fapi-member/media/dist/polyfill.min.js')
+			plugins_url('fapi-member/media/dist/polyfill.min.js'),
+			[],
+			FAPI_MEMBER_PLUGIN_VERSION
 		);
 
 		wp_register_script(
 			'fapi-member-clipboard',
-			plugins_url('fapi-member/media/dist/clipboard.min.js')
+			plugins_url('fapi-member/media/dist/clipboard.min.js'),
+			[],
+			FAPI_MEMBER_PLUGIN_VERSION
 		);
 
 		if (FapiMemberPlugin::isDevelopment()) {
 			wp_register_script(
 				'fapi-member-main',
-				plugins_url('fapi-member/media/dist/fapi.dev.js')
+				plugins_url('fapi-member/media/dist/fapi.dev.js'),
+				[],
+				FAPI_MEMBER_PLUGIN_VERSION
 			);
 		} else {
 			wp_register_script(
 				'fapi-member-main',
-				plugins_url('fapi-member/media/dist/fapi.dist.js')
+				plugins_url('fapi-member/media/dist/fapi.dist.js'),
+				[],
+				FAPI_MEMBER_PLUGIN_VERSION
 			);
 		}
 	}
 
-	public function addPublicScripts(): void
+	public
+	function addPublicScripts(): void
 	{
 		$this->registerPublicStyles();
 
-		wp_enqueue_style('fapi-member-public-style');
+		wp_enqueue_style('fapi-member-public-style', '',
+			[],
+			FAPI_MEMBER_PLUGIN_VERSION);
 
-		if ( defined('FAPI_SHOWING_LEVEL_SELECTION')) {
+		if (defined('FAPI_SHOWING_LEVEL_SELECTION')) {
 			wp_register_style(
 				'fapi-member-public-levelselection-font',
-				'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap'
+				'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap',
+				[],
+				FAPI_MEMBER_PLUGIN_VERSION
 			);
-			wp_enqueue_style('fapi-member-public-levelselection-font');
+			wp_enqueue_style('fapi-member-public-levelselection-font', '',
+				[],
+				FAPI_MEMBER_PLUGIN_VERSION);
 		}
 	}
 
@@ -401,13 +499,15 @@ final class Bootstrap
 	{
 		wp_register_style(
 			'fapi-member-public-style',
-			plugins_url('fapi-member/media/fapi-member-public.css')
+			plugins_url('fapi-member/media/fapi-member-public.css'),
+			[],
+			FAPI_MEMBER_PLUGIN_VERSION
 		);
 	}
 
 	public function registerRoles(): void
 	{
-		if ( get_role('member') === null ) {
+		if (get_role('member') === null) {
 			add_role('member', __('Člen', 'fapi-member'), get_role('subscriber')->capabilities);
 		}
 	}
@@ -417,22 +517,22 @@ final class Bootstrap
 		register_setting(
 			'options',
 			'fapiMemberApiEmail',
-			array(
-				'type'         => 'string',
-				'description'  => __('Fapi Member - API e-mail', 'fapi-member'),
+			[
+				'type' => 'string',
+				'description' => __('Fapi Member - API e-mail', 'fapi-member'),
 				'show_in_rest' => false,
-				'default'      => null,
-			)
+				'default' => null,
+			]
 		);
 		register_setting(
 			'options',
 			'fapiMemberApiKey',
-			array(
-				'type'         => 'string',
-				'description'  => __('Fapi Member - API key', 'fapi-member'),
+			[
+				'type' => 'string',
+				'description' => __('Fapi Member - API key', 'fapi-member'),
 				'show_in_rest' => false,
-				'default'      => null,
-			)
+				'default' => null,
+			]
 		);
 	}
 
@@ -441,12 +541,12 @@ final class Bootstrap
 		register_taxonomy(
 			'fapi_levels',
 			PostTypeHelper::getSupportedPostTypes(),
-			array(
+			[
 				'public' => false,
 				'hierarchical' => true,
 				'show_ui' => false,
 				'show_in_rest' => false,
-			)
+			]
 		);
 	}
 
@@ -467,7 +567,7 @@ final class Bootstrap
 
 		$memberships = $this->membershipRepository->getAll();
 
-		foreach ($memberships as  $membershipsByUserId) {
+		foreach ($memberships as $membershipsByUserId) {
 			foreach ($membershipsByUserId as $membership) {
 				$this->membershipChangeRepository->addChange(
 					$membership->toMembershipChange(

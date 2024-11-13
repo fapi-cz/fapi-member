@@ -43,7 +43,7 @@ export default class MemberSectionClient extends Client {
 	}
 
 	async create(name, parentId = null) {
-		await this.sendRequest('create', RequestMethodType.POST, {name: name, parent_id: parentId});
+		return await this.sendRequest('create', RequestMethodType.POST, {name: name, parent_id: parentId});
 	}
 
 	async updateName(id, name) {

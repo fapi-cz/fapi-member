@@ -167,7 +167,6 @@ class ApiService
 
 	public function getCredentialsStatuses(): array
 	{
-		$credentialsOk = true;
 		$clients = $this->getApiClients();
 
 		if (count($clients) === 0) {

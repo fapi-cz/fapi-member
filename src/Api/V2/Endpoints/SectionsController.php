@@ -105,7 +105,7 @@ class SectionsController
 		}
 
 		try {
-			$success = $this->levelService->create(trim($name), $parentId);
+			$levelId = $this->levelService->create(trim($name), $parentId);
 		} catch (Throwable) {
 			$this->apiController->callbackError([
 				'class'=> self::class,
@@ -113,8 +113,10 @@ class SectionsController
 			]);
 		}
 
-		if ($success) {
-			$this->apiController->callbackSuccess();
+		if ($levelId !== null) {
+			$this->apiController->callbackSuccess(
+				['id' => $levelId, 'name' => trim($name)]
+			);
 		}
 
 		$this->apiController->callbackError([], Alert::LEVEL_ALREADY_EXISTS);

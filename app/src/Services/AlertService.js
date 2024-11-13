@@ -3,14 +3,9 @@ class AlertService
 	static alertsOpened = 0;
 
 	static async showAlert(message, type = 'error') {
-		var showDuration = 2;
-
-		if (type === 'error' || type === 'warning') {
-			showDuration = 3;
-		}
-
-		var alert = document.querySelector('#alert');
-		var alertContent = document.querySelector('#alert-content');
+		let showDuration = 7;
+		let alert = document.querySelector('#alert');
+		let alertContent = document.querySelector('#alert-content');
 
 		if (this.alertsOpened > 0) {
 			this.close(alert);

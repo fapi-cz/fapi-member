@@ -174,9 +174,9 @@ class ApiController
 		}
 	}
 
-	public function callbackSettingsSaved(): never
+	public function callbackSettingsSaved(mixed $data = []): never
 	{
-		$this->callbackResponse([], Alert::SETTINGS_SAVED);
+		$this->callbackResponse($data, Alert::SETTINGS_SAVED);
 	}
 
 	public function callbackError(array $data, string $alert = Alert::INTERNAL_ERROR): never
@@ -192,10 +192,14 @@ class ApiController
 		die;
 	}
 
-	public function callbackSuccess(): never
+	/**
+	 * @param array $data
+	 * @return never
+	 */
+	public function callbackSuccess($data = []): never
 	{
 		wp_send_json_success(
-			[],
+			$data,
 			200,
 		);
 

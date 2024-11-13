@@ -8,4 +8,5 @@ export const SubNavItemType = Object.freeze({
     MEMBERS: 'members',
     CREATE_MEMBER: 'createMember',
     CONNECTION: 'connection',
+    SIMPLE_SHOP_TO_FAPI_MEMBER: 'simpleShopToFAPIMember',
 });

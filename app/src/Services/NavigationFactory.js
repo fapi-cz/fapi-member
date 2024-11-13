@@ -24,10 +24,11 @@ const Elements = lazy(() => import('Components/Content/Levels/Elements'));
 const Members = lazy(() => import('Components/Content/Members/Members'));
 const CreateMember = lazy(() => import('Components/Content/Members/CreateMember'));
 const Connection = lazy(() => import('Components/Content/Connection/Connection'));
+const SimpleShopToFAPIMember = lazy(() => import('Components/Content/Connection/SimpleShopToFAPIMember'));
 
 export class NavigationFactory {
 	create() {
-		return new Navigation([
+		const navigation = new Navigation([
 			new NavItem(
 				NavItemType.OVERVIEW,
 				'Přehled',
@@ -97,5 +98,17 @@ export class NavigationFactory {
 				]
 			),
 		]);
+
+		if (LicenceHelper.isSimpleShopToFAPIMember()) {
+			navigation.getNavItem(NavItemType.CONNECTION).getSubNavItems().push(
+				new SubNavItem(
+					SubNavItemType.SIMPLE_SHOP_TO_FAPI_MEMBER,
+					'Přechod SimpleShop -> FAPI Member',
+					SimpleShopToFAPIMember,
+				)
+			);
+		}
+
+		return navigation
 	}
 }
