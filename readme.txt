@@ -26,6 +26,9 @@ Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org
 
 == Changelog ==
 
+= 2.2.5 =
+* Added link to FAPI Member section settings in users table and user profile
+
 = 2.2.4 =
 * Allow seamless migration from the SimpleShop plugin to FAPI Member
 

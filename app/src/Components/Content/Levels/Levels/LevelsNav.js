@@ -6,7 +6,7 @@ function LevelsNav({activeItem, setActiveItem}) {
   return (
     <div className="levels-nav">
        { [
-         {text: 'Přiřazené stránky a přízpěvky', key: LevelsNavItemType.PAGES},
+         {text: 'Přiřazené stránky a příspěvky', key: LevelsNavItemType.PAGES},
          {text: 'E-maily', key: LevelsNavItemType.EMAILS},
          {text: 'Servisní stránky', key: LevelsNavItemType.SERVICE_PAGES},
          {text: 'Uvolňování obsahu', key: LevelsNavItemType.UNLOCKING},
