@@ -86,7 +86,7 @@ build: ## Builds the plugin source code
 prepare-deploy: isset-version ## Prepares everything for a deploy
 	docker exec node /bin/sh -c 'yarn --cwd multiple-blocks install'
 	docker exec node /bin/sh -c 'yarn --cwd multiple-blocks build'
-	composer install
+	make composer-install
 	make -B build -i
 	rm -rf wp-svn
 	svn co https://plugins.svn.wordpress.org/fapi-member wp-svn
