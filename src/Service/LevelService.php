@@ -54,18 +54,18 @@ class LevelService
 		return $orderedSections;
 	}
 
-	public function create(string $name, int|null $parentId = null): bool
+	public function create(string $name, int|null $parentId = null): int|null
 	{
 		$levelId = $this->levelRepository->create($name, $parentId);
 
 		if ($levelId === null) {
-			return false;
+			return null;
 		}
 
 		$level = $this->levelRepository->getLevelById($levelId);
 		$this->levelRepository->createDefaultLevelEmails($level);
 
-		return true;
+		return $levelId;
 	}
 
 	public function updateName(int $id, string $name): void

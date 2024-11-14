@@ -37,6 +37,7 @@ class ApiConnectionsController
 			}
 
 			$connectionData = array_merge($connection->toArray(), $client->getLicenceData());
+			$connectionData['billing'] = $client->getBillingData();
 
 			$connectionsData[] = $connectionData;
 		}

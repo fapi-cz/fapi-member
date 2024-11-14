@@ -79,7 +79,7 @@ class UserRepository extends Repository
 		return array_filter(
 			$users,
 			static function ($user) {
-				return in_array('member', $user->getRoles());
+				return in_array('member', $user->getRoles()) || in_array('subscriber', $user->getRoles());
 			}
 		);
 	}

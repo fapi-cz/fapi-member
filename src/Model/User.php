@@ -67,9 +67,9 @@ class User
 		return $this->roles;
 	}
 
-	public function isMember(): bool
+	public function isMemberOrSubscriber(): bool
 	{
-		return in_array('member', $this->roles);
+		return in_array('member', $this->roles) || in_array('subscriber', $this->roles);
 	}
 
 	public function getFirstName(): string|null

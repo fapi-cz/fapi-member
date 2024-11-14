@@ -86,7 +86,7 @@ build: ## Builds the plugin source code
 prepare-deploy: isset-version ## Prepares everything for a deploy
 	docker exec node /bin/sh -c 'yarn --cwd multiple-blocks install'
 	docker exec node /bin/sh -c 'yarn --cwd multiple-blocks build'
-	composer install
+	make composer-install
 	make -B build -i
 	rm -rf wp-svn
 	svn co https://plugins.svn.wordpress.org/fapi-member wp-svn
@@ -162,7 +162,7 @@ react-build: ## Builds front end react
 	npm --prefix ./app run build
 
 divi-build: ## Builds divi
-	npm --prefix ./src/divi run build
+	npm --prefix ./src/Divi run build
 
 dc-up:
 	make -C .docker-fapi-member dc-up

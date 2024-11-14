@@ -3,6 +3,7 @@
 namespace FapiMember\Repository;
 
 use FapiMember\Container\Container;
+use FapiMember\Library\Nette\Utils\Json;
 use FapiMember\Model\Enums\Keys\MetaKey;
 use FapiMember\Model\Enums\Keys\OptionKey;
 use FapiMember\Model\Page;
@@ -111,17 +112,17 @@ class PageRepository extends Repository
 		return sprintf('fapi_page_%s', $type);
 	}
 
-	public function addPages(int $levelId, array $newPageIds): void
+	public function addPages(int $levelId, array $newPageIds): array
 	{
-		$old= $this->getTermMeta($levelId, $this->key);
+		$old = $this->getTermMeta($levelId, $this->key);
 		$old = (empty( $old )) ? null : json_decode($old, true);
 
 		$all = ($old === null) ? $newPageIds : array_merge( $old, $newPageIds);
 
-		$this->updatePagesForLevel($levelId, $all);
+		return $this->updatePagesForLevel($levelId, $all);
 	}
 
-	public function updatePagesForLevel(int $levelId, array $pagesData): void
+	public function updatePagesForLevel(int $levelId, array $pagesData): array
 	{
 		$pagesData = array_values(array_unique($pagesData));
 		$pages = [];
@@ -140,6 +141,8 @@ class PageRepository extends Repository
 		$allStoredPostTypes = get_option(OptionKey::POST_TYPES, array());
 		$allStoredPostTypes[$levelId] = $cpts;
 		update_option(OptionKey::POST_TYPES, $allStoredPostTypes);
+
+		return Json::decode($this->getTermMeta($levelId, $this->key));
 	}
 
 	public function getPageUrlById(int|null $pageId): string|null

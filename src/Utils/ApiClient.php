@@ -104,6 +104,26 @@ class ApiClient
 		return json_decode($response['body'], true);
 	}
 
+	public function getBillingData(): array
+	{
+		$response = $this->retryRequest($this->apiUrl . 'user');
+
+		if (!$response) {
+			return [];
+		}
+
+		$data = json_decode($response['body'], true);
+
+		return [
+			'email' => $data['username'] ?? null,
+			'name' => $data['name'] ?? null,
+			'dic' => $data['dic'] ?? null,
+			'ic' => $data['ic'] ?? null,
+			'ic_dph' => $data['ic_dph'] ?? null,
+			'address' => $data['address'] ?? [],
+		];
+	}
+
 	public function getVoucher(int $id): false|array
 	{
 		$response = $this->retryRequest($this->apiUrl . 'vouchers/' . $id);

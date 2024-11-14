@@ -47,6 +47,10 @@ export default class PageClient extends Client {
 		return await this.sendRequest('updatePagesForLevel', RequestMethodType.POST, {level_id: levelId, pages: pages});
 	}
 
+	async addPagesToLevel(levelId, pages) {
+		return await this.sendRequest('addPagesToLevel', RequestMethodType.POST, {level_id: levelId, pages: pages});
+	}
+
 	async getServicePagesForLevel(levelId) {
 		return await this.sendRequest('getServicePagesByLevel', RequestMethodType.POST, {level_id: levelId})
 	}
