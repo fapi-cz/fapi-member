@@ -134,6 +134,7 @@ final class Bootstrap
 	{
 		$this->addInitHooks();
 		$this->addAdminHooks();
+        $this->registerUserFapiMemberTableColumn();
 
 		add_action('wp_enqueue_scripts', [$this, 'addPublicScripts']);
 
@@ -578,5 +579,13 @@ final class Bootstrap
 			}
 		}
 	}
+
+    public function registerUserFapiMemberTableColumn(): void
+    {
+        add_filter('manage_users_columns', [$this->elementService, 'addUserColumn']);
+        add_action('manage_users_custom_column', [$this->elementService, 'showUserColumnContent'], 10, 3);
+        add_action('show_user_profile', [$this->elementService, 'addUserProfileSection']);
+        add_action('edit_user_profile', [$this->elementService, 'addUserProfileSection']);
+    }
 
 }

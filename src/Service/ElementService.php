@@ -143,4 +143,44 @@ class ElementService
 		return '<input name="' . PostValue::SECTIONS . '[]" ' . ($isAssigned ? 'checked="checked"' : '' ) . 'type="checkbox" value="' . $level->getId(). '">' . $level->getName() . '<br>';
 	}
 
+    public function addUserColumn($columns)
+    {
+        if (isset($columns['posts'])) {
+            $posts = $columns['posts'];
+            unset($columns['posts']);
+        }
+
+        $columns['fapi_member_edit'] = __('Upravit ve FAPI Member', 'fapi-member');
+
+        if (isset($posts)) {
+            $columns['posts'] = $posts;
+        }
+
+        return $columns;
+    }
+
+    public function showUserColumnContent($value, $columnName, $userId)
+    {
+        if ('fapi_member_edit' == $columnName) {
+            $editUrl = admin_url('admin.php?page=fapi-member-settings&fm-page=members&member=' . $userId);
+            return '<a href="' . esc_url($editUrl) . '">' . __('Upravit ve FAPI Member', 'fapi-member') . '</a>';
+        }
+
+        return $value;
+    }
+
+    public function addUserProfileSection($user)
+    {
+        if (!current_user_can('edit_users')) {
+            return;
+        }
+
+        $editUrl = admin_url('admin.php?page=fapi-member-settings&fm-page=members&member=' . $user->ID);
+
+        echo '<h2>' . __('FAPI Member', 'fapi-member') . '</h2>';
+        echo '<table class="form-table"><tr><th>'.__('Nastavení členských sekcí').'</th><td>';
+        echo '<a href="' . esc_url($editUrl) . '" class="button button-secondary">' . __('Upravit ve FAPI Member', 'fapi-member') . '</a>';
+        echo '</td></tr></table>';
+    }
+
 }
