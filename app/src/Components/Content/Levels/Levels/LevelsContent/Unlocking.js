@@ -190,7 +190,7 @@ function Unlocking({level}) {
                     className='fm-input'
                     type="number"
                     min="0"
-                    max="100"
+                    max="730"
                     name="days-to-unlock"
                     defaultValue={daysUnlock}
                     onInput={(e) => {
