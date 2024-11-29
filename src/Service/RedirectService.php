@@ -120,7 +120,13 @@ class RedirectService
 
 	public function redirectToTimedUnlockNoAccessPage(): void
 	{
-		$this->redirectToPage($this->pageRepository->getTimedUnlockNoAccessPageId());
+		$pageId = $this->pageRepository->getTimedUnlockNoAccessPageId();
+
+		if ($pageId !== null) {
+			$this->redirectToPage($pageId);
+		}
+
+		$this->redirectToHomePage();
 	}
 
 	public function loginRedirect(int|null $userId)
