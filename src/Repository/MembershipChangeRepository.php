@@ -5,6 +5,7 @@
 namespace FapiMember\Repository;
 
 use DateTimeImmutable;
+use FapiMember\Container\Container;
 use FapiMember\Model\Enums\Format;
 use FapiMember\Model\MembershipChange;
 use wpdb;
@@ -13,6 +14,7 @@ class MembershipChangeRepository extends Repository
 {
 	private wpdb $wpdb;
 	private string $tableName;
+	private LevelRepository $levelRepository;
 
 	public function __construct()
 	{
@@ -21,6 +23,7 @@ class MembershipChangeRepository extends Repository
 
 		$this->wpdb = $wpdb;
 		$this->tableName = $this->wpdb->prefix . 'fm_membership_changes';
+		$this->levelRepository = Container::get(LevelRepository::class);
 	}
 
 	public function tableExists(): bool
@@ -112,6 +115,10 @@ class MembershipChangeRepository extends Repository
 	/** @return array<MembershipChange> */
 	public function getLastChangesForLevels(array $levelIds, DateTimeImmutable $timestamp): array
 	{
+		if ($levelIds === []) {
+			$levelIds = $this->levelRepository->getAllAsLevelIds();
+		}
+
 		$levelIdsPlaceholder = implode(',', array_fill(0, count($levelIds), '%d'));
 
 		$filterByLevelsString = $levelIds === []
@@ -148,6 +155,10 @@ class MembershipChangeRepository extends Repository
 		array $levelIds,
 	): array
 	{
+		if ($levelIds === []) {
+			$levelIds = $this->levelRepository->getAllAsLevelIds();
+		}
+
 		$levelIdsPlaceholder = implode(',', array_fill(0, count($levelIds), '%d'));
 
 		$queryParams = $levelIds === []

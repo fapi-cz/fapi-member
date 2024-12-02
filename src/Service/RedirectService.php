@@ -88,7 +88,9 @@ class RedirectService
 			$this->redirectToNoAccessPage($firstLevel->getId());
 		}
 
-		$memberships = $this->membershipService->getActiveByUserIdAndUpdate(get_current_user_id());
+		$memberships = $this->membershipService->getActiveByUserIdAndUpdate(
+			$this->userRepository->getCurrentUser()->getId()
+		);
 
 		foreach ($memberships as $membership) {
 			foreach ($levelsForThisPage as $levelForThisPage) {

@@ -46,6 +46,15 @@ class MembershipChange
 		$this->timestamp = $timestamp;
 	}
 
+	public function isValid(): bool
+	{
+		if (!$this->levelRepository->exists($this->levelId)) {
+			return false;
+		}
+
+		return true;
+	}
+
 	public function getUserId(): int
 	{
 		return $this->userId;
