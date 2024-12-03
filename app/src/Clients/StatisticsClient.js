@@ -1,6 +1,7 @@
 import Client from './Client';
 import {RequestMethodType} from "Enums/RequestMethodType";
 import MembershipChange from "Models/MembershipChange";
+import DateTime from "Models/DateTime";
 
 export default class StatisticsClient extends Client {
 
@@ -64,6 +65,20 @@ export default class StatisticsClient extends Client {
 			RequestMethodType.POST,
 			filterData,
 		);
+	}
+
+	async getLastActivityForUser(userId){
+		var lastActivity = await this.sendRequest(
+			'getLastActivityForUser',
+			RequestMethodType.POST,
+			{user_id: userId},
+		);
+
+		if (lastActivity === null) {
+			return lastActivity;
+		}
+
+		return new DateTime(lastActivity);
 	}
 
 	async getAverageChurnRatePeriods(filterData){

@@ -14,7 +14,7 @@ use function define;
  * Plugin Name:       FAPI Member
  * Plugin URI:        https://fapi.cz/
  * Description:       Plugin FAPI pro jednoduchou správu členských sekcí na webu.
- * Version:           2.2.8
+ * Version:           2.2.9
  * Requires at least: 5.9
  * Requires PHP:      8.1
  * Author:            FAPI Business s.r.o.
@@ -29,7 +29,7 @@ require __DIR__ . '/multiple-blocks/multiple-blocks.php';
 require __DIR__ . '/src/Elementor/fapi-member.php';
 require __DIR__ . '/src/Utils/functions.php';
 
-define('FAPI_MEMBER_PLUGIN_VERSION', '2.2.8');
+define('FAPI_MEMBER_PLUGIN_VERSION', '2.2.9');
 
 $FapiPlugin = new FapiMemberPlugin();
 

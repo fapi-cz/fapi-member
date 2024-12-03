@@ -118,20 +118,6 @@ class MembershipRepository extends Repository
 		return $result;
 	}
 
-	public function update(int $userId, Membership $membership): void
-	{
-		$meta = $this->getUserMeta($userId);
-
-		$meta[] = [
-			'level' => $membership->getLevelId(),
-			'registered' => $membership->getRegistered(),
-			'until' => $membership->getUntil(),
-			'isUnlimited' => $membership->isUnlimited(),
-		];
-
-		$this->updateUserMeta($userId, $meta);
-	}
-
 	/** @param array<Membership> $memberships */
 	public function saveAll(int $userId, array $memberships): void
 	{

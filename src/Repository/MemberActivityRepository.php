@@ -58,8 +58,23 @@ class MemberActivityRepository extends Repository
 		);
 	}
 
+	public function updateActivity(int $userId): void
+	{
+		$sql = $this->wpdb->prepare("
+			UPDATE $this->tableName 
+     		SET timestamp = %s 
+     		WHERE user_id = %d 
+     		AND DATE(timestamp) = %s",
+			DateTimeHelper::getNow()->format(Format::DATE_TIME_BASIC),
+			$userId,
+			DateTimeHelper::getNow()->format(Format::DATE)
+		);
+
+		$this->wpdb->query($sql);
+	}
+
 	/** @return array<MembershipChange>*/
-	public function findLastActivity(int $userId): array
+	public function findLastActivity(int $userId): DateTimeImmutable|null
 	{
 		$query = $this->wpdb->prepare("
 			SELECT * FROM $this->tableName
@@ -68,9 +83,13 @@ class MemberActivityRepository extends Repository
 			LIMIT 1;
 		", $userId);
 
-		$results = $this->wpdb->get_results($query, ARRAY_A);
+		$result = $this->wpdb->get_row($query, ARRAY_A);
 
-		return $results;
+		if ($result === null) {
+			return null;
+		}
+
+		return DateTimeHelper::createOrNull($result['timestamp'], Format::DATE_TIME_BASIC);
 	}
 
 	public function getOneForPeriod(int $userId, DateTimeImmutable $dateFrom, DateTimeImmutable $dateTo)

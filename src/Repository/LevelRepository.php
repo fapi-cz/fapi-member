@@ -103,6 +103,21 @@ class LevelRepository extends Repository
 	}
 
 	/**
+	 * @return array<int>
+	 */
+	public function getAllAsLevelIds(): array
+	{
+		$levels = $this->getAllAsLevels();
+		$ids = [];
+
+		foreach ($levels as $level) {
+			$ids[] = $level->getId();
+		}
+		
+		return $ids;
+	}
+
+	/**
 	 * @return array<MemberSection>
 	 */
 	public function getAllSections(): array

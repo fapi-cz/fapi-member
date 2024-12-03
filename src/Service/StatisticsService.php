@@ -418,6 +418,8 @@ class StatisticsService
 
 		if (count($activityToday) < 1) {
 			$this->memberActivityRepository->addActivity($user->getId());
+		} else {
+			$this->memberActivityRepository->updateActivity($user->getId());
 		}
 	}
 

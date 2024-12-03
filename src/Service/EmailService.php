@@ -9,21 +9,18 @@ use FapiMember\Model\Enums\Keys\OptionKey;
 use FapiMember\Model\Enums\Types\EmailType;
 use FapiMember\Model\MemberLevel;
 use FapiMember\Repository\EmailRepository;
-use FapiMember\Repository\MembershipHistoryRepository;
 use FapiMember\Utils\EmailHelper;
 use FapiMember\Utils\SecurityValidator;
 
 class EmailService
 {
 	private ApiService $apiService;
-	private MembershipHistoryRepository $membershipHistoryRepository;
 	private EmailRepository $emailRepository;
 	private ApiController $apiController;
 
 	public function __construct()
 	{
 		$this->apiService = Container::get(ApiService::class);
-		$this->membershipHistoryRepository = Container::get(MembershipHistoryRepository::class);
 		$this->emailRepository = Container::get(EmailRepository::class);
 		$this->apiController = Container::get(ApiController::class);
 	}

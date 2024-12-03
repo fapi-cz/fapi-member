@@ -8,6 +8,7 @@ import {LicenceHelper} from "Helpers/LicenceHelper";
 
 function Member({member, removeActiveMember}) {
     const [memberChanges, setMemberChanges] = useState([]);
+    const [lastActivityDate, setLastActivityDate] = useState(null);
     const statisticsClient = new StatisticsClient();
     const [load, setLoad] = useState(true);
 
@@ -16,6 +17,10 @@ function Member({member, removeActiveMember}) {
 		  await statisticsClient.getMembershipChangesForUser(member.id).then((data) => {
 			  setMemberChanges(data);
 		  });
+
+			await statisticsClient.getLastActivityForUser(member.id).then((data) => {
+				setLastActivityDate(data);
+			});
 
           setLoad(false);
         }
@@ -50,10 +55,22 @@ function Member({member, removeActiveMember}) {
 				  <span
 					  dangerouslySetInnerHTML={{ __html: member.picture}}
 					  style={{height: '25px'}}
-
 				  />
 			  </span>
 		  </h1>
+		  {LicenceHelper.hasFmLicence()
+			  ? (<div style={{fontSize: '13px', marginTop: '-20px'}}>
+				  <strong>Poslední přihlášení: </strong>
+				  {
+					  lastActivityDate !== null
+						  ? lastActivityDate.getDateCzech() + ' v ' + lastActivityDate.getHoursAndMinutes()
+						  : 'Nebyla zaznamenána žádná aktivita'
+				  }
+				  <br/>
+				  <br/>
+			  </div>)
+			  : null
+		  }
 		  <a href={'user-edit.php?user_id=' + member.id}>Nastavení uživatele</a>
 		  <br/>
 		  <br/>
@@ -69,7 +86,7 @@ function Member({member, removeActiveMember}) {
 					  <br/>
 					  <h1>Historie Změn</h1>
 					  <br/>
-					  { memberChanges.map((change) => (
+					  {memberChanges.map((change) => (
 						  <MembershipChange
 							  change={change}
 						  />

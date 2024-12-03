@@ -4,12 +4,12 @@ namespace FapiMember\Api\V2\Endpoints;
 
 use FapiMember\Api\V2\ApiController;
 use FapiMember\Container\Container;
-use FapiMember\Library\Nette\Utils\Arrays;
 use FapiMember\Library\SmartEmailing\Types\BoolType;
 use FapiMember\Library\SmartEmailing\Types\IntType;
 use FapiMember\Library\SmartEmailing\Types\StringType;
 use FapiMember\Model\Enums\Format;
 use FapiMember\Model\Enums\Types\RequestMethodType;
+use FapiMember\Repository\MemberActivityRepository;
 use FapiMember\Repository\MembershipChangeRepository;
 use FapiMember\Service\ApiService;
 use FapiMember\Service\StatisticsService;
@@ -19,12 +19,14 @@ use WP_REST_Request;
 class StatisticsController
 {
 	private MembershipChangeRepository $membershipChangeRepository;
+	private MemberActivityRepository $memberActivityRepository;
 	private StatisticsService $statisticsService;
 	private ApiController $apiController;
 
 	public function __construct()
 	{
 		$this->membershipChangeRepository = Container::get(MembershipChangeRepository::class);
+		$this->memberActivityRepository = Container::get(MemberActivityRepository::class);
 		$this->statisticsService = Container::get(StatisticsService::class);
 		$this->apiService = Container::get(ApiService::class);
 		$this->apiController = Container::get(ApiController::class);
@@ -41,7 +43,9 @@ class StatisticsController
 		$changeData = [];
 
 		foreach ($changes as $change) {
-			$changeData[] = $change->toJson();
+			if ($change->isValid()) {
+				$changeData[] = $change->toJson();
+			}
 		}
 
 		return $changeData;
@@ -145,6 +149,18 @@ class StatisticsController
 		$dateTo = DateTimeHelper::createOrNull($dateTo, Format::DATE);
 
 		return $this->statisticsService->getActiveCountsForPeriod($dateFrom, $dateTo);
+	}
+
+	public function getLastActivityForUser(WP_REST_Request $request): string|null
+	{
+		$this->apiController->checkRequestMethod($request, RequestMethodType::POST);
+		$body = json_decode($request->get_body(), true);
+
+		$userId = $this->apiController->extractParam($body, 'user_id', IntType::class);
+
+
+		return $this->memberActivityRepository->findLastActivity($userId)
+			?->format(Format::DATE_TIME);
 	}
 
 	public function getAverageChurnRatePeriods(WP_REST_Request $request): array
