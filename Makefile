@@ -43,6 +43,19 @@ js-add: ## Add editor dependencies
 js-outdated: ## List editor outdated dependencies
 	docker exec node /bin/sh -c 'yarn outdated'
 
+PLUGIN_FILE=fapi-member.php
+README_FILE=readme.txt
+
+update-version:
+	@if [ -z "$(version)" ]; then \
+		echo "Error: version parameter is required. Use 'make update-version version=NEW_VERSION'"; \
+		exit 1; \
+	fi
+	sed -i "" -E "s/(Version:[[:space:]]+)[0-9]+(\.[0-9]+)?(\.[0-9]+)?/\1$(version)/" $(PLUGIN_FILE)
+	sed -i "" -E "s/define\('FAPI_MEMBER_PLUGIN_VERSION', '.*'\);/define('FAPI_MEMBER_PLUGIN_VERSION', '$(version)');/" $(PLUGIN_FILE)
+	sed -i "" -E "s/(Stable tag:[[:space:]]+)[0-9]+(\.[0-9]+)?(\.[0-9]+)?/\1$(version)/" $(README_FILE)
+	echo "Version updated to $(version)"
+
 build: ## Builds the plugin source code
 	[ -d wp-build ] && rm -d -r wp-build
 	[ -d wp-build-test ] && rm -d -r wp-build-test
@@ -84,6 +97,7 @@ build: ## Builds the plugin source code
 	rm -rf wp-build-test/fapi-member
 
 prepare-deploy: isset-version ## Prepares everything for a deploy
+	make update-version version=$(version)
 	docker exec node /bin/sh -c 'yarn --cwd multiple-blocks install'
 	docker exec node /bin/sh -c 'yarn --cwd multiple-blocks build'
 	make composer-install
@@ -134,7 +148,7 @@ git-new-branch:
 	$(eval final_branch_name := FAPI-MEMBER-$(v)-$(first_word)-$(rest_of_commit))
 
 	@git checkout -b $(final_branch_name)
-	make git-commit m="$(m)"
+	make git-commit m="$(v) - $(m)"
 
 git-rebase-master: ## Fetches data and rebases branch with master
 	@echo "\033[33mRebasing with master...\033[34m"

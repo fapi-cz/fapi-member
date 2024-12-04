@@ -4,6 +4,7 @@ namespace FapiMember\Service;
 
 use FapiMember\Container\Container;
 use FapiMember\Model\Enums\Keys\OptionKey;
+use FapiMember\Model\Enums\Keys\SessionKey;
 use FapiMember\Model\Enums\Types\LevelUnlockType;
 use FapiMember\Model\Enums\UserPermission;
 use FapiMember\Repository\LevelRepository;
@@ -111,6 +112,10 @@ class RedirectService
 
 	public function redirectToNoAccessPage($levelId): void
 	{
+		global $wp_query;
+
+		$_SESSION[SessionKey::LAST_PAGE_ID] = $wp_query->post->ID;
+
 		$level = $this->levelRepository->getLevelById($levelId);
 
 		if ($level?->getNoAccessPageId() !== null) {
@@ -142,6 +147,28 @@ class RedirectService
 		}
 
 		$memberships = $this->membershipService->getActiveByUserIdAndUpdate($userId);
+
+		$allowedPages = [];
+
+		foreach ($memberships as $membership) {
+			$allowedPages = array_merge(
+				$this->pageRepository->getPageIdsByLevelId($membership->getLevelId()),
+				$allowedPages,
+			);
+		}
+
+		$allowedPages = array_unique(array_filter($allowedPages));
+
+		if (
+			isset($_SESSION[SessionKey::LAST_PAGE_ID]) &&
+			$_SESSION[SessionKey::LAST_PAGE_ID] !== null &&
+			in_array($_SESSION[SessionKey::LAST_PAGE_ID], $allowedPages)
+		) {
+			$this->redirectToPage($_SESSION[SessionKey::LAST_PAGE_ID]);
+			$_SESSION[SessionKey::LAST_PAGE_ID] = null;
+		}
+
+		$_SESSION[SessionKey::LAST_PAGE_ID] = null;
 
 		$pages = array_map(
 			function ($membership) {
