@@ -65,6 +65,7 @@ class PageRepository extends Repository
 	private function postsToPages(array $posts, array $cpts): array
 	{
 		$pages = [];
+
 		foreach ($posts as $post) {
 			$pages[] = new Page([
 				'id' => $post->ID,
@@ -79,7 +80,7 @@ class PageRepository extends Repository
 				'id' => $cpt,
 				'title' => $cpt,
 				'type' => 'cpt',
-				'url' => wp_make_link_relative(get_permalink($cpt->ID)),
+				'url' => '',
 			]);
 		}
 
