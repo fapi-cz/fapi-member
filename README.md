@@ -153,9 +153,9 @@ to je možné využít při vývoji na testování např. zakládání uživatel
 
 # Build a nasazení na WP
 ## POUZE POKUD VÍŠ CO DĚLÁŠ
-1. Změnit verzi balíčku
-   1. změnit verzi v `fapi-member.php`' - všude kde je uvedena verze
-   2. změnit verzi v `readme.txt` - všude kde je uvedena verze
+1. Změnit verzi v souborech `make update-version version=x.x.x`
+   1. zkontrolovat `fapi-member.php`' - všude kde je uvedena verze
+   2. zkontrolovat`readme.txt` - všude kde je uvedena verze a napsat changelog
 2. Připravit deploy `make prepare-deploy version=x.x.x`
 3. Případně otestovat aplikační build na živém webu
    1. Po `prepare-deploy` se vytvoří složka `wp-build-test` se zipem produkčního buildu aplikace
