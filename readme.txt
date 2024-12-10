@@ -5,7 +5,7 @@ Requires at least: 5.9
 Tested up to: 6.4
 Requires PHP: 8.1
 License: GPLv2 or later
-Stable tag: 2.2.10
+Stable tag: 2.2.11
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -25,6 +25,9 @@ Máte problém s nastavením FAPI Memberu. Obrátit se můžete na naší podpor
 Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org/plugins/fapi-member/#reviews).
 
 == Changelog ==
+
+= 2.2.11 =
+* Fixed an UI error
 
 = 2.2.10 =
 * When user is redirected to a 'no access page' and then logs in, they are now redirected back to the page that they were intending to access (if they have access to it)
