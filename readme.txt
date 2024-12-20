@@ -2,7 +2,7 @@
 Contributors: Jiří Slischka, Monika Tomešková, Marek Klein
 Tags: membership, fapi, member
 Requires at least: 5.9
-Tested up to: 6.4
+Tested up to: 6.7
 Requires PHP: 8.1
 License: GPLv2 or later
 Stable tag: 2.2.11
