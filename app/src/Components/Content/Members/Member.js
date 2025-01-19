@@ -126,8 +126,9 @@ function Member({member, removeActiveMember}) {
 							  <span/>
 						  </div>
 						  :
-						  memberChanges.map((change) => (
+						  memberChanges.map((change, index) => (
 							  <MembershipChange
+								  key={index}
 								  change={change}
 							  />
 						  ))

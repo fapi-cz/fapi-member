@@ -2,13 +2,13 @@ help: ## list available targets (this page)
 	@awk 'BEGIN {FS = ":.*?## "} /^[0-9a-zA-Z_-]+:.*?## / {printf "\033[36m%-45s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 dc-up: ## run all containers in background
-	docker-compose up -d --build
+	docker compose up -d --build
 
 dc-up-front: ## run all containers in foreground
-	docker-compose up --build
+	docker compose up --build
 
 dc-down: ## stop all containers
-	docker-compose down
+	docker compose down
 
 dc-rebuild: ## rebuild containers
 	make dc-down

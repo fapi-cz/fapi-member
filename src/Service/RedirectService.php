@@ -114,7 +114,11 @@ class RedirectService
 	{
 		global $wp_query;
 
+		session_start();
+
 		$_SESSION[SessionKey::LAST_PAGE_ID] = $wp_query->post->ID;
+
+		session_write_close();
 
 		$level = $this->levelRepository->getLevelById($levelId);
 
@@ -158,17 +162,23 @@ class RedirectService
 		}
 
 		$allowedPages = array_unique(array_filter($allowedPages));
+		$lastPageId = null;
+		session_start();
 
 		if (
 			isset($_SESSION[SessionKey::LAST_PAGE_ID]) &&
 			$_SESSION[SessionKey::LAST_PAGE_ID] !== null &&
 			in_array($_SESSION[SessionKey::LAST_PAGE_ID], $allowedPages)
 		) {
-			$this->redirectToPage($_SESSION[SessionKey::LAST_PAGE_ID]);
-			$_SESSION[SessionKey::LAST_PAGE_ID] = null;
+			$lastPageId = $_SESSION[SessionKey::LAST_PAGE_ID];
 		}
 
 		$_SESSION[SessionKey::LAST_PAGE_ID] = null;
+		session_write_close();
+
+		if ($lastPageId !== null) {
+			$this->redirectToPage($lastPageId);
+		}
 
 		$pages = array_map(
 			function ($membership) {
