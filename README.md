@@ -153,13 +153,14 @@ to je možné využít při vývoji na testování např. zakládání uživatel
 
 # Build a nasazení na WP
 ## POUZE POKUD VÍŠ CO DĚLÁŠ
-1. Změnit verzi v souborech `make update-version version=x.x.x`
-   1. zkontrolovat `fapi-member.php`' - všude kde je uvedena verze
-   2. zkontrolovat`readme.txt` - všude kde je uvedena verze a napsat changelog
-2. Připravit deploy `make prepare-deploy version=x.x.x`
-3. Případně otestovat aplikační build na živém webu
+1. Prvně si udělat rebase s origin/master - poté pokračuj viz níže
+2. Změnit verzi balíčku
+   1. změnit verzi v `fapi-member.php`' - všude kde je uvedena verze
+   2. změnit verzi v `readme.txt` - všude kde je uvedena verze
+3. Připravit deploy `make prepare-deploy version=x.x.x`
+4. Případně otestovat aplikační build na živém webu
    1. Po `prepare-deploy` se vytvoří složka `wp-build-test` se zipem produkčního buildu aplikace
    2. Nahrát soubor na živou verzi WordPressu a otestovat, jestli vše funguje
-4. Otevřít složku wp-svn `cd wp-svn`
-5. Dát do stavu track `svn add --force * --auto-props --parents --depth infinity -q`
-6. A vše commitnout `svn ci -m '{Message s update zprávou}' --username fapi --password '{your_password}'`
+5. Otevřít složku wp-svn `cd wp-svn`
+6. Dát do stavu track `svn add --force * --auto-props --parents --depth infinity -q`
+7. A vše commitnout `svn ci -m '{Message s update zprávou}' --username fapi --password '{your_password}'`
