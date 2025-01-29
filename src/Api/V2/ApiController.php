@@ -5,7 +5,9 @@ namespace FapiMember\Api\V2;
 use FapiMember\FapiMemberPlugin;
 use FapiMember\Library\SmartEmailing\Types\Arrays;
 use FapiMember\Library\SmartEmailing\Types\IntType;
+use FapiMember\Library\SmartEmailing\Types\StringType;
 use FapiMember\Model\Enums\Alert;
+use FapiMember\Model\Enums\Keys\OptionKey;
 use FapiMember\Model\Enums\Types\RequestMethodType;
 use FapiMember\Utils\AlertProvider;
 use Throwable;
@@ -34,19 +36,7 @@ class ApiController
 
 		$actionFunction = 'handle' . ucfirst($action);
 
-		if (
-			!isset($this->freeAccessEndpoints[$controllerName]) ||
-			!in_array($action, $this->freeAccessEndpoints[$controllerName])
-		) {
-			$nonce = $request->get_header('X-WP-Nonce');
-
-			if (!wp_verify_nonce($nonce, 'wp_rest')) {
-				$this->callbackError([
-					'class'=> self::class,
-					'description' => "Permission denied.",
-				]);
-			}
-		}
+		$this->authenticate($controllerName, $action, $request);
 
 		try {
 			$controller = new $route();
@@ -251,5 +241,37 @@ class ApiController
 		}
 	}
 
+	private function authenticate(array|string $controllerName, mixed $action, WP_REST_Request $request): void
+	{
+		if (
+			isset($this->freeAccessEndpoints[$controllerName]) &&
+			in_array($action, $this->freeAccessEndpoints[$controllerName])
+		) {
+			return;
+		}
+
+		$body = json_decode($request->get_body(), true);
+		$token = $this->extractParamOrNull($body, 'token', StringType::class);
+
+		if ($token !== null) {
+			if ($token !== get_option(OptionKey::TOKEN, null)) {
+				$this->callbackError([
+					'class' => self::class,
+					'description' => "Permission denied.",
+				]);
+			}
+
+			return;
+		}
+
+		$nonce = $request->get_header('X-WP-Nonce');
+
+		if (!wp_verify_nonce($nonce, 'wp_rest')) {
+			$this->callbackError([
+				'class' => self::class,
+				'description' => "Permission denied.",
+			]);
+		}
+	}
 
 }
