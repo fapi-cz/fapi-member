@@ -99,7 +99,7 @@ function CreateMember({member, setActiveMember, hidden = false}) {
     const handleFormChange = (e) => {
         setFormData({
           ...formData,
-          level: levelToAdd.id,
+          level: levelToAdd?.id || null,
           [e.target.name]: e.target.value !== 'on' ? e.target.value : e.target.checked,
         });
     };

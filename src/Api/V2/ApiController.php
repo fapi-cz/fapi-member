@@ -22,9 +22,8 @@ class ApiController
 	public function handleRequest(WP_REST_Request $request): void
 	{
 		$params = $request->get_query_params();
-		$controllerName = str_replace('/fapi/v2/', '', $params['rest_route']);
+		$controllerName = trim(str_replace('/fapi/v2/', '', $params['rest_route']), '/');
 		$route = 'FapiMember\\Api\\V2\\Endpoints\\' . ucfirst($controllerName) . 'Controller';
-
 
 		if (isset($params['action'])) {
 			$action = $params['action'];
@@ -43,14 +42,14 @@ class ApiController
 		} catch (Throwable) {
 			$this->callbackError([
 				'class'=> self::class,
-				'description' => "specified endpoint doesn't exist.",
+				'description' => "Specified endpoint doesn't exist.",
 			]);
 		}
 
 		if (!is_callable([$controller, $action])) {
 			$this->callbackError([
 				'class'=> $controller::class,
-				'description' => "specified action doesn't exist. Action: " . $action,
+				'description' => "Specified action doesn't exist. Action: " . $action,
 			]);
 		}
 
@@ -222,7 +221,7 @@ class ApiController
 	{
 		$this->callbackError([
 			'class'=> self::class,
-			'description' => "missing parameter '" . $parameter . "'",
+			'description' => "Missing parameter '" . $parameter . "'",
 		]);
 	}
 
@@ -230,7 +229,7 @@ class ApiController
 	{
 		$this->callbackError([
 			'class'=> self::class,
-			'description' => "invalid parameter '" . $parameter . "'",
+			'description' => "Invalid parameter '" . $parameter . "'",
 		]);
 	}
 
@@ -250,14 +249,19 @@ class ApiController
 			return;
 		}
 
-		$body = json_decode($request->get_body(), true);
+		try {
+			$body = json_decode($request->get_body(), true) ?? [];
+		} catch (Throwable) {
+			$body = [];
+		}
+
 		$token = $this->extractParamOrNull($body, 'token', StringType::class);
 
 		if ($token !== null) {
 			if ($token !== get_option(OptionKey::TOKEN, null)) {
 				$this->callbackError([
 					'class' => self::class,
-					'description' => "Permission denied.",
+					'description' => "Permission denied. Invalid token provided.",
 				]);
 			}
 
@@ -269,7 +273,7 @@ class ApiController
 		if (!wp_verify_nonce($nonce, 'wp_rest')) {
 			$this->callbackError([
 				'class' => self::class,
-				'description' => "Permission denied.",
+				'description' => "Permission denied. Invalid Nonce provided.",
 			]);
 		}
 	}
