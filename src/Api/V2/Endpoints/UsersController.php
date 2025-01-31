@@ -49,6 +49,21 @@ class UsersController
 
 		$email = $this->apiController->extractParamOrNull($body, 'email', StringType::class);
 
+		$user = $this->userService->getUser($email);
+
+		if ($user === null) {
+			return null;
+		}
+
+		$memberships = $this->membershipRepository->getActiveByUserId($user->getId());
+		$levelIds = [];
+
+		foreach ($memberships as $membership) {
+			$levelIds[] = $membership->getLevelId();
+		}
+
+		$user->setLevelIds($levelIds);
+
 		return $this->userService->getUser($email)?->toArray();
 	}
 

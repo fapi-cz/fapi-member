@@ -5,7 +5,9 @@ namespace FapiMember\Api\V2;
 use FapiMember\FapiMemberPlugin;
 use FapiMember\Library\SmartEmailing\Types\Arrays;
 use FapiMember\Library\SmartEmailing\Types\IntType;
+use FapiMember\Library\SmartEmailing\Types\StringType;
 use FapiMember\Model\Enums\Alert;
+use FapiMember\Model\Enums\Keys\OptionKey;
 use FapiMember\Model\Enums\Types\RequestMethodType;
 use FapiMember\Utils\AlertProvider;
 use Throwable;
@@ -20,9 +22,8 @@ class ApiController
 	public function handleRequest(WP_REST_Request $request): void
 	{
 		$params = $request->get_query_params();
-		$controllerName = str_replace('/fapi/v2/', '', $params['rest_route']);
+		$controllerName = trim(str_replace('/fapi/v2/', '', $params['rest_route']), '/');
 		$route = 'FapiMember\\Api\\V2\\Endpoints\\' . ucfirst($controllerName) . 'Controller';
-
 
 		if (isset($params['action'])) {
 			$action = $params['action'];
@@ -34,33 +35,21 @@ class ApiController
 
 		$actionFunction = 'handle' . ucfirst($action);
 
-		if (
-			!isset($this->freeAccessEndpoints[$controllerName]) ||
-			!in_array($action, $this->freeAccessEndpoints[$controllerName])
-		) {
-			$nonce = $request->get_header('X-WP-Nonce');
-
-			if (!wp_verify_nonce($nonce, 'wp_rest')) {
-				$this->callbackError([
-					'class'=> self::class,
-					'description' => "Permission denied.",
-				]);
-			}
-		}
+		$this->authenticate($controllerName, $action, $request);
 
 		try {
 			$controller = new $route();
 		} catch (Throwable) {
 			$this->callbackError([
 				'class'=> self::class,
-				'description' => "specified endpoint doesn't exist.",
+				'description' => "Specified endpoint doesn't exist.",
 			]);
 		}
 
 		if (!is_callable([$controller, $action])) {
 			$this->callbackError([
 				'class'=> $controller::class,
-				'description' => "specified action doesn't exist. Action: " . $action,
+				'description' => "Specified action doesn't exist. Action: " . $action,
 			]);
 		}
 
@@ -232,7 +221,7 @@ class ApiController
 	{
 		$this->callbackError([
 			'class'=> self::class,
-			'description' => "missing parameter '" . $parameter . "'",
+			'description' => "Missing parameter '" . $parameter . "'",
 		]);
 	}
 
@@ -240,7 +229,7 @@ class ApiController
 	{
 		$this->callbackError([
 			'class'=> self::class,
-			'description' => "invalid parameter '" . $parameter . "'",
+			'description' => "Invalid parameter '" . $parameter . "'",
 		]);
 	}
 
@@ -251,5 +240,42 @@ class ApiController
 		}
 	}
 
+	private function authenticate(array|string $controllerName, mixed $action, WP_REST_Request $request): void
+	{
+		if (
+			isset($this->freeAccessEndpoints[$controllerName]) &&
+			in_array($action, $this->freeAccessEndpoints[$controllerName])
+		) {
+			return;
+		}
+
+		try {
+			$body = json_decode($request->get_body(), true) ?? [];
+		} catch (Throwable) {
+			$body = [];
+		}
+
+		$token = $this->extractParamOrNull($body, 'token', StringType::class);
+
+		if ($token !== null) {
+			if ($token !== get_option(OptionKey::TOKEN, null)) {
+				$this->callbackError([
+					'class' => self::class,
+					'description' => "Permission denied. Invalid token provided.",
+				]);
+			}
+
+			return;
+		}
+
+		$nonce = $request->get_header('X-WP-Nonce');
+
+		if (!wp_verify_nonce($nonce, 'wp_rest')) {
+			$this->callbackError([
+				'class' => self::class,
+				'description' => "Permission denied. Invalid Nonce provided.",
+			]);
+		}
+	}
 
 }
