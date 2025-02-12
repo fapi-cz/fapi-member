@@ -73,8 +73,6 @@ final class Bootstrap
 
 	public function initialize(): void
 	{
-		session_start();
-
 		$this->addHooks();
 		$this->generateTokenIfNeeded();
 		$this->migrateCredentialsIfNeeded();

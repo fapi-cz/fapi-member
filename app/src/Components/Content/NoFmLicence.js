@@ -47,10 +47,11 @@ const NoFmLicence = () => {
     }
 
     return (
-        <div className="fm-no-licence">
-            <a className={"fm-link-button"} target="_blank" href={urlObject}>Získat
-                FAPI Member Pro</a>
-            <div className={"image"} style={{backgroundImage: `url(${statsExample})`}}>
+        <div className="fm-no-licence" style={{backgroundImage: `url(${statsExample})`}}>
+            <div className={"blur-filter"} >
+                <a className={"fm-link-button"} target="_blank" href={urlObject}>
+                    Získat FAPI Member Pro
+                </a>
             </div>
         </div>
     );

@@ -10,7 +10,6 @@ use FapiMember\Model\Enums\Keys\MetaKey;
 use FapiMember\Model\Enums\Types\LevelUnlockType;
 use FapiMember\Model\Membership;
 use FapiMember\Repository\LevelRepository;
-use FapiMember\Repository\MembershipChangeRepository;
 use FapiMember\Repository\MembershipRepository;
 use FapiMember\Repository\UserRepository;
 use FapiMember\Utils\DateTimeHelper;
@@ -37,14 +36,6 @@ class MembershipService
 		$this->membershipRepository->saveAll($userId, $memberships);
 
 		return $memberships;
-	}
-
-	/**
-	 * @return  array<Membership>
-	 */
-	public function getActiveByUserId(int $userId): array
-	{
-		return $this->membershipRepository->getActiveByUserId($userId);
 	}
 
 	/**
