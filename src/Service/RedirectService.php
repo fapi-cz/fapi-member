@@ -89,7 +89,7 @@ class RedirectService
 			$this->redirectToNoAccessPage($firstLevel->getId());
 		}
 
-		$memberships = $this->membershipService->getActiveByUserIdAndUpdate(
+		$memberships = $this->membershipService->getActiveWithAccessByUserId(
 			$this->userRepository->getCurrentUser()->getId()
 		);
 

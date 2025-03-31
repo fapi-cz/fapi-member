@@ -30,6 +30,16 @@ class MembershipService
 	/**
 	 * @return  array<Membership>
 	 */
+	public function getActiveWithAccessByUserId(int $userId): array
+	{
+		$memberships = $this->membershipRepository->getActiveByUserId($userId, true);
+
+		return $memberships;
+	}
+
+	/**
+	 * @return  array<Membership>
+	 */
 	public function getActiveByUserIdAndUpdate(int $userId): array
 	{
 		$memberships = $this->membershipRepository->getActiveByUserId($userId);
