@@ -13,7 +13,8 @@ class DateTimeHelper
 
 	public static function getNow(): DateTimeImmutable
 	{
-		return new DateTimeImmutable('now', wp_timezone());
+		$nowLocal = new DateTimeImmutable('now', wp_timezone());
+		return new DateTimeImmutable($nowLocal->format(Format::DATE_TIME));
 	}
 
 	public static function getNowTimestamp(): int

@@ -32,9 +32,7 @@ class MembershipService
 	 */
 	public function getActiveWithAccessByUserId(int $userId): array
 	{
-		$memberships = $this->membershipRepository->getActiveByUserId($userId, true);
-
-		return $memberships;
+		return $this->membershipRepository->getActiveByUserId($userId, true);
 	}
 
 	/**
