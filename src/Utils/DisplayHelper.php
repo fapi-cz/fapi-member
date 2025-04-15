@@ -1,24 +1,25 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace FapiMember\Utils;
 
 final class DisplayHelper
 {
+
 	public static function shouldContentBeRendered(
 		string|bool $hasSectionOrLevel,
 		array|string|null $fapiSectionAndLevels,
 		$wpUserId = null,
 	): bool
 	{
-		if (!in_array($hasSectionOrLevel, array( '1', '0', true, false), true)) {
+		if (!in_array($hasSectionOrLevel, ['1', '0', true, false], true)) {
 			return true;
 		}
 
-		if (!isset($fapiSectionAndLevels) || $fapiSectionAndLevels === null) {
+		if (!isset($fapiSectionAndLevels)) {
 			return true;
 		}
 
-		if ( is_string( $fapiSectionAndLevels ) ) {
+		if (is_string($fapiSectionAndLevels)) {
 			$sectionAndLevels = json_decode($fapiSectionAndLevels, true);
 		} elseif (is_array($fapiSectionAndLevels)) {
 			$sectionAndLevels = $fapiSectionAndLevels;
@@ -31,14 +32,14 @@ final class DisplayHelper
 		}
 
 		$sectionAndLevels = array_map(
-			static function ( $item ) {
+			static function ($item) {
 				return (int) $item;
 			},
 			$sectionAndLevels
 		);
 
 		$hasMemberSectionOrLevel = (bool) $hasSectionOrLevel;
-		$userId = isset( $wpUserId ) && $wpUserId ? $wpUserId : get_current_user_id();
+		$userId = isset($wpUserId) && $wpUserId ? $wpUserId : get_current_user_id();
 
 		global $membershipRepository;
 		$memberships = $membershipRepository->getAllByUserId($userId);
@@ -57,13 +58,15 @@ final class DisplayHelper
 			return true;
 		}
 
-		foreach ($memberships as $membership) {
-			if (!in_array($membership->getLevelId(), $sectionAndLevels, true )) {
-				return true;
+		foreach ($sectionAndLevels as $sectionAndLevel) {
+			foreach ($memberships as $membership) {
+				if ($membership->getLevelId() === $sectionAndLevel) {
+					return false;
+				}
 			}
 		}
 
-		return false;
+		return true;
 	}
 
 }
