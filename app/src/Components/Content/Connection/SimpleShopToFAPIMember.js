@@ -70,7 +70,13 @@ function SimpleShopToFAPIMember() {
             }
 
             for (const user of ssSection.users) {
-                await membershipClient.create({level: fmSectionId, send_email: false, email: user.email});
+                await membershipClient.create({
+                    level: fmSectionId,
+                    send_email: false,
+                    email: user.email,
+                    registered: user?.registered,
+                    until: user?.until
+                });
 
                 updateHistory(`Uživatel ${user.email} byl přidán do členské sekce ${fmSectionKeyValue[fmSectionId]} (${fmSectionId})`);
             }

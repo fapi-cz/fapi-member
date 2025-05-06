@@ -174,12 +174,11 @@ class MembershipsController
 		$sendEmail = $this->apiController->extractParamOrNull($body, 'send_email', BoolType::class);
 		$days = $this->apiController->extractParamOrNull($body, 'days', IntType::class);
 
-		$registered =  DateTimeHelper::createOrNull(
-			$this->apiController->extractParamOrNull($body, 'registered', StringType::class),
-			Format::DATE_TIME_BASIC,
-		);
+		$registeredValue = $this->apiController->extractParamOrNull($body, 'registered', StringType::class);
+		$registered = DateTimeHelper::createOrNull($registeredValue, Format::DATE_TIME_BASIC)
+			?? DateTimeHelper::createOrNull($registeredValue, Format::DATE);
 
-		$until =  DateTimeHelper::createOrNull(
+		$until = DateTimeHelper::createOrNull(
 			$this->apiController->extractParamOrNull($body, 'until', StringType::class),
 			Format::DATE,
 		);

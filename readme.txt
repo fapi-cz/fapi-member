@@ -5,7 +5,7 @@ Requires at least: 5.9
 Tested up to: 6.7
 Requires PHP: 8.1
 License: GPLv2 or later
-Stable tag: 2.2.20
+Stable tag: 2.2.21
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -25,6 +25,10 @@ Máte problém s nastavením FAPI Memberu. Obrátit se můžete na naší podpor
 Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org/plugins/fapi-member/#reviews).
 
 == Changelog ==
+
+= 2.2.20 =
+* Improved CSV import/export
+* Improved SimpleShop to FAPI Member migration. Migrating also registration and expiration date in member section.
 
 = 2.2.20 =
 * Fixed conditional content bug
