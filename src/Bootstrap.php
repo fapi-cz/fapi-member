@@ -134,7 +134,7 @@ final class Bootstrap
 	{
 		$this->addInitHooks();
 		$this->addAdminHooks();
-        $this->registerUserFapiMemberTableColumn();
+		$this->registerUserFapiMemberTableColumn();
 
 		add_action('wp_enqueue_scripts', [$this, 'addPublicScripts']);
 
@@ -277,8 +277,15 @@ final class Bootstrap
 				$ssSections[] = [
 					'id' => $group->id,
 					'name' => $group->name,
-					'users' => array_values(array_map(function ($user) {
-						return ['id' => $user->ID, 'email' => $user->user_email];
+					'users' => array_values(array_map(function ($user) use ($groupId) {
+						$membership = new \Redbit\SimpleShop\WpPlugin\Membership($user->ID);
+
+						return [
+							'id' => $user->ID,
+							'email' => $user->user_email,
+							'registered' => $membership->groups[$groupId]['subscription_date'] ?? null,
+							'until' => $membership->groups[$groupId]['valid_to'] ?? null,
+						];
 					}, $group->get_users())),
 				];
 			}
@@ -294,10 +301,10 @@ final class Bootstrap
 
 			foreach ($pages as $page) {
 				$pagesGroups[] = [
-						'id' => $page->ID,
-						'name' => $page->post_title,
-						'groups' => $ss->get_access()->get_post_groups($page->ID),
-					];
+					'id' => $page->ID,
+					'name' => $page->post_title,
+					'groups' => $ss->get_access()->get_post_groups($page->ID),
+				];
 			}
 
 			echo "<script>
@@ -580,12 +587,12 @@ final class Bootstrap
 		}
 	}
 
-    public function registerUserFapiMemberTableColumn(): void
-    {
-        add_filter('manage_users_columns', [$this->elementService, 'addUserColumn']);
-        add_action('manage_users_custom_column', [$this->elementService, 'showUserColumnContent'], 10, 3);
-        add_action('show_user_profile', [$this->elementService, 'addUserProfileSection']);
-        add_action('edit_user_profile', [$this->elementService, 'addUserProfileSection']);
-    }
+	public function registerUserFapiMemberTableColumn(): void
+	{
+		add_filter('manage_users_columns', [$this->elementService, 'addUserColumn']);
+		add_action('manage_users_custom_column', [$this->elementService, 'showUserColumnContent'], 10, 3);
+		add_action('show_user_profile', [$this->elementService, 'addUserProfileSection']);
+		add_action('edit_user_profile', [$this->elementService, 'addUserProfileSection']);
+	}
 
 }
