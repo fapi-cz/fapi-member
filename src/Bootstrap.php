@@ -258,7 +258,8 @@ final class Bootstrap
 	function checkSimpleShopStatus(): void
 	{
 		if (current_user_can(UserPermission::REQUIRED_CAPABILITY)) {
-			$simpleShopActive = is_plugin_active('simpleshop-cz/simpleshop-cz.php');
+			$simpleShopActive = is_plugin_active('simpleshop-cz/simpleshop-cz.php') && class_exists('Redbit\SimpleShop\WpPlugin\Group');
+
 			$ssSections = [];
 
 			if (!$simpleShopActive) {

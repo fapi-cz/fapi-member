@@ -5,19 +5,26 @@ export class MemberService {
     static membershipClient = new MembershipClient();
 
     static async exportCsv(members) {
-        var membersData = (await Promise.all(members.map(async (member) => {
-            var memberships = await this.membershipClient.getAllForUser(member.id);
-            return memberships.map((membership) => {
-                return {
-                    email: member.email,
-                    first_name: member.firstName,
-                    last_name: member.lastName,
-                    level: membership.levelId,
-                    registered: membership.registered?.getDateTime(),
-                    until: membership.until?.getDate(),
-                };
-            });
-        }))).flat();
+        let membersData = [];
+
+        await Promise.all(
+            members.map(
+                async (member) => {
+                    let memberships = await this.membershipClient.getAllForUser(member.id);
+
+                    memberships.map((membership) => {
+                        membersData.push({
+                            email: member.email,
+                            first_name: member.firstName,
+                            last_name: member.lastName,
+                            level: membership.levelId,
+                            registered: membership.registered?.getDateTime(),
+                            until: membership.until?.getDate(),
+                        });
+                    });
+                }
+            )
+        );
 
         membersData = Papa.unparse(membersData)
 
