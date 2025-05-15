@@ -157,7 +157,7 @@ to je možné využít při vývoji na testování např. zakládání uživatel
 2. Změnit verzi v souborech `make update-version version=x.x.x`
    1. zkontrolovat `fapi-member.php`' - všude kde je uvedena verze
    2. zkontrolovat`readme.txt` - všude kde je uvedena verze a napsat changelog
-3. Připravit deploy `make prepare-deploy version=x.x.x`
+3. Připravit deploy `make prepare-deploy version=x.x.x` (Pokud nemám nainstalované svn, tak první `brew install subversion`)
 4. Případně otestovat aplikační build na živém webu
    1. Po `prepare-deploy` se vytvoří složka `wp-build-test` se zipem produkčního buildu aplikace
    2. Nahrát soubor na živou verzi WordPressu a otestovat, jestli vše funguje

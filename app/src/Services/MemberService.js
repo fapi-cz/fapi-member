@@ -4,27 +4,42 @@ import Papa from "papaparse";
 export class MemberService {
     static membershipClient = new MembershipClient();
 
+    static async retryAsync(fn, retries = 10, delay = 500) {
+        let lastError;
+        for (let attempt = 1; attempt <= retries; attempt++) {
+            try {
+                return await fn();
+            } catch (error) {
+                lastError = error;
+                console.warn(`Attempt ${attempt} failed. Retrying...`);
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
+        }
+        throw lastError;
+    }
+
     static async exportCsv(members) {
         let membersData = [];
 
-        await Promise.all(
-            members.map(
-                async (member) => {
-                    let memberships = await this.membershipClient.getAllForUser(member.id);
+        // Místo Promise.all sekvenční for loop + retry
+        for (const member of members) {
+            let memberships = await this.retryAsync(() =>
+                    this.membershipClient.getAllForUser(member.id),
+                10,
+                500
+            );
 
-                    memberships.map((membership) => {
-                        membersData.push({
-                            email: member.email,
-                            first_name: member.firstName,
-                            last_name: member.lastName,
-                            level: membership.levelId,
-                            registered: membership.registered?.getDateTime(),
-                            until: membership.until?.getDate(),
-                        });
-                    });
-                }
-            )
-        );
+            memberships.map((membership) => {
+                membersData.push({
+                    email: member.email,
+                    first_name: member.firstName,
+                    last_name: member.lastName,
+                    level: membership.levelId,
+                    registered: membership.registered?.getDateTime(),
+                    until: membership.until?.getDate(),
+                });
+            });
+        }
 
         membersData = Papa.unparse(membersData)
 
