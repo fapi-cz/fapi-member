@@ -15,7 +15,7 @@ class AxiosService {
 
 	async sendRequest(endpoint, method, data)
 	{
-		var url = window.location.origin + '/?rest_route=/fapi/v2/' + endpoint;
+		var url = window.location.href.split('wp-admin')[0] + '?rest_route=/fapi/v2/' + endpoint;
 
 		switch (method) {
 			case RequestMethodType.GET:
