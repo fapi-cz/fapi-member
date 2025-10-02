@@ -153,6 +153,7 @@ to je možné využít při vývoji na testování např. zakládání uživatel
 
 # Build a nasazení na WP
 ## POUZE POKUD VÍŠ CO DĚLÁŠ
+Koukni na: https://youtu.be/ypv-TVbMtcs
 1. Prvně si udělat rebase s origin/master - poté pokračuj viz níže
 2. Připravit deploy `make prepare-deploy version=x.x.x` (Pokud nemám nainstalované svn, tak první `brew install subversion`)
 3. zkontrolovat verzi v souborech
