@@ -161,7 +161,7 @@ to je možné využít při vývoji na testování např. zakládání uživatel
 4. Případně otestovat aplikační build na živém webu
    1. Po `prepare-deploy` se vytvoří složka `wp-build-test` se zipem produkčního buildu aplikace
    2. Nahrát soubor na živou verzi WordPressu a otestovat, jestli vše funguje
-4. Otevřít složku wp-svn `cd wp-svn`
-5. Dát do stavu track `svn add --force * --auto-props --parents --depth infinity -q`
-6. A vše commitnout do WP `svn ci -m '{Message s update zprávou}' --username fapi --password '{your_password}'`
-7. Následně vše commitnout do Githubu!!!
+5. Otevřít složku wp-svn `cd wp-svn`
+6. Dát do stavu track `svn add --force * --auto-props --parents --depth infinity -q`
+7. A vše commitnout do WP `svn ci -m '{Message s update zprávou}' --username fapi --password '{your_password}'`
+8. Následně vše commitnout do Githubu!!!
