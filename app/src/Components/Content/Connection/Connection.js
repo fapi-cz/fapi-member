@@ -63,7 +63,7 @@ return (
                     <th>Uživatelské jméno (email)</th>
                     <th>API klíč</th>
                     <th>Stav</th>
-                    <th>FAPI Member Plus</th>
+                    <th>FAPI Member Pro</th>
                     <th></th>
                 </tr>
                 </thead>
