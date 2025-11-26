@@ -223,7 +223,7 @@ msgstr "mostrar a todos os visitantes (as secções e níveis selecionados são 
 msgid ""
 "Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo "
 "úrovni nebo všem návštěvníkům."
-msgstr "Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo úrovni nebo všem návštěvníkům."
+msgstr "O conteúdo será exibido caso o membro esteja/não esteja atribuído a uma seção de membros, a um nível ou a todos os visitantes."
 
 #: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
 #: wp-build/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
@@ -277,7 +277,7 @@ msgstr "Editar no membro da FAPI"
 msgid ""
 "Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a "
 "odeslat znovu."
-msgstr "Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a odeslat znovu."
+msgstr "A segurança do formulário não permitiu o processamento, tente atualizar a página e enviar novamente."
 
 #: src/Service/FormService.php:79 wp-build/src/Service/FormService.php:79
 #: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:1361
@@ -287,7 +287,7 @@ msgstr "Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit strá
 #: wp-svn/tags/2.2.26/src/Service/FormService.php:79
 #: wp-svn/trunk/src/Service/FormService.php:79
 msgid "Nemáte potřebná oprvánění."
-msgstr "Não tens os escaldões necessários."
+msgstr Não tens as permissões necessárias."
 
 #: src/Templates/levelSelection.php:9
 #: wp-build/src/Templates/levelSelection.php:9
@@ -1013,7 +1013,7 @@ msgstr "Página quando o utilizador não tem acesso"
 #: wp-svn/tags/1.9.47/templates/settingsPages.php:46
 msgid ""
 "Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství."
-msgstr "Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství."
+msgstr "A página é geralmente usada para solicitar a compra ou renovação da associação."
 
 #: wp-svn/tags/1.9.47/templates/settingsPages.php:68
 #: wp-svn/tags/1.9.47/templates/settingsSettings.php:23

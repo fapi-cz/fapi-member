@@ -224,7 +224,7 @@ msgstr "arată tuturor vizitatorilor (secțiunile și nivelurile selectate sunt 
 msgid ""
 "Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo "
 "úrovni nebo všem návštěvníkům."
-msgstr "Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo úrovni nebo všem návštěvníkům."
+msgstr "Conținutul va fi afișat dacă membrul este/nu este atribuit într-o secțiune de membru, nivel sau tuturor vizitatorilor."
 
 #: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
 #: wp-build/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
@@ -278,7 +278,7 @@ msgstr "Editare în membrul FAPI"
 msgid ""
 "Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a "
 "odeslat znovu."
-msgstr "Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a odeslat znovu."
+msgstr "Securitatea formularului nu a permis procesarea, încercați să reîncărcați pagina și să trimiteți din nou."
 
 #: src/Service/FormService.php:79 wp-build/src/Service/FormService.php:79
 #: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:1361
@@ -288,7 +288,7 @@ msgstr "Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit strá
 #: wp-svn/tags/2.2.26/src/Service/FormService.php:79
 #: wp-svn/trunk/src/Service/FormService.php:79
 msgid "Nemáte potřebná oprvánění."
-msgstr "Nu aveți scaldele necesare."
+msgstr "Nu aveți drepturile necesare."
 
 #: src/Templates/levelSelection.php:9
 #: wp-build/src/Templates/levelSelection.php:9
