@@ -5,7 +5,7 @@ Requires at least: 5.9
 Tested up to: 6.7
 Requires PHP: 8.1
 License: GPLv2 or later
-Stable tag: 2.2.28
+Stable tag: 2.2.29
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 

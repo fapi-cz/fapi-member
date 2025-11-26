@@ -228,7 +228,7 @@ class ShortcodeSubstitutor
 
 		return '<a href="?rest_route=/fapi/v2/memberships&action=unlockLevelForLoggedInUser&level_id='
 			. $levelId . '&user_id=' . $this->userRepository->getCurrentUser()->getId() . $page .
-			'" class="button-level-unlock-link">Odemknout úroveň</a>';
+			'" class="button-level-unlock-link">' . __('Odemknout úroveň', 'fapi-member') . '</a>';
 	}
 
 }

@@ -136,9 +136,15 @@ final class Bootstrap
 		$this->addAdminHooks();
 		$this->registerUserFapiMemberTableColumn();
 
+		add_action('plugins_loaded', function () {
+			load_plugin_textdomain('fapi-member', false, 'fapi-member/languages');
+		}, 1);
+
 		add_action('init', function () {
-			load_plugin_textdomain('fapi-member', false, FAPI_MEMBER_PLUGIN_PATH . '/languages');
-		});
+			if (!is_textdomain_loaded('fapi-member')) {
+				load_plugin_textdomain('fapi-member', false, 'fapi-member/languages');
+			}
+		}, 1);
 
 		add_action('wp_enqueue_scripts', [$this, 'addPublicScripts']);
 
@@ -416,7 +422,7 @@ final class Bootstrap
 		wp_set_script_translations(
 			'fm-react-app',
 			'fapi-member',
-			FAPI_MEMBER_PLUGIN_PATH . '/languages'
+			FAPI_MEMBER_PLUGIN_PATH . 'languages'
 		);
 
 		wp_localize_script('fm-react-app', 'environmentData', [

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FAPI Member 2.2.26\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/fapi-member\n"
-"POT-Creation-Date: 2025-11-26T07:23:39+00:00\n"
+"POT-Creation-Date: 2025-11-26T14:28:27+00:00\n"
 "PO-Revision-Date: 2025-10-23T12:59:40+00:00\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -23,73 +23,73 @@ msgstr ""
 #: src/Service/ElementService.php:180
 #: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
 msgid "FAPI Member"
-msgstr ""
+msgstr "FAPI Member"
 
 #. Plugin URI of the plugin
 #. Author URI of the plugin
 #: fapi-member.php
 msgid "https://fapi.cz/"
-msgstr ""
+msgstr "https://fapi.cz/"
 
 #. Description of the plugin
 #: fapi-member.php
 msgid "Plugin FAPI pro jednoduchou správu členských sekcí na webu."
-msgstr ""
+msgstr "Plugin FAPI pro jednoduchou správu členských sekcí na webu."
 
 #. Author of the plugin
 #: fapi-member.php
 msgid "FAPI Business s.r.o."
-msgstr ""
+msgstr "FAPI Business s.r.o."
 
 #: multiple-blocks/multiple-blocks.php:33
 #: src/Elementor/Category/CategoryRegister.php:15
 #: src/Elementor/Widgets/FapiFormWidget.php:43
 msgid "FAPI"
-msgstr ""
+msgstr "FAPI"
 
-#: src/Bootstrap.php:530
+#: src/Bootstrap.php:536
 msgid "Člen"
-msgstr ""
+msgstr "Člen"
 
-#: src/Bootstrap.php:541
+#: src/Bootstrap.php:547
 msgid "FAPI Member - API e-mail"
-msgstr ""
+msgstr "FAPI Member - API e-mail"
 
-#: src/Bootstrap.php:551
+#: src/Bootstrap.php:557
 msgid "FAPI Member - API key"
-msgstr ""
+msgstr "FAPI Member - API key"
 
 #: src/Elementor/Widgets/FapiFormWidget.php:20
 msgid "FAPI form"
-msgstr ""
+msgstr "FAPI form"
 
 #: src/Elementor/Widgets/FapiFormWidget.php:52
 msgid "Prodejní formulář"
-msgstr ""
+msgstr "Prodejní formulář"
 
 #: src/Elementor/Widgets/FapiFormWidget.php:92
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
 msgid "-- vyberte prodejní formulář --"
-msgstr ""
+msgstr "-- vyberte prodejní formulář --"
 
 #: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:41
 #: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:114
 msgid "Zobrazit blok pokud návštěvník"
-msgstr ""
+msgstr "Zobrazit blok pokud návštěvník"
 
 #: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:45
 #: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
 msgid "je člen sekce/úrovně"
-msgstr ""
+msgstr "je člen sekce/úrovně"
 
 #: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:48
 #: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
 msgid "není členem sekce/úrovně"
-msgstr ""
+msgstr "není členem sekce/úrovně"
 
 #: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:51
 msgid "zobrazit všem návštěvníkům (vybrané sekce a úrovně se ignorují)"
-msgstr ""
+msgstr "zobrazit všem návštěvníkům (vybrané sekce a úrovně se ignorují)"
 
 #: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:54
 #: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
@@ -100,16 +100,16 @@ msgstr ""
 
 #: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
 msgid "Členské sekce a úrovně"
-msgstr ""
+msgstr "Členské sekce a úrovně"
 
 #: src/Service/ElementService.php:65
 msgid "Přiřazené sekce a úrovně"
-msgstr ""
+msgstr "Přiřazené sekce a úrovně"
 
 #: src/Service/ElementService.php:153 src/Service/ElementService.php:166
 #: src/Service/ElementService.php:182
 msgid "Upravit ve FAPI Member"
-msgstr ""
+msgstr "Upravit ve FAPI Member"
 
 #: src/Service/FormService.php:70
 msgid ""
@@ -119,23 +119,23 @@ msgstr ""
 
 #: src/Service/FormService.php:79
 msgid "Nemáte potřebná oprvánění."
-msgstr ""
+msgstr "Nemáte potřebná oprvánění."
 
 #: src/Templates/levelSelection.php:9
 msgid "Výběr úrovně"
-msgstr ""
+msgstr "Výběr úrovně"
 
 #: src/Templates/levelSelection.php:15
 msgid "Výběr sekce"
-msgstr ""
+msgstr "Výběr sekce"
 
 #: src/Templates/levelSelection.php:16
 msgid "Prosím, zvolte jednu ze stránek, kam chcete vstoupit"
-msgstr ""
+msgstr "Prosím, zvolte jednu ze stránek, kam chcete vstoupit"
 
 #: src/Templates/levelSelection.php:57
 msgid "Vstoupit"
-msgstr ""
+msgstr "Vstoupit"
 
 #: src/Utils/ShortcodeSubstitutor.php:35
 msgid "Přihlašovací jméno"
@@ -147,73 +147,77 @@ msgstr "Heslo"
 
 #: src/Utils/ShortcodeSubstitutor.php:43
 msgid "Zapomněli jste heslo?"
-msgstr ""
+msgstr "Zapomněli jste heslo?"
 
 #: src/Utils/ShortcodeSubstitutor.php:46 src/Utils/ShortcodeSubstitutor.php:98
 msgid "Přihlásit se"
-msgstr ""
+msgstr "Přihlásit se"
 
 #: src/Utils/ShortcodeSubstitutor.php:74
 msgid "Uživatel"
-msgstr ""
+msgstr "Uživatel"
 
 #: src/Utils/ShortcodeSubstitutor.php:79
 msgid "Odhlásit se"
-msgstr ""
+msgstr "Odhlásit se"
 
 #: src/Utils/ShortcodeSubstitutor.php:106
 #: src/Utils/ShortcodeSubstitutor.php:221
 msgid "neznámá sekce nebo úrověň"
-msgstr ""
+msgstr "neznámá sekce nebo úrověň"
 
 #: src/Utils/ShortcodeSubstitutor.php:112
 #: src/Utils/ShortcodeSubstitutor.php:155
 msgid "uživatel není přihlášen"
-msgstr ""
+msgstr "uživatel není přihlášen"
 
 #: src/Utils/ShortcodeSubstitutor.php:135
 #: src/Utils/ShortcodeSubstitutor.php:181
 #: src/Utils/ShortcodeSubstitutor.php:196
 msgid "bez přístupu"
-msgstr ""
+msgstr "bez přístupu"
 
 #: src/Utils/ShortcodeSubstitutor.php:140
 msgid "neomezeně"
-msgstr ""
+msgstr "neomezeně"
 
 #: src/Utils/ShortcodeSubstitutor.php:149
 msgid "neznámá úrověň"
-msgstr ""
+msgstr "neznámá úrověň"
 
 #: src/Utils/ShortcodeSubstitutor.php:208
 msgid "Bude odemčeno"
-msgstr ""
+msgstr "Bude odemčeno"
 
 #: src/Utils/ShortcodeSubstitutor.php:212
 msgid "Neomezeně"
+msgstr "Neomezeně"
+
+#: src/Utils/ShortcodeSubstitutor.php:231
+msgid "Odemknout úroveň"
 msgstr ""
 
 #: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
 msgid "zobrazit všem návštěvníkům (vybrané sekce a urovně se ignorují)"
-msgstr ""
+msgstr "zobrazit všem návštěvníkům (vybrané sekce a urovně se ignorují)"
 
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
 msgid "(všechny propojené účty)"
-msgstr ""
+msgstr "(všechny propojené účty)"
 
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
 msgid "Vyberte účet FAPI"
-msgstr ""
+msgstr "Vyberte účet FAPI"
 
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
 msgid "Vyberte prodejní formulář"
-msgstr ""
+msgstr "Vyberte prodejní formulář"
 
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
 msgid "Načítání dat, počkejte prosím..."
-msgstr ""
+msgstr "Načítání dat, počkejte prosím..."
 
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
 msgid "<<< Zde bude prodejní formulář \"%s\" >>>"
@@ -221,12 +225,12 @@ msgstr ""
 
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
 msgid "<<< Vyberte prodejní formulář z bočního menu >>>"
-msgstr ""
+msgstr "<<< Vyberte prodejní formulář z bočního menu >>>"
 
 #: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
 msgctxt "block title"
 msgid "FAPI Member - block extender"
-msgstr ""
+msgstr "FAPI Member - block extender"
 
 #: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
 msgctxt "block description"
@@ -238,19 +242,19 @@ msgstr ""
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
 msgctxt "block keyword"
 msgid "fapi"
-msgstr ""
+msgstr "fapi"
 
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
 msgctxt "block title"
 msgid "FAPI form"
-msgstr ""
+msgstr "FAPI form"
 
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
 msgctxt "block description"
 msgid "FAPI form widget."
-msgstr ""
+msgstr "FAPI form widget."
 
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
 msgctxt "block keyword"
 msgid "form"
-msgstr ""
+msgstr "form"

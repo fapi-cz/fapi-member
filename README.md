@@ -164,15 +164,8 @@ docker compose run --rm -e WP_CLI_PHP_ARGS='-d memory_limit=768M' wpcli \
     i18n make-pot \
         wp-content/plugins/fapi-member \
         wp-content/plugins/fapi-member/languages/fapi-member.pot \
-        --slug=fapi-member \
+        --domain=fapi-member \
         --exclude="node_modules,build,dist,vendor,*.min.js,assets/js/vendor,wp-build,wp-svn,wp-build-test"
-```
-
-2. Přejdi do languange složky a toto vygeneruje nové .po soubory pro dané jazyky. Tedy smaže to původní překlady a vytvoří nové soubory.
-```
-for lang in cs_CZ en_US es_ES sk_SK hr_HR hu_HU de_DE vi_VN pl_PL ro_RO ru_RU it_IT pt_PT fr_FR zh_CN sl_SI; do
-  msginit --locale=$lang --input=fapi-member.pot --output-file=fapi-member-$lang.po --no-translator
-done
 ```
 
 2. Pokud již máš existující .po soubory a chceš je pouze aktualizovat (zachovat původní překlady a doplnit nové řetězce):

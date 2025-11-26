@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FAPI Member 2.2.26\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/fapi-member\n"
-"POT-Creation-Date: 2025-11-26T07:23:39+00:00\n"
+"POT-Creation-Date: 2025-11-26T14:28:27+00:00\n"
 "PO-Revision-Date: 2025-10-23T12:59:40+00:00\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -48,15 +48,15 @@ msgstr "FAPI Business s.r.o."
 msgid "FAPI"
 msgstr "FAPI"
 
-#: src/Bootstrap.php:530
+#: src/Bootstrap.php:536
 msgid "Člen"
 msgstr "Член"
 
-#: src/Bootstrap.php:541
+#: src/Bootstrap.php:547
 msgid "FAPI Member - API e-mail"
 msgstr "Член FAPI - электронная почта API"
 
-#: src/Bootstrap.php:551
+#: src/Bootstrap.php:557
 msgid "FAPI Member - API key"
 msgstr "Член FAPI - ключ API"
 
@@ -197,6 +197,10 @@ msgstr "Он будет разблокирован"
 #: src/Utils/ShortcodeSubstitutor.php:212
 msgid "Neomezeně"
 msgstr "Неограниченное количество"
+
+#: src/Utils/ShortcodeSubstitutor.php:231
+msgid "Odemknout úroveň"
+msgstr ""
 
 #: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
 msgid "zobrazit všem návštěvníkům (vybrané sekce a urovně se ignorují)"
