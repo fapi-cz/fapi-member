@@ -4,16 +4,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FAPI Member 2.2.26\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/fapi-member\n"
+"POT-Creation-Date: 2025-11-26T07:23:39+00:00\n"
+"PO-Revision-Date: 2025-10-23T12:59:40+00:00\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-10-23T12:59:40+00:00\n"
-"PO-Revision-Date: 2025-10-23T12:59:40+00:00\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: fapi-member\n"
-"Language: ro\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
 
@@ -21,32 +21,8 @@ msgstr ""
 #: fapi-member.php src/Divi/FapiMemberDivi.php:84
 #: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:33
 #: src/Service/ElementService.php:35 src/Service/ElementService.php:36
-#: src/Service/ElementService.php:180 wp-build/src/Divi/FapiMemberDivi.php:84
-#: wp-build/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:33
-#: wp-build/src/Service/ElementService.php:180
-#: wp-svn/tags/1.9.47/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:35
-#: wp-svn/tags/2.1.18/src/Divi/FapiMemberDivi.php:84
-#: wp-svn/tags/2.1.18/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:33
-#: wp-svn/tags/2.2.24/src/Divi/FapiMemberDivi.php:84
-#: wp-svn/tags/2.2.24/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:33
-#: wp-svn/tags/2.2.24/src/Service/ElementService.php:180
-#: wp-svn/tags/2.2.25/src/Divi/FapiMemberDivi.php:84
-#: wp-svn/tags/2.2.25/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:33
-#: wp-svn/tags/2.2.25/src/Service/ElementService.php:180
-#: wp-svn/tags/2.2.26/src/Divi/FapiMemberDivi.php:84
-#: wp-svn/tags/2.2.26/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:33
-#: wp-svn/tags/2.2.26/src/Service/ElementService.php:180
-#: wp-svn/trunk/src/Divi/FapiMemberDivi.php:84
-#: wp-svn/trunk/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:33
-#: wp-svn/trunk/src/Service/ElementService.php:180
+#: src/Service/ElementService.php:180
 #: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
-#: wp-build/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
-#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
-#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
-#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
-#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
-#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
-#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
 msgid "FAPI Member"
 msgstr "Membru FAPI"
 
@@ -59,7 +35,8 @@ msgstr "https://fapi.cz/"
 #. Description of the plugin
 #: fapi-member.php
 msgid "Plugin FAPI pro jednoduchou správu členských sekcí na webu."
-msgstr "Plugin FAPI pentru gestionarea ușoară a secțiunilor membrilor de pe site."
+msgstr ""
+"Plugin FAPI pentru gestionarea ușoară a secțiunilor membrilor de pe site."
 
 #. Author of the plugin
 #: fapi-member.php
@@ -69,85 +46,31 @@ msgstr "FAPI Business s.r.o."
 #: multiple-blocks/multiple-blocks.php:33
 #: src/Elementor/Category/CategoryRegister.php:15
 #: src/Elementor/Widgets/FapiFormWidget.php:43
-#: wp-build/multiple-blocks/multiple-blocks.php:33
-#: wp-build/src/Elementor/Category/CategoryRegister.php:15
-#: wp-build/src/Elementor/Widgets/FapiFormWidget.php:43
-#: wp-svn/tags/1.9.47/multiple-blocks/multiple-blocks.php:33
-#: wp-svn/tags/1.9.47/src/Elementor/Category/CategoryRegister.php:14
-#: wp-svn/tags/1.9.47/src/Elementor/Widgets/FapiFormWidget.php:43
-#: wp-svn/tags/2.1.18/multiple-blocks/multiple-blocks.php:33
-#: wp-svn/tags/2.1.18/src/Elementor/Category/CategoryRegister.php:15
-#: wp-svn/tags/2.1.18/src/Elementor/Widgets/FapiFormWidget.php:43
-#: wp-svn/tags/2.2.24/multiple-blocks/multiple-blocks.php:33
-#: wp-svn/tags/2.2.24/src/Elementor/Category/CategoryRegister.php:15
-#: wp-svn/tags/2.2.24/src/Elementor/Widgets/FapiFormWidget.php:43
-#: wp-svn/tags/2.2.25/multiple-blocks/multiple-blocks.php:33
-#: wp-svn/tags/2.2.25/src/Elementor/Category/CategoryRegister.php:15
-#: wp-svn/tags/2.2.25/src/Elementor/Widgets/FapiFormWidget.php:43
-#: wp-svn/tags/2.2.26/multiple-blocks/multiple-blocks.php:33
-#: wp-svn/tags/2.2.26/src/Elementor/Category/CategoryRegister.php:15
-#: wp-svn/tags/2.2.26/src/Elementor/Widgets/FapiFormWidget.php:43
-#: wp-svn/trunk/multiple-blocks/multiple-blocks.php:33
-#: wp-svn/trunk/src/Elementor/Category/CategoryRegister.php:15
-#: wp-svn/trunk/src/Elementor/Widgets/FapiFormWidget.php:43
 msgid "FAPI"
 msgstr "FAPI"
 
-#: src/Bootstrap.php:524 wp-build/src/Bootstrap.php:520
-#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:327
-#: wp-svn/tags/2.1.18/src/Bootstrap.php:384
-#: wp-svn/tags/2.2.24/src/Bootstrap.php:520
-#: wp-svn/tags/2.2.25/src/Bootstrap.php:520
-#: wp-svn/tags/2.2.26/src/Bootstrap.php:520 wp-svn/trunk/src/Bootstrap.php:520
+#: src/Bootstrap.php:530
 msgid "Člen"
 msgstr "Membru"
 
-#: src/Bootstrap.php:535
+#: src/Bootstrap.php:541
 msgid "FAPI Member - API e-mail"
 msgstr "Membru FAPI - API e-mail"
 
-#: src/Bootstrap.php:545
+#: src/Bootstrap.php:551
 msgid "FAPI Member - API key"
 msgstr "Membru FAPI - cheie API"
 
 #: src/Elementor/Widgets/FapiFormWidget.php:20
-#: wp-build/src/Elementor/Widgets/FapiFormWidget.php:20
-#: wp-svn/tags/1.9.47/src/Elementor/Widgets/FapiFormWidget.php:20
-#: wp-svn/tags/2.1.18/src/Elementor/Widgets/FapiFormWidget.php:20
-#: wp-svn/tags/2.2.24/src/Elementor/Widgets/FapiFormWidget.php:20
-#: wp-svn/tags/2.2.25/src/Elementor/Widgets/FapiFormWidget.php:20
-#: wp-svn/tags/2.2.26/src/Elementor/Widgets/FapiFormWidget.php:20
-#: wp-svn/trunk/src/Elementor/Widgets/FapiFormWidget.php:20
 msgid "FAPI form"
 msgstr "Formular FAPI"
 
 #: src/Elementor/Widgets/FapiFormWidget.php:52
-#: wp-build/src/Elementor/Widgets/FapiFormWidget.php:52
-#: wp-svn/tags/1.9.47/src/Elementor/Widgets/FapiFormWidget.php:52
-#: wp-svn/tags/2.1.18/src/Elementor/Widgets/FapiFormWidget.php:52
-#: wp-svn/tags/2.2.24/src/Elementor/Widgets/FapiFormWidget.php:52
-#: wp-svn/tags/2.2.25/src/Elementor/Widgets/FapiFormWidget.php:52
-#: wp-svn/tags/2.2.26/src/Elementor/Widgets/FapiFormWidget.php:52
-#: wp-svn/trunk/src/Elementor/Widgets/FapiFormWidget.php:52
 msgid "Prodejní formulář"
 msgstr "Formular de vânzare"
 
 #: src/Elementor/Widgets/FapiFormWidget.php:92
-#: wp-build/src/Elementor/Widgets/FapiFormWidget.php:92
-#: wp-svn/tags/1.9.47/src/Elementor/Widgets/FapiFormWidget.php:91
-#: wp-svn/tags/2.1.18/src/Elementor/Widgets/FapiFormWidget.php:92
-#: wp-svn/tags/2.2.24/src/Elementor/Widgets/FapiFormWidget.php:92
-#: wp-svn/tags/2.2.25/src/Elementor/Widgets/FapiFormWidget.php:92
-#: wp-svn/tags/2.2.26/src/Elementor/Widgets/FapiFormWidget.php:92
-#: wp-svn/trunk/src/Elementor/Widgets/FapiFormWidget.php:92
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
-#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
-#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
-#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
-#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
-#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
-#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
-#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
 msgid "-- vyberte prodejní formulář --"
 msgstr "-- selectați formularul de vânzări --"
 
@@ -157,1110 +80,569 @@ msgid "Zobrazit blok pokud návštěvník"
 msgstr "Afișați blocul dacă vizitatorul"
 
 #: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:45
-#: wp-build/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:45
-#: wp-svn/tags/1.9.47/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:47
-#: wp-svn/tags/2.1.18/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:45
-#: wp-svn/tags/2.2.24/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:45
-#: wp-svn/tags/2.2.25/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:45
-#: wp-svn/tags/2.2.26/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:45
-#: wp-svn/trunk/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:45
 #: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
-#: wp-build/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
-#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
-#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
-#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
-#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
-#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
-#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
 msgid "je člen sekce/úrovně"
 msgstr "este membru al unei secțiuni/unui nivel"
 
 #: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:48
-#: wp-build/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:48
-#: wp-svn/tags/1.9.47/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:50
-#: wp-svn/tags/2.1.18/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:48
-#: wp-svn/tags/2.2.24/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:48
-#: wp-svn/tags/2.2.25/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:48
-#: wp-svn/tags/2.2.26/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:48
-#: wp-svn/trunk/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:48
 #: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
-#: wp-build/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
-#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
-#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
-#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
-#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
-#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
-#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
 msgid "není členem sekce/úrovně"
 msgstr "nu este membru al unei secțiuni/unui nivel"
 
 #: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:51
-#: wp-build/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:51
-#: wp-svn/tags/1.9.47/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:53
-#: wp-svn/tags/2.1.18/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:51
-#: wp-svn/tags/2.2.24/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:51
-#: wp-svn/tags/2.2.25/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:51
-#: wp-svn/tags/2.2.26/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:51
-#: wp-svn/trunk/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:51
 msgid "zobrazit všem návštěvníkům (vybrané sekce a úrovně se ignorují)"
-msgstr "arată tuturor vizitatorilor (secțiunile și nivelurile selectate sunt ignorate)"
+msgstr ""
+"arată tuturor vizitatorilor (secțiunile și nivelurile selectate sunt "
+"ignorate)"
 
 #: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:54
-#: wp-build/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:54
-#: wp-svn/tags/1.9.47/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:56
-#: wp-svn/tags/2.1.18/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:54
-#: wp-svn/tags/2.2.24/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:54
-#: wp-svn/tags/2.2.25/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:54
-#: wp-svn/tags/2.2.26/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:54
-#: wp-svn/trunk/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:54
 #: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
-#: wp-build/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
-#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
-#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
-#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
-#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
-#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
-#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
 msgid ""
 "Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo "
 "úrovni nebo všem návštěvníkům."
-msgstr "Conținutul va fi afișat dacă membrul este/nu este atribuit într-o secțiune de membru, nivel sau tuturor vizitatorilor."
+msgstr ""
+"Conținutul va fi afișat dacă membrul este/nu este atribuit într-o secțiune "
+"de membru, nivel sau tuturor vizitatorilor."
 
 #: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
-#: wp-build/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
-#: wp-svn/tags/1.9.47/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:67
-#: wp-svn/tags/2.1.18/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
-#: wp-svn/tags/2.2.24/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
-#: wp-svn/tags/2.2.25/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
-#: wp-svn/tags/2.2.26/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
-#: wp-svn/trunk/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
 msgid "Členské sekce a úrovně"
 msgstr "Secțiuni și niveluri ale membrilor"
 
-#: src/Service/ElementService.php:65 wp-build/src/Service/ElementService.php:65
-#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:441
-#: wp-svn/tags/2.1.18/src/Service/ElementService.php:65
-#: wp-svn/tags/2.2.24/src/Service/ElementService.php:65
-#: wp-svn/tags/2.2.25/src/Service/ElementService.php:65
-#: wp-svn/tags/2.2.26/src/Service/ElementService.php:65
-#: wp-svn/trunk/src/Service/ElementService.php:65
+#: src/Service/ElementService.php:65
 msgid "Přiřazené sekce a úrovně"
 msgstr "Secțiuni și niveluri atribuite"
 
 #: src/Service/ElementService.php:153 src/Service/ElementService.php:166
 #: src/Service/ElementService.php:182
-#: wp-build/src/Service/ElementService.php:153
-#: wp-build/src/Service/ElementService.php:166
-#: wp-build/src/Service/ElementService.php:182
-#: wp-svn/tags/2.2.24/src/Service/ElementService.php:153
-#: wp-svn/tags/2.2.24/src/Service/ElementService.php:166
-#: wp-svn/tags/2.2.24/src/Service/ElementService.php:182
-#: wp-svn/tags/2.2.25/src/Service/ElementService.php:153
-#: wp-svn/tags/2.2.25/src/Service/ElementService.php:166
-#: wp-svn/tags/2.2.25/src/Service/ElementService.php:182
-#: wp-svn/tags/2.2.26/src/Service/ElementService.php:153
-#: wp-svn/tags/2.2.26/src/Service/ElementService.php:166
-#: wp-svn/tags/2.2.26/src/Service/ElementService.php:182
-#: wp-svn/trunk/src/Service/ElementService.php:153
-#: wp-svn/trunk/src/Service/ElementService.php:166
-#: wp-svn/trunk/src/Service/ElementService.php:182
 msgid "Upravit ve FAPI Member"
 msgstr "Editare în membrul FAPI"
 
-#: src/Service/FormService.php:70 wp-build/src/Service/FormService.php:70
-#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:1358
-#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:1902
-#: wp-svn/tags/2.1.18/src/Service/FormService.php:70
-#: wp-svn/tags/2.2.24/src/Service/FormService.php:70
-#: wp-svn/tags/2.2.25/src/Service/FormService.php:70
-#: wp-svn/tags/2.2.26/src/Service/FormService.php:70
-#: wp-svn/trunk/src/Service/FormService.php:70
+#: src/Service/FormService.php:70
 msgid ""
 "Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a "
 "odeslat znovu."
-msgstr "Securitatea formularului nu a permis procesarea, încercați să reîncărcați pagina și să trimiteți din nou."
+msgstr ""
+"Securitatea formularului nu a permis procesarea, încercați să reîncărcați "
+"pagina și să trimiteți din nou."
 
-#: src/Service/FormService.php:79 wp-build/src/Service/FormService.php:79
-#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:1361
-#: wp-svn/tags/2.1.18/src/Service/FormService.php:79
-#: wp-svn/tags/2.2.24/src/Service/FormService.php:79
-#: wp-svn/tags/2.2.25/src/Service/FormService.php:79
-#: wp-svn/tags/2.2.26/src/Service/FormService.php:79
-#: wp-svn/trunk/src/Service/FormService.php:79
+#: src/Service/FormService.php:79
 msgid "Nemáte potřebná oprvánění."
 msgstr "Nu aveți drepturile necesare."
 
 #: src/Templates/levelSelection.php:9
-#: wp-build/src/Templates/levelSelection.php:9
-#: wp-svn/tags/1.9.47/templates/levelSelection.php:8
-#: wp-svn/tags/2.1.18/src/Templates/levelSelection.php:9
-#: wp-svn/tags/2.2.24/src/Templates/levelSelection.php:9
-#: wp-svn/tags/2.2.25/src/Templates/levelSelection.php:9
-#: wp-svn/tags/2.2.26/src/Templates/levelSelection.php:9
-#: wp-svn/trunk/src/Templates/levelSelection.php:9
 msgid "Výběr úrovně"
 msgstr "Selectarea nivelului"
 
 #: src/Templates/levelSelection.php:15
-#: wp-build/src/Templates/levelSelection.php:15
-#: wp-svn/tags/1.9.47/templates/levelSelection.php:14
-#: wp-svn/tags/2.1.18/src/Templates/levelSelection.php:15
-#: wp-svn/tags/2.2.24/src/Templates/levelSelection.php:15
-#: wp-svn/tags/2.2.25/src/Templates/levelSelection.php:15
-#: wp-svn/tags/2.2.26/src/Templates/levelSelection.php:15
-#: wp-svn/trunk/src/Templates/levelSelection.php:15
 msgid "Výběr sekce"
 msgstr "Selectarea secțiunii"
 
 #: src/Templates/levelSelection.php:16
-#: wp-build/src/Templates/levelSelection.php:16
-#: wp-svn/tags/1.9.47/templates/levelSelection.php:15
-#: wp-svn/tags/2.1.18/src/Templates/levelSelection.php:16
-#: wp-svn/tags/2.2.24/src/Templates/levelSelection.php:16
-#: wp-svn/tags/2.2.25/src/Templates/levelSelection.php:16
-#: wp-svn/tags/2.2.26/src/Templates/levelSelection.php:16
-#: wp-svn/trunk/src/Templates/levelSelection.php:16
 msgid "Prosím, zvolte jednu ze stránek, kam chcete vstoupit"
-msgstr "Vă rugăm să selectați una dintre paginile pe care doriți să le introduceți"
+msgstr ""
+"Vă rugăm să selectați una dintre paginile pe care doriți să le introduceți"
 
 #: src/Templates/levelSelection.php:57
-#: wp-build/src/Templates/levelSelection.php:57
-#: wp-svn/tags/1.9.47/templates/levelSelection.php:56
-#: wp-svn/tags/2.1.18/src/Templates/levelSelection.php:57
-#: wp-svn/tags/2.2.24/src/Templates/levelSelection.php:57
-#: wp-svn/tags/2.2.25/src/Templates/levelSelection.php:57
-#: wp-svn/tags/2.2.26/src/Templates/levelSelection.php:57
-#: wp-svn/trunk/src/Templates/levelSelection.php:57
 msgid "Vstoupit"
 msgstr "Introduceți"
 
 #: src/Utils/ShortcodeSubstitutor.php:35
-#: wp-build/src/Utils/ShortcodeSubstitutor.php:35
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:761
-#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:35
-#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:35
-#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:35
-#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:35
-#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:35
 msgid "Přihlašovací jméno"
 msgstr "Nume de utilizator"
 
 #: src/Utils/ShortcodeSubstitutor.php:39
-#: wp-build/src/Utils/ShortcodeSubstitutor.php:39
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:765
-#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:39
-#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:39
-#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:39
-#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:39
-#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:39
 msgid "Heslo"
 msgstr "Parolă"
 
 #: src/Utils/ShortcodeSubstitutor.php:43
-#: wp-build/src/Utils/ShortcodeSubstitutor.php:43
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:769
-#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:43
-#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:43
-#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:43
-#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:43
-#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:43
 msgid "Zapomněli jste heslo?"
 msgstr "Ați uitat parola?"
 
 #: src/Utils/ShortcodeSubstitutor.php:46 src/Utils/ShortcodeSubstitutor.php:98
-#: wp-build/src/Utils/ShortcodeSubstitutor.php:46
-#: wp-build/src/Utils/ShortcodeSubstitutor.php:98
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:772
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:827
-#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:46
-#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:98
-#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:46
-#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:98
-#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:46
-#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:98
-#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:46
-#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:98
-#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:46
-#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:98
 msgid "Přihlásit se"
 msgstr "Conectați-vă"
 
 #: src/Utils/ShortcodeSubstitutor.php:74
-#: wp-build/src/Utils/ShortcodeSubstitutor.php:74
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:803
-#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:74
-#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:74
-#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:74
-#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:74
-#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:74
 msgid "Uživatel"
 msgstr "Utilizator"
 
 #: src/Utils/ShortcodeSubstitutor.php:79
-#: wp-build/src/Utils/ShortcodeSubstitutor.php:79
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:808
-#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:79
-#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:79
-#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:79
-#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:79
-#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:79
 msgid "Odhlásit se"
 msgstr "Deconectați-vă"
 
 #: src/Utils/ShortcodeSubstitutor.php:106
 #: src/Utils/ShortcodeSubstitutor.php:221
-#: wp-build/src/Utils/ShortcodeSubstitutor.php:106
-#: wp-build/src/Utils/ShortcodeSubstitutor.php:221
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:617
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:665
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:689
-#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:106
-#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:221
-#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:106
-#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:221
-#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:106
-#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:221
-#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:106
-#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:221
-#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:106
-#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:221
 msgid "neznámá sekce nebo úrověň"
 msgstr "secțiune sau nivel necunoscut"
 
 #: src/Utils/ShortcodeSubstitutor.php:112
 #: src/Utils/ShortcodeSubstitutor.php:155
-#: wp-build/src/Utils/ShortcodeSubstitutor.php:112
-#: wp-build/src/Utils/ShortcodeSubstitutor.php:155
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:623
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:695
-#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:112
-#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:155
-#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:112
-#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:155
-#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:112
-#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:155
-#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:112
-#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:155
-#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:112
-#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:155
 msgid "uživatel není přihlášen"
 msgstr "utilizatorul nu este conectat"
 
 #: src/Utils/ShortcodeSubstitutor.php:135
 #: src/Utils/ShortcodeSubstitutor.php:181
 #: src/Utils/ShortcodeSubstitutor.php:196
-#: wp-build/src/Utils/ShortcodeSubstitutor.php:135
-#: wp-build/src/Utils/ShortcodeSubstitutor.php:181
-#: wp-build/src/Utils/ShortcodeSubstitutor.php:196
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:647
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:730
-#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:135
-#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:181
-#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:196
-#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:135
-#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:181
-#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:196
-#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:135
-#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:181
-#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:196
-#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:135
-#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:181
-#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:196
-#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:135
-#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:181
-#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:196
 msgid "bez přístupu"
 msgstr "fără acces"
 
 #: src/Utils/ShortcodeSubstitutor.php:140
-#: wp-build/src/Utils/ShortcodeSubstitutor.php:140
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:652
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:747
-#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:140
-#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:140
-#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:140
-#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:140
-#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:140
 msgid "neomezeně"
 msgstr "nelimitat"
 
 #: src/Utils/ShortcodeSubstitutor.php:149
-#: wp-build/src/Utils/ShortcodeSubstitutor.php:149
-#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:149
-#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:149
-#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:149
-#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:149
-#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:149
 msgid "neznámá úrověň"
 msgstr "nivel necunoscut"
 
 #: src/Utils/ShortcodeSubstitutor.php:208
-#: wp-build/src/Utils/ShortcodeSubstitutor.php:208
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:743
-#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:208
-#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:208
-#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:208
-#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:208
-#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:208
 msgid "Bude odemčeno"
 msgstr "Acesta va fi deblocat"
 
 #: src/Utils/ShortcodeSubstitutor.php:212
-#: wp-build/src/Utils/ShortcodeSubstitutor.php:212
-#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:212
-#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:212
-#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:212
-#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:212
-#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:212
 msgid "Neomezeně"
 msgstr "nelimitat"
 
-#: wp-build/src/Bootstrap.php:531
-#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:1957
-#: wp-svn/tags/2.1.18/src/Bootstrap.php:395
-#: wp-svn/tags/2.2.24/src/Bootstrap.php:531
-#: wp-svn/tags/2.2.25/src/Bootstrap.php:531
-#: wp-svn/tags/2.2.26/src/Bootstrap.php:531 wp-svn/trunk/src/Bootstrap.php:531
-msgid "Fapi Member - API e-mail"
-msgstr "Membru Fapi - E-mail API"
-
-#: wp-build/src/Bootstrap.php:541
-#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:1967
-#: wp-svn/tags/2.1.18/src/Bootstrap.php:405
-#: wp-svn/tags/2.2.24/src/Bootstrap.php:541
-#: wp-svn/tags/2.2.25/src/Bootstrap.php:541
-#: wp-svn/tags/2.2.26/src/Bootstrap.php:541 wp-svn/trunk/src/Bootstrap.php:541
-msgid "Fapi Member - API key"
-msgstr "Membru Fapi - cheie API"
-
-#: wp-build/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:41
-#: wp-svn/tags/1.9.47/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:43
-#: wp-svn/tags/2.1.18/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:41
-#: wp-svn/tags/2.2.24/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:41
-#: wp-svn/tags/2.2.25/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:41
-#: wp-svn/tags/2.2.26/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:41
-#: wp-svn/trunk/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:41
-#: wp-build/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:114
-#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:114
-#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:114
-#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:114
-#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:114
-#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:114
-#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:114
-msgid "Zobrazit pokud návštěvník"
-msgstr "Vizualizați dacă sunteți vizitator"
-
-#: wp-build/src/Service/ElementService.php:35
-#: wp-build/src/Service/ElementService.php:36
-#: wp-svn/tags/2.1.18/src/Service/ElementService.php:35
-#: wp-svn/tags/2.1.18/src/Service/ElementService.php:36
-#: wp-svn/tags/2.2.24/src/Service/ElementService.php:35
-#: wp-svn/tags/2.2.24/src/Service/ElementService.php:36
-#: wp-svn/tags/2.2.25/src/Service/ElementService.php:35
-#: wp-svn/tags/2.2.25/src/Service/ElementService.php:36
-#: wp-svn/tags/2.2.26/src/Service/ElementService.php:35
-#: wp-svn/tags/2.2.26/src/Service/ElementService.php:36
-#: wp-svn/trunk/src/Service/ElementService.php:35
-#: wp-svn/trunk/src/Service/ElementService.php:36
-msgid "Fapi Member"
-msgstr "Membru Fapi"
-
-#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:2095
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:905
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:926
-msgid "Členské sekce"
-msgstr "Secțiuni membre"
-
-#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:2142
-#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:2201
-msgid "Datum registrace"
-msgstr "Data înregistrării"
-
-#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:2144
-#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:2207
-msgid "Čas registrace"
-msgstr "Timpul de înregistrare"
-
-#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:2146
-msgid "Členství do"
-msgstr "Aderarea la"
-
-#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:2148
-#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:2219
-msgid "Bez expirace"
-msgstr "Fără expirare"
-
-#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:2194
-msgid "Vybrat"
-msgstr "Selectați"
-
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:424
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:532
-msgid "CPT"
-msgstr "CPT"
-
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:865
-msgid "Tento doplněk není optimalizován pro telefony a malé monitory."
-msgstr "Acest add-on nu este optimizat pentru telefoane și monitoare mici."
-
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:901
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:919
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:948
-msgid "Přehled"
-msgstr "Prezentare generală"
-
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:909
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:930
-msgid "Propojení s FAPI"
-msgstr "Legătura cu FAPI"
-
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:954
-msgid "Propojení"
-msgstr "Legătură"
-
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:963
-msgid "Přiřazené stránky a příspěvky"
-msgstr "Pagini și posturi atribuite"
-
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:967
-msgid "E-maily"
-msgstr "Email-uri"
-
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:968
-msgid "Servisní stránky"
-msgstr "Pagini de servicii"
-
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:969
-msgid "Prvky pro web"
-msgstr "Elemente pentru web"
-
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:970
-msgid "Společné"
-msgstr "Comun"
-
-#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:971
-msgid "Uvolňování obsahu"
-msgstr "Eliberarea conținutului"
-
-#: wp-svn/tags/1.9.47/templates/connection.php:12
-msgid "Propojené účty FAPI:"
-msgstr "Conturi FAPI legate:"
-
-#: wp-svn/tags/1.9.47/templates/connection.php:16
-#: wp-svn/tags/1.9.47/templates/connection.php:47
-msgid "Uživatelské jméno (e-mail)"
-msgstr "Nume utilizator (e-mail)"
-
-#: wp-svn/tags/1.9.47/templates/connection.php:17
-#: wp-svn/tags/1.9.47/templates/connection.php:51
-msgid "API klíč"
-msgstr "Cheie API"
-
-#: wp-svn/tags/1.9.47/templates/connection.php:25
-msgid "Nejsou propojeny žádné účty"
-msgstr "Nu există conturi legate"
-
-#: wp-svn/tags/1.9.47/templates/connection.php:35
-msgid "Smazat propojení s FAPI"
-msgstr "Ștergeți conexiunea la FAPI"
-
-#: wp-svn/tags/1.9.47/templates/connection.php:45
-msgid "Propojit účet FAPI (max. "
-msgstr "Conectați contul FAPI (max."
-
-#: wp-svn/tags/1.9.47/templates/connection.php:55
-msgid "Propojit s FAPI"
-msgstr "Legătură cu FAPI"
-
-#: wp-svn/tags/1.9.47/templates/connection.php:59
-msgid "Stav propojení"
-msgstr "Starea legăturii"
-
-#: wp-svn/tags/1.9.47/templates/connection.php:60
-msgid "nepropojeno"
-msgstr "Fără legătură"
-
-#: wp-svn/tags/1.9.47/templates/connection.php:63
-msgid "Propojení s Integromatem"
-msgstr "Conectarea cu Integromat"
-
-#: wp-svn/tags/1.9.47/templates/connection.php:66
-msgid "FAPI Member API Token"
-msgstr "Token API membru FAPI"
-
-#: wp-svn/tags/1.9.47/templates/connection.php:71
-msgid "Zkopírovat"
-msgstr "Faceți clic pentru a copia"
-
-#: wp-svn/tags/1.9.47/templates/fapiMemberLoginPage.php:10
-#: wp-svn/tags/1.9.47/templates/fapiMemberLoginPage.php:16
-msgid "Přihlášení do členské sekce"
-msgstr "Conectați-vă la secțiunea membrilor"
-
-#: wp-svn/tags/1.9.47/templates/index.php:15
-msgid "Přehled členských sekcí a úrovní"
-msgstr "Prezentare generală a secțiunilor și nivelurilor de aderare"
-
-#: wp-svn/tags/1.9.47/templates/index.php:103
-msgid "Počet úrovní"
-msgstr "Număr de niveluri"
-
-#: wp-svn/tags/1.9.47/templates/index.php:106
-#: wp-svn/tags/1.9.47/templates/index.php:127
-msgid "Počet registrovaných"
-msgstr "Număr de persoane înregistrate"
-
-#: wp-svn/tags/1.9.47/templates/index.php:109
-#: wp-svn/tags/1.9.47/templates/index.php:130
-msgid "Seznam členů"
-msgstr "Lista membrilor"
-
-#: wp-svn/tags/1.9.47/templates/index.php:113
-msgid "Stránek v celé sekci"
-msgstr "Pagini în întreaga secțiune"
-
-#: wp-svn/tags/1.9.47/templates/index.php:149
-msgid "Nemáte vytvořenou žádnou členskou sekci."
-msgstr "Nu ați creat nicio secțiune a membrilor."
-
-#: wp-svn/tags/1.9.47/templates/index.php:150
-msgid "Novou sekci můžete vytvořit na záložce Sekce / úrovně."
-msgstr "Puteți crea o secțiune nouă în fila Secțiuni / Niveluri."
-
-#: wp-svn/tags/1.9.47/templates/index.php:153
-msgid "Přejít do záložky Sekce / úrovně"
-msgstr "Mergeți la fila Secțiuni / Niveluri"
-
-#: wp-svn/tags/1.9.47/templates/memberList.php:26
-msgid "Tato sekce nemá žádné členy"
-msgstr "Această secțiune nu are membri"
-
-#: wp-svn/tags/1.9.47/templates/memberList.php:47
-#: wp-svn/tags/1.9.47/templates/memberList.php:65
-msgid "Uživatelské jméno"
-msgstr "Nume utilizator"
-
-#: wp-svn/tags/1.9.47/templates/memberList.php:48
-msgid "Jméno a příjmení"
-msgstr "Nume și prenume"
-
-#: wp-svn/tags/1.9.47/templates/memberList.php:49
-#: wp-svn/tags/1.9.47/templates/memberList.php:67
-msgid "Email"
-msgstr "E-mail"
-
-#: wp-svn/tags/1.9.47/templates/memberList.php:66
-msgid "Jméno a přijmení"
-msgstr "Nume și prenume"
-
-#: wp-svn/tags/1.9.47/templates/memberList.php:107
-msgid "Exportovat do CSV"
-msgstr "Export către CSV"
-
-#: wp-svn/tags/1.9.47/templates/memberList.php:129
-msgid "Seznam členů úrovně \""
-msgstr ""
-
-#: wp-svn/tags/1.9.47/templates/memberList.php:131
-msgid "Seznam členů sekce \""
-msgstr ""
-
-#: wp-svn/tags/1.9.47/templates/settingsContentAdd.php:15
-#: wp-svn/tags/1.9.47/templates/settingsContentRemove.php:12
-#: wp-svn/tags/1.9.47/templates/settingsContentSelect.php:10
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:11
-#: wp-svn/tags/1.9.47/templates/settingsLevelNew.php:11
-#: wp-svn/tags/1.9.47/templates/settingsPages.php:11
-#: wp-svn/tags/1.9.47/templates/settingsSectionNew.php:11
-#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:12
-msgid "Členské sekce/úrovně"
-msgstr "Secțiuni/nivele ale membrilor"
-
-#: wp-svn/tags/1.9.47/templates/settingsContentAdd.php:34
-#: wp-svn/tags/1.9.47/templates/settingsContentRemove.php:36
-msgid "Prosím zvolte sekci/úroveň."
-msgstr "Vă rugăm să selectați o secțiune/un nivel."
-
-#: wp-svn/tags/1.9.47/templates/settingsContentRemove.php:31
-#: wp-svn/tags/1.9.47/templates/settingsPages.php:73
-#: wp-svn/tags/1.9.47/templates/settingsSettings.php:39
-#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:41
-#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:116
-msgid "Uložit"
-msgstr "Salvați"
-
-#: wp-svn/tags/1.9.47/templates/settingsElements.php:9
-msgid "Formulář pro přihlášení"
-msgstr "Formular de conectare"
-
-#: wp-svn/tags/1.9.47/templates/settingsElements.php:10
-msgid "Formulář vložte do svého webu na požadovaná místa pomocí shortcode"
-msgstr "Introduceți formularul în site-ul dvs. în locurile necesare utilizând codul scurt"
-
-#: wp-svn/tags/1.9.47/templates/settingsElements.php:12
-msgid "Formulář se zobrazí po znovunačtení stránky."
-msgstr "Formularul va fi afișat atunci când pagina este reîncărcată."
-
-#: wp-svn/tags/1.9.47/templates/settingsElements.php:16
-#: wp-svn/tags/1.9.47/templates/settingsElements.php:28
-#: wp-svn/tags/1.9.47/templates/settingsElements.php:39
-#: wp-svn/tags/1.9.47/templates/settingsElements.php:45
-msgid "Snímek obrazovky"
-msgstr "Captură de ecran"
-
-#: wp-svn/tags/1.9.47/templates/settingsElements.php:21
-msgid "Uživatelské okénko"
-msgstr "Fereastra utilizatorului"
-
-#: wp-svn/tags/1.9.47/templates/settingsElements.php:22
-msgid "Okénko vložte do svého webu na požadovaná místa pomocí shortcode"
-msgstr "Introduceți fereastra în site-ul dvs. în locurile dorite utilizând codul scurt"
-
-#: wp-svn/tags/1.9.47/templates/settingsElements.php:24
-msgid ""
-"Uživatelské okénko bude funkční pro uživatele všech členských sekcí a úrovní."
-msgstr "Uživatelské okénko bude funkční pro uživatele všech členských sekcí a úrovní."
-
-#: wp-svn/tags/1.9.47/templates/settingsElements.php:31
-msgid "Datum expirace pro členskou sekci nebo úrověň"
-msgstr "Data expirării pentru secțiunea sau nivelul de membru"
-
-#: wp-svn/tags/1.9.47/templates/settingsElements.php:32
-msgid "Vypíše datum expirace zvolené členské sekce nebo úrovně"
-msgstr "Listează data expirării secțiunii sau nivelului de membru selectat"
-
-#: wp-svn/tags/1.9.47/templates/settingsElements.php:34
-msgid ""
-"Místo proměnné \"x\" zadejte ID  členské sekce a místo tohoto shortcodu se "
-"uživateli vypíše datum do kdy má přístup do dané členské sekce nebo úrovně"
-msgstr ""
-
-#: wp-svn/tags/1.9.47/templates/settingsElements.php:36
-msgid "Jak shortcode použít"
-msgstr "Cum să utilizați codul scurt"
-
-#: wp-svn/tags/1.9.47/templates/settingsElements.php:42
-msgid "Jak to poté vidí člen"
-msgstr "Cum o vede atunci deputatul"
-
-#: wp-svn/tags/1.9.47/templates/settingsElements.php:49
-msgid "Odemčení úrovně tlačítkem"
-msgstr "Deblocați nivelul cu butonul"
-
-#: wp-svn/tags/1.9.47/templates/settingsElements.php:50
-msgid "Tlačítko kterým uživatel může odeknou úroveň"
-msgstr "Buton prin care utilizatorul poate întrerupe nivelul"
-
-#: wp-svn/tags/1.9.47/templates/settingsElements.php:51
-msgid ""
-"Parametr \"page\" representuje ID stránky, na kterou bude uživatel "
-"přesměrován, po odemčení úrovně. Tento parametr je volitelný. Pokud nebude "
-"zadán, uživatel bude odkázán na jednu ze stránek přiřazených k úrovni."
-msgstr ""
-
-#: wp-svn/tags/1.9.47/templates/settingsElements.php:54
-msgid "Čas zbývající do odemčení úrovně"
-msgstr "Timpul rămas până la deblocarea nivelului"
-
-#: wp-svn/tags/1.9.47/templates/settingsElements.php:55
-msgid ""
-"Datum odemčení členské úrovně ve formátu \"01.01.2023\" můžete zobrazit "
-"pomocí shortcode"
-msgstr ""
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:20
-#: wp-svn/tags/1.9.47/templates/settingsPages.php:20
-msgid "Zvolte prosím sekci/úroveň vlevo."
-msgstr "Vă rugăm să selectați secțiunea/nivelul din stânga."
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:31
-msgid "E-mail po registraci do sekce"
-msgstr "E-mail după înregistrarea la secțiune"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:32
-msgid "E-mail po prodloužení členství v sekci"
-msgstr "E-mail după reînnoirea calității de membru"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:33
-msgid "E-mail po přidání do sekce"
-msgstr "E-mail după adăugarea la secțiune"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:37
-msgid "E-mail po registraci do úrovně"
-msgstr "E-mail după înregistrarea la nivel"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:38
-msgid "E-mail po prodloužení členství v úrovni"
-msgstr "E-mail după reînnoirea nivelului de membru"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:39
-msgid "E-mail po přidání do úrovně"
-msgstr "E-mail după adăugarea la nivel"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:56
-msgid "E-mail je převzat z nastavení členské sekce, do které úroveň spadá."
-msgstr "Adresa de e-mail este preluată din setările secțiunii membrilor căreia îi aparține nivelul."
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:76
-msgid "Nastavit vlastní e-mail pro úroveň"
-msgstr "Configurați un e-mail personalizat pentru un nivel"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:82
-msgid "Předmět e-mailu"
-msgstr "Subiectul e-mailului"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:90
-msgid "Obsah e-mailu"
-msgstr "Conținut e-mail"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:112
-msgid "Dostupné proměnné"
-msgstr "Variabile disponibile"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:117
-msgid "Kód"
-msgstr "Cod"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:118
-msgid "Popis"
-msgstr "Descriere"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:119
-msgid "Příklad"
-msgstr "Exemplu"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:120
-msgid "Dostupné při"
-msgstr "Disponibil la"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:123
-msgid "registraci nového člena"
-msgstr "înregistrarea unui nou membru"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:124
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:126
-msgid "prodloužení/přidání sekce"
-msgstr "extinderea/adăugarea secțiunii"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:133
-msgid "Název sekce"
-msgstr "Denumirea secțiunii"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:134
-msgid "Italská kuchyně"
-msgstr "Bucătărie italiană"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:141
-msgid "Název úrovně"
-msgstr "Numele nivelului"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:142
-msgid "Začátečník"
-msgstr "Începător"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:149
-msgid "Počet zakoupených dní nebo 'neomezeně'"
-msgstr "Numărul de zile achiziționate sau nelimitat"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:157
-msgid "Datum konce členství nebo 'neomezené'"
-msgstr "Data expirării calității de membru sau nelimitat"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:165
-msgid "Odkaz na přihlášení (z nastavení) pouze URL"
-msgstr "Link de conectare (din setări) Numai URL"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:173
-msgid "Přihlašovací jméno uživatele"
-msgstr "Numele de autentificare al utilizatorului"
-
-#: wp-svn/tags/1.9.47/templates/settingsEmails.php:181
-msgid "Přihlašovací heslo uživatele"
-msgstr "Parola de conectare a utilizatorului"
-
-#: wp-svn/tags/1.9.47/templates/settingsLevelNew.php:22
-msgid "Název členské úrovně"
-msgstr "Nume nivel membru"
-
-#: wp-svn/tags/1.9.47/templates/settingsLevelNew.php:27
-msgid "Zařadit do členské sekce"
-msgstr "Includeți în secțiunea membrilor"
-
-#: wp-svn/tags/1.9.47/templates/settingsLevelNew.php:33
-msgid "Vytvořit úroveň"
-msgstr "Creați un nivel"
-
-#: wp-svn/tags/1.9.47/templates/settingsPages.php:34
-msgid "Přihlašovací stránka"
-msgstr "Pagina de autentificare"
-
-#: wp-svn/tags/1.9.47/templates/settingsPages.php:35
-msgid "Vyberte stránku, kde je umístěn přihlašovací formulář."
-msgstr "Selectați pagina în care se află formularul de conectare."
-
-#: wp-svn/tags/1.9.47/templates/settingsPages.php:36
-msgid "Stránka nesmí být zařazena jako členská."
-msgstr "Pagina nu trebuie să fie clasificată ca o pagină de membru."
-
-#: wp-svn/tags/1.9.47/templates/settingsPages.php:39
-#: wp-svn/tags/1.9.47/templates/settingsSettings.php:28
-msgid "Nástěnka"
-msgstr "Site web"
-
-#: wp-svn/tags/1.9.47/templates/settingsPages.php:44
-msgid "Stránka, když uživatel nemá přístup"
-msgstr "Pagina atunci când utilizatorul nu are acces"
-
-#: wp-svn/tags/1.9.47/templates/settingsPages.php:46
-msgid ""
-"Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství."
-msgstr "Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství."
-
-#: wp-svn/tags/1.9.47/templates/settingsPages.php:68
-#: wp-svn/tags/1.9.47/templates/settingsSettings.php:23
-#: wp-svn/tags/1.9.47/templates/settingsSettings.php:33
-#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:38
-msgid "-- nevybrána --"
-msgstr "-- nu a fost selectat --"
-
-#: wp-svn/tags/1.9.47/templates/settingsSectionNew.php:22
-msgid "Název členské sekce"
-msgstr "Numele secțiunii membre"
-
-#: wp-svn/tags/1.9.47/templates/settingsSectionNew.php:27
-msgid "Vytvořit sekci"
-msgstr "Creați o secțiune"
-
-#: wp-svn/tags/1.9.47/templates/settingsSettings.php:19
-msgid "Stránka pro přihlášení"
-msgstr "Pagina de autentificare"
-
-#: wp-svn/tags/1.9.47/templates/settingsSettings.php:20
-msgid "Vyberte společnou přihlašovací stránku pro všechny sekce/úrovně."
-msgstr "Selectați o pagină de autentificare comună pentru toate secțiunile/nivelurile."
-
-#: wp-svn/tags/1.9.47/templates/settingsSettings.php:29
-msgid "Vyberte společnou stránku po příhlášení tzn. nástěnku."
-msgstr "Selectați pagina comună după autentificare, adică avizierul."
-
-#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:31
-msgid "Stránka, která se zobrazí, když obsah ještě nebyl odemčen."
-msgstr "O pagină care apare atunci când conținutul nu a fost încă deblocat."
-
-#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:32
-msgid ""
-"Úroveň musí mít povoleno časově omezené odemykání, aby byl uživatel "
-"přesměrován na tuto stránku."
-msgstr "Úroveň musí mít povoleno časově omezené odemykání, aby byl uživatel přesměrován na tuto stránku."
-
-#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:48
-msgid "Zvolili jste členskou sekci, prosím zvolte úroveň."
-msgstr "Ați selectat o secțiune pentru membri, vă rugăm să selectați un nivel."
-
-#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:70
-msgid "Odemknutí tlačítkem"
-msgstr "Deblocare cu un buton"
-
-#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:75
-msgid "K odemčení úrovně musí uživatel již mít přístup do dané sekce."
-msgstr "Pentru a debloca un nivel, utilizatorul trebuie să aibă deja acces la secțiunea respectivă."
-
-#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:76
-msgid "Shrotcode talčítka pro uvolnění obsahu: "
-msgstr "Placa Shrotcode pentru eliberarea conținutului:"
-
-#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:82
-msgid "Časově omezené odemykání úrovně"
-msgstr "Deblocare nivel limitată în timp"
-
-#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:103
-msgid "Datum kdy bude sekce/úroveň odemčena pro všechny uživatele."
-msgstr "Data la care secțiunea/nivelul va fi deblocat pentru toți utilizatorii."
-
-#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:108
-msgid ""
-"Počet dní od registrace uživatele do členské sekce, po kterých má být "
-"vybraná sekce/úroveň zpřístupněna."
-msgstr "Počet dní od registrace uživatele do členské sekce, po kterých má být vybraná sekce/úroveň zpřístupněna."
-
-#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:111
-msgid "0 = Sekce bude přístupná ihned po registraci"
-msgstr "0 = Secțiunea va fi accesibilă imediat după înregistrare"
-
-#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:112
-msgid "3 = Sekce bude přístupná 3 den po registraci"
-msgstr "3 = Secțiunea va fi accesibilă la 3 zile după înregistrare"
-
 #: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
-#: wp-build/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
-#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
-#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
-#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
-#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
-#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
-#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
 msgid "zobrazit všem návštěvníkům (vybrané sekce a urovně se ignorují)"
-msgstr "arată tuturor vizitatorilor (secțiunile și nivelurile selectate sunt ignorate)"
+msgstr ""
+"arată tuturor vizitatorilor (secțiunile și nivelurile selectate sunt "
+"ignorate)"
 
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
-#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
-#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
-#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
-#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
-#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
-#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
-#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
 msgid "(všechny propojené účty)"
 msgstr "(toate conturile legate)"
 
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
-#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
-#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
-#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
-#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
-#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
-#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
-#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
-#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
-#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
-#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
-#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
-#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
-#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
-#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
 msgid "Vyberte účet FAPI"
 msgstr "Selectați un cont FAPI"
 
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
-#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
-#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
-#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
-#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
-#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
-#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
-#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
-#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
-#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
-#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
-#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
-#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
-#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
-#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
 msgid "Vyberte prodejní formulář"
 msgstr "Selectați un formular de vânzare"
 
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
-#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
-#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
-#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
-#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
-#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
-#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
-#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
 msgid "Načítání dat, počkejte prosím..."
 msgstr "Încărcarea datelor, vă rugăm să așteptați..."
 
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
-#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
-#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
-#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
-#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
-#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
-#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
-#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
 msgid "<<< Zde bude prodejní formulář \"%s\" >>>"
 msgstr ""
 
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
-#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
-#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
-#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
-#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
-#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
-#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
-#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
 msgid "<<< Vyberte prodejní formulář z bočního menu >>>"
 msgstr "<<< Selectați formularul de vânzări din meniul lateral >>>>"
 
 #: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
-#: wp-build/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
-#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
-#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
-#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
-#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
-#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
-#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
 msgctxt "block title"
 msgid "FAPI Member - block extender"
 msgstr "Membru FAPI - extensor de bloc"
 
 #: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
-#: wp-build/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
-#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
-#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
-#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
-#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
-#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
-#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
 msgctxt "block description"
 msgid ""
 "Extends core blocks, enables show and hide block by member section and levels"
-msgstr "Extends core blocks, enables show and hide block by member section and levels"
+msgstr ""
+"Extends core blocks, enables show and hide block by member section and levels"
 
 #: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-build/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
-#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
-#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
-#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
-#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
-#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
-#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
-#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
 msgctxt "block keyword"
 msgid "fapi"
 msgstr "fapi"
 
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
 msgctxt "block title"
 msgid "FAPI form"
 msgstr "Formular FAPI"
 
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
 msgctxt "block description"
 msgid "FAPI form widget."
 msgstr "Widget de formular FAPI."
 
 #: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
-#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
 msgctxt "block keyword"
 msgid "form"
 msgstr "formă"
+
+#~ msgid "Zobrazit pokud návštěvník"
+#~ msgstr "Vizualizați dacă sunteți vizitator"
+
+#~ msgid "Fapi Member - API e-mail"
+#~ msgstr "Membru Fapi - E-mail API"
+
+#~ msgid "Fapi Member - API key"
+#~ msgstr "Membru Fapi - cheie API"
+
+#~ msgid "Členské sekce"
+#~ msgstr "Secțiuni membre"
+
+#~ msgid "Datum registrace"
+#~ msgstr "Data înregistrării"
+
+#~ msgid "Čas registrace"
+#~ msgstr "Timpul de înregistrare"
+
+#~ msgid "Členství do"
+#~ msgstr "Aderarea la"
+
+#~ msgid "Bez expirace"
+#~ msgstr "Fără expirare"
+
+#~ msgid "Vybrat"
+#~ msgstr "Selectați"
+
+#~ msgid "CPT"
+#~ msgstr "CPT"
+
+#~ msgid "Tento doplněk není optimalizován pro telefony a malé monitory."
+#~ msgstr "Acest add-on nu este optimizat pentru telefoane și monitoare mici."
+
+#~ msgid "Přehled"
+#~ msgstr "Prezentare generală"
+
+#~ msgid "Propojení s FAPI"
+#~ msgstr "Legătura cu FAPI"
+
+#~ msgid "Propojení"
+#~ msgstr "Legătură"
+
+#~ msgid "Přiřazené stránky a příspěvky"
+#~ msgstr "Pagini și posturi atribuite"
+
+#~ msgid "E-maily"
+#~ msgstr "Email-uri"
+
+#~ msgid "Servisní stránky"
+#~ msgstr "Pagini de servicii"
+
+#~ msgid "Prvky pro web"
+#~ msgstr "Elemente pentru web"
+
+#~ msgid "Společné"
+#~ msgstr "Comun"
+
+#~ msgid "Uvolňování obsahu"
+#~ msgstr "Eliberarea conținutului"
+
+#~ msgid "Propojené účty FAPI:"
+#~ msgstr "Conturi FAPI legate:"
+
+#~ msgid "Uživatelské jméno (e-mail)"
+#~ msgstr "Nume utilizator (e-mail)"
+
+#~ msgid "API klíč"
+#~ msgstr "Cheie API"
+
+#~ msgid "Nejsou propojeny žádné účty"
+#~ msgstr "Nu există conturi legate"
+
+#~ msgid "Smazat propojení s FAPI"
+#~ msgstr "Ștergeți conexiunea la FAPI"
+
+#~ msgid "Propojit účet FAPI (max. "
+#~ msgstr "Conectați contul FAPI (max."
+
+#~ msgid "Propojit s FAPI"
+#~ msgstr "Legătură cu FAPI"
+
+#~ msgid "Stav propojení"
+#~ msgstr "Starea legăturii"
+
+#~ msgid "nepropojeno"
+#~ msgstr "Fără legătură"
+
+#~ msgid "Propojení s Integromatem"
+#~ msgstr "Conectarea cu Integromat"
+
+#~ msgid "FAPI Member API Token"
+#~ msgstr "Token API membru FAPI"
+
+#~ msgid "Zkopírovat"
+#~ msgstr "Faceți clic pentru a copia"
+
+#~ msgid "Přihlášení do členské sekce"
+#~ msgstr "Conectați-vă la secțiunea membrilor"
+
+#~ msgid "Přehled členských sekcí a úrovní"
+#~ msgstr "Prezentare generală a secțiunilor și nivelurilor de aderare"
+
+#~ msgid "Počet úrovní"
+#~ msgstr "Număr de niveluri"
+
+#~ msgid "Počet registrovaných"
+#~ msgstr "Număr de persoane înregistrate"
+
+#~ msgid "Seznam členů"
+#~ msgstr "Lista membrilor"
+
+#~ msgid "Stránek v celé sekci"
+#~ msgstr "Pagini în întreaga secțiune"
+
+#~ msgid "Nemáte vytvořenou žádnou členskou sekci."
+#~ msgstr "Nu ați creat nicio secțiune a membrilor."
+
+#~ msgid "Novou sekci můžete vytvořit na záložce Sekce / úrovně."
+#~ msgstr "Puteți crea o secțiune nouă în fila Secțiuni / Niveluri."
+
+#~ msgid "Přejít do záložky Sekce / úrovně"
+#~ msgstr "Mergeți la fila Secțiuni / Niveluri"
+
+#~ msgid "Tato sekce nemá žádné členy"
+#~ msgstr "Această secțiune nu are membri"
+
+#~ msgid "Uživatelské jméno"
+#~ msgstr "Nume utilizator"
+
+#~ msgid "Jméno a příjmení"
+#~ msgstr "Nume și prenume"
+
+#~ msgid "Email"
+#~ msgstr "E-mail"
+
+#~ msgid "Jméno a přijmení"
+#~ msgstr "Nume și prenume"
+
+#~ msgid "Exportovat do CSV"
+#~ msgstr "Export către CSV"
+
+#~ msgid "Členské sekce/úrovně"
+#~ msgstr "Secțiuni/nivele ale membrilor"
+
+#~ msgid "Prosím zvolte sekci/úroveň."
+#~ msgstr "Vă rugăm să selectați o secțiune/un nivel."
+
+#~ msgid "Uložit"
+#~ msgstr "Salvați"
+
+#~ msgid "Formulář pro přihlášení"
+#~ msgstr "Formular de conectare"
+
+#~ msgid "Formulář vložte do svého webu na požadovaná místa pomocí shortcode"
+#~ msgstr ""
+#~ "Introduceți formularul în site-ul dvs. în locurile necesare utilizând "
+#~ "codul scurt"
+
+#~ msgid "Formulář se zobrazí po znovunačtení stránky."
+#~ msgstr "Formularul va fi afișat atunci când pagina este reîncărcată."
+
+#~ msgid "Snímek obrazovky"
+#~ msgstr "Captură de ecran"
+
+#~ msgid "Uživatelské okénko"
+#~ msgstr "Fereastra utilizatorului"
+
+#~ msgid "Okénko vložte do svého webu na požadovaná místa pomocí shortcode"
+#~ msgstr ""
+#~ "Introduceți fereastra în site-ul dvs. în locurile dorite utilizând codul "
+#~ "scurt"
+
+#~ msgid ""
+#~ "Uživatelské okénko bude funkční pro uživatele všech členských sekcí a "
+#~ "úrovní."
+#~ msgstr ""
+#~ "Uživatelské okénko bude funkční pro uživatele všech členských sekcí a "
+#~ "úrovní."
+
+#~ msgid "Datum expirace pro členskou sekci nebo úrověň"
+#~ msgstr "Data expirării pentru secțiunea sau nivelul de membru"
+
+#~ msgid "Vypíše datum expirace zvolené členské sekce nebo úrovně"
+#~ msgstr "Listează data expirării secțiunii sau nivelului de membru selectat"
+
+#~ msgid "Jak shortcode použít"
+#~ msgstr "Cum să utilizați codul scurt"
+
+#~ msgid "Jak to poté vidí člen"
+#~ msgstr "Cum o vede atunci deputatul"
+
+#~ msgid "Odemčení úrovně tlačítkem"
+#~ msgstr "Deblocați nivelul cu butonul"
+
+#~ msgid "Tlačítko kterým uživatel může odeknou úroveň"
+#~ msgstr "Buton prin care utilizatorul poate întrerupe nivelul"
+
+#~ msgid "Čas zbývající do odemčení úrovně"
+#~ msgstr "Timpul rămas până la deblocarea nivelului"
+
+#~ msgid "Zvolte prosím sekci/úroveň vlevo."
+#~ msgstr "Vă rugăm să selectați secțiunea/nivelul din stânga."
+
+#~ msgid "E-mail po registraci do sekce"
+#~ msgstr "E-mail după înregistrarea la secțiune"
+
+#~ msgid "E-mail po prodloužení členství v sekci"
+#~ msgstr "E-mail după reînnoirea calității de membru"
+
+#~ msgid "E-mail po přidání do sekce"
+#~ msgstr "E-mail după adăugarea la secțiune"
+
+#~ msgid "E-mail po registraci do úrovně"
+#~ msgstr "E-mail după înregistrarea la nivel"
+
+#~ msgid "E-mail po prodloužení členství v úrovni"
+#~ msgstr "E-mail după reînnoirea nivelului de membru"
+
+#~ msgid "E-mail po přidání do úrovně"
+#~ msgstr "E-mail după adăugarea la nivel"
+
+#~ msgid "E-mail je převzat z nastavení členské sekce, do které úroveň spadá."
+#~ msgstr ""
+#~ "Adresa de e-mail este preluată din setările secțiunii membrilor căreia îi "
+#~ "aparține nivelul."
+
+#~ msgid "Nastavit vlastní e-mail pro úroveň"
+#~ msgstr "Configurați un e-mail personalizat pentru un nivel"
+
+#~ msgid "Předmět e-mailu"
+#~ msgstr "Subiectul e-mailului"
+
+#~ msgid "Obsah e-mailu"
+#~ msgstr "Conținut e-mail"
+
+#~ msgid "Dostupné proměnné"
+#~ msgstr "Variabile disponibile"
+
+#~ msgid "Kód"
+#~ msgstr "Cod"
+
+#~ msgid "Popis"
+#~ msgstr "Descriere"
+
+#~ msgid "Příklad"
+#~ msgstr "Exemplu"
+
+#~ msgid "Dostupné při"
+#~ msgstr "Disponibil la"
+
+#~ msgid "registraci nového člena"
+#~ msgstr "înregistrarea unui nou membru"
+
+#~ msgid "prodloužení/přidání sekce"
+#~ msgstr "extinderea/adăugarea secțiunii"
+
+#~ msgid "Název sekce"
+#~ msgstr "Denumirea secțiunii"
+
+#~ msgid "Italská kuchyně"
+#~ msgstr "Bucătărie italiană"
+
+#~ msgid "Název úrovně"
+#~ msgstr "Numele nivelului"
+
+#~ msgid "Začátečník"
+#~ msgstr "Începător"
+
+#~ msgid "Počet zakoupených dní nebo 'neomezeně'"
+#~ msgstr "Numărul de zile achiziționate sau nelimitat"
+
+#~ msgid "Datum konce členství nebo 'neomezené'"
+#~ msgstr "Data expirării calității de membru sau nelimitat"
+
+#~ msgid "Odkaz na přihlášení (z nastavení) pouze URL"
+#~ msgstr "Link de conectare (din setări) Numai URL"
+
+#~ msgid "Přihlašovací jméno uživatele"
+#~ msgstr "Numele de autentificare al utilizatorului"
+
+#~ msgid "Přihlašovací heslo uživatele"
+#~ msgstr "Parola de conectare a utilizatorului"
+
+#~ msgid "Název členské úrovně"
+#~ msgstr "Nume nivel membru"
+
+#~ msgid "Zařadit do členské sekce"
+#~ msgstr "Includeți în secțiunea membrilor"
+
+#~ msgid "Vytvořit úroveň"
+#~ msgstr "Creați un nivel"
+
+#~ msgid "Přihlašovací stránka"
+#~ msgstr "Pagina de autentificare"
+
+#~ msgid "Vyberte stránku, kde je umístěn přihlašovací formulář."
+#~ msgstr "Selectați pagina în care se află formularul de conectare."
+
+#~ msgid "Stránka nesmí být zařazena jako členská."
+#~ msgstr "Pagina nu trebuie să fie clasificată ca o pagină de membru."
+
+#~ msgid "Nástěnka"
+#~ msgstr "Site web"
+
+#~ msgid "Stránka, když uživatel nemá přístup"
+#~ msgstr "Pagina atunci când utilizatorul nu are acces"
+
+#~ msgid ""
+#~ "Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství."
+#~ msgstr ""
+#~ "Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství."
+
+#~ msgid "-- nevybrána --"
+#~ msgstr "-- nu a fost selectat --"
+
+#~ msgid "Název členské sekce"
+#~ msgstr "Numele secțiunii membre"
+
+#~ msgid "Vytvořit sekci"
+#~ msgstr "Creați o secțiune"
+
+#~ msgid "Stránka pro přihlášení"
+#~ msgstr "Pagina de autentificare"
+
+#~ msgid "Vyberte společnou přihlašovací stránku pro všechny sekce/úrovně."
+#~ msgstr ""
+#~ "Selectați o pagină de autentificare comună pentru toate secțiunile/"
+#~ "nivelurile."
+
+#~ msgid "Vyberte společnou stránku po příhlášení tzn. nástěnku."
+#~ msgstr "Selectați pagina comună după autentificare, adică avizierul."
+
+#~ msgid "Stránka, která se zobrazí, když obsah ještě nebyl odemčen."
+#~ msgstr "O pagină care apare atunci când conținutul nu a fost încă deblocat."
+
+#~ msgid ""
+#~ "Úroveň musí mít povoleno časově omezené odemykání, aby byl uživatel "
+#~ "přesměrován na tuto stránku."
+#~ msgstr ""
+#~ "Úroveň musí mít povoleno časově omezené odemykání, aby byl uživatel "
+#~ "přesměrován na tuto stránku."
+
+#~ msgid "Zvolili jste členskou sekci, prosím zvolte úroveň."
+#~ msgstr ""
+#~ "Ați selectat o secțiune pentru membri, vă rugăm să selectați un nivel."
+
+#~ msgid "Odemknutí tlačítkem"
+#~ msgstr "Deblocare cu un buton"
+
+#~ msgid "K odemčení úrovně musí uživatel již mít přístup do dané sekce."
+#~ msgstr ""
+#~ "Pentru a debloca un nivel, utilizatorul trebuie să aibă deja acces la "
+#~ "secțiunea respectivă."
+
+#~ msgid "Shrotcode talčítka pro uvolnění obsahu: "
+#~ msgstr "Placa Shrotcode pentru eliberarea conținutului:"
+
+#~ msgid "Časově omezené odemykání úrovně"
+#~ msgstr "Deblocare nivel limitată în timp"
+
+#~ msgid "Datum kdy bude sekce/úroveň odemčena pro všechny uživatele."
+#~ msgstr ""
+#~ "Data la care secțiunea/nivelul va fi deblocat pentru toți utilizatorii."
+
+#~ msgid ""
+#~ "Počet dní od registrace uživatele do členské sekce, po kterých má být "
+#~ "vybraná sekce/úroveň zpřístupněna."
+#~ msgstr ""
+#~ "Počet dní od registrace uživatele do členské sekce, po kterých má být "
+#~ "vybraná sekce/úroveň zpřístupněna."
+
+#~ msgid "0 = Sekce bude přístupná ihned po registraci"
+#~ msgstr "0 = Secțiunea va fi accesibilă imediat după înregistrare"
+
+#~ msgid "3 = Sekce bude přístupná 3 den po registraci"
+#~ msgstr "3 = Secțiunea va fi accesibilă la 3 zile după înregistrare"
+
+#~ msgid "Fapi Member"
+#~ msgstr "Membru Fapi"

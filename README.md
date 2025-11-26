@@ -158,34 +158,43 @@ Musí přejít do složky s docker-compose.yml
 
     docker compose run --rm wpcli core version
 
-1.
+1. Vygeneruje POT file. Tedy seznam všech překladových řetezců.
 ```
-docker compose exec -e WP_CLI_PHP_ARGS='-d memory_limit=768M' wpcli \
-    wp i18n make-pot \
+docker compose run --rm -e WP_CLI_PHP_ARGS='-d memory_limit=768M' wpcli \
+    i18n make-pot \
         wp-content/plugins/fapi-member \
         wp-content/plugins/fapi-member/languages/fapi-member.pot \
         --slug=fapi-member \
-        --exclude="node_modules,build,dist,vendor,*.min.js,assets/js/vendor
+        --exclude="node_modules,build,dist,vendor,*.min.js,assets/js/vendor,wp-build,wp-svn,wp-build-test"
 ```
 
-2.
+2. Přejdi do languange složky a toto vygeneruje nové .po soubory pro dané jazyky. Tedy smaže to původní překlady a vytvoří nové soubory.
 ```
 for lang in cs_CZ en_US es_ES sk_SK hr_HR hu_HU de_DE vi_VN pl_PL ro_RO ru_RU it_IT pt_PT fr_FR zh_CN sl_SI; do
   msginit --locale=$lang --input=fapi-member.pot --output-file=fapi-member-$lang.po --no-translator
 done
 ```
 
-3. 
+2. Pokud již máš existující .po soubory a chceš je pouze aktualizovat (zachovat původní překlady a doplnit nové řetězce):
+```
+for lang in cs_CZ en_US es_ES sk_SK hr_HR hu_HU de_DE vi_VN pl_PL ro_RO ru_RU it_IT pt_PT fr_FR zh_CN sl_SI; do
+  msgmerge --update --no-fuzzy-matching --backup=none fapi-member-$lang.po fapi-member.pot
+done
+```
+
+3. BUILD překladů, vygenerování MO souborů, které se v produkci používají pro překlady
 ```
 for lang in *.po; do
   msgfmt $lang -o "${lang%.po}.mo"
 done
 ```
 
-4.
+4. Vygeneruje JSON soubory pro React/JS překlady. Nejdřív smaže všechny existující JSON soubory a pak vygeneruje nové.
 ```    
-docker run --rm -v "$PWD":/app -w /app wpcli/wp-cli:2-php8.2 \
-        wp i18n make-json languages --no-purge
+rm -f languages/*.json
+cd .docker-fapi-member
+docker compose run --rm -w /var/www/html/wp-content/plugins/fapi-member wpcli \
+    i18n make-json languages --no-purge
 ```
 
 # Build a nasazení na WP
