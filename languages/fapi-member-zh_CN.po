@@ -1,0 +1,632 @@
+# Copyright (C) 2025 FAPI Business s.r.o.
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: FAPI Member 2.2.26\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/fapi-member\n"
+"POT-Creation-Date: 2025-11-26T14:28:27+00:00\n"
+"PO-Revision-Date: 2025-10-23T12:59:40+00:00\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: fapi-member\n"
+
+#. Plugin Name of the plugin
+#: fapi-member.php src/Divi/FapiMemberDivi.php:84
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:33
+#: src/Service/ElementService.php:35 src/Service/ElementService.php:36
+#: src/Service/ElementService.php:180
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
+msgid "FAPI Member"
+msgstr "FAPI 成员"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: fapi-member.php
+msgid "https://fapi.cz/"
+msgstr "https://fapi.cz/"
+
+#. Description of the plugin
+#: fapi-member.php
+msgid "Plugin FAPI pro jednoduchou správu členských sekcí na webu."
+msgstr "FAPI 插件，用于轻松管理网站上的会员版块。"
+
+#. Author of the plugin
+#: fapi-member.php
+msgid "FAPI Business s.r.o."
+msgstr "FAPI Business s.r.o."
+
+#: multiple-blocks/multiple-blocks.php:33
+#: src/Elementor/Category/CategoryRegister.php:15
+#: src/Elementor/Widgets/FapiFormWidget.php:43
+msgid "FAPI"
+msgstr "FAPI"
+
+#: src/Bootstrap.php:536
+msgid "Člen"
+msgstr "成员"
+
+#: src/Bootstrap.php:547
+msgid "FAPI Member - API e-mail"
+msgstr "FAPI 成员 - API 电子邮件"
+
+#: src/Bootstrap.php:557
+msgid "FAPI Member - API key"
+msgstr "FAPI 成员 - API 密钥"
+
+#: src/Elementor/Widgets/FapiFormWidget.php:20
+msgid "FAPI form"
+msgstr "FAPI 表格"
+
+#: src/Elementor/Widgets/FapiFormWidget.php:52
+msgid "Prodejní formulář"
+msgstr "销售表格"
+
+#: src/Elementor/Widgets/FapiFormWidget.php:92
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
+msgid "-- vyberte prodejní formulář --"
+msgstr "-- 选择销售形式 --"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:41
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:114
+msgid "Zobrazit blok pokud návštěvník"
+msgstr "如果有访客，则显示区块"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:45
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
+msgid "je člen sekce/úrovně"
+msgstr "是科/级成员"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:48
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
+msgid "není členem sekce/úrovně"
+msgstr "不属于科/级"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:51
+msgid "zobrazit všem návštěvníkům (vybrané sekce a úrovně se ignorují)"
+msgstr "向所有访客显示（忽略选定的部分和级别）"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:54
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
+msgid ""
+"Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo "
+"úrovni nebo všem návštěvníkům."
+msgstr ""
+"Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo "
+"úrovni nebo všem návštěvníkům."
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
+msgid "Členské sekce a úrovně"
+msgstr "成员部门和级别"
+
+#: src/Service/ElementService.php:65
+msgid "Přiřazené sekce a úrovně"
+msgstr "分配的章节和级别"
+
+#: src/Service/ElementService.php:153 src/Service/ElementService.php:166
+#: src/Service/ElementService.php:182
+msgid "Upravit ve FAPI Member"
+msgstr "在 FAPI 成员中编辑"
+
+#: src/Service/FormService.php:70
+msgid ""
+"Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a "
+"odeslat znovu."
+msgstr ""
+"Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a "
+"odeslat znovu."
+
+#: src/Service/FormService.php:79
+msgid "Nemáte potřebná oprvánění."
+msgstr "你没有必要的烫伤。"
+
+#: src/Templates/levelSelection.php:9
+msgid "Výběr úrovně"
+msgstr "等级选择"
+
+#: src/Templates/levelSelection.php:15
+msgid "Výběr sekce"
+msgstr "科室选择"
+
+#: src/Templates/levelSelection.php:16
+msgid "Prosím, zvolte jednu ze stránek, kam chcete vstoupit"
+msgstr "请选择您希望输入的页面之一"
+
+#: src/Templates/levelSelection.php:57
+msgid "Vstoupit"
+msgstr "进入"
+
+#: src/Utils/ShortcodeSubstitutor.php:35
+msgid "Přihlašovací jméno"
+msgstr "登录名"
+
+#: src/Utils/ShortcodeSubstitutor.php:39
+msgid "Heslo"
+msgstr "密码"
+
+#: src/Utils/ShortcodeSubstitutor.php:43
+msgid "Zapomněli jste heslo?"
+msgstr "忘记密码？"
+
+#: src/Utils/ShortcodeSubstitutor.php:46 src/Utils/ShortcodeSubstitutor.php:98
+msgid "Přihlásit se"
+msgstr "登录"
+
+#: src/Utils/ShortcodeSubstitutor.php:74
+msgid "Uživatel"
+msgstr "用户"
+
+#: src/Utils/ShortcodeSubstitutor.php:79
+msgid "Odhlásit se"
+msgstr "退出登录"
+
+#: src/Utils/ShortcodeSubstitutor.php:106
+#: src/Utils/ShortcodeSubstitutor.php:221
+msgid "neznámá sekce nebo úrověň"
+msgstr "未知部分或级别"
+
+#: src/Utils/ShortcodeSubstitutor.php:112
+#: src/Utils/ShortcodeSubstitutor.php:155
+msgid "uživatel není přihlášen"
+msgstr "用户未登录"
+
+#: src/Utils/ShortcodeSubstitutor.php:135
+#: src/Utils/ShortcodeSubstitutor.php:181
+#: src/Utils/ShortcodeSubstitutor.php:196
+msgid "bez přístupu"
+msgstr "无障碍"
+
+#: src/Utils/ShortcodeSubstitutor.php:140
+msgid "neomezeně"
+msgstr "无限制"
+
+#: src/Utils/ShortcodeSubstitutor.php:149
+msgid "neznámá úrověň"
+msgstr "未知级别"
+
+#: src/Utils/ShortcodeSubstitutor.php:208
+msgid "Bude odemčeno"
+msgstr "将解锁"
+
+#: src/Utils/ShortcodeSubstitutor.php:212
+msgid "Neomezeně"
+msgstr "无限制"
+
+#: src/Utils/ShortcodeSubstitutor.php:231
+msgid "Odemknout úroveň"
+msgstr ""
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
+msgid "zobrazit všem návštěvníkům (vybrané sekce a urovně se ignorují)"
+msgstr "向所有访客显示（忽略选定的部分和级别）"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
+msgid "(všechny propojené účty)"
+msgstr "(所有关联账户）"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
+msgid "Vyberte účet FAPI"
+msgstr "选择 FAPI 账户"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
+msgid "Vyberte prodejní formulář"
+msgstr "选择销售表格"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
+msgid "Načítání dat, počkejte prosím..."
+msgstr "正在加载数据，请稍候..."
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
+msgid "<<< Zde bude prodejní formulář \"%s\" >>>"
+msgstr ""
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
+msgid "<<< Vyberte prodejní formulář z bočního menu >>>"
+msgstr "<<< 从侧菜单中选择销售表格 >>>>"
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+msgctxt "block title"
+msgid "FAPI Member - block extender"
+msgstr "FAPI 成员 - 区块扩展器"
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+msgctxt "block description"
+msgid ""
+"Extends core blocks, enables show and hide block by member section and levels"
+msgstr ""
+"Extends core blocks, enables show and hide block by member section and levels"
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block keyword"
+msgid "fapi"
+msgstr "fapi"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block title"
+msgid "FAPI form"
+msgstr "FAPI 表格"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block description"
+msgid "FAPI form widget."
+msgstr "FAPI 表单部件。"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block keyword"
+msgid "form"
+msgstr "组成"
+
+#~ msgid "Zobrazit pokud návštěvník"
+#~ msgstr "查看是否有游客"
+
+#~ msgid "Fapi Member - API e-mail"
+#~ msgstr "Fapi 成员 - API 电子邮件"
+
+#~ msgid "Fapi Member - API key"
+#~ msgstr "Fapi 成员 - API 密钥"
+
+#~ msgid "Členské sekce"
+#~ msgstr "成员科室"
+
+#~ msgid "Datum registrace"
+#~ msgstr "注册日期"
+
+#~ msgid "Čas registrace"
+#~ msgstr "注册时间"
+
+#~ msgid "Členství do"
+#~ msgstr "会员资格"
+
+#~ msgid "Bez expirace"
+#~ msgstr "无有效期"
+
+#~ msgid "Vybrat"
+#~ msgstr "选择"
+
+#~ msgid "CPT"
+#~ msgstr "CPT"
+
+#~ msgid "Tento doplněk není optimalizován pro telefony a malé monitory."
+#~ msgstr "此附加组件未针对手机和小型显示器进行优化。"
+
+#~ msgid "Přehled"
+#~ msgstr "概述"
+
+#~ msgid "Propojení s FAPI"
+#~ msgstr "与 FAPI 连接"
+
+#~ msgid "Propojení"
+#~ msgstr "链接"
+
+#~ msgid "Přiřazené stránky a příspěvky"
+#~ msgstr "指定的页面和职位"
+
+#~ msgid "E-maily"
+#~ msgstr "电子邮件"
+
+#~ msgid "Servisní stránky"
+#~ msgstr "服务页面"
+
+#~ msgid "Prvky pro web"
+#~ msgstr "网络元素"
+
+#~ msgid "Společné"
+#~ msgstr "常见问题"
+
+#~ msgid "Uvolňování obsahu"
+#~ msgstr "内容发布"
+
+#~ msgid "Propojené účty FAPI:"
+#~ msgstr "关联的 FAPI 账户："
+
+#~ msgid "Uživatelské jméno (e-mail)"
+#~ msgstr "用户名（电子邮件）"
+
+#~ msgid "API klíč"
+#~ msgstr "API 密钥"
+
+#~ msgid "Nejsou propojeny žádné účty"
+#~ msgstr "无账户链接"
+
+#~ msgid "Smazat propojení s FAPI"
+#~ msgstr "删除与 FAPI 的连接"
+
+#~ msgid "Propojit účet FAPI (max. "
+#~ msgstr "链接 FAPI 账户（最多"
+
+#~ msgid "Propojit s FAPI"
+#~ msgstr "与 FAPI 连接"
+
+#~ msgid "Stav propojení"
+#~ msgstr "链接状态"
+
+#~ msgid "nepropojeno"
+#~ msgstr "非链接"
+
+#~ msgid "Propojení s Integromatem"
+#~ msgstr "连接 Integromat"
+
+#~ msgid "FAPI Member API Token"
+#~ msgstr "FAPI 成员应用程序接口令牌"
+
+#~ msgid "Zkopírovat"
+#~ msgstr "点击复制"
+
+#~ msgid "Přihlášení do členské sekce"
+#~ msgstr "登录会员区"
+
+#~ msgid "Přehled členských sekcí a úrovní"
+#~ msgstr "会员部门和级别概览"
+
+#~ msgid "Počet úrovní"
+#~ msgstr "层数"
+
+#~ msgid "Počet registrovaných"
+#~ msgstr "注册人数"
+
+#~ msgid "Seznam členů"
+#~ msgstr "成员名单"
+
+#~ msgid "Stránek v celé sekci"
+#~ msgstr "整个部分的页数"
+
+#~ msgid "Nemáte vytvořenou žádnou členskou sekci."
+#~ msgstr "您尚未创建任何会员区。"
+
+#~ msgid "Novou sekci můžete vytvořit na záložce Sekce / úrovně."
+#~ msgstr "您可以在版块/级别选项卡上创建新的版块。"
+
+#~ msgid "Přejít do záložky Sekce / úrovně"
+#~ msgstr "转到科室/级别选项卡"
+
+#~ msgid "Tato sekce nemá žádné členy"
+#~ msgstr "本部分没有成员"
+
+#~ msgid "Uživatelské jméno"
+#~ msgstr "用户名"
+
+#~ msgid "Jméno a příjmení"
+#~ msgstr "姓名"
+
+#~ msgid "Email"
+#~ msgstr "电子邮件"
+
+#~ msgid "Jméno a přijmení"
+#~ msgstr "姓名"
+
+#~ msgid "Exportovat do CSV"
+#~ msgstr "导出为 CSV"
+
+#~ msgid "Členské sekce/úrovně"
+#~ msgstr "成员部门/级别"
+
+#~ msgid "Prosím zvolte sekci/úroveň."
+#~ msgstr "请选择章节/级别。"
+
+#~ msgid "Uložit"
+#~ msgstr "节省"
+
+#~ msgid "Formulář pro přihlášení"
+#~ msgstr "登录表格"
+
+#~ msgid "Formulář vložte do svého webu na požadovaná místa pomocí shortcode"
+#~ msgstr "使用简码在网站所需位置插入表单"
+
+#~ msgid "Formulář se zobrazí po znovunačtení stránky."
+#~ msgstr "重新加载页面时将显示表单。"
+
+#~ msgid "Snímek obrazovky"
+#~ msgstr "截图"
+
+#~ msgid "Uživatelské okénko"
+#~ msgstr "用户窗口"
+
+#~ msgid "Okénko vložte do svého webu na požadovaná místa pomocí shortcode"
+#~ msgstr "使用简码将窗口插入网站所需位置"
+
+#~ msgid ""
+#~ "Uživatelské okénko bude funkční pro uživatele všech členských sekcí a "
+#~ "úrovní."
+#~ msgstr ""
+#~ "Uživatelské okénko bude funkční pro uživatele všech členských sekcí a "
+#~ "úrovní."
+
+#~ msgid "Datum expirace pro členskou sekci nebo úrověň"
+#~ msgstr "会员区或会员级别的有效期"
+
+#~ msgid "Vypíše datum expirace zvolené členské sekce nebo úrovně"
+#~ msgstr "列出所选成员部分或级别的到期日期"
+
+#~ msgid "Jak shortcode použít"
+#~ msgstr "如何使用简码"
+
+#~ msgid "Jak to poté vidí člen"
+#~ msgstr "那么该成员如何看待它"
+
+#~ msgid "Odemčení úrovně tlačítkem"
+#~ msgstr "使用按钮解锁关卡"
+
+#~ msgid "Tlačítko kterým uživatel může odeknou úroveň"
+#~ msgstr "用户可通过按钮切断电平"
+
+#~ msgid "Čas zbývající do odemčení úrovně"
+#~ msgstr "解锁关卡的剩余时间"
+
+#~ msgid "Zvolte prosím sekci/úroveň vlevo."
+#~ msgstr "请选择左侧的部分/级别。"
+
+#~ msgid "E-mail po registraci do sekce"
+#~ msgstr "注册后通过电子邮件发送给科室"
+
+#~ msgid "E-mail po prodloužení členství v sekci"
+#~ msgstr "会员续费后的电子邮件"
+
+#~ msgid "E-mail po přidání do sekce"
+#~ msgstr "添加到栏目后的电子邮件"
+
+#~ msgid "E-mail po registraci do úrovně"
+#~ msgstr "注册等级后的电子邮件"
+
+#~ msgid "E-mail po prodloužení členství v úrovni"
+#~ msgstr "会员级别更新后的电子邮件"
+
+#~ msgid "E-mail po přidání do úrovně"
+#~ msgstr "添加到级别后的电子邮件"
+
+#~ msgid "E-mail je převzat z nastavení členské sekce, do které úroveň spadá."
+#~ msgstr "电子邮件取自该级别所属会员区的设置。"
+
+#~ msgid "Nastavit vlastní e-mail pro úroveň"
+#~ msgstr "为级别设置自定义电子邮件"
+
+#~ msgid "Předmět e-mailu"
+#~ msgstr "电子邮件主题"
+
+#~ msgid "Obsah e-mailu"
+#~ msgstr "电子邮件内容"
+
+#~ msgid "Dostupné proměnné"
+#~ msgstr "可用变量"
+
+#~ msgid "Kód"
+#~ msgstr "代码"
+
+#~ msgid "Popis"
+#~ msgstr "说明"
+
+#~ msgid "Příklad"
+#~ msgstr "示例"
+
+#~ msgid "Dostupné při"
+#~ msgstr "网址"
+
+#~ msgid "registraci nového člena"
+#~ msgstr "注册新会员"
+
+#~ msgid "prodloužení/přidání sekce"
+#~ msgstr "延长/增加部分"
+
+#~ msgid "Název sekce"
+#~ msgstr "科室名称"
+
+#~ msgid "Italská kuchyně"
+#~ msgstr "意大利美食"
+
+#~ msgid "Název úrovně"
+#~ msgstr "级别名称"
+
+#~ msgid "Začátečník"
+#~ msgstr "初学者"
+
+#~ msgid "Počet zakoupených dní nebo 'neomezeně'"
+#~ msgstr "购买天数或无限制"
+
+#~ msgid "Datum konce členství nebo 'neomezené'"
+#~ msgstr "会员资格终止日期或无限制"
+
+#~ msgid "Odkaz na přihlášení (z nastavení) pouze URL"
+#~ msgstr "登录链接（来自设置）仅 URL"
+
+#~ msgid "Přihlašovací jméno uživatele"
+#~ msgstr "用户登录名"
+
+#~ msgid "Přihlašovací heslo uživatele"
+#~ msgstr "用户登录密码"
+
+#~ msgid "Název členské úrovně"
+#~ msgstr "成员级别名称"
+
+#~ msgid "Zařadit do členské sekce"
+#~ msgstr "包括在成员部分"
+
+#~ msgid "Vytvořit úroveň"
+#~ msgstr "创建等级"
+
+#~ msgid "Přihlašovací stránka"
+#~ msgstr "登录页面"
+
+#~ msgid "Vyberte stránku, kde je umístěn přihlašovací formulář."
+#~ msgstr "选择登录表单所在的页面。"
+
+#~ msgid "Stránka nesmí být zařazena jako členská."
+#~ msgstr "该页面不得被归类为会员页面。"
+
+#~ msgid "Nástěnka"
+#~ msgstr "网站"
+
+#~ msgid "Stránka, když uživatel nemá přístup"
+#~ msgstr "当用户没有访问权限时的页面"
+
+#~ msgid ""
+#~ "Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství."
+#~ msgstr ""
+#~ "Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství."
+
+#~ msgid "-- nevybrána --"
+#~ msgstr "-- 未选定 --"
+
+#~ msgid "Název členské sekce"
+#~ msgstr "成员科室名称"
+
+#~ msgid "Vytvořit sekci"
+#~ msgstr "创建部分"
+
+#~ msgid "Stránka pro přihlášení"
+#~ msgstr "登录页面"
+
+#~ msgid "Vyberte společnou přihlašovací stránku pro všechny sekce/úrovně."
+#~ msgstr "为所有科室/级别选择一个共同的登录页面。"
+
+#~ msgid "Vyberte společnou stránku po příhlášení tzn. nástěnku."
+#~ msgstr "登录后选择常用页面，即公告栏。"
+
+#~ msgid "Stránka, která se zobrazí, když obsah ještě nebyl odemčen."
+#~ msgstr "当内容尚未解锁时出现的页面。"
+
+#~ msgid ""
+#~ "Úroveň musí mít povoleno časově omezené odemykání, aby byl uživatel "
+#~ "přesměrován na tuto stránku."
+#~ msgstr ""
+#~ "Úroveň musí mít povoleno časově omezené odemykání, aby byl uživatel "
+#~ "přesměrován na tuto stránku."
+
+#~ msgid "Zvolili jste členskou sekci, prosím zvolte úroveň."
+#~ msgstr "您已选择了会员区，请选择级别。"
+
+#~ msgid "Odemknutí tlačítkem"
+#~ msgstr "用按钮开锁"
+
+#~ msgid "K odemčení úrovně musí uživatel již mít přístup do dané sekce."
+#~ msgstr "要解锁某个级别，用户必须已经拥有该部分的访问权限。"
+
+#~ msgid "Shrotcode talčítka pro uvolnění obsahu: "
+#~ msgstr "Shrotcode 板，以释放其中的内容："
+
+#~ msgid "Časově omezené odemykání úrovně"
+#~ msgstr "限时解锁关卡"
+
+#~ msgid "Datum kdy bude sekce/úroveň odemčena pro všechny uživatele."
+#~ msgstr "该部分/级别对所有用户解锁的日期。"
+
+#~ msgid ""
+#~ "Počet dní od registrace uživatele do členské sekce, po kterých má být "
+#~ "vybraná sekce/úroveň zpřístupněna."
+#~ msgstr ""
+#~ "Počet dní od registrace uživatele do členské sekce, po kterých má být "
+#~ "vybraná sekce/úroveň zpřístupněna."
+
+#~ msgid "0 = Sekce bude přístupná ihned po registraci"
+#~ msgstr "0 = 注册后可立即访问该部分"
+
+#~ msgid "3 = Sekce bude přístupná 3 den po registraci"
+#~ msgstr "3 = 注册 3 天后可访问该部分"
+
+#~ msgid "Fapi Member"
+#~ msgstr "Fapi 成员"

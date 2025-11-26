@@ -1,0 +1,642 @@
+# Copyright (C) 2025 FAPI Business s.r.o.
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: FAPI Member 2.2.26\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/fapi-member\n"
+"POT-Creation-Date: 2025-11-26T14:28:27+00:00\n"
+"PO-Revision-Date: 2025-10-23T12:59:40+00:00\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: fapi-member\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. Plugin Name of the plugin
+#: fapi-member.php src/Divi/FapiMemberDivi.php:84
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:33
+#: src/Service/ElementService.php:35 src/Service/ElementService.php:36
+#: src/Service/ElementService.php:180
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
+msgid "FAPI Member"
+msgstr "Thành viên FAPI"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: fapi-member.php
+msgid "https://fapi.cz/"
+msgstr "https://fapi.cz/"
+
+#. Description of the plugin
+#: fapi-member.php
+msgid "Plugin FAPI pro jednoduchou správu členských sekcí na webu."
+msgstr ""
+"Plugin FAPI để quản lý các phần thành viên trên trang web một cách dễ dàng."
+
+#. Author of the plugin
+#: fapi-member.php
+msgid "FAPI Business s.r.o."
+msgstr "FAPI Business s.r.o."
+
+#: multiple-blocks/multiple-blocks.php:33
+#: src/Elementor/Category/CategoryRegister.php:15
+#: src/Elementor/Widgets/FapiFormWidget.php:43
+msgid "FAPI"
+msgstr "FAPI"
+
+#: src/Bootstrap.php:536
+msgid "Člen"
+msgstr "Thành viên"
+
+#: src/Bootstrap.php:547
+msgid "FAPI Member - API e-mail"
+msgstr "Thành viên FAPI - API email"
+
+#: src/Bootstrap.php:557
+msgid "FAPI Member - API key"
+msgstr "Thành viên FAPI - Khóa API"
+
+#: src/Elementor/Widgets/FapiFormWidget.php:20
+msgid "FAPI form"
+msgstr "Mẫu FAPI"
+
+#: src/Elementor/Widgets/FapiFormWidget.php:52
+msgid "Prodejní formulář"
+msgstr "Mẫu đơn bán hàng"
+
+#: src/Elementor/Widgets/FapiFormWidget.php:92
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
+msgid "-- vyberte prodejní formulář --"
+msgstr "-- chọn mẫu đơn bán hàng --"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:41
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:114
+msgid "Zobrazit blok pokud návštěvník"
+msgstr "Hiển thị khối nếu khách truy cập"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:45
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
+msgid "je člen sekce/úrovně"
+msgstr "là thành viên của bộ phận/cấp độ"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:48
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
+msgid "není členem sekce/úrovně"
+msgstr "không phải là thành viên của bộ phận/cấp độ"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:51
+msgid "zobrazit všem návštěvníkům (vybrané sekce a úrovně se ignorují)"
+msgstr ""
+"hiển thị cho tất cả khách truy cập (các phần và cấp độ được chọn sẽ bị bỏ "
+"qua)"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:54
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
+msgid ""
+"Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo "
+"úrovni nebo všem návštěvníkům."
+msgstr ""
+"Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo "
+"úrovni nebo všem návštěvníkům."
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
+msgid "Členské sekce a úrovně"
+msgstr "Phần thành viên và cấp độ"
+
+#: src/Service/ElementService.php:65
+msgid "Přiřazené sekce a úrovně"
+msgstr "Phần và cấp độ được gán"
+
+#: src/Service/ElementService.php:153 src/Service/ElementService.php:166
+#: src/Service/ElementService.php:182
+msgid "Upravit ve FAPI Member"
+msgstr "Chỉnh sửa trong FAPI Member"
+
+#: src/Service/FormService.php:70
+msgid ""
+"Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a "
+"odeslat znovu."
+msgstr ""
+"Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a "
+"odeslat znovu."
+
+#: src/Service/FormService.php:79
+msgid "Nemáte potřebná oprvánění."
+msgstr "Bạn không có quyền truy cập cần thiết."
+
+#: src/Templates/levelSelection.php:9
+msgid "Výběr úrovně"
+msgstr "Chọn mức độ"
+
+#: src/Templates/levelSelection.php:15
+msgid "Výběr sekce"
+msgstr "Chọn phần"
+
+#: src/Templates/levelSelection.php:16
+msgid "Prosím, zvolte jednu ze stránek, kam chcete vstoupit"
+msgstr "Vui lòng chọn một trong các trang mà bạn muốn truy cập"
+
+#: src/Templates/levelSelection.php:57
+msgid "Vstoupit"
+msgstr "Đăng nhập"
+
+#: src/Utils/ShortcodeSubstitutor.php:35
+msgid "Přihlašovací jméno"
+msgstr "Tên đăng nhập"
+
+#: src/Utils/ShortcodeSubstitutor.php:39
+msgid "Heslo"
+msgstr "Mật khẩu"
+
+#: src/Utils/ShortcodeSubstitutor.php:43
+msgid "Zapomněli jste heslo?"
+msgstr "Quên mật khẩu?"
+
+#: src/Utils/ShortcodeSubstitutor.php:46 src/Utils/ShortcodeSubstitutor.php:98
+msgid "Přihlásit se"
+msgstr "Đăng nhập"
+
+#: src/Utils/ShortcodeSubstitutor.php:74
+msgid "Uživatel"
+msgstr "Người dùng"
+
+#: src/Utils/ShortcodeSubstitutor.php:79
+msgid "Odhlásit se"
+msgstr "Đăng xuất"
+
+#: src/Utils/ShortcodeSubstitutor.php:106
+#: src/Utils/ShortcodeSubstitutor.php:221
+msgid "neznámá sekce nebo úrověň"
+msgstr "phần hoặc cấp độ không xác định"
+
+#: src/Utils/ShortcodeSubstitutor.php:112
+#: src/Utils/ShortcodeSubstitutor.php:155
+msgid "uživatel není přihlášen"
+msgstr "người dùng chưa đăng nhập"
+
+#: src/Utils/ShortcodeSubstitutor.php:135
+#: src/Utils/ShortcodeSubstitutor.php:181
+#: src/Utils/ShortcodeSubstitutor.php:196
+msgid "bez přístupu"
+msgstr "không có quyền truy cập"
+
+#: src/Utils/ShortcodeSubstitutor.php:140
+msgid "neomezeně"
+msgstr "không giới hạn"
+
+#: src/Utils/ShortcodeSubstitutor.php:149
+msgid "neznámá úrověň"
+msgstr "mức độ không xác định"
+
+#: src/Utils/ShortcodeSubstitutor.php:208
+msgid "Bude odemčeno"
+msgstr "Sẽ được mở khóa"
+
+#: src/Utils/ShortcodeSubstitutor.php:212
+msgid "Neomezeně"
+msgstr "Không giới hạn"
+
+#: src/Utils/ShortcodeSubstitutor.php:231
+msgid "Odemknout úroveň"
+msgstr ""
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
+msgid "zobrazit všem návštěvníkům (vybrané sekce a urovně se ignorují)"
+msgstr ""
+"hiển thị cho tất cả khách truy cập (các phần và cấp độ được chọn sẽ bị bỏ "
+"qua)"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
+msgid "(všechny propojené účty)"
+msgstr "(tất cả các tài khoản được liên kết)"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
+msgid "Vyberte účet FAPI"
+msgstr "Chọn tài khoản FAPI"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
+msgid "Vyberte prodejní formulář"
+msgstr "Chọn mẫu đơn bán hàng"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
+msgid "Načítání dat, počkejte prosím..."
+msgstr "Đang tải dữ liệu, vui lòng đợi..."
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
+msgid "<<< Zde bude prodejní formulář \"%s\" >>>"
+msgstr ""
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
+msgid "<<< Vyberte prodejní formulář z bočního menu >>>"
+msgstr "<<< Chọn mẫu đơn bán hàng từ menu bên >>>"
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+msgctxt "block title"
+msgid "FAPI Member - block extender"
+msgstr "Thành viên FAPI - bộ mở rộng khối"
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+msgctxt "block description"
+msgid ""
+"Extends core blocks, enables show and hide block by member section and levels"
+msgstr ""
+"Extends core blocks, enables show and hide block by member section and levels"
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block keyword"
+msgid "fapi"
+msgstr "fapi"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block title"
+msgid "FAPI form"
+msgstr "Mẫu FAPI"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block description"
+msgid "FAPI form widget."
+msgstr "Biểu mẫu FAPI."
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block keyword"
+msgid "form"
+msgstr "hình thức"
+
+#~ msgid "Zobrazit pokud návštěvník"
+#~ msgstr "Hiển thị nếu khách truy cập"
+
+#~ msgid "Fapi Member - API e-mail"
+#~ msgstr "Thành viên Fapi - API email"
+
+#~ msgid "Fapi Member - API key"
+#~ msgstr "Thành viên Fapi - Khóa API"
+
+#~ msgid "Členské sekce"
+#~ msgstr "Phần dành cho thành viên"
+
+#~ msgid "Datum registrace"
+#~ msgstr "Ngày đăng ký"
+
+#~ msgid "Čas registrace"
+#~ msgstr "Thời gian đăng ký"
+
+#~ msgid "Členství do"
+#~ msgstr "Thành viên của"
+
+#~ msgid "Bez expirace"
+#~ msgstr "Không có thời hạn sử dụng"
+
+#~ msgid "Vybrat"
+#~ msgstr "Chọn"
+
+#~ msgid "CPT"
+#~ msgstr "CPT"
+
+#~ msgid "Tento doplněk není optimalizován pro telefony a malé monitory."
+#~ msgstr "Tiện ích này không được tối ưu hóa cho điện thoại và màn hình nhỏ."
+
+#~ msgid "Přehled"
+#~ msgstr "Tổng quan"
+
+#~ msgid "Propojení s FAPI"
+#~ msgstr "Kết nối với FAPI"
+
+#~ msgid "Propojení"
+#~ msgstr "Kết nối"
+
+#~ msgid "Přiřazené stránky a příspěvky"
+#~ msgstr "Trang và bài viết được gán"
+
+#~ msgid "E-maily"
+#~ msgstr "Email"
+
+#~ msgid "Servisní stránky"
+#~ msgstr "Trang dịch vụ"
+
+#~ msgid "Prvky pro web"
+#~ msgstr "Các yếu tố cho trang web"
+
+#~ msgid "Společné"
+#~ msgstr "Chung"
+
+#~ msgid "Uvolňování obsahu"
+#~ msgstr "Giải phóng nội dung"
+
+#~ msgid "Propojené účty FAPI:"
+#~ msgstr "Tài khoản FAPI được liên kết:"
+
+#~ msgid "Uživatelské jméno (e-mail)"
+#~ msgstr "Tên người dùng (email)"
+
+#~ msgid "API klíč"
+#~ msgstr "Khóa API"
+
+#~ msgid "Nejsou propojeny žádné účty"
+#~ msgstr "Không có tài khoản nào được kết nối"
+
+#~ msgid "Smazat propojení s FAPI"
+#~ msgstr "Xóa kết nối với FAPI"
+
+#~ msgid "Propojit účet FAPI (max. "
+#~ msgstr "Kết nối tài khoản FAPI (tối đa"
+
+#~ msgid "Propojit s FAPI"
+#~ msgstr "Kết nối với FAPI"
+
+#~ msgid "Stav propojení"
+#~ msgstr "Trạng thái kết nối"
+
+#~ msgid "nepropojeno"
+#~ msgstr "không kết nối"
+
+#~ msgid "Propojení s Integromatem"
+#~ msgstr "Kết nối với Integromat"
+
+#~ msgid "FAPI Member API Token"
+#~ msgstr "Mã API thành viên FAPI"
+
+#~ msgid "Zkopírovat"
+#~ msgstr "Sao chép"
+
+#~ msgid "Přihlášení do členské sekce"
+#~ msgstr "Đăng nhập vào phần dành cho thành viên"
+
+#~ msgid "Přehled členských sekcí a úrovní"
+#~ msgstr "Tổng quan về các bộ phận thành viên và cấp độ"
+
+#~ msgid "Počet úrovní"
+#~ msgstr "Số cấp độ"
+
+#~ msgid "Počet registrovaných"
+#~ msgstr "Số lượng đăng ký"
+
+#~ msgid "Seznam členů"
+#~ msgstr "Danh sách thành viên"
+
+#~ msgid "Stránek v celé sekci"
+#~ msgstr "Trang trong toàn bộ phần"
+
+#~ msgid "Nemáte vytvořenou žádnou členskou sekci."
+#~ msgstr "Bạn chưa tạo bất kỳ phần thành viên nào."
+
+#~ msgid "Novou sekci můžete vytvořit na záložce Sekce / úrovně."
+#~ msgstr "Bạn có thể tạo phần mới trong tab Phần/Cấp độ."
+
+#~ msgid "Přejít do záložky Sekce / úrovně"
+#~ msgstr "Chuyển đến tab Phần / cấp độ"
+
+#~ msgid "Tato sekce nemá žádné členy"
+#~ msgstr "Phần này không có thành viên nào"
+
+#~ msgid "Uživatelské jméno"
+#~ msgstr "Tên người dùng"
+
+#~ msgid "Jméno a příjmení"
+#~ msgstr "Tên và họ"
+
+#~ msgid "Email"
+#~ msgstr "Email"
+
+#~ msgid "Jméno a přijmení"
+#~ msgstr "Tên và họ"
+
+#~ msgid "Exportovat do CSV"
+#~ msgstr "Xuất sang CSV"
+
+#~ msgid "Členské sekce/úrovně"
+#~ msgstr "Phần thành viên/cấp độ"
+
+#~ msgid "Prosím zvolte sekci/úroveň."
+#~ msgstr "Vui lòng chọn phần/cấp độ."
+
+#~ msgid "Uložit"
+#~ msgstr "Lưu"
+
+#~ msgid "Formulář pro přihlášení"
+#~ msgstr "Mẫu đơn đăng ký"
+
+#~ msgid "Formulář vložte do svého webu na požadovaná místa pomocí shortcode"
+#~ msgstr ""
+#~ "Chèn biểu mẫu vào trang web của bạn ở vị trí mong muốn bằng cách sử dụng "
+#~ "shortcode"
+
+#~ msgid "Formulář se zobrazí po znovunačtení stránky."
+#~ msgstr "Biểu mẫu sẽ hiển thị sau khi tải lại trang."
+
+#~ msgid "Snímek obrazovky"
+#~ msgstr "Ảnh chụp màn hình"
+
+#~ msgid "Uživatelské okénko"
+#~ msgstr "Cửa sổ người dùng"
+
+#~ msgid "Okénko vložte do svého webu na požadovaná místa pomocí shortcode"
+#~ msgstr ""
+#~ "Chèn cửa sổ vào trang web của bạn ở vị trí mong muốn bằng cách sử dụng "
+#~ "shortcode"
+
+#~ msgid ""
+#~ "Uživatelské okénko bude funkční pro uživatele všech členských sekcí a "
+#~ "úrovní."
+#~ msgstr ""
+#~ "Uživatelské okénko bude funkční pro uživatele všech členských sekcí a "
+#~ "úrovní."
+
+#~ msgid "Datum expirace pro členskou sekci nebo úrověň"
+#~ msgstr "Ngày hết hạn cho phần thành viên hoặc cấp độ"
+
+#~ msgid "Vypíše datum expirace zvolené členské sekce nebo úrovně"
+#~ msgstr "Hiển thị ngày hết hạn của phần thành viên hoặc cấp độ đã chọn"
+
+#~ msgid "Jak shortcode použít"
+#~ msgstr "Cách sử dụng shortcode"
+
+#~ msgid "Jak to poté vidí člen"
+#~ msgstr "Thành viên nhìn nhận vấn đề này như thế nào?"
+
+#~ msgid "Odemčení úrovně tlačítkem"
+#~ msgstr "Mở khóa cấp độ bằng nút bấm"
+
+#~ msgid "Tlačítko kterým uživatel může odeknou úroveň"
+#~ msgstr "Nút mà người dùng có thể mở khóa cấp độ"
+
+#~ msgid "Čas zbývající do odemčení úrovně"
+#~ msgstr "Thời gian còn lại để mở khóa cấp độ"
+
+#~ msgid "Zvolte prosím sekci/úroveň vlevo."
+#~ msgstr "Vui lòng chọn phần/cấp độ ở bên trái."
+
+#~ msgid "E-mail po registraci do sekce"
+#~ msgstr "Email sau khi đăng ký vào phần"
+
+#~ msgid "E-mail po prodloužení členství v sekci"
+#~ msgstr "Email sau khi gia hạn thành viên trong phần"
+
+#~ msgid "E-mail po přidání do sekce"
+#~ msgstr "Email sau khi thêm vào phần"
+
+#~ msgid "E-mail po registraci do úrovně"
+#~ msgstr "Email sau khi đăng ký cấp độ"
+
+#~ msgid "E-mail po prodloužení členství v úrovni"
+#~ msgstr "Email sau khi gia hạn thành viên cấp độ"
+
+#~ msgid "E-mail po přidání do úrovně"
+#~ msgstr "Email sau khi thêm vào cấp độ"
+
+#~ msgid "E-mail je převzat z nastavení členské sekce, do které úroveň spadá."
+#~ msgstr "Email được lấy từ cài đặt phần thành viên mà cấp độ đó thuộc về."
+
+#~ msgid "Nastavit vlastní e-mail pro úroveň"
+#~ msgstr "Đặt email riêng cho cấp độ"
+
+#~ msgid "Předmět e-mailu"
+#~ msgstr "Tiêu đề email"
+
+#~ msgid "Obsah e-mailu"
+#~ msgstr "Nội dung email"
+
+#~ msgid "Dostupné proměnné"
+#~ msgstr "Các biến số có sẵn"
+
+#~ msgid "Kód"
+#~ msgstr "Mã"
+
+#~ msgid "Popis"
+#~ msgstr "Mô tả"
+
+#~ msgid "Příklad"
+#~ msgstr "Ví dụ"
+
+#~ msgid "Dostupné při"
+#~ msgstr "Có sẵn tại"
+
+#~ msgid "registraci nového člena"
+#~ msgstr "đăng ký thành viên mới"
+
+#~ msgid "prodloužení/přidání sekce"
+#~ msgstr "gia hạn/thêm phần"
+
+#~ msgid "Název sekce"
+#~ msgstr "Tên phần"
+
+#~ msgid "Italská kuchyně"
+#~ msgstr "Ẩm thực Ý"
+
+#~ msgid "Název úrovně"
+#~ msgstr "Tên cấp độ"
+
+#~ msgid "Začátečník"
+#~ msgstr "Người mới bắt đầu"
+
+#~ msgid "Počet zakoupených dní nebo 'neomezeně'"
+#~ msgstr "Số ngày đã mua hoặc không giới hạn"
+
+#~ msgid "Datum konce členství nebo 'neomezené'"
+#~ msgstr "Ngày kết thúc tư cách thành viên hoặc không giới hạn"
+
+#~ msgid "Odkaz na přihlášení (z nastavení) pouze URL"
+#~ msgstr "Liên kết đăng nhập (từ cài đặt) chỉ URL"
+
+#~ msgid "Přihlašovací jméno uživatele"
+#~ msgstr "Tên đăng nhập của người dùng"
+
+#~ msgid "Přihlašovací heslo uživatele"
+#~ msgstr "Mật khẩu đăng nhập của người dùng"
+
+#~ msgid "Název členské úrovně"
+#~ msgstr "Tên cấp độ thành viên"
+
+#~ msgid "Zařadit do členské sekce"
+#~ msgstr "Thêm vào phần thành viên"
+
+#~ msgid "Vytvořit úroveň"
+#~ msgstr "Tạo cấp độ"
+
+#~ msgid "Přihlašovací stránka"
+#~ msgstr "Trang đăng nhập"
+
+#~ msgid "Vyberte stránku, kde je umístěn přihlašovací formulář."
+#~ msgstr "Chọn trang có biểu mẫu đăng nhập."
+
+#~ msgid "Stránka nesmí být zařazena jako členská."
+#~ msgstr "Trang web không được xếp vào danh sách thành viên."
+
+#~ msgid "Nástěnka"
+#~ msgstr "Bảng thông báo"
+
+#~ msgid "Stránka, když uživatel nemá přístup"
+#~ msgstr "Trang web khi người dùng không có quyền truy cập"
+
+#~ msgid ""
+#~ "Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství."
+#~ msgstr ""
+#~ "Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství."
+
+#~ msgid "-- nevybrána --"
+#~ msgstr "-- chưa chọn --"
+
+#~ msgid "Název členské sekce"
+#~ msgstr "Tên phần thành viên"
+
+#~ msgid "Vytvořit sekci"
+#~ msgstr "Tạo phần"
+
+#~ msgid "Stránka pro přihlášení"
+#~ msgstr "Trang đăng nhập"
+
+#~ msgid "Vyberte společnou přihlašovací stránku pro všechny sekce/úrovně."
+#~ msgstr "Chọn trang đăng nhập chung cho tất cả các phần/cấp độ."
+
+#~ msgid "Vyberte společnou stránku po příhlášení tzn. nástěnku."
+#~ msgstr "Chọn trang chung sau khi đăng nhập, tức là bảng thông báo."
+
+#~ msgid "Stránka, která se zobrazí, když obsah ještě nebyl odemčen."
+#~ msgstr "Trang sẽ hiển thị khi nội dung chưa được mở khóa."
+
+#~ msgid ""
+#~ "Úroveň musí mít povoleno časově omezené odemykání, aby byl uživatel "
+#~ "přesměrován na tuto stránku."
+#~ msgstr ""
+#~ "Úroveň musí mít povoleno časově omezené odemykání, aby byl uživatel "
+#~ "přesměrován na tuto stránku."
+
+#~ msgid "Zvolili jste členskou sekci, prosím zvolte úroveň."
+#~ msgstr "Bạn đã chọn phần thành viên, vui lòng chọn cấp độ."
+
+#~ msgid "Odemknutí tlačítkem"
+#~ msgstr "Mở khóa bằng nút bấm"
+
+#~ msgid "K odemčení úrovně musí uživatel již mít přístup do dané sekce."
+#~ msgstr "Để mở khóa cấp độ, người dùng phải có quyền truy cập vào phần đó."
+
+#~ msgid "Shrotcode talčítka pro uvolnění obsahu: "
+#~ msgstr "Mã ngắn để giải phóng nội dung:"
+
+#~ msgid "Časově omezené odemykání úrovně"
+#~ msgstr "Mở khóa cấp độ có thời hạn"
+
+#~ msgid "Datum kdy bude sekce/úroveň odemčena pro všechny uživatele."
+#~ msgstr "Ngày mà phần/cấp độ sẽ được mở khóa cho tất cả người dùng."
+
+#~ msgid ""
+#~ "Počet dní od registrace uživatele do členské sekce, po kterých má být "
+#~ "vybraná sekce/úroveň zpřístupněna."
+#~ msgstr ""
+#~ "Počet dní od registrace uživatele do členské sekce, po kterých má být "
+#~ "vybraná sekce/úroveň zpřístupněna."
+
+#~ msgid "0 = Sekce bude přístupná ihned po registraci"
+#~ msgstr "0 = Phần này sẽ có thể truy cập ngay sau khi đăng ký"
+
+#~ msgid "3 = Sekce bude přístupná 3 den po registraci"
+#~ msgstr "3 = Phần này sẽ có thể truy cập được sau 3 ngày kể từ khi đăng ký"
+
+#~ msgid "Fapi Member"
+#~ msgstr "Thành viên Fapi"

@@ -5,7 +5,7 @@ Requires at least: 5.9
 Tested up to: 6.7
 Requires PHP: 8.1
 License: GPLv2 or later
-Stable tag: 2.2.26
+Stable tag: 2.2.29
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -25,6 +25,12 @@ Máte problém s nastavením FAPI Memberu. Obrátit se můžete na naší podpor
 Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org/plugins/fapi-member/#reviews).
 
 == Changelog ==
+
+= 2.2.28 =
+* Translations
+
+= 2.2.27 =
+* Translations
 
 = 2.2.26 =
 * Typo
@@ -80,7 +86,7 @@ Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org
 * When user is redirected to a 'no access page' and then logs in, they are now redirected back to the page that they were intending to access (if they have access to it)
 
 = 2.2.9 =
-* Fapi Member Pro
+* FAPI Member Pro
 	* Added information about last member login date in member detail
 
 = 2.2.8 =
@@ -102,11 +108,11 @@ Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org
 * Fixed updating password for members from wp administration
 
 = 2.2.1 =
-* Fapi Member Pro
+* FAPI Member Pro
 	* Added average churn rate period graph
 
 = 2.2.0 =
-* Fapi Member Pro
+* FAPI Member Pro
 	* Tracking of statistics like user activity, churn and acquisition rates, membership ownership over time or gained vs lost members over a period
 	* Member history - displays a history of changes for every member
 

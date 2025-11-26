@@ -151,6 +151,45 @@ Pokud ve `wp_options` nastavíte klíč `fapiIsDevelopment` na hodnotu `1`, pak 
 v menu pluginu objeví červená možnost Testovací akce, která umožní spustit obsah souboru `templates/test.php`,
 to je možné využít při vývoji na testování např. zakládání uživatelů, posílání mailů atd.
 
+# Překlady
+
+Test funkčnosti CLI:
+Musí přejít do složky s docker-compose.yml
+
+    docker compose run --rm wpcli core version
+
+1. Vygeneruje POT file. Tedy seznam všech překladových řetezců.
+```
+docker compose run --rm -e WP_CLI_PHP_ARGS='-d memory_limit=768M' wpcli \
+    i18n make-pot \
+        wp-content/plugins/fapi-member \
+        wp-content/plugins/fapi-member/languages/fapi-member.pot \
+        --domain=fapi-member \
+        --exclude="node_modules,build,dist,vendor,*.min.js,assets/js/vendor,wp-build,wp-svn,wp-build-test"
+```
+
+2. Pokud již máš existující .po soubory a chceš je pouze aktualizovat (zachovat původní překlady a doplnit nové řetězce):
+```
+for lang in cs_CZ en_US es_ES sk_SK hr_HR hu_HU de_DE vi_VN pl_PL ro_RO ru_RU it_IT pt_PT fr_FR zh_CN sl_SI; do
+  msgmerge --update --no-fuzzy-matching --backup=none fapi-member-$lang.po fapi-member.pot
+done
+```
+
+3. BUILD překladů, vygenerování MO souborů, které se v produkci používají pro překlady
+```
+for lang in *.po; do
+  msgfmt $lang -o "${lang%.po}.mo"
+done
+```
+
+4. Vygeneruje JSON soubory pro React/JS překlady. Nejdřív smaže všechny existující JSON soubory a pak vygeneruje nové.
+```    
+rm -f languages/*.json
+cd .docker-fapi-member
+docker compose run --rm -w /var/www/html/wp-content/plugins/fapi-member wpcli \
+    i18n make-json languages --no-purge
+```
+
 # Build a nasazení na WP
 ## POUZE POKUD VÍŠ CO DĚLÁŠ
 Koukni na: https://youtu.be/ypv-TVbMtcs

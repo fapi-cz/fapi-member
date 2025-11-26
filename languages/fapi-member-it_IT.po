@@ -1,0 +1,653 @@
+# Copyright (C) 2025 FAPI Business s.r.o.
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: FAPI Member 2.2.26\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/fapi-member\n"
+"POT-Creation-Date: 2025-11-26T14:28:27+00:00\n"
+"PO-Revision-Date: 2025-10-23T12:59:40+00:00\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: fapi-member\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Plugin Name of the plugin
+#: fapi-member.php src/Divi/FapiMemberDivi.php:84
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:33
+#: src/Service/ElementService.php:35 src/Service/ElementService.php:36
+#: src/Service/ElementService.php:180
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
+msgid "FAPI Member"
+msgstr "Membro FAPI"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: fapi-member.php
+msgid "https://fapi.cz/"
+msgstr "https://fapi.cz/"
+
+#. Description of the plugin
+#: fapi-member.php
+msgid "Plugin FAPI pro jednoduchou správu členských sekcí na webu."
+msgstr "Plugin FAPI per una facile gestione delle sezioni dei membri del sito."
+
+#. Author of the plugin
+#: fapi-member.php
+msgid "FAPI Business s.r.o."
+msgstr "FAPI Business s.r.o."
+
+#: multiple-blocks/multiple-blocks.php:33
+#: src/Elementor/Category/CategoryRegister.php:15
+#: src/Elementor/Widgets/FapiFormWidget.php:43
+msgid "FAPI"
+msgstr "FAPI"
+
+#: src/Bootstrap.php:536
+msgid "Člen"
+msgstr "Membro"
+
+#: src/Bootstrap.php:547
+msgid "FAPI Member - API e-mail"
+msgstr "Membro FAPI - e-mail API"
+
+#: src/Bootstrap.php:557
+msgid "FAPI Member - API key"
+msgstr "Membro FAPI - Chiave API"
+
+#: src/Elementor/Widgets/FapiFormWidget.php:20
+msgid "FAPI form"
+msgstr "Modulo FAPI"
+
+#: src/Elementor/Widgets/FapiFormWidget.php:52
+msgid "Prodejní formulář"
+msgstr "Modulo di vendita"
+
+#: src/Elementor/Widgets/FapiFormWidget.php:92
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
+msgid "-- vyberte prodejní formulář --"
+msgstr "-- selezionare il modulo di vendita --"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:41
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:114
+msgid "Zobrazit blok pokud návštěvník"
+msgstr "Mostra il blocco se il visitatore"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:45
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
+msgid "je člen sekce/úrovně"
+msgstr "è membro di una sezione/livello"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:48
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
+msgid "není členem sekce/úrovně"
+msgstr "non è membro di una sezione/livello"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:51
+msgid "zobrazit všem návštěvníkům (vybrané sekce a úrovně se ignorují)"
+msgstr ""
+"mostra a tutti i visitatori (le sezioni e i livelli selezionati vengono "
+"ignorati)"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:54
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
+msgid ""
+"Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo "
+"úrovni nebo všem návštěvníkům."
+msgstr ""
+"Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo "
+"úrovni nebo všem návštěvníkům."
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
+msgid "Členské sekce a úrovně"
+msgstr "Sezioni e livelli dei membri"
+
+#: src/Service/ElementService.php:65
+msgid "Přiřazené sekce a úrovně"
+msgstr "Sezioni e livelli assegnati"
+
+#: src/Service/ElementService.php:153 src/Service/ElementService.php:166
+#: src/Service/ElementService.php:182
+msgid "Upravit ve FAPI Member"
+msgstr "Modifica nel membro FAPI"
+
+#: src/Service/FormService.php:70
+msgid ""
+"Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a "
+"odeslat znovu."
+msgstr ""
+"Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a "
+"odeslat znovu."
+
+#: src/Service/FormService.php:79
+msgid "Nemáte potřebná oprvánění."
+msgstr "Non avete le scottature necessarie."
+
+#: src/Templates/levelSelection.php:9
+msgid "Výběr úrovně"
+msgstr "Selezione del livello"
+
+#: src/Templates/levelSelection.php:15
+msgid "Výběr sekce"
+msgstr "Selezione della sezione"
+
+#: src/Templates/levelSelection.php:16
+msgid "Prosím, zvolte jednu ze stránek, kam chcete vstoupit"
+msgstr "Selezionare una delle pagine che si desidera inserire"
+
+#: src/Templates/levelSelection.php:57
+msgid "Vstoupit"
+msgstr "Entrare"
+
+#: src/Utils/ShortcodeSubstitutor.php:35
+msgid "Přihlašovací jméno"
+msgstr "Nome di accesso"
+
+#: src/Utils/ShortcodeSubstitutor.php:39
+msgid "Heslo"
+msgstr "Password"
+
+#: src/Utils/ShortcodeSubstitutor.php:43
+msgid "Zapomněli jste heslo?"
+msgstr "Avete dimenticato la password?"
+
+#: src/Utils/ShortcodeSubstitutor.php:46 src/Utils/ShortcodeSubstitutor.php:98
+msgid "Přihlásit se"
+msgstr "Accedi"
+
+#: src/Utils/ShortcodeSubstitutor.php:74
+msgid "Uživatel"
+msgstr "Utente"
+
+#: src/Utils/ShortcodeSubstitutor.php:79
+msgid "Odhlásit se"
+msgstr "Disconnettersi"
+
+#: src/Utils/ShortcodeSubstitutor.php:106
+#: src/Utils/ShortcodeSubstitutor.php:221
+msgid "neznámá sekce nebo úrověň"
+msgstr "sezione o livello sconosciuto"
+
+#: src/Utils/ShortcodeSubstitutor.php:112
+#: src/Utils/ShortcodeSubstitutor.php:155
+msgid "uživatel není přihlášen"
+msgstr "l'utente non è connesso"
+
+#: src/Utils/ShortcodeSubstitutor.php:135
+#: src/Utils/ShortcodeSubstitutor.php:181
+#: src/Utils/ShortcodeSubstitutor.php:196
+msgid "bez přístupu"
+msgstr "senza accesso"
+
+#: src/Utils/ShortcodeSubstitutor.php:140
+msgid "neomezeně"
+msgstr "Illimitato"
+
+#: src/Utils/ShortcodeSubstitutor.php:149
+msgid "neznámá úrověň"
+msgstr "livello sconosciuto"
+
+#: src/Utils/ShortcodeSubstitutor.php:208
+msgid "Bude odemčeno"
+msgstr "Verrà sbloccato"
+
+#: src/Utils/ShortcodeSubstitutor.php:212
+msgid "Neomezeně"
+msgstr "Illimitato"
+
+#: src/Utils/ShortcodeSubstitutor.php:231
+msgid "Odemknout úroveň"
+msgstr ""
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
+msgid "zobrazit všem návštěvníkům (vybrané sekce a urovně se ignorují)"
+msgstr ""
+"mostra a tutti i visitatori (le sezioni e i livelli selezionati vengono "
+"ignorati)"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
+msgid "(všechny propojené účty)"
+msgstr "(tutti i conti collegati)"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
+msgid "Vyberte účet FAPI"
+msgstr "Selezionare un account FAPI"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
+msgid "Vyberte prodejní formulář"
+msgstr "Selezionare un modulo di vendita"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
+msgid "Načítání dat, počkejte prosím..."
+msgstr "Caricamento dei dati, attendere..."
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
+msgid "<<< Zde bude prodejní formulář \"%s\" >>>"
+msgstr ""
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
+msgid "<<< Vyberte prodejní formulář z bočního menu >>>"
+msgstr "<<< Selezionare il modulo di vendita dal menu laterale >>>>"
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+msgctxt "block title"
+msgid "FAPI Member - block extender"
+msgstr "Membro FAPI - estensore di blocco"
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+msgctxt "block description"
+msgid ""
+"Extends core blocks, enables show and hide block by member section and levels"
+msgstr ""
+"Extends core blocks, enables show and hide block by member section and levels"
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block keyword"
+msgid "fapi"
+msgstr "fapi"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block title"
+msgid "FAPI form"
+msgstr "Modulo FAPI"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block description"
+msgid "FAPI form widget."
+msgstr "Widget del modulo FAPI."
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block keyword"
+msgid "form"
+msgstr "forma"
+
+#~ msgid "Zobrazit pokud návštěvník"
+#~ msgstr "Visualizza se il visitatore"
+
+#~ msgid "Fapi Member - API e-mail"
+#~ msgstr "Membro Fapi - e-mail API"
+
+#~ msgid "Fapi Member - API key"
+#~ msgstr "Membro Fapi - Chiave API"
+
+#~ msgid "Členské sekce"
+#~ msgstr "Sezioni membri"
+
+#~ msgid "Datum registrace"
+#~ msgstr "Data di registrazione"
+
+#~ msgid "Čas registrace"
+#~ msgstr "Tempo di registrazione"
+
+#~ msgid "Členství do"
+#~ msgstr "Adesione a"
+
+#~ msgid "Bez expirace"
+#~ msgstr "Senza scadenza"
+
+#~ msgid "Vybrat"
+#~ msgstr "Selezionare"
+
+#~ msgid "CPT"
+#~ msgstr "CPT"
+
+#~ msgid "Tento doplněk není optimalizován pro telefony a malé monitory."
+#~ msgstr ""
+#~ "Questo componente aggiuntivo non è ottimizzato per i telefoni e i monitor "
+#~ "piccoli."
+
+#~ msgid "Přehled"
+#~ msgstr "Panoramica"
+
+#~ msgid "Propojení s FAPI"
+#~ msgstr "Collegamento con FAPI"
+
+#~ msgid "Propojení"
+#~ msgstr "Collegamento"
+
+#~ msgid "Přiřazené stránky a příspěvky"
+#~ msgstr "Pagine e post assegnati"
+
+#~ msgid "E-maily"
+#~ msgstr "Email"
+
+#~ msgid "Servisní stránky"
+#~ msgstr "Pagine di servizio"
+
+#~ msgid "Prvky pro web"
+#~ msgstr "Elementi per il web"
+
+#~ msgid "Společné"
+#~ msgstr "Comune"
+
+#~ msgid "Uvolňování obsahu"
+#~ msgstr "Rilascio di contenuti"
+
+#~ msgid "Propojené účty FAPI:"
+#~ msgstr "Conti FAPI collegati:"
+
+#~ msgid "Uživatelské jméno (e-mail)"
+#~ msgstr "Nome utente (e-mail)"
+
+#~ msgid "API klíč"
+#~ msgstr "Chiave API"
+
+#~ msgid "Nejsou propojeny žádné účty"
+#~ msgstr "Nessun conto collegato"
+
+#~ msgid "Smazat propojení s FAPI"
+#~ msgstr "Cancellare la connessione a FAPI"
+
+#~ msgid "Propojit účet FAPI (max. "
+#~ msgstr "Collegare il conto FAPI (max."
+
+#~ msgid "Propojit s FAPI"
+#~ msgstr "Collegamento con FAPI"
+
+#~ msgid "Stav propojení"
+#~ msgstr "Stato del collegamento"
+
+#~ msgid "nepropojeno"
+#~ msgstr "Non collegato"
+
+#~ msgid "Propojení s Integromatem"
+#~ msgstr "Collegamento con Integromat"
+
+#~ msgid "FAPI Member API Token"
+#~ msgstr "Token API del membro FAPI"
+
+#~ msgid "Zkopírovat"
+#~ msgstr "Fare clic per copiare"
+
+#~ msgid "Přihlášení do členské sekce"
+#~ msgstr "Accesso alla sezione membri"
+
+#~ msgid "Přehled členských sekcí a úrovní"
+#~ msgstr "Panoramica delle sezioni e dei livelli di appartenenza"
+
+#~ msgid "Počet úrovní"
+#~ msgstr "Numero di livelli"
+
+#~ msgid "Počet registrovaných"
+#~ msgstr "Numero di iscritti"
+
+#~ msgid "Seznam členů"
+#~ msgstr "Elenco dei membri"
+
+#~ msgid "Stránek v celé sekci"
+#~ msgstr "Pagine dell'intera sezione"
+
+#~ msgid "Nemáte vytvořenou žádnou členskou sekci."
+#~ msgstr "Non è stata creata alcuna sezione membri."
+
+#~ msgid "Novou sekci můžete vytvořit na záložce Sekce / úrovně."
+#~ msgstr ""
+#~ "È possibile creare una nuova sezione nella scheda Sezioni / Livelli."
+
+#~ msgid "Přejít do záložky Sekce / úrovně"
+#~ msgstr "Andare alla scheda Sezioni / Livelli"
+
+#~ msgid "Tato sekce nemá žádné členy"
+#~ msgstr "Questa sezione non ha membri"
+
+#~ msgid "Uživatelské jméno"
+#~ msgstr "Nome utente"
+
+#~ msgid "Jméno a příjmení"
+#~ msgstr "Nome e cognome"
+
+#~ msgid "Email"
+#~ msgstr "Email"
+
+#~ msgid "Jméno a přijmení"
+#~ msgstr "Nome e cognome"
+
+#~ msgid "Exportovat do CSV"
+#~ msgstr "Esportazione in CSV"
+
+#~ msgid "Členské sekce/úrovně"
+#~ msgstr "Sezioni/livelli dei membri"
+
+#~ msgid "Prosím zvolte sekci/úroveň."
+#~ msgstr "Selezionare una sezione/livello."
+
+#~ msgid "Uložit"
+#~ msgstr "Risparmiare"
+
+#~ msgid "Formulář pro přihlášení"
+#~ msgstr "Modulo di accesso"
+
+#~ msgid "Formulář vložte do svého webu na požadovaná místa pomocí shortcode"
+#~ msgstr ""
+#~ "Inserite il modulo nel vostro sito web nei punti desiderati utilizzando "
+#~ "lo shortcode"
+
+#~ msgid "Formulář se zobrazí po znovunačtení stránky."
+#~ msgstr "Il modulo verrà visualizzato quando la pagina verrà ricaricata."
+
+#~ msgid "Snímek obrazovky"
+#~ msgstr "Schermata"
+
+#~ msgid "Uživatelské okénko"
+#~ msgstr "Finestra utente"
+
+#~ msgid "Okénko vložte do svého webu na požadovaná místa pomocí shortcode"
+#~ msgstr ""
+#~ "Inserite la finestra nel vostro sito web nei punti desiderati utilizzando "
+#~ "lo shortcode"
+
+#~ msgid ""
+#~ "Uživatelské okénko bude funkční pro uživatele všech členských sekcí a "
+#~ "úrovní."
+#~ msgstr ""
+#~ "Uživatelské okénko bude funkční pro uživatele všech členských sekcí a "
+#~ "úrovní."
+
+#~ msgid "Datum expirace pro členskou sekci nebo úrověň"
+#~ msgstr "Data di scadenza della sezione o del livello del membro"
+
+#~ msgid "Vypíše datum expirace zvolené členské sekce nebo úrovně"
+#~ msgstr ""
+#~ "Elenca la data di scadenza della sezione o del livello del membro "
+#~ "selezionato."
+
+#~ msgid "Jak shortcode použít"
+#~ msgstr "Come utilizzare lo shortcode"
+
+#~ msgid "Jak to poté vidí člen"
+#~ msgstr "Come lo vede allora il deputato"
+
+#~ msgid "Odemčení úrovně tlačítkem"
+#~ msgstr "Sbloccare il livello con il pulsante"
+
+#~ msgid "Tlačítko kterým uživatel může odeknou úroveň"
+#~ msgstr "Pulsante con il quale l'utente può interrompere il livello"
+
+#~ msgid "Čas zbývající do odemčení úrovně"
+#~ msgstr "Tempo rimanente per sbloccare il livello"
+
+#~ msgid "Zvolte prosím sekci/úroveň vlevo."
+#~ msgstr "Selezionare la sezione/livello a sinistra."
+
+#~ msgid "E-mail po registraci do sekce"
+#~ msgstr "E-mail dopo l'iscrizione alla sezione"
+
+#~ msgid "E-mail po prodloužení členství v sekci"
+#~ msgstr "Email dopo il rinnovo dell'iscrizione"
+
+#~ msgid "E-mail po přidání do sekce"
+#~ msgstr "E-mail dopo l'aggiunta alla sezione"
+
+#~ msgid "E-mail po registraci do úrovně"
+#~ msgstr "E-mail dopo la registrazione al livello"
+
+#~ msgid "E-mail po prodloužení členství v úrovni"
+#~ msgstr "Email dopo il rinnovo del livello di appartenenza"
+
+#~ msgid "E-mail po přidání do úrovně"
+#~ msgstr "Email dopo l'aggiunta al livello"
+
+#~ msgid "E-mail je převzat z nastavení členské sekce, do které úroveň spadá."
+#~ msgstr ""
+#~ "L'e-mail viene presa dalle impostazioni della sezione membri a cui il "
+#~ "livello appartiene."
+
+#~ msgid "Nastavit vlastní e-mail pro úroveň"
+#~ msgstr "Impostare un'e-mail personalizzata per un livello"
+
+#~ msgid "Předmět e-mailu"
+#~ msgstr "Oggetto dell'e-mail"
+
+#~ msgid "Obsah e-mailu"
+#~ msgstr "Contenuto dell'e-mail"
+
+#~ msgid "Dostupné proměnné"
+#~ msgstr "Variabili disponibili"
+
+#~ msgid "Kód"
+#~ msgstr "Codice"
+
+#~ msgid "Popis"
+#~ msgstr "Descrizione"
+
+#~ msgid "Příklad"
+#~ msgstr "Esempio"
+
+#~ msgid "Dostupné při"
+#~ msgstr "Disponibile presso"
+
+#~ msgid "registraci nového člena"
+#~ msgstr "registrazione di un nuovo membro"
+
+#~ msgid "prodloužení/přidání sekce"
+#~ msgstr "estensione/aggiunta di sezione"
+
+#~ msgid "Název sekce"
+#~ msgstr "Nome della sezione"
+
+#~ msgid "Italská kuchyně"
+#~ msgstr "Cucina italiana"
+
+#~ msgid "Název úrovně"
+#~ msgstr "Nome del livello"
+
+#~ msgid "Začátečník"
+#~ msgstr "Principiante"
+
+#~ msgid "Počet zakoupených dní nebo 'neomezeně'"
+#~ msgstr "Numero di giorni acquistati o illimitati"
+
+#~ msgid "Datum konce členství nebo 'neomezené'"
+#~ msgstr "Data di scadenza dell'iscrizione o illimitata."
+
+#~ msgid "Odkaz na přihlášení (z nastavení) pouze URL"
+#~ msgstr "Link di accesso (dalle impostazioni) Solo URL"
+
+#~ msgid "Přihlašovací jméno uživatele"
+#~ msgstr "Nome di accesso dell'utente"
+
+#~ msgid "Přihlašovací heslo uživatele"
+#~ msgstr "Password di accesso dell'utente"
+
+#~ msgid "Název členské úrovně"
+#~ msgstr "Nome del livello membro"
+
+#~ msgid "Zařadit do členské sekce"
+#~ msgstr "Includere nella sezione membri"
+
+#~ msgid "Vytvořit úroveň"
+#~ msgstr "Creare un livello"
+
+#~ msgid "Přihlašovací stránka"
+#~ msgstr "Pagina di accesso"
+
+#~ msgid "Vyberte stránku, kde je umístěn přihlašovací formulář."
+#~ msgstr "Selezionare la pagina in cui si trova il modulo di accesso."
+
+#~ msgid "Stránka nesmí být zařazena jako členská."
+#~ msgstr "La pagina non deve essere classificata come pagina membro."
+
+#~ msgid "Nástěnka"
+#~ msgstr "Sito web"
+
+#~ msgid "Stránka, když uživatel nemá přístup"
+#~ msgstr "Pagina quando l'utente non ha accesso"
+
+#~ msgid ""
+#~ "Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství."
+#~ msgstr ""
+#~ "Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství."
+
+#~ msgid "-- nevybrána --"
+#~ msgstr "-- non selezionato --"
+
+#~ msgid "Název členské sekce"
+#~ msgstr "Nome della sezione membro"
+
+#~ msgid "Vytvořit sekci"
+#~ msgstr "Creare una sezione"
+
+#~ msgid "Stránka pro přihlášení"
+#~ msgstr "Pagina di accesso"
+
+#~ msgid "Vyberte společnou přihlašovací stránku pro všechny sekce/úrovně."
+#~ msgstr ""
+#~ "Selezionare una pagina di accesso comune per tutte le sezioni/livelli."
+
+#~ msgid "Vyberte společnou stránku po příhlášení tzn. nástěnku."
+#~ msgstr "Dopo il login, selezionare la pagina comune, cioè la bacheca."
+
+#~ msgid "Stránka, která se zobrazí, když obsah ještě nebyl odemčen."
+#~ msgstr ""
+#~ "Una pagina che appare quando il contenuto non è ancora stato sbloccato."
+
+#~ msgid ""
+#~ "Úroveň musí mít povoleno časově omezené odemykání, aby byl uživatel "
+#~ "přesměrován na tuto stránku."
+#~ msgstr ""
+#~ "Úroveň musí mít povoleno časově omezené odemykání, aby byl uživatel "
+#~ "přesměrován na tuto stránku."
+
+#~ msgid "Zvolili jste členskou sekci, prosím zvolte úroveň."
+#~ msgstr "Avete selezionato una sezione membro, selezionate un livello."
+
+#~ msgid "Odemknutí tlačítkem"
+#~ msgstr "Sblocco con un pulsante"
+
+#~ msgid "K odemčení úrovně musí uživatel již mít přístup do dané sekce."
+#~ msgstr ""
+#~ "Per sbloccare un livello, l'utente deve avere già accesso a quella "
+#~ "sezione."
+
+#~ msgid "Shrotcode talčítka pro uvolnění obsahu: "
+#~ msgstr "Piastra Shrotcode per rilasciare il contenuto:"
+
+#~ msgid "Časově omezené odemykání úrovně"
+#~ msgstr "Sblocco dei livelli a tempo limitato"
+
+#~ msgid "Datum kdy bude sekce/úroveň odemčena pro všechny uživatele."
+#~ msgstr "Data in cui la sezione/livello sarà sbloccata per tutti gli utenti."
+
+#~ msgid ""
+#~ "Počet dní od registrace uživatele do členské sekce, po kterých má být "
+#~ "vybraná sekce/úroveň zpřístupněna."
+#~ msgstr ""
+#~ "Počet dní od registrace uživatele do členské sekce, po kterých má být "
+#~ "vybraná sekce/úroveň zpřístupněna."
+
+#~ msgid "0 = Sekce bude přístupná ihned po registraci"
+#~ msgstr ""
+#~ "0 = La sezione sarà accessibile immediatamente dopo la registrazione"
+
+#~ msgid "3 = Sekce bude přístupná 3 den po registraci"
+#~ msgstr "3 = la sezione sarà accessibile 3 giorni dopo la registrazione"
+
+#~ msgid "Fapi Member"
+#~ msgstr "Fapi Membro"

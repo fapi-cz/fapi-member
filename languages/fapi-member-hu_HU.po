@@ -1,0 +1,652 @@
+# Copyright (C) 2025 FAPI Business s.r.o.
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: FAPI Member 2.2.26\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/fapi-member\n"
+"POT-Creation-Date: 2025-11-26T14:28:27+00:00\n"
+"PO-Revision-Date: 2025-10-23T12:59:40+00:00\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: fapi-member\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Plugin Name of the plugin
+#: fapi-member.php src/Divi/FapiMemberDivi.php:84
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:33
+#: src/Service/ElementService.php:35 src/Service/ElementService.php:36
+#: src/Service/ElementService.php:180
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
+msgid "FAPI Member"
+msgstr "FAPI tag"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: fapi-member.php
+msgid "https://fapi.cz/"
+msgstr "https://fapi.cz/"
+
+#. Description of the plugin
+#: fapi-member.php
+msgid "Plugin FAPI pro jednoduchou správu členských sekcí na webu."
+msgstr "FAPI plugin a tagok szekcióinak egyszerű kezeléséhez az oldalon."
+
+#. Author of the plugin
+#: fapi-member.php
+msgid "FAPI Business s.r.o."
+msgstr "FAPI Business s.r.o."
+
+#: multiple-blocks/multiple-blocks.php:33
+#: src/Elementor/Category/CategoryRegister.php:15
+#: src/Elementor/Widgets/FapiFormWidget.php:43
+msgid "FAPI"
+msgstr "FAPI"
+
+#: src/Bootstrap.php:536
+msgid "Člen"
+msgstr "Tag"
+
+#: src/Bootstrap.php:547
+msgid "FAPI Member - API e-mail"
+msgstr "FAPI tag - API e-mail"
+
+#: src/Bootstrap.php:557
+msgid "FAPI Member - API key"
+msgstr "FAPI tag - API kulcs"
+
+#: src/Elementor/Widgets/FapiFormWidget.php:20
+msgid "FAPI form"
+msgstr "FAPI űrlap"
+
+#: src/Elementor/Widgets/FapiFormWidget.php:52
+msgid "Prodejní formulář"
+msgstr "Értékesítési űrlap"
+
+#: src/Elementor/Widgets/FapiFormWidget.php:92
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
+msgid "-- vyberte prodejní formulář --"
+msgstr "-- válassza ki az értékesítési formát --"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:41
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:114
+msgid "Zobrazit blok pokud návštěvník"
+msgstr "Blokk megjelenítése, ha a látogató"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:45
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
+msgid "je člen sekce/úrovně"
+msgstr "egy szekció/szint tagja"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:48
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
+msgid "není členem sekce/úrovně"
+msgstr "nem tagja egy szekciónak/szintnek"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:51
+msgid "zobrazit všem návštěvníkům (vybrané sekce a úrovně se ignorují)"
+msgstr ""
+"minden látogatónak megmutatja (a kiválasztott szakaszok és szintek figyelmen "
+"kívül maradnak)"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:54
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
+msgid ""
+"Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo "
+"úrovni nebo všem návštěvníkům."
+msgstr ""
+"Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo "
+"úrovni nebo všem návštěvníkům."
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
+msgid "Členské sekce a úrovně"
+msgstr "Tagsági szakaszok és szintek"
+
+#: src/Service/ElementService.php:65
+msgid "Přiřazené sekce a úrovně"
+msgstr "Hozzárendelt szakaszok és szintek"
+
+#: src/Service/ElementService.php:153 src/Service/ElementService.php:166
+#: src/Service/ElementService.php:182
+msgid "Upravit ve FAPI Member"
+msgstr "Szerkesztés a FAPI-tagban"
+
+#: src/Service/FormService.php:70
+msgid ""
+"Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a "
+"odeslat znovu."
+msgstr ""
+"Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a "
+"odeslat znovu."
+
+#: src/Service/FormService.php:79
+msgid "Nemáte potřebná oprvánění."
+msgstr "Nincsenek meg a szükséges leforrázások."
+
+#: src/Templates/levelSelection.php:9
+msgid "Výběr úrovně"
+msgstr "Szint kiválasztása"
+
+#: src/Templates/levelSelection.php:15
+msgid "Výběr sekce"
+msgstr "A szekció kiválasztása"
+
+#: src/Templates/levelSelection.php:16
+msgid "Prosím, zvolte jednu ze stránek, kam chcete vstoupit"
+msgstr "Kérjük, válassza ki az egyik oldalt, amelyre be kíván lépni."
+
+#: src/Templates/levelSelection.php:57
+msgid "Vstoupit"
+msgstr "Írja be a  címet."
+
+#: src/Utils/ShortcodeSubstitutor.php:35
+msgid "Přihlašovací jméno"
+msgstr "Bejelentkezési név"
+
+#: src/Utils/ShortcodeSubstitutor.php:39
+msgid "Heslo"
+msgstr "Jelszó"
+
+#: src/Utils/ShortcodeSubstitutor.php:43
+msgid "Zapomněli jste heslo?"
+msgstr "Elfelejtette jelszavát?"
+
+#: src/Utils/ShortcodeSubstitutor.php:46 src/Utils/ShortcodeSubstitutor.php:98
+msgid "Přihlásit se"
+msgstr "Bejelentkezés"
+
+#: src/Utils/ShortcodeSubstitutor.php:74
+msgid "Uživatel"
+msgstr "Felhasználó"
+
+#: src/Utils/ShortcodeSubstitutor.php:79
+msgid "Odhlásit se"
+msgstr "Kijelentkezés"
+
+#: src/Utils/ShortcodeSubstitutor.php:106
+#: src/Utils/ShortcodeSubstitutor.php:221
+msgid "neznámá sekce nebo úrověň"
+msgstr "ismeretlen szakasz vagy szint"
+
+#: src/Utils/ShortcodeSubstitutor.php:112
+#: src/Utils/ShortcodeSubstitutor.php:155
+msgid "uživatel není přihlášen"
+msgstr "a felhasználó nincs bejelentkezve"
+
+#: src/Utils/ShortcodeSubstitutor.php:135
+#: src/Utils/ShortcodeSubstitutor.php:181
+#: src/Utils/ShortcodeSubstitutor.php:196
+msgid "bez přístupu"
+msgstr "hozzáférés nélkül"
+
+#: src/Utils/ShortcodeSubstitutor.php:140
+msgid "neomezeně"
+msgstr "Korlátlan"
+
+#: src/Utils/ShortcodeSubstitutor.php:149
+msgid "neznámá úrověň"
+msgstr "ismeretlen szint"
+
+#: src/Utils/ShortcodeSubstitutor.php:208
+msgid "Bude odemčeno"
+msgstr "Ez lesz feloldva"
+
+#: src/Utils/ShortcodeSubstitutor.php:212
+msgid "Neomezeně"
+msgstr "Korlátlan"
+
+#: src/Utils/ShortcodeSubstitutor.php:231
+msgid "Odemknout úroveň"
+msgstr ""
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
+msgid "zobrazit všem návštěvníkům (vybrané sekce a urovně se ignorují)"
+msgstr ""
+"minden látogatónak megmutatja (a kiválasztott szakaszok és szintek figyelmen "
+"kívül maradnak)"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
+msgid "(všechny propojené účty)"
+msgstr "(minden kapcsolódó számla)"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
+msgid "Vyberte účet FAPI"
+msgstr "FAPI-fiók kiválasztása"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
+msgid "Vyberte prodejní formulář"
+msgstr "Válasszon ki egy értékesítési formát"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
+msgid "Načítání dat, počkejte prosím..."
+msgstr "Adatok betöltése, kérem várjon..."
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
+msgid "<<< Zde bude prodejní formulář \"%s\" >>>"
+msgstr ""
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
+msgid "<<< Vyberte prodejní formulář z bočního menu >>>"
+msgstr "<<< Válassza ki az értékesítési űrlapot a >>>> oldalmenüből."
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+msgctxt "block title"
+msgid "FAPI Member - block extender"
+msgstr "FAPI tag - blokk kiterjesztés"
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+msgctxt "block description"
+msgid ""
+"Extends core blocks, enables show and hide block by member section and levels"
+msgstr ""
+"Extends core blocks, enables show and hide block by member section and levels"
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block keyword"
+msgid "fapi"
+msgstr "fapi"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block title"
+msgid "FAPI form"
+msgstr "FAPI űrlap"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block description"
+msgid "FAPI form widget."
+msgstr "FAPI űrlap widget."
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block keyword"
+msgid "form"
+msgstr "űrlap"
+
+#~ msgid "Zobrazit pokud návštěvník"
+#~ msgstr "Nézet, ha látogató"
+
+#~ msgid "Fapi Member - API e-mail"
+#~ msgstr "Fapi tag - API e-mail"
+
+#~ msgid "Fapi Member - API key"
+#~ msgstr "Fapi tag - API kulcs"
+
+#~ msgid "Členské sekce"
+#~ msgstr "Tagszakaszok"
+
+#~ msgid "Datum registrace"
+#~ msgstr "A nyilvántartásba vétel dátuma"
+
+#~ msgid "Čas registrace"
+#~ msgstr "Regisztrációs idő"
+
+#~ msgid "Členství do"
+#~ msgstr "Tagság a"
+
+#~ msgid "Bez expirace"
+#~ msgstr "Lejárat nélkül"
+
+#~ msgid "Vybrat"
+#~ msgstr "Válassza ki a  címet."
+
+#~ msgid "CPT"
+#~ msgstr "CPT"
+
+#~ msgid "Tento doplněk není optimalizován pro telefony a malé monitory."
+#~ msgstr "Ez a bővítmény nincs optimalizálva telefonokra és kis monitorokra."
+
+#~ msgid "Přehled"
+#~ msgstr "Áttekintés"
+
+#~ msgid "Propojení s FAPI"
+#~ msgstr "Kapcsolódás a FAPI-val"
+
+#~ msgid "Propojení"
+#~ msgstr "Link"
+
+#~ msgid "Přiřazené stránky a příspěvky"
+#~ msgstr "Hozzárendelt oldalak és hozzászólások"
+
+#~ msgid "E-maily"
+#~ msgstr "E-mailek"
+
+#~ msgid "Servisní stránky"
+#~ msgstr "Szolgáltatási oldalak"
+
+#~ msgid "Prvky pro web"
+#~ msgstr "Elemek a webhez"
+
+#~ msgid "Společné"
+#~ msgstr "Közös"
+
+#~ msgid "Uvolňování obsahu"
+#~ msgstr "Tartalom kiadása"
+
+#~ msgid "Propojené účty FAPI:"
+#~ msgstr "Kapcsolódó FAPI-fiókok:"
+
+#~ msgid "Uživatelské jméno (e-mail)"
+#~ msgstr "Felhasználónév (e-mail)"
+
+#~ msgid "API klíč"
+#~ msgstr "API-kulcs"
+
+#~ msgid "Nejsou propojeny žádné účty"
+#~ msgstr "Nincsenek összekapcsolt számlák"
+
+#~ msgid "Smazat propojení s FAPI"
+#~ msgstr "Kapcsolat törlése a FAPI-hoz"
+
+#~ msgid "Propojit účet FAPI (max. "
+#~ msgstr "Kapcsolja össze a FAPI-fiókot (max."
+
+#~ msgid "Propojit s FAPI"
+#~ msgstr "Kapcsolat a FAPI-val"
+
+#~ msgid "Stav propojení"
+#~ msgstr "Link státusz"
+
+#~ msgid "nepropojeno"
+#~ msgstr "Nem kapcsolt"
+
+#~ msgid "Propojení s Integromatem"
+#~ msgstr "Kapcsolódás az Integromathoz"
+
+#~ msgid "FAPI Member API Token"
+#~ msgstr "FAPI tag API token"
+
+#~ msgid "Zkopírovat"
+#~ msgstr "Kattintson a másoláshoz"
+
+#~ msgid "Přihlášení do členské sekce"
+#~ msgstr "Bejelentkezés a tagsági részlegbe"
+
+#~ msgid "Přehled členských sekcí a úrovní"
+#~ msgstr "A tagsági szakaszok és szintek áttekintése"
+
+#~ msgid "Počet úrovní"
+#~ msgstr "Szintek száma"
+
+#~ msgid "Počet registrovaných"
+#~ msgstr "A regisztráltak száma"
+
+#~ msgid "Seznam členů"
+#~ msgstr "A tagok listája"
+
+#~ msgid "Stránek v celé sekci"
+#~ msgstr "Oldalak az egész szekcióban"
+
+#~ msgid "Nemáte vytvořenou žádnou členskou sekci."
+#~ msgstr "Nem hoztál létre tagsági szekciót."
+
+#~ msgid "Novou sekci můžete vytvořit na záložce Sekce / úrovně."
+#~ msgstr "Új szekciót a Szekciók / Szintek lapon hozhat létre."
+
+#~ msgid "Přejít do záložky Sekce / úrovně"
+#~ msgstr "Menjen a Szakaszok / Szintek fülre."
+
+#~ msgid "Tato sekce nemá žádné členy"
+#~ msgstr "Ennek a szakasznak nincsenek tagjai"
+
+#~ msgid "Uživatelské jméno"
+#~ msgstr "Felhasználónév"
+
+#~ msgid "Jméno a příjmení"
+#~ msgstr "Név és vezetéknév"
+
+#~ msgid "Email"
+#~ msgstr "E-mail"
+
+#~ msgid "Jméno a přijmení"
+#~ msgstr "Név és vezetéknév"
+
+#~ msgid "Exportovat do CSV"
+#~ msgstr "Exportálás CSV-be"
+
+#~ msgid "Členské sekce/úrovně"
+#~ msgstr "Tagszakaszok/szintek"
+
+#~ msgid "Prosím zvolte sekci/úroveň."
+#~ msgstr "Kérjük, válasszon egy szekciót/szintet."
+
+#~ msgid "Uložit"
+#~ msgstr "Mentés"
+
+#~ msgid "Formulář pro přihlášení"
+#~ msgstr "Bejelentkezési űrlap"
+
+#~ msgid "Formulář vložte do svého webu na požadovaná místa pomocí shortcode"
+#~ msgstr ""
+#~ "Illessze be az űrlapot a weboldalába a szükséges helyekre a rövidkód "
+#~ "segítségével."
+
+#~ msgid "Formulář se zobrazí po znovunačtení stránky."
+#~ msgstr "Az űrlap az oldal újratöltésekor jelenik meg."
+
+#~ msgid "Snímek obrazovky"
+#~ msgstr "Pillanatkép"
+
+#~ msgid "Uživatelské okénko"
+#~ msgstr "Felhasználói ablak"
+
+#~ msgid "Okénko vložte do svého webu na požadovaná místa pomocí shortcode"
+#~ msgstr ""
+#~ "Illessze be az ablakot a weboldalába a kívánt helyekre a rövidkód "
+#~ "segítségével."
+
+#~ msgid ""
+#~ "Uživatelské okénko bude funkční pro uživatele všech členských sekcí a "
+#~ "úrovní."
+#~ msgstr ""
+#~ "Uživatelské okénko bude funkční pro uživatele všech členských sekcí a "
+#~ "úrovní."
+
+#~ msgid "Datum expirace pro členskou sekci nebo úrověň"
+#~ msgstr "A tagsági szakasz vagy szint lejárati dátuma"
+
+#~ msgid "Vypíše datum expirace zvolené členské sekce nebo úrovně"
+#~ msgstr ""
+#~ "A kiválasztott tagsági szakasz vagy szint lejárati dátumát listázza."
+
+#~ msgid "Jak shortcode použít"
+#~ msgstr "A rövidkód használata"
+
+#~ msgid "Jak to poté vidí člen"
+#~ msgstr "Hogyan látja ezt a tag"
+
+#~ msgid "Odemčení úrovně tlačítkem"
+#~ msgstr "A szint feloldása a gombbal"
+
+#~ msgid "Tlačítko kterým uživatel může odeknou úroveň"
+#~ msgstr "Gomb, amellyel a felhasználó levághatja a szintet"
+
+#~ msgid "Čas zbývající do odemčení úrovně"
+#~ msgstr "A szint feloldásához hátralévő idő"
+
+#~ msgid "Zvolte prosím sekci/úroveň vlevo."
+#~ msgstr "Kérjük, válassza ki a szekciót/szintet a bal oldalon."
+
+#~ msgid "E-mail po registraci do sekce"
+#~ msgstr "E-mail a regisztráció után a szekcióba"
+
+#~ msgid "E-mail po prodloužení členství v sekci"
+#~ msgstr "Email a tagság megújítása után"
+
+#~ msgid "E-mail po přidání do sekce"
+#~ msgstr "E-mail a szakaszhoz való hozzáadás után"
+
+#~ msgid "E-mail po registraci do úrovně"
+#~ msgstr "E-mail a regisztráció után a szintre"
+
+#~ msgid "E-mail po prodloužení členství v úrovni"
+#~ msgstr "Email a tagsági szint megújítása után"
+
+#~ msgid "E-mail po přidání do úrovně"
+#~ msgstr "Email a szint hozzáadása után"
+
+#~ msgid "E-mail je převzat z nastavení členské sekce, do které úroveň spadá."
+#~ msgstr ""
+#~ "Az e-mail annak a tagszekciónak a beállításaiból származik, amelyhez az "
+#~ "adott szint tartozik."
+
+#~ msgid "Nastavit vlastní e-mail pro úroveň"
+#~ msgstr "Egyéni e-mail beállítása egy szinthez"
+
+#~ msgid "Předmět e-mailu"
+#~ msgstr "Az e-mail tárgya"
+
+#~ msgid "Obsah e-mailu"
+#~ msgstr "E-mail tartalom"
+
+#~ msgid "Dostupné proměnné"
+#~ msgstr "Rendelkezésre álló változók"
+
+#~ msgid "Kód"
+#~ msgstr "Kód:"
+
+#~ msgid "Popis"
+#~ msgstr "Leírás"
+
+#~ msgid "Příklad"
+#~ msgstr "Példa"
+
+#~ msgid "Dostupné při"
+#~ msgstr "Elérhető a"
+
+#~ msgid "registraci nového člena"
+#~ msgstr "új tag regisztrálása"
+
+#~ msgid "prodloužení/přidání sekce"
+#~ msgstr "szakasz bővítése/hozzáadása"
+
+#~ msgid "Název sekce"
+#~ msgstr "Szekció neve"
+
+#~ msgid "Italská kuchyně"
+#~ msgstr "Olasz konyha"
+
+#~ msgid "Název úrovně"
+#~ msgstr "Szint neve"
+
+#~ msgid "Začátečník"
+#~ msgstr "Kezdő"
+
+#~ msgid "Počet zakoupených dní nebo 'neomezeně'"
+#~ msgstr "Megvásárolt napok száma vagy korlátlan"
+
+#~ msgid "Datum konce členství nebo 'neomezené'"
+#~ msgstr "A tagság lejárati dátuma vagy korlátlan"
+
+#~ msgid "Odkaz na přihlášení (z nastavení) pouze URL"
+#~ msgstr "Bejelentkezési link (a beállításokból) Csak URL"
+
+#~ msgid "Přihlašovací jméno uživatele"
+#~ msgstr "Felhasználó bejelentkezési neve"
+
+#~ msgid "Přihlašovací heslo uživatele"
+#~ msgstr "Felhasználói bejelentkezési jelszó"
+
+#~ msgid "Název členské úrovně"
+#~ msgstr "Tag szint neve"
+
+#~ msgid "Zařadit do členské sekce"
+#~ msgstr "A tagokra vonatkozó rész tartalmazza a következőket"
+
+#~ msgid "Vytvořit úroveň"
+#~ msgstr "Hozzon létre egy szintet"
+
+#~ msgid "Přihlašovací stránka"
+#~ msgstr "Bejelentkezési oldal"
+
+#~ msgid "Vyberte stránku, kde je umístěn přihlašovací formulář."
+#~ msgstr "Válassza ki azt az oldalt, ahol a bejelentkezési űrlap található."
+
+#~ msgid "Stránka nesmí být zařazena jako členská."
+#~ msgstr "Az oldal nem minősülhet tagoldalnak."
+
+#~ msgid "Nástěnka"
+#~ msgstr "Honlap"
+
+#~ msgid "Stránka, když uživatel nemá přístup"
+#~ msgstr "Oldal, amikor a felhasználónak nincs hozzáférése"
+
+#~ msgid ""
+#~ "Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství."
+#~ msgstr ""
+#~ "Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství."
+
+#~ msgid "-- nevybrána --"
+#~ msgstr "-- nincs kiválasztva --"
+
+#~ msgid "Název členské sekce"
+#~ msgstr "A tagozat neve"
+
+#~ msgid "Vytvořit sekci"
+#~ msgstr "Szakasz létrehozása"
+
+#~ msgid "Stránka pro přihlášení"
+#~ msgstr "Bejelentkezési oldal"
+
+#~ msgid "Vyberte společnou přihlašovací stránku pro všechny sekce/úrovně."
+#~ msgstr ""
+#~ "Válasszon egy közös bejelentkezési oldalt az összes szekció/szint számára."
+
+#~ msgid "Vyberte společnou stránku po příhlášení tzn. nástěnku."
+#~ msgstr ""
+#~ "A bejelentkezés után válassza ki a közös oldalt, azaz a hirdetőtáblát."
+
+#~ msgid "Stránka, která se zobrazí, když obsah ještě nebyl odemčen."
+#~ msgstr ""
+#~ "Egy oldal, amely akkor jelenik meg, ha a tartalom még nem lett feloldva."
+
+#~ msgid ""
+#~ "Úroveň musí mít povoleno časově omezené odemykání, aby byl uživatel "
+#~ "přesměrován na tuto stránku."
+#~ msgstr ""
+#~ "Úroveň musí mít povoleno časově omezené odemykání, aby byl uživatel "
+#~ "přesměrován na tuto stránku."
+
+#~ msgid "Zvolili jste členskou sekci, prosím zvolte úroveň."
+#~ msgstr ""
+#~ "Ön kiválasztott egy tagsági szekciót, kérjük, válasszon egy szintet."
+
+#~ msgid "Odemknutí tlačítkem"
+#~ msgstr "Feloldás egy gombbal"
+
+#~ msgid "K odemčení úrovně musí uživatel již mít přístup do dané sekce."
+#~ msgstr ""
+#~ "Egy szint feloldásához a felhasználónak már hozzáféréssel kell "
+#~ "rendelkeznie az adott részhez."
+
+#~ msgid "Shrotcode talčítka pro uvolnění obsahu: "
+#~ msgstr "Shrotcode lemez, hogy kiadja a tartalmat:"
+
+#~ msgid "Časově omezené odemykání úrovně"
+#~ msgstr "Időben korlátozott szintfeloldás"
+
+#~ msgid "Datum kdy bude sekce/úroveň odemčena pro všechny uživatele."
+#~ msgstr ""
+#~ "Az az időpont, amikor a szekció/szint minden felhasználó számára "
+#~ "feloldásra kerül."
+
+#~ msgid ""
+#~ "Počet dní od registrace uživatele do členské sekce, po kterých má být "
+#~ "vybraná sekce/úroveň zpřístupněna."
+#~ msgstr ""
+#~ "Počet dní od registrace uživatele do členské sekce, po kterých má být "
+#~ "vybraná sekce/úroveň zpřístupněna."
+
+#~ msgid "0 = Sekce bude přístupná ihned po registraci"
+#~ msgstr "0 = A szakasz a regisztráció után azonnal elérhető lesz."
+
+#~ msgid "3 = Sekce bude přístupná 3 den po registraci"
+#~ msgstr "3 = A szekció a regisztráció után 3 nappal lesz elérhető."
+
+#~ msgid "Fapi Member"
+#~ msgstr "Fapi Tag"

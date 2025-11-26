@@ -1,0 +1,652 @@
+# Copyright (C) 2025 FAPI Business s.r.o.
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: FAPI Member 2.2.26\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/fapi-member\n"
+"POT-Creation-Date: 2025-11-26T14:28:27+00:00\n"
+"PO-Revision-Date: 2025-10-23T12:59:40+00:00\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: fapi-member\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+
+#. Plugin Name of the plugin
+#: fapi-member.php src/Divi/FapiMemberDivi.php:84
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:33
+#: src/Service/ElementService.php:35 src/Service/ElementService.php:36
+#: src/Service/ElementService.php:180
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
+msgid "FAPI Member"
+msgstr "Membru FAPI"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: fapi-member.php
+msgid "https://fapi.cz/"
+msgstr "https://fapi.cz/"
+
+#. Description of the plugin
+#: fapi-member.php
+msgid "Plugin FAPI pro jednoduchou správu členských sekcí na webu."
+msgstr ""
+"Plugin FAPI pentru gestionarea ușoară a secțiunilor membrilor de pe site."
+
+#. Author of the plugin
+#: fapi-member.php
+msgid "FAPI Business s.r.o."
+msgstr "FAPI Business s.r.o."
+
+#: multiple-blocks/multiple-blocks.php:33
+#: src/Elementor/Category/CategoryRegister.php:15
+#: src/Elementor/Widgets/FapiFormWidget.php:43
+msgid "FAPI"
+msgstr "FAPI"
+
+#: src/Bootstrap.php:536
+msgid "Člen"
+msgstr "Membru"
+
+#: src/Bootstrap.php:547
+msgid "FAPI Member - API e-mail"
+msgstr "Membru FAPI - API e-mail"
+
+#: src/Bootstrap.php:557
+msgid "FAPI Member - API key"
+msgstr "Membru FAPI - cheie API"
+
+#: src/Elementor/Widgets/FapiFormWidget.php:20
+msgid "FAPI form"
+msgstr "Formular FAPI"
+
+#: src/Elementor/Widgets/FapiFormWidget.php:52
+msgid "Prodejní formulář"
+msgstr "Formular de vânzare"
+
+#: src/Elementor/Widgets/FapiFormWidget.php:92
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
+msgid "-- vyberte prodejní formulář --"
+msgstr "-- selectați formularul de vânzări --"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:41
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:114
+msgid "Zobrazit blok pokud návštěvník"
+msgstr "Afișați blocul dacă vizitatorul"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:45
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
+msgid "je člen sekce/úrovně"
+msgstr "este membru al unei secțiuni/unui nivel"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:48
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
+msgid "není členem sekce/úrovně"
+msgstr "nu este membru al unei secțiuni/unui nivel"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:51
+msgid "zobrazit všem návštěvníkům (vybrané sekce a úrovně se ignorují)"
+msgstr ""
+"arată tuturor vizitatorilor (secțiunile și nivelurile selectate sunt "
+"ignorate)"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:54
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
+msgid ""
+"Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo "
+"úrovni nebo všem návštěvníkům."
+msgstr ""
+"Conținutul va fi afișat dacă membrul este/nu este atribuit într-o secțiune "
+"de membru, nivel sau tuturor vizitatorilor."
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
+msgid "Členské sekce a úrovně"
+msgstr "Secțiuni și niveluri ale membrilor"
+
+#: src/Service/ElementService.php:65
+msgid "Přiřazené sekce a úrovně"
+msgstr "Secțiuni și niveluri atribuite"
+
+#: src/Service/ElementService.php:153 src/Service/ElementService.php:166
+#: src/Service/ElementService.php:182
+msgid "Upravit ve FAPI Member"
+msgstr "Editare în membrul FAPI"
+
+#: src/Service/FormService.php:70
+msgid ""
+"Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a "
+"odeslat znovu."
+msgstr ""
+"Securitatea formularului nu a permis procesarea, încercați să reîncărcați "
+"pagina și să trimiteți din nou."
+
+#: src/Service/FormService.php:79
+msgid "Nemáte potřebná oprvánění."
+msgstr "Nu aveți drepturile necesare."
+
+#: src/Templates/levelSelection.php:9
+msgid "Výběr úrovně"
+msgstr "Selectarea nivelului"
+
+#: src/Templates/levelSelection.php:15
+msgid "Výběr sekce"
+msgstr "Selectarea secțiunii"
+
+#: src/Templates/levelSelection.php:16
+msgid "Prosím, zvolte jednu ze stránek, kam chcete vstoupit"
+msgstr ""
+"Vă rugăm să selectați una dintre paginile pe care doriți să le introduceți"
+
+#: src/Templates/levelSelection.php:57
+msgid "Vstoupit"
+msgstr "Introduceți"
+
+#: src/Utils/ShortcodeSubstitutor.php:35
+msgid "Přihlašovací jméno"
+msgstr "Nume de utilizator"
+
+#: src/Utils/ShortcodeSubstitutor.php:39
+msgid "Heslo"
+msgstr "Parolă"
+
+#: src/Utils/ShortcodeSubstitutor.php:43
+msgid "Zapomněli jste heslo?"
+msgstr "Ați uitat parola?"
+
+#: src/Utils/ShortcodeSubstitutor.php:46 src/Utils/ShortcodeSubstitutor.php:98
+msgid "Přihlásit se"
+msgstr "Conectați-vă"
+
+#: src/Utils/ShortcodeSubstitutor.php:74
+msgid "Uživatel"
+msgstr "Utilizator"
+
+#: src/Utils/ShortcodeSubstitutor.php:79
+msgid "Odhlásit se"
+msgstr "Deconectați-vă"
+
+#: src/Utils/ShortcodeSubstitutor.php:106
+#: src/Utils/ShortcodeSubstitutor.php:221
+msgid "neznámá sekce nebo úrověň"
+msgstr "secțiune sau nivel necunoscut"
+
+#: src/Utils/ShortcodeSubstitutor.php:112
+#: src/Utils/ShortcodeSubstitutor.php:155
+msgid "uživatel není přihlášen"
+msgstr "utilizatorul nu este conectat"
+
+#: src/Utils/ShortcodeSubstitutor.php:135
+#: src/Utils/ShortcodeSubstitutor.php:181
+#: src/Utils/ShortcodeSubstitutor.php:196
+msgid "bez přístupu"
+msgstr "fără acces"
+
+#: src/Utils/ShortcodeSubstitutor.php:140
+msgid "neomezeně"
+msgstr "nelimitat"
+
+#: src/Utils/ShortcodeSubstitutor.php:149
+msgid "neznámá úrověň"
+msgstr "nivel necunoscut"
+
+#: src/Utils/ShortcodeSubstitutor.php:208
+msgid "Bude odemčeno"
+msgstr "Acesta va fi deblocat"
+
+#: src/Utils/ShortcodeSubstitutor.php:212
+msgid "Neomezeně"
+msgstr "nelimitat"
+
+#: src/Utils/ShortcodeSubstitutor.php:231
+msgid "Odemknout úroveň"
+msgstr ""
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
+msgid "zobrazit všem návštěvníkům (vybrané sekce a urovně se ignorují)"
+msgstr ""
+"arată tuturor vizitatorilor (secțiunile și nivelurile selectate sunt "
+"ignorate)"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
+msgid "(všechny propojené účty)"
+msgstr "(toate conturile legate)"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
+msgid "Vyberte účet FAPI"
+msgstr "Selectați un cont FAPI"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
+msgid "Vyberte prodejní formulář"
+msgstr "Selectați un formular de vânzare"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
+msgid "Načítání dat, počkejte prosím..."
+msgstr "Încărcarea datelor, vă rugăm să așteptați..."
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
+msgid "<<< Zde bude prodejní formulář \"%s\" >>>"
+msgstr ""
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
+msgid "<<< Vyberte prodejní formulář z bočního menu >>>"
+msgstr "<<< Selectați formularul de vânzări din meniul lateral >>>>"
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+msgctxt "block title"
+msgid "FAPI Member - block extender"
+msgstr "Membru FAPI - extensor de bloc"
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+msgctxt "block description"
+msgid ""
+"Extends core blocks, enables show and hide block by member section and levels"
+msgstr ""
+"Extends core blocks, enables show and hide block by member section and levels"
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block keyword"
+msgid "fapi"
+msgstr "fapi"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block title"
+msgid "FAPI form"
+msgstr "Formular FAPI"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block description"
+msgid "FAPI form widget."
+msgstr "Widget de formular FAPI."
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block keyword"
+msgid "form"
+msgstr "formă"
+
+#~ msgid "Zobrazit pokud návštěvník"
+#~ msgstr "Vizualizați dacă sunteți vizitator"
+
+#~ msgid "Fapi Member - API e-mail"
+#~ msgstr "Membru Fapi - E-mail API"
+
+#~ msgid "Fapi Member - API key"
+#~ msgstr "Membru Fapi - cheie API"
+
+#~ msgid "Členské sekce"
+#~ msgstr "Secțiuni membre"
+
+#~ msgid "Datum registrace"
+#~ msgstr "Data înregistrării"
+
+#~ msgid "Čas registrace"
+#~ msgstr "Timpul de înregistrare"
+
+#~ msgid "Členství do"
+#~ msgstr "Aderarea la"
+
+#~ msgid "Bez expirace"
+#~ msgstr "Fără expirare"
+
+#~ msgid "Vybrat"
+#~ msgstr "Selectați"
+
+#~ msgid "CPT"
+#~ msgstr "CPT"
+
+#~ msgid "Tento doplněk není optimalizován pro telefony a malé monitory."
+#~ msgstr "Acest add-on nu este optimizat pentru telefoane și monitoare mici."
+
+#~ msgid "Přehled"
+#~ msgstr "Prezentare generală"
+
+#~ msgid "Propojení s FAPI"
+#~ msgstr "Legătura cu FAPI"
+
+#~ msgid "Propojení"
+#~ msgstr "Legătură"
+
+#~ msgid "Přiřazené stránky a příspěvky"
+#~ msgstr "Pagini și posturi atribuite"
+
+#~ msgid "E-maily"
+#~ msgstr "Email-uri"
+
+#~ msgid "Servisní stránky"
+#~ msgstr "Pagini de servicii"
+
+#~ msgid "Prvky pro web"
+#~ msgstr "Elemente pentru web"
+
+#~ msgid "Společné"
+#~ msgstr "Comun"
+
+#~ msgid "Uvolňování obsahu"
+#~ msgstr "Eliberarea conținutului"
+
+#~ msgid "Propojené účty FAPI:"
+#~ msgstr "Conturi FAPI legate:"
+
+#~ msgid "Uživatelské jméno (e-mail)"
+#~ msgstr "Nume utilizator (e-mail)"
+
+#~ msgid "API klíč"
+#~ msgstr "Cheie API"
+
+#~ msgid "Nejsou propojeny žádné účty"
+#~ msgstr "Nu există conturi legate"
+
+#~ msgid "Smazat propojení s FAPI"
+#~ msgstr "Ștergeți conexiunea la FAPI"
+
+#~ msgid "Propojit účet FAPI (max. "
+#~ msgstr "Conectați contul FAPI (max."
+
+#~ msgid "Propojit s FAPI"
+#~ msgstr "Legătură cu FAPI"
+
+#~ msgid "Stav propojení"
+#~ msgstr "Starea legăturii"
+
+#~ msgid "nepropojeno"
+#~ msgstr "Fără legătură"
+
+#~ msgid "Propojení s Integromatem"
+#~ msgstr "Conectarea cu Integromat"
+
+#~ msgid "FAPI Member API Token"
+#~ msgstr "Token API membru FAPI"
+
+#~ msgid "Zkopírovat"
+#~ msgstr "Faceți clic pentru a copia"
+
+#~ msgid "Přihlášení do členské sekce"
+#~ msgstr "Conectați-vă la secțiunea membrilor"
+
+#~ msgid "Přehled členských sekcí a úrovní"
+#~ msgstr "Prezentare generală a secțiunilor și nivelurilor de aderare"
+
+#~ msgid "Počet úrovní"
+#~ msgstr "Număr de niveluri"
+
+#~ msgid "Počet registrovaných"
+#~ msgstr "Număr de persoane înregistrate"
+
+#~ msgid "Seznam členů"
+#~ msgstr "Lista membrilor"
+
+#~ msgid "Stránek v celé sekci"
+#~ msgstr "Pagini în întreaga secțiune"
+
+#~ msgid "Nemáte vytvořenou žádnou členskou sekci."
+#~ msgstr "Nu ați creat nicio secțiune a membrilor."
+
+#~ msgid "Novou sekci můžete vytvořit na záložce Sekce / úrovně."
+#~ msgstr "Puteți crea o secțiune nouă în fila Secțiuni / Niveluri."
+
+#~ msgid "Přejít do záložky Sekce / úrovně"
+#~ msgstr "Mergeți la fila Secțiuni / Niveluri"
+
+#~ msgid "Tato sekce nemá žádné členy"
+#~ msgstr "Această secțiune nu are membri"
+
+#~ msgid "Uživatelské jméno"
+#~ msgstr "Nume utilizator"
+
+#~ msgid "Jméno a příjmení"
+#~ msgstr "Nume și prenume"
+
+#~ msgid "Email"
+#~ msgstr "E-mail"
+
+#~ msgid "Jméno a přijmení"
+#~ msgstr "Nume și prenume"
+
+#~ msgid "Exportovat do CSV"
+#~ msgstr "Export către CSV"
+
+#~ msgid "Členské sekce/úrovně"
+#~ msgstr "Secțiuni/nivele ale membrilor"
+
+#~ msgid "Prosím zvolte sekci/úroveň."
+#~ msgstr "Vă rugăm să selectați o secțiune/un nivel."
+
+#~ msgid "Uložit"
+#~ msgstr "Salvați"
+
+#~ msgid "Formulář pro přihlášení"
+#~ msgstr "Formular de conectare"
+
+#~ msgid "Formulář vložte do svého webu na požadovaná místa pomocí shortcode"
+#~ msgstr ""
+#~ "Introduceți formularul în site-ul dvs. în locurile necesare utilizând "
+#~ "codul scurt"
+
+#~ msgid "Formulář se zobrazí po znovunačtení stránky."
+#~ msgstr "Formularul va fi afișat atunci când pagina este reîncărcată."
+
+#~ msgid "Snímek obrazovky"
+#~ msgstr "Captură de ecran"
+
+#~ msgid "Uživatelské okénko"
+#~ msgstr "Fereastra utilizatorului"
+
+#~ msgid "Okénko vložte do svého webu na požadovaná místa pomocí shortcode"
+#~ msgstr ""
+#~ "Introduceți fereastra în site-ul dvs. în locurile dorite utilizând codul "
+#~ "scurt"
+
+#~ msgid ""
+#~ "Uživatelské okénko bude funkční pro uživatele všech členských sekcí a "
+#~ "úrovní."
+#~ msgstr ""
+#~ "Uživatelské okénko bude funkční pro uživatele všech členských sekcí a "
+#~ "úrovní."
+
+#~ msgid "Datum expirace pro členskou sekci nebo úrověň"
+#~ msgstr "Data expirării pentru secțiunea sau nivelul de membru"
+
+#~ msgid "Vypíše datum expirace zvolené členské sekce nebo úrovně"
+#~ msgstr "Listează data expirării secțiunii sau nivelului de membru selectat"
+
+#~ msgid "Jak shortcode použít"
+#~ msgstr "Cum să utilizați codul scurt"
+
+#~ msgid "Jak to poté vidí člen"
+#~ msgstr "Cum o vede atunci deputatul"
+
+#~ msgid "Odemčení úrovně tlačítkem"
+#~ msgstr "Deblocați nivelul cu butonul"
+
+#~ msgid "Tlačítko kterým uživatel může odeknou úroveň"
+#~ msgstr "Buton prin care utilizatorul poate întrerupe nivelul"
+
+#~ msgid "Čas zbývající do odemčení úrovně"
+#~ msgstr "Timpul rămas până la deblocarea nivelului"
+
+#~ msgid "Zvolte prosím sekci/úroveň vlevo."
+#~ msgstr "Vă rugăm să selectați secțiunea/nivelul din stânga."
+
+#~ msgid "E-mail po registraci do sekce"
+#~ msgstr "E-mail după înregistrarea la secțiune"
+
+#~ msgid "E-mail po prodloužení členství v sekci"
+#~ msgstr "E-mail după reînnoirea calității de membru"
+
+#~ msgid "E-mail po přidání do sekce"
+#~ msgstr "E-mail după adăugarea la secțiune"
+
+#~ msgid "E-mail po registraci do úrovně"
+#~ msgstr "E-mail după înregistrarea la nivel"
+
+#~ msgid "E-mail po prodloužení členství v úrovni"
+#~ msgstr "E-mail după reînnoirea nivelului de membru"
+
+#~ msgid "E-mail po přidání do úrovně"
+#~ msgstr "E-mail după adăugarea la nivel"
+
+#~ msgid "E-mail je převzat z nastavení členské sekce, do které úroveň spadá."
+#~ msgstr ""
+#~ "Adresa de e-mail este preluată din setările secțiunii membrilor căreia îi "
+#~ "aparține nivelul."
+
+#~ msgid "Nastavit vlastní e-mail pro úroveň"
+#~ msgstr "Configurați un e-mail personalizat pentru un nivel"
+
+#~ msgid "Předmět e-mailu"
+#~ msgstr "Subiectul e-mailului"
+
+#~ msgid "Obsah e-mailu"
+#~ msgstr "Conținut e-mail"
+
+#~ msgid "Dostupné proměnné"
+#~ msgstr "Variabile disponibile"
+
+#~ msgid "Kód"
+#~ msgstr "Cod"
+
+#~ msgid "Popis"
+#~ msgstr "Descriere"
+
+#~ msgid "Příklad"
+#~ msgstr "Exemplu"
+
+#~ msgid "Dostupné při"
+#~ msgstr "Disponibil la"
+
+#~ msgid "registraci nového člena"
+#~ msgstr "înregistrarea unui nou membru"
+
+#~ msgid "prodloužení/přidání sekce"
+#~ msgstr "extinderea/adăugarea secțiunii"
+
+#~ msgid "Název sekce"
+#~ msgstr "Denumirea secțiunii"
+
+#~ msgid "Italská kuchyně"
+#~ msgstr "Bucătărie italiană"
+
+#~ msgid "Název úrovně"
+#~ msgstr "Numele nivelului"
+
+#~ msgid "Začátečník"
+#~ msgstr "Începător"
+
+#~ msgid "Počet zakoupených dní nebo 'neomezeně'"
+#~ msgstr "Numărul de zile achiziționate sau nelimitat"
+
+#~ msgid "Datum konce členství nebo 'neomezené'"
+#~ msgstr "Data expirării calității de membru sau nelimitat"
+
+#~ msgid "Odkaz na přihlášení (z nastavení) pouze URL"
+#~ msgstr "Link de conectare (din setări) Numai URL"
+
+#~ msgid "Přihlašovací jméno uživatele"
+#~ msgstr "Numele de autentificare al utilizatorului"
+
+#~ msgid "Přihlašovací heslo uživatele"
+#~ msgstr "Parola de conectare a utilizatorului"
+
+#~ msgid "Název členské úrovně"
+#~ msgstr "Nume nivel membru"
+
+#~ msgid "Zařadit do členské sekce"
+#~ msgstr "Includeți în secțiunea membrilor"
+
+#~ msgid "Vytvořit úroveň"
+#~ msgstr "Creați un nivel"
+
+#~ msgid "Přihlašovací stránka"
+#~ msgstr "Pagina de autentificare"
+
+#~ msgid "Vyberte stránku, kde je umístěn přihlašovací formulář."
+#~ msgstr "Selectați pagina în care se află formularul de conectare."
+
+#~ msgid "Stránka nesmí být zařazena jako členská."
+#~ msgstr "Pagina nu trebuie să fie clasificată ca o pagină de membru."
+
+#~ msgid "Nástěnka"
+#~ msgstr "Site web"
+
+#~ msgid "Stránka, když uživatel nemá přístup"
+#~ msgstr "Pagina atunci când utilizatorul nu are acces"
+
+#~ msgid ""
+#~ "Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství."
+#~ msgstr ""
+#~ "Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství."
+
+#~ msgid "-- nevybrána --"
+#~ msgstr "-- nu a fost selectat --"
+
+#~ msgid "Název členské sekce"
+#~ msgstr "Numele secțiunii membre"
+
+#~ msgid "Vytvořit sekci"
+#~ msgstr "Creați o secțiune"
+
+#~ msgid "Stránka pro přihlášení"
+#~ msgstr "Pagina de autentificare"
+
+#~ msgid "Vyberte společnou přihlašovací stránku pro všechny sekce/úrovně."
+#~ msgstr ""
+#~ "Selectați o pagină de autentificare comună pentru toate secțiunile/"
+#~ "nivelurile."
+
+#~ msgid "Vyberte společnou stránku po příhlášení tzn. nástěnku."
+#~ msgstr "Selectați pagina comună după autentificare, adică avizierul."
+
+#~ msgid "Stránka, která se zobrazí, když obsah ještě nebyl odemčen."
+#~ msgstr "O pagină care apare atunci când conținutul nu a fost încă deblocat."
+
+#~ msgid ""
+#~ "Úroveň musí mít povoleno časově omezené odemykání, aby byl uživatel "
+#~ "přesměrován na tuto stránku."
+#~ msgstr ""
+#~ "Úroveň musí mít povoleno časově omezené odemykání, aby byl uživatel "
+#~ "přesměrován na tuto stránku."
+
+#~ msgid "Zvolili jste členskou sekci, prosím zvolte úroveň."
+#~ msgstr ""
+#~ "Ați selectat o secțiune pentru membri, vă rugăm să selectați un nivel."
+
+#~ msgid "Odemknutí tlačítkem"
+#~ msgstr "Deblocare cu un buton"
+
+#~ msgid "K odemčení úrovně musí uživatel již mít přístup do dané sekce."
+#~ msgstr ""
+#~ "Pentru a debloca un nivel, utilizatorul trebuie să aibă deja acces la "
+#~ "secțiunea respectivă."
+
+#~ msgid "Shrotcode talčítka pro uvolnění obsahu: "
+#~ msgstr "Placa Shrotcode pentru eliberarea conținutului:"
+
+#~ msgid "Časově omezené odemykání úrovně"
+#~ msgstr "Deblocare nivel limitată în timp"
+
+#~ msgid "Datum kdy bude sekce/úroveň odemčena pro všechny uživatele."
+#~ msgstr ""
+#~ "Data la care secțiunea/nivelul va fi deblocat pentru toți utilizatorii."
+
+#~ msgid ""
+#~ "Počet dní od registrace uživatele do členské sekce, po kterých má být "
+#~ "vybraná sekce/úroveň zpřístupněna."
+#~ msgstr ""
+#~ "Počet dní od registrace uživatele do členské sekce, po kterých má být "
+#~ "vybraná sekce/úroveň zpřístupněna."
+
+#~ msgid "0 = Sekce bude přístupná ihned po registraci"
+#~ msgstr "0 = Secțiunea va fi accesibilă imediat după înregistrare"
+
+#~ msgid "3 = Sekce bude přístupná 3 den po registraci"
+#~ msgstr "3 = Secțiunea va fi accesibilă la 3 zile după înregistrare"
+
+#~ msgid "Fapi Member"
+#~ msgstr "Membru Fapi"

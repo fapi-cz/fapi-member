@@ -136,6 +136,16 @@ final class Bootstrap
 		$this->addAdminHooks();
 		$this->registerUserFapiMemberTableColumn();
 
+		add_action('plugins_loaded', function () {
+			load_plugin_textdomain('fapi-member', false, 'fapi-member/languages');
+		}, 1);
+
+		add_action('init', function () {
+			if (!is_textdomain_loaded('fapi-member')) {
+				load_plugin_textdomain('fapi-member', false, 'fapi-member/languages');
+			}
+		}, 1);
+
 		add_action('wp_enqueue_scripts', [$this, 'addPublicScripts']);
 
 		add_action('rest_api_init', [$this, 'addRestEndpoints']);
@@ -403,10 +413,16 @@ final class Bootstrap
 
 		wp_enqueue_script(
 			'fm-react-app',
-			trailingslashit(plugins_url('/', __FILE__)) . '../app/dist/bundle.js',
+			FAPI_MEMBER_PLUGIN_URL . '/app/dist/bundle.js',
 			['jquery', 'wp-element'],
 			FAPI_MEMBER_PLUGIN_VERSION,
 			true,
+		);
+
+		wp_set_script_translations(
+			'fm-react-app',
+			'fapi-member',
+			FAPI_MEMBER_PLUGIN_PATH . 'languages'
 		);
 
 		wp_localize_script('fm-react-app', 'environmentData', [
@@ -528,7 +544,7 @@ final class Bootstrap
 			'fapiMemberApiEmail',
 			[
 				'type' => 'string',
-				'description' => __('Fapi Member - API e-mail', 'fapi-member'),
+				'description' => __('FAPI Member - API e-mail', 'fapi-member'),
 				'show_in_rest' => false,
 				'default' => null,
 			]
@@ -538,7 +554,7 @@ final class Bootstrap
 			'fapiMemberApiKey',
 			[
 				'type' => 'string',
-				'description' => __('Fapi Member - API key', 'fapi-member'),
+				'description' => __('FAPI Member - API key', 'fapi-member'),
 				'show_in_rest' => false,
 				'default' => null,
 			]
