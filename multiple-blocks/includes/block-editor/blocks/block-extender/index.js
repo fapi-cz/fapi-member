@@ -112,7 +112,7 @@ const withFapiSectionAndLevels = createHigherOrderComponent( ( BlockEdit ) => {
 					>
 						<RadioControl
 							label={ __(
-								'Zobrazit pokud návštěvník',
+								'Zobrazit blok pokud návštěvník',
 								'fapi-member'
 							) }
 							help={ __(

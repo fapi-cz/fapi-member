@@ -1,0 +1,36 @@
+{
+  "translation-revision-date": "2025-10-23T12:59:40+00:00",
+  "generator": "WP-CLI/2.12.0",
+  "source": "wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js",
+  "domain": "messages",
+  "locale_data": {
+    "messages": {
+      "": {
+        "domain": "messages",
+        "lang": "ru",
+        "plural-forms": "nplurals=2; plural=(n != 1);"
+      },
+      "-- vyberte prodejní formulář --": [
+        "-- выберите форму продажи..."
+      ],
+      "(všechny propojené účty)": [
+        "(все связанные счета)"
+      ],
+      "Vyberte účet FAPI": [
+        "Выберите учетную запись FAPI"
+      ],
+      "Vyberte prodejní formulář": [
+        "Выберите форму продажи"
+      ],
+      "Načítání dat, počkejte prosím...": [
+        "Загрузка данных, пожалуйста, подождите..."
+      ],
+      "<<< Zde bude prodejní formulář \"%s\" >>>": [
+        "Выберите учетную запись FAPI"
+      ],
+      "<<< Vyberte prodejní formulář z bočního menu >>>": [
+        "<<< Выберите форму продажи в боковом меню >>>>."
+      ]
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "translation-revision-date": "2025-10-23T12:59:40+00:00",
+  "generator": "WP-CLI/2.12.0",
+  "source": "wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/block-extender/index.js",
+  "domain": "messages",
+  "locale_data": {
+    "messages": {
+      "": {
+        "domain": "messages",
+        "lang": "pl",
+        "plural-forms": "nplurals=2; plural=(n != 1);"
+      },
+      "FAPI Member": [
+        "Członek FAPI"
+      ],
+      "je člen sekce/úrovně": [
+        "jest członkiem sekcji/poziomu"
+      ],
+      "není členem sekce/úrovně": [
+        "nie jest członkiem sekcji/poziomu"
+      ],
+      "Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo úrovni nebo všem návštěvníkům.": [
+        "Treść zostanie wyświetlona, jeśli członek jest/nie jest przypisany do sekcji lub poziomu członkowskiego lub do wszystkich odwiedzających."
+      ],
+      "Zobrazit pokud návštěvník": [
+        "Wyświetl, jeśli odwiedzający"
+      ],
+      "zobrazit všem návštěvníkům (vybrané sekce a urovně se ignorují)": [
+        "pokaż wszystkim odwiedzającym (wybrane sekcje i poziomy są ignorowane)"
+      ]
+    }
+  }
+}

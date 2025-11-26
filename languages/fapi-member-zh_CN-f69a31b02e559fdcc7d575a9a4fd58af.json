@@ -1,0 +1,33 @@
+{
+  "translation-revision-date": "2025-10-23T12:59:40+00:00",
+  "generator": "WP-CLI/2.12.0",
+  "source": "wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/block-extender/index.js",
+  "domain": "messages",
+  "locale_data": {
+    "messages": {
+      "": {
+        "domain": "messages",
+        "lang": "zh",
+        "plural-forms": "nplurals=2; plural=(n != 1);"
+      },
+      "FAPI Member": [
+        "FAPI 成员"
+      ],
+      "je člen sekce/úrovně": [
+        "是科/级成员"
+      ],
+      "není členem sekce/úrovně": [
+        "不属于科/级"
+      ],
+      "Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo úrovni nebo všem návštěvníkům.": [
+        "Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo úrovni nebo všem návštěvníkům."
+      ],
+      "Zobrazit pokud návštěvník": [
+        "查看是否有游客"
+      ],
+      "zobrazit všem návštěvníkům (vybrané sekce a urovně se ignorují)": [
+        "向所有访客显示（忽略选定的部分和级别）"
+      ]
+    }
+  }
+}

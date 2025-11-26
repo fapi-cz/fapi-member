@@ -32,8 +32,8 @@ class ElementService
         $slug = 'fapi-member-settings';
 
         add_menu_page(
-            __( 'Fapi Member', 'fapi-member' ),
-            __( 'Fapi Member', 'fapi-member' ),
+            __( 'FAPI Member', 'fapi-member' ),
+            __( 'FAPI Member', 'fapi-member' ),
             UserPermission::REQUIRED_CAPABILITY,
             $slug,
             [$this, 'addMenuPage'],

@@ -1,0 +1,33 @@
+{
+  "translation-revision-date": "2025-10-23T12:59:40+00:00",
+  "generator": "WP-CLI/2.12.0",
+  "source": "wp-build/multiple-blocks/includes/block-editor/blocks/block-extender/index.js",
+  "domain": "messages",
+  "locale_data": {
+    "messages": {
+      "": {
+        "domain": "messages",
+        "lang": "vi",
+        "plural-forms": "nplurals=2; plural=(n != 1);"
+      },
+      "FAPI Member": [
+        "Thành viên FAPI"
+      ],
+      "je člen sekce/úrovně": [
+        "là thành viên của bộ phận/cấp độ"
+      ],
+      "není členem sekce/úrovně": [
+        "không phải là thành viên của bộ phận/cấp độ"
+      ],
+      "Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo úrovni nebo všem návštěvníkům.": [
+        "Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo úrovni nebo všem návštěvníkům."
+      ],
+      "Zobrazit pokud návštěvník": [
+        "Hiển thị nếu khách truy cập"
+      ],
+      "zobrazit všem návštěvníkům (vybrané sekce a urovně se ignorují)": [
+        "hiển thị cho tất cả khách truy cập (các phần và cấp độ được chọn sẽ bị bỏ qua)"
+      ]
+    }
+  }
+}

@@ -38,7 +38,7 @@ final class WidgetsSettingsExtender
 		$section->add_control(
 			'hasSectionOrLevel',
 			array(
-				'label'       => __( 'Zobrazit pokud návštěvník', 'fapi-member' ),
+				'label'       => __( 'Zobrazit blok pokud návštěvník', 'fapi-member' ),
 				'type'        => Controls_Manager::SELECT,
 				'options'     => array(
 					'1' => array(

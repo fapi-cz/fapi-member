@@ -151,6 +151,43 @@ Pokud ve `wp_options` nastavíte klíč `fapiIsDevelopment` na hodnotu `1`, pak 
 v menu pluginu objeví červená možnost Testovací akce, která umožní spustit obsah souboru `templates/test.php`,
 to je možné využít při vývoji na testování např. zakládání uživatelů, posílání mailů atd.
 
+# Překlady
+
+Test funkčnosti CLI:
+Musí přejít do složky s docker-compose.yml
+
+    docker compose run --rm wpcli core version
+
+1.
+```
+docker compose exec -e WP_CLI_PHP_ARGS='-d memory_limit=768M' wpcli \
+    wp i18n make-pot \
+        wp-content/plugins/fapi-member \
+        wp-content/plugins/fapi-member/languages/fapi-member.pot \
+        --slug=fapi-member \
+        --exclude="node_modules,build,dist,vendor,*.min.js,assets/js/vendor
+```
+
+2.
+```
+for lang in cs_CZ en_US es_ES sk_SK hr_HR hu_HU de_DE vi_VN pl_PL ro_RO ru_RU it_IT pt_PT fr_FR zh_CN sl_SI; do
+  msginit --locale=$lang --input=fapi-member.pot --output-file=fapi-member-$lang.po --no-translator
+done
+```
+
+3. 
+```
+for lang in *.po; do
+  msgfmt $lang -o "${lang%.po}.mo"
+done
+```
+
+4.
+```    
+docker run --rm -v "$PWD":/app -w /app wpcli/wp-cli:2-php8.2 \
+        wp i18n make-json languages --no-purge
+```
+
 # Build a nasazení na WP
 ## POUZE POKUD VÍŠ CO DĚLÁŠ
 Koukni na: https://youtu.be/ypv-TVbMtcs

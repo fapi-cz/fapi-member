@@ -1,0 +1,1266 @@
+# Copyright (C) 2025 FAPI Business s.r.o.
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: FAPI Member 2.2.26\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/fapi-member\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-10-23T12:59:40+00:00\n"
+"PO-Revision-Date: 2025-10-23T12:59:40+00:00\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: fapi-member\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#. Plugin Name of the plugin
+#: fapi-member.php src/Divi/FapiMemberDivi.php:84
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:33
+#: src/Service/ElementService.php:35 src/Service/ElementService.php:36
+#: src/Service/ElementService.php:180 wp-build/src/Divi/FapiMemberDivi.php:84
+#: wp-build/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:33
+#: wp-build/src/Service/ElementService.php:180
+#: wp-svn/tags/1.9.47/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:35
+#: wp-svn/tags/2.1.18/src/Divi/FapiMemberDivi.php:84
+#: wp-svn/tags/2.1.18/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:33
+#: wp-svn/tags/2.2.24/src/Divi/FapiMemberDivi.php:84
+#: wp-svn/tags/2.2.24/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:33
+#: wp-svn/tags/2.2.24/src/Service/ElementService.php:180
+#: wp-svn/tags/2.2.25/src/Divi/FapiMemberDivi.php:84
+#: wp-svn/tags/2.2.25/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:33
+#: wp-svn/tags/2.2.25/src/Service/ElementService.php:180
+#: wp-svn/tags/2.2.26/src/Divi/FapiMemberDivi.php:84
+#: wp-svn/tags/2.2.26/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:33
+#: wp-svn/tags/2.2.26/src/Service/ElementService.php:180
+#: wp-svn/trunk/src/Divi/FapiMemberDivi.php:84
+#: wp-svn/trunk/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:33
+#: wp-svn/trunk/src/Service/ElementService.php:180
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
+#: wp-build/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
+#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
+#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
+#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
+#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
+#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
+#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:110
+msgid "FAPI Member"
+msgstr "Член FAPI"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: fapi-member.php
+msgid "https://fapi.cz/"
+msgstr "https://fapi.cz/"
+
+#. Description of the plugin
+#: fapi-member.php
+msgid "Plugin FAPI pro jednoduchou správu členských sekcí na webu."
+msgstr "FAPI-плагин для удобного управления разделами участников на сайте."
+
+#. Author of the plugin
+#: fapi-member.php
+msgid "FAPI Business s.r.o."
+msgstr "FAPI Business s.r.o."
+
+#: multiple-blocks/multiple-blocks.php:33
+#: src/Elementor/Category/CategoryRegister.php:15
+#: src/Elementor/Widgets/FapiFormWidget.php:43
+#: wp-build/multiple-blocks/multiple-blocks.php:33
+#: wp-build/src/Elementor/Category/CategoryRegister.php:15
+#: wp-build/src/Elementor/Widgets/FapiFormWidget.php:43
+#: wp-svn/tags/1.9.47/multiple-blocks/multiple-blocks.php:33
+#: wp-svn/tags/1.9.47/src/Elementor/Category/CategoryRegister.php:14
+#: wp-svn/tags/1.9.47/src/Elementor/Widgets/FapiFormWidget.php:43
+#: wp-svn/tags/2.1.18/multiple-blocks/multiple-blocks.php:33
+#: wp-svn/tags/2.1.18/src/Elementor/Category/CategoryRegister.php:15
+#: wp-svn/tags/2.1.18/src/Elementor/Widgets/FapiFormWidget.php:43
+#: wp-svn/tags/2.2.24/multiple-blocks/multiple-blocks.php:33
+#: wp-svn/tags/2.2.24/src/Elementor/Category/CategoryRegister.php:15
+#: wp-svn/tags/2.2.24/src/Elementor/Widgets/FapiFormWidget.php:43
+#: wp-svn/tags/2.2.25/multiple-blocks/multiple-blocks.php:33
+#: wp-svn/tags/2.2.25/src/Elementor/Category/CategoryRegister.php:15
+#: wp-svn/tags/2.2.25/src/Elementor/Widgets/FapiFormWidget.php:43
+#: wp-svn/tags/2.2.26/multiple-blocks/multiple-blocks.php:33
+#: wp-svn/tags/2.2.26/src/Elementor/Category/CategoryRegister.php:15
+#: wp-svn/tags/2.2.26/src/Elementor/Widgets/FapiFormWidget.php:43
+#: wp-svn/trunk/multiple-blocks/multiple-blocks.php:33
+#: wp-svn/trunk/src/Elementor/Category/CategoryRegister.php:15
+#: wp-svn/trunk/src/Elementor/Widgets/FapiFormWidget.php:43
+msgid "FAPI"
+msgstr "FAPI"
+
+#: src/Bootstrap.php:524 wp-build/src/Bootstrap.php:520
+#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:327
+#: wp-svn/tags/2.1.18/src/Bootstrap.php:384
+#: wp-svn/tags/2.2.24/src/Bootstrap.php:520
+#: wp-svn/tags/2.2.25/src/Bootstrap.php:520
+#: wp-svn/tags/2.2.26/src/Bootstrap.php:520 wp-svn/trunk/src/Bootstrap.php:520
+msgid "Člen"
+msgstr "Член"
+
+#: src/Bootstrap.php:535
+msgid "FAPI Member - API e-mail"
+msgstr "Член FAPI - электронная почта API"
+
+#: src/Bootstrap.php:545
+msgid "FAPI Member - API key"
+msgstr "Член FAPI - ключ API"
+
+#: src/Elementor/Widgets/FapiFormWidget.php:20
+#: wp-build/src/Elementor/Widgets/FapiFormWidget.php:20
+#: wp-svn/tags/1.9.47/src/Elementor/Widgets/FapiFormWidget.php:20
+#: wp-svn/tags/2.1.18/src/Elementor/Widgets/FapiFormWidget.php:20
+#: wp-svn/tags/2.2.24/src/Elementor/Widgets/FapiFormWidget.php:20
+#: wp-svn/tags/2.2.25/src/Elementor/Widgets/FapiFormWidget.php:20
+#: wp-svn/tags/2.2.26/src/Elementor/Widgets/FapiFormWidget.php:20
+#: wp-svn/trunk/src/Elementor/Widgets/FapiFormWidget.php:20
+msgid "FAPI form"
+msgstr "Форма FAPI"
+
+#: src/Elementor/Widgets/FapiFormWidget.php:52
+#: wp-build/src/Elementor/Widgets/FapiFormWidget.php:52
+#: wp-svn/tags/1.9.47/src/Elementor/Widgets/FapiFormWidget.php:52
+#: wp-svn/tags/2.1.18/src/Elementor/Widgets/FapiFormWidget.php:52
+#: wp-svn/tags/2.2.24/src/Elementor/Widgets/FapiFormWidget.php:52
+#: wp-svn/tags/2.2.25/src/Elementor/Widgets/FapiFormWidget.php:52
+#: wp-svn/tags/2.2.26/src/Elementor/Widgets/FapiFormWidget.php:52
+#: wp-svn/trunk/src/Elementor/Widgets/FapiFormWidget.php:52
+msgid "Prodejní formulář"
+msgstr "Форма продажи"
+
+#: src/Elementor/Widgets/FapiFormWidget.php:92
+#: wp-build/src/Elementor/Widgets/FapiFormWidget.php:92
+#: wp-svn/tags/1.9.47/src/Elementor/Widgets/FapiFormWidget.php:91
+#: wp-svn/tags/2.1.18/src/Elementor/Widgets/FapiFormWidget.php:92
+#: wp-svn/tags/2.2.24/src/Elementor/Widgets/FapiFormWidget.php:92
+#: wp-svn/tags/2.2.25/src/Elementor/Widgets/FapiFormWidget.php:92
+#: wp-svn/tags/2.2.26/src/Elementor/Widgets/FapiFormWidget.php:92
+#: wp-svn/trunk/src/Elementor/Widgets/FapiFormWidget.php:92
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
+#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
+#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
+#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
+#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
+#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
+#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
+#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:36
+msgid "-- vyberte prodejní formulář --"
+msgstr "-- выберите форму продажи..."
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:41
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:114
+msgid "Zobrazit blok pokud návštěvník"
+msgstr "Покажите блок, если посетитель"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:45
+#: wp-build/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:45
+#: wp-svn/tags/1.9.47/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:47
+#: wp-svn/tags/2.1.18/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:45
+#: wp-svn/tags/2.2.24/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:45
+#: wp-svn/tags/2.2.25/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:45
+#: wp-svn/tags/2.2.26/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:45
+#: wp-svn/trunk/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:45
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
+#: wp-build/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
+#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
+#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
+#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
+#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
+#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
+#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:125
+msgid "je člen sekce/úrovně"
+msgstr "является членом секции/уровня"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:48
+#: wp-build/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:48
+#: wp-svn/tags/1.9.47/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:50
+#: wp-svn/tags/2.1.18/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:48
+#: wp-svn/tags/2.2.24/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:48
+#: wp-svn/tags/2.2.25/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:48
+#: wp-svn/tags/2.2.26/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:48
+#: wp-svn/trunk/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:48
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
+#: wp-build/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
+#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
+#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
+#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
+#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
+#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
+#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:132
+msgid "není členem sekce/úrovně"
+msgstr "не является членом секции/уровня"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:51
+#: wp-build/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:51
+#: wp-svn/tags/1.9.47/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:53
+#: wp-svn/tags/2.1.18/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:51
+#: wp-svn/tags/2.2.24/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:51
+#: wp-svn/tags/2.2.25/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:51
+#: wp-svn/tags/2.2.26/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:51
+#: wp-svn/trunk/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:51
+msgid "zobrazit všem návštěvníkům (vybrané sekce a úrovně se ignorují)"
+msgstr "показывать всем посетителям (выбранные разделы и уровни игнорируются)"
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:54
+#: wp-build/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:54
+#: wp-svn/tags/1.9.47/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:56
+#: wp-svn/tags/2.1.18/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:54
+#: wp-svn/tags/2.2.24/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:54
+#: wp-svn/tags/2.2.25/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:54
+#: wp-svn/tags/2.2.26/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:54
+#: wp-svn/trunk/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:54
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
+#: wp-build/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
+#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
+#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
+#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
+#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
+#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
+#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:118
+msgid ""
+"Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo "
+"úrovni nebo všem návštěvníkům."
+msgstr "Obsah se zobrazí v případě že člen je/není přiřazený v členské sekci nebo úrovni nebo všem návštěvníkům."
+
+#: src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
+#: wp-build/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
+#: wp-svn/tags/1.9.47/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:67
+#: wp-svn/tags/2.1.18/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
+#: wp-svn/tags/2.2.24/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
+#: wp-svn/tags/2.2.25/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
+#: wp-svn/tags/2.2.26/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
+#: wp-svn/trunk/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:65
+msgid "Členské sekce a úrovně"
+msgstr "Разделы и уровни участников"
+
+#: src/Service/ElementService.php:65 wp-build/src/Service/ElementService.php:65
+#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:441
+#: wp-svn/tags/2.1.18/src/Service/ElementService.php:65
+#: wp-svn/tags/2.2.24/src/Service/ElementService.php:65
+#: wp-svn/tags/2.2.25/src/Service/ElementService.php:65
+#: wp-svn/tags/2.2.26/src/Service/ElementService.php:65
+#: wp-svn/trunk/src/Service/ElementService.php:65
+msgid "Přiřazené sekce a úrovně"
+msgstr "Назначенные разделы и уровни"
+
+#: src/Service/ElementService.php:153 src/Service/ElementService.php:166
+#: src/Service/ElementService.php:182
+#: wp-build/src/Service/ElementService.php:153
+#: wp-build/src/Service/ElementService.php:166
+#: wp-build/src/Service/ElementService.php:182
+#: wp-svn/tags/2.2.24/src/Service/ElementService.php:153
+#: wp-svn/tags/2.2.24/src/Service/ElementService.php:166
+#: wp-svn/tags/2.2.24/src/Service/ElementService.php:182
+#: wp-svn/tags/2.2.25/src/Service/ElementService.php:153
+#: wp-svn/tags/2.2.25/src/Service/ElementService.php:166
+#: wp-svn/tags/2.2.25/src/Service/ElementService.php:182
+#: wp-svn/tags/2.2.26/src/Service/ElementService.php:153
+#: wp-svn/tags/2.2.26/src/Service/ElementService.php:166
+#: wp-svn/tags/2.2.26/src/Service/ElementService.php:182
+#: wp-svn/trunk/src/Service/ElementService.php:153
+#: wp-svn/trunk/src/Service/ElementService.php:166
+#: wp-svn/trunk/src/Service/ElementService.php:182
+msgid "Upravit ve FAPI Member"
+msgstr "Редактирование в члене FAPI"
+
+#: src/Service/FormService.php:70 wp-build/src/Service/FormService.php:70
+#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:1358
+#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:1902
+#: wp-svn/tags/2.1.18/src/Service/FormService.php:70
+#: wp-svn/tags/2.2.24/src/Service/FormService.php:70
+#: wp-svn/tags/2.2.25/src/Service/FormService.php:70
+#: wp-svn/tags/2.2.26/src/Service/FormService.php:70
+#: wp-svn/trunk/src/Service/FormService.php:70
+msgid ""
+"Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a "
+"odeslat znovu."
+msgstr "Zabezpečení formuláře neumožnilo zpracování, zkuste obnovit stránku a odeslat znovu."
+
+#: src/Service/FormService.php:79 wp-build/src/Service/FormService.php:79
+#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:1361
+#: wp-svn/tags/2.1.18/src/Service/FormService.php:79
+#: wp-svn/tags/2.2.24/src/Service/FormService.php:79
+#: wp-svn/tags/2.2.25/src/Service/FormService.php:79
+#: wp-svn/tags/2.2.26/src/Service/FormService.php:79
+#: wp-svn/trunk/src/Service/FormService.php:79
+msgid "Nemáte potřebná oprvánění."
+msgstr "У вас нет необходимых скальдов."
+
+#: src/Templates/levelSelection.php:9
+#: wp-build/src/Templates/levelSelection.php:9
+#: wp-svn/tags/1.9.47/templates/levelSelection.php:8
+#: wp-svn/tags/2.1.18/src/Templates/levelSelection.php:9
+#: wp-svn/tags/2.2.24/src/Templates/levelSelection.php:9
+#: wp-svn/tags/2.2.25/src/Templates/levelSelection.php:9
+#: wp-svn/tags/2.2.26/src/Templates/levelSelection.php:9
+#: wp-svn/trunk/src/Templates/levelSelection.php:9
+msgid "Výběr úrovně"
+msgstr "Выбор уровня"
+
+#: src/Templates/levelSelection.php:15
+#: wp-build/src/Templates/levelSelection.php:15
+#: wp-svn/tags/1.9.47/templates/levelSelection.php:14
+#: wp-svn/tags/2.1.18/src/Templates/levelSelection.php:15
+#: wp-svn/tags/2.2.24/src/Templates/levelSelection.php:15
+#: wp-svn/tags/2.2.25/src/Templates/levelSelection.php:15
+#: wp-svn/tags/2.2.26/src/Templates/levelSelection.php:15
+#: wp-svn/trunk/src/Templates/levelSelection.php:15
+msgid "Výběr sekce"
+msgstr "Выбор секции"
+
+#: src/Templates/levelSelection.php:16
+#: wp-build/src/Templates/levelSelection.php:16
+#: wp-svn/tags/1.9.47/templates/levelSelection.php:15
+#: wp-svn/tags/2.1.18/src/Templates/levelSelection.php:16
+#: wp-svn/tags/2.2.24/src/Templates/levelSelection.php:16
+#: wp-svn/tags/2.2.25/src/Templates/levelSelection.php:16
+#: wp-svn/tags/2.2.26/src/Templates/levelSelection.php:16
+#: wp-svn/trunk/src/Templates/levelSelection.php:16
+msgid "Prosím, zvolte jednu ze stránek, kam chcete vstoupit"
+msgstr "Пожалуйста, выберите одну из страниц, на которую вы хотите войти"
+
+#: src/Templates/levelSelection.php:57
+#: wp-build/src/Templates/levelSelection.php:57
+#: wp-svn/tags/1.9.47/templates/levelSelection.php:56
+#: wp-svn/tags/2.1.18/src/Templates/levelSelection.php:57
+#: wp-svn/tags/2.2.24/src/Templates/levelSelection.php:57
+#: wp-svn/tags/2.2.25/src/Templates/levelSelection.php:57
+#: wp-svn/tags/2.2.26/src/Templates/levelSelection.php:57
+#: wp-svn/trunk/src/Templates/levelSelection.php:57
+msgid "Vstoupit"
+msgstr "Заходите на"
+
+#: src/Utils/ShortcodeSubstitutor.php:35
+#: wp-build/src/Utils/ShortcodeSubstitutor.php:35
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:761
+#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:35
+#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:35
+#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:35
+#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:35
+#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:35
+msgid "Přihlašovací jméno"
+msgstr "Имя пользователя"
+
+#: src/Utils/ShortcodeSubstitutor.php:39
+#: wp-build/src/Utils/ShortcodeSubstitutor.php:39
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:765
+#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:39
+#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:39
+#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:39
+#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:39
+#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:39
+msgid "Heslo"
+msgstr "Пароль"
+
+#: src/Utils/ShortcodeSubstitutor.php:43
+#: wp-build/src/Utils/ShortcodeSubstitutor.php:43
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:769
+#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:43
+#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:43
+#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:43
+#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:43
+#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:43
+msgid "Zapomněli jste heslo?"
+msgstr "Забыли пароль?"
+
+#: src/Utils/ShortcodeSubstitutor.php:46 src/Utils/ShortcodeSubstitutor.php:98
+#: wp-build/src/Utils/ShortcodeSubstitutor.php:46
+#: wp-build/src/Utils/ShortcodeSubstitutor.php:98
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:772
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:827
+#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:46
+#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:98
+#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:46
+#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:98
+#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:46
+#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:98
+#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:46
+#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:98
+#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:46
+#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:98
+msgid "Přihlásit se"
+msgstr "Войти"
+
+#: src/Utils/ShortcodeSubstitutor.php:74
+#: wp-build/src/Utils/ShortcodeSubstitutor.php:74
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:803
+#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:74
+#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:74
+#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:74
+#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:74
+#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:74
+msgid "Uživatel"
+msgstr "Пользователь"
+
+#: src/Utils/ShortcodeSubstitutor.php:79
+#: wp-build/src/Utils/ShortcodeSubstitutor.php:79
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:808
+#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:79
+#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:79
+#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:79
+#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:79
+#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:79
+msgid "Odhlásit se"
+msgstr "Выйти из системы"
+
+#: src/Utils/ShortcodeSubstitutor.php:106
+#: src/Utils/ShortcodeSubstitutor.php:221
+#: wp-build/src/Utils/ShortcodeSubstitutor.php:106
+#: wp-build/src/Utils/ShortcodeSubstitutor.php:221
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:617
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:665
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:689
+#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:106
+#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:221
+#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:106
+#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:221
+#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:106
+#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:221
+#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:106
+#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:221
+#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:106
+#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:221
+msgid "neznámá sekce nebo úrověň"
+msgstr "неизвестный раздел или уровень"
+
+#: src/Utils/ShortcodeSubstitutor.php:112
+#: src/Utils/ShortcodeSubstitutor.php:155
+#: wp-build/src/Utils/ShortcodeSubstitutor.php:112
+#: wp-build/src/Utils/ShortcodeSubstitutor.php:155
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:623
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:695
+#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:112
+#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:155
+#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:112
+#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:155
+#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:112
+#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:155
+#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:112
+#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:155
+#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:112
+#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:155
+msgid "uživatel není přihlášen"
+msgstr "пользователь не вошел в систему"
+
+#: src/Utils/ShortcodeSubstitutor.php:135
+#: src/Utils/ShortcodeSubstitutor.php:181
+#: src/Utils/ShortcodeSubstitutor.php:196
+#: wp-build/src/Utils/ShortcodeSubstitutor.php:135
+#: wp-build/src/Utils/ShortcodeSubstitutor.php:181
+#: wp-build/src/Utils/ShortcodeSubstitutor.php:196
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:647
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:730
+#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:135
+#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:181
+#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:196
+#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:135
+#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:181
+#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:196
+#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:135
+#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:181
+#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:196
+#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:135
+#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:181
+#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:196
+#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:135
+#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:181
+#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:196
+msgid "bez přístupu"
+msgstr "без доступа"
+
+#: src/Utils/ShortcodeSubstitutor.php:140
+#: wp-build/src/Utils/ShortcodeSubstitutor.php:140
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:652
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:747
+#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:140
+#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:140
+#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:140
+#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:140
+#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:140
+msgid "neomezeně"
+msgstr "Неограниченное количество"
+
+#: src/Utils/ShortcodeSubstitutor.php:149
+#: wp-build/src/Utils/ShortcodeSubstitutor.php:149
+#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:149
+#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:149
+#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:149
+#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:149
+#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:149
+msgid "neznámá úrověň"
+msgstr "неизвестный уровень"
+
+#: src/Utils/ShortcodeSubstitutor.php:208
+#: wp-build/src/Utils/ShortcodeSubstitutor.php:208
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:743
+#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:208
+#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:208
+#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:208
+#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:208
+#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:208
+msgid "Bude odemčeno"
+msgstr "Он будет разблокирован"
+
+#: src/Utils/ShortcodeSubstitutor.php:212
+#: wp-build/src/Utils/ShortcodeSubstitutor.php:212
+#: wp-svn/tags/2.1.18/src/Utils/ShortcodeSubstitutor.php:212
+#: wp-svn/tags/2.2.24/src/Utils/ShortcodeSubstitutor.php:212
+#: wp-svn/tags/2.2.25/src/Utils/ShortcodeSubstitutor.php:212
+#: wp-svn/tags/2.2.26/src/Utils/ShortcodeSubstitutor.php:212
+#: wp-svn/trunk/src/Utils/ShortcodeSubstitutor.php:212
+msgid "Neomezeně"
+msgstr "Неограниченное количество"
+
+#: wp-build/src/Bootstrap.php:531
+#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:1957
+#: wp-svn/tags/2.1.18/src/Bootstrap.php:395
+#: wp-svn/tags/2.2.24/src/Bootstrap.php:531
+#: wp-svn/tags/2.2.25/src/Bootstrap.php:531
+#: wp-svn/tags/2.2.26/src/Bootstrap.php:531 wp-svn/trunk/src/Bootstrap.php:531
+msgid "Fapi Member - API e-mail"
+msgstr "Fapi Member - электронная почта API"
+
+#: wp-build/src/Bootstrap.php:541
+#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:1967
+#: wp-svn/tags/2.1.18/src/Bootstrap.php:405
+#: wp-svn/tags/2.2.24/src/Bootstrap.php:541
+#: wp-svn/tags/2.2.25/src/Bootstrap.php:541
+#: wp-svn/tags/2.2.26/src/Bootstrap.php:541 wp-svn/trunk/src/Bootstrap.php:541
+msgid "Fapi Member - API key"
+msgstr "Fapi Member - ключ API"
+
+#: wp-build/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:41
+#: wp-svn/tags/1.9.47/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:43
+#: wp-svn/tags/2.1.18/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:41
+#: wp-svn/tags/2.2.24/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:41
+#: wp-svn/tags/2.2.25/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:41
+#: wp-svn/tags/2.2.26/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:41
+#: wp-svn/trunk/src/Elementor/WidgetSettingsExtender/WidgetsSettingsExtender.php:41
+#: wp-build/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:114
+#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:114
+#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:114
+#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:114
+#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:114
+#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:114
+#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:114
+msgid "Zobrazit pokud návštěvník"
+msgstr "Посмотреть, если посетитель"
+
+#: wp-build/src/Service/ElementService.php:35
+#: wp-build/src/Service/ElementService.php:36
+#: wp-svn/tags/2.1.18/src/Service/ElementService.php:35
+#: wp-svn/tags/2.1.18/src/Service/ElementService.php:36
+#: wp-svn/tags/2.2.24/src/Service/ElementService.php:35
+#: wp-svn/tags/2.2.24/src/Service/ElementService.php:36
+#: wp-svn/tags/2.2.25/src/Service/ElementService.php:35
+#: wp-svn/tags/2.2.25/src/Service/ElementService.php:36
+#: wp-svn/tags/2.2.26/src/Service/ElementService.php:35
+#: wp-svn/tags/2.2.26/src/Service/ElementService.php:36
+#: wp-svn/trunk/src/Service/ElementService.php:35
+#: wp-svn/trunk/src/Service/ElementService.php:36
+msgid "Fapi Member"
+msgstr "Член Fapi"
+
+#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:2095
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:905
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:926
+msgid "Členské sekce"
+msgstr "Разделы для участников"
+
+#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:2142
+#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:2201
+msgid "Datum registrace"
+msgstr "Дата регистрации"
+
+#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:2144
+#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:2207
+msgid "Čas registrace"
+msgstr "Время регистрации"
+
+#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:2146
+msgid "Členství do"
+msgstr "Членство в"
+
+#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:2148
+#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:2219
+msgid "Bez expirace"
+msgstr "Без срока годности"
+
+#: wp-svn/tags/1.9.47/src/FapiMemberPlugin.php:2194
+msgid "Vybrat"
+msgstr "Выберите"
+
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:424
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:532
+msgid "CPT"
+msgstr "CPT"
+
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:865
+msgid "Tento doplněk není optimalizován pro telefony a malé monitory."
+msgstr "Это дополнение не оптимизировано для телефонов и маленьких мониторов."
+
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:901
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:919
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:948
+msgid "Přehled"
+msgstr "Обзор"
+
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:909
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:930
+msgid "Propojení s FAPI"
+msgstr "Связывание с FAPI"
+
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:954
+msgid "Propojení"
+msgstr "Ссылка"
+
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:963
+msgid "Přiřazené stránky a příspěvky"
+msgstr "Назначенные страницы и посты"
+
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:967
+msgid "E-maily"
+msgstr "Электронные письма"
+
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:968
+msgid "Servisní stránky"
+msgstr "Страницы обслуживания"
+
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:969
+msgid "Prvky pro web"
+msgstr "Элементы для Интернета"
+
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:970
+msgid "Společné"
+msgstr "Общий"
+
+#: wp-svn/tags/1.9.47/src/FapiMemberTools.php:971
+msgid "Uvolňování obsahu"
+msgstr "Выпуск контента"
+
+#: wp-svn/tags/1.9.47/templates/connection.php:12
+msgid "Propojené účty FAPI:"
+msgstr "Связанные учетные записи FAPI:"
+
+#: wp-svn/tags/1.9.47/templates/connection.php:16
+#: wp-svn/tags/1.9.47/templates/connection.php:47
+msgid "Uživatelské jméno (e-mail)"
+msgstr "Имя пользователя (электронная почта)"
+
+#: wp-svn/tags/1.9.47/templates/connection.php:17
+#: wp-svn/tags/1.9.47/templates/connection.php:51
+msgid "API klíč"
+msgstr "Ключ API"
+
+#: wp-svn/tags/1.9.47/templates/connection.php:25
+msgid "Nejsou propojeny žádné účty"
+msgstr "Нет привязанных счетов"
+
+#: wp-svn/tags/1.9.47/templates/connection.php:35
+msgid "Smazat propojení s FAPI"
+msgstr "Удалить соединение с FAPI"
+
+#: wp-svn/tags/1.9.47/templates/connection.php:45
+msgid "Propojit účet FAPI (max. "
+msgstr "Свяжите учетную запись FAPI (макс."
+
+#: wp-svn/tags/1.9.47/templates/connection.php:55
+msgid "Propojit s FAPI"
+msgstr "Связь с FAPI"
+
+#: wp-svn/tags/1.9.47/templates/connection.php:59
+msgid "Stav propojení"
+msgstr "Статус ссылки"
+
+#: wp-svn/tags/1.9.47/templates/connection.php:60
+msgid "nepropojeno"
+msgstr "Несвязанный"
+
+#: wp-svn/tags/1.9.47/templates/connection.php:63
+msgid "Propojení s Integromatem"
+msgstr "Связь с Integromat"
+
+#: wp-svn/tags/1.9.47/templates/connection.php:66
+msgid "FAPI Member API Token"
+msgstr "Токен API участника FAPI"
+
+#: wp-svn/tags/1.9.47/templates/connection.php:71
+msgid "Zkopírovat"
+msgstr "Нажмите, чтобы скопировать"
+
+#: wp-svn/tags/1.9.47/templates/fapiMemberLoginPage.php:10
+#: wp-svn/tags/1.9.47/templates/fapiMemberLoginPage.php:16
+msgid "Přihlášení do členské sekce"
+msgstr "Вход в раздел для пользователей"
+
+#: wp-svn/tags/1.9.47/templates/index.php:15
+msgid "Přehled členských sekcí a úrovní"
+msgstr "Обзор разделов и уровней членства"
+
+#: wp-svn/tags/1.9.47/templates/index.php:103
+msgid "Počet úrovní"
+msgstr "Количество уровней"
+
+#: wp-svn/tags/1.9.47/templates/index.php:106
+#: wp-svn/tags/1.9.47/templates/index.php:127
+msgid "Počet registrovaných"
+msgstr "Количество зарегистрированных"
+
+#: wp-svn/tags/1.9.47/templates/index.php:109
+#: wp-svn/tags/1.9.47/templates/index.php:130
+msgid "Seznam členů"
+msgstr "Список членов"
+
+#: wp-svn/tags/1.9.47/templates/index.php:113
+msgid "Stránek v celé sekci"
+msgstr "Страницы во всем разделе"
+
+#: wp-svn/tags/1.9.47/templates/index.php:149
+msgid "Nemáte vytvořenou žádnou členskou sekci."
+msgstr "Вы не создали ни одного раздела для пользователей."
+
+#: wp-svn/tags/1.9.47/templates/index.php:150
+msgid "Novou sekci můžete vytvořit na záložce Sekce / úrovně."
+msgstr "Вы можете создать новый раздел на вкладке Разделы / Уровни."
+
+#: wp-svn/tags/1.9.47/templates/index.php:153
+msgid "Přejít do záložky Sekce / úrovně"
+msgstr "Перейдите на вкладку Разделы / Уровни"
+
+#: wp-svn/tags/1.9.47/templates/memberList.php:26
+msgid "Tato sekce nemá žádné členy"
+msgstr "В этом разделе нет участников"
+
+#: wp-svn/tags/1.9.47/templates/memberList.php:47
+#: wp-svn/tags/1.9.47/templates/memberList.php:65
+msgid "Uživatelské jméno"
+msgstr "Имя пользователя"
+
+#: wp-svn/tags/1.9.47/templates/memberList.php:48
+msgid "Jméno a příjmení"
+msgstr "Имя и фамилия"
+
+#: wp-svn/tags/1.9.47/templates/memberList.php:49
+#: wp-svn/tags/1.9.47/templates/memberList.php:67
+msgid "Email"
+msgstr "Электронная почта"
+
+#: wp-svn/tags/1.9.47/templates/memberList.php:66
+msgid "Jméno a přijmení"
+msgstr "Имя и фамилия"
+
+#: wp-svn/tags/1.9.47/templates/memberList.php:107
+msgid "Exportovat do CSV"
+msgstr "Экспорт в CSV"
+
+#: wp-svn/tags/1.9.47/templates/memberList.php:129
+msgid "Seznam členů úrovně \""
+msgstr ""
+
+#: wp-svn/tags/1.9.47/templates/memberList.php:131
+msgid "Seznam členů sekce \""
+msgstr ""
+
+#: wp-svn/tags/1.9.47/templates/settingsContentAdd.php:15
+#: wp-svn/tags/1.9.47/templates/settingsContentRemove.php:12
+#: wp-svn/tags/1.9.47/templates/settingsContentSelect.php:10
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:11
+#: wp-svn/tags/1.9.47/templates/settingsLevelNew.php:11
+#: wp-svn/tags/1.9.47/templates/settingsPages.php:11
+#: wp-svn/tags/1.9.47/templates/settingsSectionNew.php:11
+#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:12
+msgid "Členské sekce/úrovně"
+msgstr "Секции/уровни членов"
+
+#: wp-svn/tags/1.9.47/templates/settingsContentAdd.php:34
+#: wp-svn/tags/1.9.47/templates/settingsContentRemove.php:36
+msgid "Prosím zvolte sekci/úroveň."
+msgstr "Пожалуйста, выберите раздел/уровень."
+
+#: wp-svn/tags/1.9.47/templates/settingsContentRemove.php:31
+#: wp-svn/tags/1.9.47/templates/settingsPages.php:73
+#: wp-svn/tags/1.9.47/templates/settingsSettings.php:39
+#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:41
+#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:116
+msgid "Uložit"
+msgstr "Сохранить"
+
+#: wp-svn/tags/1.9.47/templates/settingsElements.php:9
+msgid "Formulář pro přihlášení"
+msgstr "Форма входа в систему"
+
+#: wp-svn/tags/1.9.47/templates/settingsElements.php:10
+msgid "Formulář vložte do svého webu na požadovaná místa pomocí shortcode"
+msgstr "Вставьте форму на свой сайт в нужных местах с помощью шорткода"
+
+#: wp-svn/tags/1.9.47/templates/settingsElements.php:12
+msgid "Formulář se zobrazí po znovunačtení stránky."
+msgstr "Форма будет отображаться при перезагрузке страницы."
+
+#: wp-svn/tags/1.9.47/templates/settingsElements.php:16
+#: wp-svn/tags/1.9.47/templates/settingsElements.php:28
+#: wp-svn/tags/1.9.47/templates/settingsElements.php:39
+#: wp-svn/tags/1.9.47/templates/settingsElements.php:45
+msgid "Snímek obrazovky"
+msgstr "Скриншот"
+
+#: wp-svn/tags/1.9.47/templates/settingsElements.php:21
+msgid "Uživatelské okénko"
+msgstr "Окно пользователя"
+
+#: wp-svn/tags/1.9.47/templates/settingsElements.php:22
+msgid "Okénko vložte do svého webu na požadovaná místa pomocí shortcode"
+msgstr "Вставьте окно на свой сайт в нужных местах с помощью шорткода"
+
+#: wp-svn/tags/1.9.47/templates/settingsElements.php:24
+msgid ""
+"Uživatelské okénko bude funkční pro uživatele všech členských sekcí a úrovní."
+msgstr "Uživatelské okénko bude funkční pro uživatele všech členských sekcí a úrovní."
+
+#: wp-svn/tags/1.9.47/templates/settingsElements.php:31
+msgid "Datum expirace pro členskou sekci nebo úrověň"
+msgstr "Дата истечения срока действия раздела или уровня участника"
+
+#: wp-svn/tags/1.9.47/templates/settingsElements.php:32
+msgid "Vypíše datum expirace zvolené členské sekce nebo úrovně"
+msgstr "Отображает дату истечения срока действия выбранного раздела или уровня участника"
+
+#: wp-svn/tags/1.9.47/templates/settingsElements.php:34
+msgid ""
+"Místo proměnné \"x\" zadejte ID  členské sekce a místo tohoto shortcodu se "
+"uživateli vypíše datum do kdy má přístup do dané členské sekce nebo úrovně"
+msgstr ""
+
+#: wp-svn/tags/1.9.47/templates/settingsElements.php:36
+msgid "Jak shortcode použít"
+msgstr "Как использовать шорткод"
+
+#: wp-svn/tags/1.9.47/templates/settingsElements.php:42
+msgid "Jak to poté vidí člen"
+msgstr "Как член клуба видит это"
+
+#: wp-svn/tags/1.9.47/templates/settingsElements.php:49
+msgid "Odemčení úrovně tlačítkem"
+msgstr "Разблокируйте уровень с помощью кнопки"
+
+#: wp-svn/tags/1.9.47/templates/settingsElements.php:50
+msgid "Tlačítko kterým uživatel může odeknou úroveň"
+msgstr "Кнопка, с помощью которой пользователь может отключить уровень"
+
+#: wp-svn/tags/1.9.47/templates/settingsElements.php:51
+msgid ""
+"Parametr \"page\" representuje ID stránky, na kterou bude uživatel "
+"přesměrován, po odemčení úrovně. Tento parametr je volitelný. Pokud nebude "
+"zadán, uživatel bude odkázán na jednu ze stránek přiřazených k úrovni."
+msgstr ""
+
+#: wp-svn/tags/1.9.47/templates/settingsElements.php:54
+msgid "Čas zbývající do odemčení úrovně"
+msgstr "Время, оставшееся до разблокировки уровня"
+
+#: wp-svn/tags/1.9.47/templates/settingsElements.php:55
+msgid ""
+"Datum odemčení členské úrovně ve formátu \"01.01.2023\" můžete zobrazit "
+"pomocí shortcode"
+msgstr ""
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:20
+#: wp-svn/tags/1.9.47/templates/settingsPages.php:20
+msgid "Zvolte prosím sekci/úroveň vlevo."
+msgstr "Пожалуйста, выберите раздел/уровень слева."
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:31
+msgid "E-mail po registraci do sekce"
+msgstr "Электронная почта после регистрации в секции"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:32
+msgid "E-mail po prodloužení členství v sekci"
+msgstr "Электронная почта после продления членства"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:33
+msgid "E-mail po přidání do sekce"
+msgstr "Электронная почта после добавления в раздел"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:37
+msgid "E-mail po registraci do úrovně"
+msgstr "Электронная почта после регистрации на уровне"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:38
+msgid "E-mail po prodloužení členství v úrovni"
+msgstr "Электронная почта после обновления уровня членства"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:39
+msgid "E-mail po přidání do úrovně"
+msgstr "Электронная почта после добавления к уровню"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:56
+msgid "E-mail je převzat z nastavení členské sekce, do které úroveň spadá."
+msgstr "Электронная почта берется из настроек раздела участника, к которому относится данный уровень."
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:76
+msgid "Nastavit vlastní e-mail pro úroveň"
+msgstr "Настройка пользовательской электронной почты для уровня"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:82
+msgid "Předmět e-mailu"
+msgstr "Тема письма"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:90
+msgid "Obsah e-mailu"
+msgstr "Содержание электронной почты"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:112
+msgid "Dostupné proměnné"
+msgstr "Доступные переменные"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:117
+msgid "Kód"
+msgstr "Код"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:118
+msgid "Popis"
+msgstr "Описание"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:119
+msgid "Příklad"
+msgstr "Пример"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:120
+msgid "Dostupné při"
+msgstr "Доступно по адресу"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:123
+msgid "registraci nového člena"
+msgstr "регистрация нового участника"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:124
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:126
+msgid "prodloužení/přidání sekce"
+msgstr "расширение/дополнение раздела"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:133
+msgid "Název sekce"
+msgstr "Название секции"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:134
+msgid "Italská kuchyně"
+msgstr "Итальянская кухня"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:141
+msgid "Název úrovně"
+msgstr "Название уровня"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:142
+msgid "Začátečník"
+msgstr "Новичкам"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:149
+msgid "Počet zakoupených dní nebo 'neomezeně'"
+msgstr "Количество приобретенных дней или неограниченное количество"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:157
+msgid "Datum konce členství nebo 'neomezené'"
+msgstr "Дата окончания членства или неограниченное количество"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:165
+msgid "Odkaz na přihlášení (z nastavení) pouze URL"
+msgstr "Ссылка для входа (из настроек) Только URL"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:173
+msgid "Přihlašovací jméno uživatele"
+msgstr "Имя пользователя для входа в систему"
+
+#: wp-svn/tags/1.9.47/templates/settingsEmails.php:181
+msgid "Přihlašovací heslo uživatele"
+msgstr "Пароль для входа в систему"
+
+#: wp-svn/tags/1.9.47/templates/settingsLevelNew.php:22
+msgid "Název členské úrovně"
+msgstr "Имя уровня участника"
+
+#: wp-svn/tags/1.9.47/templates/settingsLevelNew.php:27
+msgid "Zařadit do členské sekce"
+msgstr "Включить в раздел для участников"
+
+#: wp-svn/tags/1.9.47/templates/settingsLevelNew.php:33
+msgid "Vytvořit úroveň"
+msgstr "Создайте уровень"
+
+#: wp-svn/tags/1.9.47/templates/settingsPages.php:34
+msgid "Přihlašovací stránka"
+msgstr "Страница входа в систему"
+
+#: wp-svn/tags/1.9.47/templates/settingsPages.php:35
+msgid "Vyberte stránku, kde je umístěn přihlašovací formulář."
+msgstr "Выберите страницу, на которой расположена форма входа в систему."
+
+#: wp-svn/tags/1.9.47/templates/settingsPages.php:36
+msgid "Stránka nesmí být zařazena jako členská."
+msgstr "Страница не должна быть классифицирована как страница пользователя."
+
+#: wp-svn/tags/1.9.47/templates/settingsPages.php:39
+#: wp-svn/tags/1.9.47/templates/settingsSettings.php:28
+msgid "Nástěnka"
+msgstr "Сайт"
+
+#: wp-svn/tags/1.9.47/templates/settingsPages.php:44
+msgid "Stránka, když uživatel nemá přístup"
+msgstr "Страница, когда у пользователя нет доступа"
+
+#: wp-svn/tags/1.9.47/templates/settingsPages.php:46
+msgid ""
+"Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství."
+msgstr "Stránka se většinou využívá pro výzvu ke koupi nebo prodloužení členství."
+
+#: wp-svn/tags/1.9.47/templates/settingsPages.php:68
+#: wp-svn/tags/1.9.47/templates/settingsSettings.php:23
+#: wp-svn/tags/1.9.47/templates/settingsSettings.php:33
+#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:38
+msgid "-- nevybrána --"
+msgstr "-- не выбраны..."
+
+#: wp-svn/tags/1.9.47/templates/settingsSectionNew.php:22
+msgid "Název členské sekce"
+msgstr "Название секции членов"
+
+#: wp-svn/tags/1.9.47/templates/settingsSectionNew.php:27
+msgid "Vytvořit sekci"
+msgstr "Создайте раздел"
+
+#: wp-svn/tags/1.9.47/templates/settingsSettings.php:19
+msgid "Stránka pro přihlášení"
+msgstr "Страница входа в систему"
+
+#: wp-svn/tags/1.9.47/templates/settingsSettings.php:20
+msgid "Vyberte společnou přihlašovací stránku pro všechny sekce/úrovně."
+msgstr "Выберите общую страницу входа для всех секций/уровней."
+
+#: wp-svn/tags/1.9.47/templates/settingsSettings.php:29
+msgid "Vyberte společnou stránku po příhlášení tzn. nástěnku."
+msgstr "После входа в систему выберите общую страницу, то есть доску объявлений."
+
+#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:31
+msgid "Stránka, která se zobrazí, když obsah ještě nebyl odemčen."
+msgstr "Страница, которая появляется, когда содержимое еще не разблокировано."
+
+#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:32
+msgid ""
+"Úroveň musí mít povoleno časově omezené odemykání, aby byl uživatel "
+"přesměrován na tuto stránku."
+msgstr "Úroveň musí mít povoleno časově omezené odemykání, aby byl uživatel přesměrován na tuto stránku."
+
+#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:48
+msgid "Zvolili jste členskou sekci, prosím zvolte úroveň."
+msgstr "Вы выбрали раздел для участников, пожалуйста, выберите уровень."
+
+#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:70
+msgid "Odemknutí tlačítkem"
+msgstr "Разблокировка с помощью кнопки"
+
+#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:75
+msgid "K odemčení úrovně musí uživatel již mít přístup do dané sekce."
+msgstr "Чтобы разблокировать уровень, пользователь должен уже иметь доступ к этому разделу."
+
+#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:76
+msgid "Shrotcode talčítka pro uvolnění obsahu: "
+msgstr "Шрот-код пластины для освобождения содержимого:"
+
+#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:82
+msgid "Časově omezené odemykání úrovně"
+msgstr "Разблокировка уровней с ограничением по времени"
+
+#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:103
+msgid "Datum kdy bude sekce/úroveň odemčena pro všechny uživatele."
+msgstr "Дата, когда раздел/уровень будет разблокирован для всех пользователей."
+
+#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:108
+msgid ""
+"Počet dní od registrace uživatele do členské sekce, po kterých má být "
+"vybraná sekce/úroveň zpřístupněna."
+msgstr "Počet dní od registrace uživatele do členské sekce, po kterých má být vybraná sekce/úroveň zpřístupněna."
+
+#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:111
+msgid "0 = Sekce bude přístupná ihned po registraci"
+msgstr "0 = Раздел будет доступен сразу после регистрации"
+
+#: wp-svn/tags/1.9.47/templates/settingsUnlocking.php:112
+msgid "3 = Sekce bude přístupná 3 den po registraci"
+msgstr "3 = Раздел будет доступен через 3 дня после регистрации"
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
+#: wp-build/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
+#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
+#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
+#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
+#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
+#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
+#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/block-extender/index.js:139
+msgid "zobrazit všem návštěvníkům (vybrané sekce a urovně se ignorují)"
+msgstr "показывать всем посетителям (выбранные разделы и уровни игнорируются)"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
+#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
+#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
+#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
+#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
+#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
+#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
+#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:62
+msgid "(všechny propojené účty)"
+msgstr "(все связанные счета)"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
+#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
+#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
+#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
+#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
+#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
+#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
+#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
+#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
+#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
+#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
+#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
+#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
+#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:81
+#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:109
+msgid "Vyberte účet FAPI"
+msgstr "Выберите учетную запись FAPI"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
+#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
+#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
+#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
+#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
+#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
+#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
+#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
+#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
+#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
+#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
+#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
+#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
+#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:89
+#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:121
+msgid "Vyberte prodejní formulář"
+msgstr "Выберите форму продажи"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
+#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
+#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
+#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
+#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
+#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
+#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
+#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:99
+msgid "Načítání dat, počkejte prosím..."
+msgstr "Загрузка данных, пожалуйста, подождите..."
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
+#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
+#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
+#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
+#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
+#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
+#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
+#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:141
+msgid "<<< Zde bude prodejní formulář \"%s\" >>>"
+msgstr ""
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
+#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
+#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
+#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
+#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
+#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
+#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
+#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/edit.js:147
+msgid "<<< Vyberte prodejní formulář z bočního menu >>>"
+msgstr "<<< Выберите форму продажи в боковом меню >>>>."
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: wp-build/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+msgctxt "block title"
+msgid "FAPI Member - block extender"
+msgstr "Член FAPI - расширитель блока"
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: wp-build/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+msgctxt "block description"
+msgid ""
+"Extends core blocks, enables show and hide block by member section and levels"
+msgstr "Extends core blocks, enables show and hide block by member section and levels"
+
+#: multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-build/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/block-extender/block.json
+#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block keyword"
+msgid "fapi"
+msgstr "fapi"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block title"
+msgid "FAPI form"
+msgstr "Форма FAPI"
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block description"
+msgid "FAPI form widget."
+msgstr "Виджет формы FAPI."
+
+#: multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-build/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/tags/1.9.47/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/tags/2.1.18/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/tags/2.2.24/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/tags/2.2.25/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/tags/2.2.26/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+#: wp-svn/trunk/multiple-blocks/includes/block-editor/blocks/fapi-form-block/block.json
+msgctxt "block keyword"
+msgid "form"
+msgstr "форма"
