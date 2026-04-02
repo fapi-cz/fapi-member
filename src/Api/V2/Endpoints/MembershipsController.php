@@ -314,15 +314,20 @@ class MembershipsController
 
 		$levelId = $this->apiController->extractParamOrNull($params, 'level_id', IntType::class);
 		$pageId = $this->apiController->extractParamOrNull($params, 'page_id', IntType::class);
-		$userId = $this->apiController->extractParamOrNull($params, 'user_id', IntType::class);
 
 		if ($levelId === null) {
 			$this->redirectService->redirectToNoAccessPage($levelId);
 		}
 
+		$userId = get_current_user_id();
+
+		if ($userId <= 0) {
+			$this->redirectService->redirectToNoAccessPage($levelId);
+		}
+
 		$level = $this->levelRepository->getLevelById($levelId);
 
-		if ($level === null || $userId === null || !$this->levelRepository->isButtonUnlock($levelId)) {
+		if ($level === null || !$this->levelRepository->isButtonUnlock($levelId)) {
 			$this->redirectService->redirectToNoAccessPage($levelId);
 		}
 
@@ -363,9 +368,8 @@ class MembershipsController
 	{
 		$this->apiController->checkRequestMethod($request, RequestMethodType::POST);
 		$body = json_decode($request->get_body(), true);
-
+		$userId = get_current_user_id();
 		$levelId = $this->apiController->extractParam($body, 'level_id', IntType::class);
-		$userId = $this->apiController->extractParam($body, 'user_id', IntType::class);
 		$registrationDate = $this->apiController->extractParamOrNull($body, 'registration_date', StringType::class);
 		$registrationDate = DateTimeHelper::createOrNull($registrationDate, Format::DATE);
 
