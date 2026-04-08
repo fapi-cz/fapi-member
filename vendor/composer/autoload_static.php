@@ -7,7 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInitdb5c2c1ff1d8611b9e265d5b8df48099
 {
     public static $prefixLengthsPsr4 = array (
-        'F' => 
+        'F' =>
         array (
             'FapiMember\\Library\\SmartEmailing\\Types\\' => 39,
             'FapiMember\\Library\\Nette\\Utils\\' => 31,
@@ -17,19 +17,19 @@ class ComposerStaticInitdb5c2c1ff1d8611b9e265d5b8df48099
     );
 
     public static $prefixDirsPsr4 = array (
-        'FapiMember\\Library\\SmartEmailing\\Types\\' => 
+        'FapiMember\\Library\\SmartEmailing\\Types\\' =>
         array (
             0 => __DIR__ . '/../..' . '/libs/smartemailing/types/src',
         ),
-        'FapiMember\\Library\\Nette\\Utils\\' => 
+        'FapiMember\\Library\\Nette\\Utils\\' =>
         array (
             0 => __DIR__ . '/../..' . '/libs/nette/utils/src/Utils',
         ),
-        'FapiMember\\Library\\Nette\\' => 
+        'FapiMember\\Library\\Nette\\' =>
         array (
             0 => __DIR__ . '/../..' . '/libs/nette/utils/src',
         ),
-        'FapiMember\\' => 
+        'FapiMember\\' =>
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
