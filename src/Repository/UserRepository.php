@@ -74,14 +74,9 @@ class UserRepository extends Repository
 	/** @return array<User> */
 	public function getAllMemberUsers(): array
 	{
-		$users = $this->getAllUsers();
-
-		return array_filter(
-			$users,
-			static function ($user) {
-				return in_array('member', $user->getRoles()) || in_array('subscriber', $user->getRoles());
-			}
-		);
+		return $this->toEntities(get_users([
+			'role__not_in' => ['administrator'],
+		]));
 	}
 
 	/**
