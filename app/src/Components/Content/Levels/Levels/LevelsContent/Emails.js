@@ -87,8 +87,8 @@ function Emails({level}) {
               key={type}
               type={type}
               title={title}
-              subject={emails[type].s}
-              body={emails[type].b}
+              subject={emails[type]?.s ?? ''}
+              body={emails[type]?.b ?? ''}
               isOpened={containersOpened[type][0]}
               setIsOpened={containersOpened[type][1]}
           />
