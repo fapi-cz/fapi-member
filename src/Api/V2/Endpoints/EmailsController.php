@@ -31,8 +31,23 @@ class EmailsController
 		$body = json_decode($request->get_body(), true);
 
 		$levelId = $this->apiController->extractParam($body, 'level_id', IntType::class);
+		$templates = $this->emailRepository->getTemplatesForLevel($levelId);
+		$normalizedTemplates = [];
 
-		return $this->emailRepository->getTemplatesForLevel($levelId);
+		foreach (EmailType::getAvailableValues() as $type) {
+			$template = $templates[$type] ?? [];
+
+			if (!is_array($template)) {
+				$template = [];
+			}
+
+			$normalizedTemplates[$type] = [
+				's' => isset($template['s']) && is_string($template['s']) ? $template['s'] : '',
+				'b' => isset($template['b']) && is_string($template['b']) ? $template['b'] : '',
+			];
+		}
+
+		return $normalizedTemplates;
 	}
 
 	public function updateForLevel(WP_REST_Request $request): void
