@@ -87,6 +87,51 @@ class EmailService
 			);
 		}
 
+		if (!FapiMemberPlugin::isDevelopment()) {
+			if (
+				!isset($data['time'], $data['security']) ||
+				!is_string($data['security']) ||
+				$data['security'] === '' ||
+				filter_var($data['time'], FILTER_VALIDATE_INT) === false
+			) {
+				$this->apiController->callbackError(
+					array(
+						'class' => self::class,
+						'description' => 'Voucher security is not valid.',
+					)
+				);
+			}
+
+			$voucherItemTemplateCode = $voucher['item_template_code'] ?? null;
+
+			if (!is_string($voucherItemTemplateCode) || $voucherItemTemplateCode === '') {
+				$this->apiController->callbackError(
+					array(
+						'class' => self::class,
+						'description' => 'Voucher security is not valid.',
+					)
+				);
+			}
+
+			$itemTemplate = $this->apiService->getItemTemplate($voucherItemTemplateCode);
+			$isSecurityValid = $itemTemplate !== false &&
+				SecurityValidator::isVoucherSecurityValid(
+					$voucher,
+					$itemTemplate,
+					(int) $data['time'],
+					(string) $data['security']
+				);
+
+			if (!$isSecurityValid) {
+				$this->apiController->callbackError(
+					array(
+						'class' => self::class,
+						'description' => 'Voucher security is not valid.',
+					)
+				);
+			}
+		}
+
 		if (!isset($voucher['status']) || $voucher['status'] !== 'applied') {
 			$this->apiController->callbackError(
 				array(
