@@ -232,6 +232,7 @@ final class Bootstrap
 		add_action('divi_extensions_init', [$this, 'initializeDiviExtension']);
 
 		add_filter('et_builder_get_parent_modules', [$this->fapiMemberDivi, 'addToggle']);
+		add_filter('et_builder_get_child_modules', [$this->fapiMemberDivi, 'addToggle']);
 
 		foreach ($this->fapiMemberDivi->allowedModuleSlugs as $slug) {
 			add_filter("et_pb_all_fields_unprocessed_" . $slug, [$this->fapiMemberDivi, 'addFields']);
