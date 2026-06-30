@@ -9,6 +9,7 @@ use FapiMember\Library\SmartEmailing\Types\StringType;
 use FapiMember\Model\Enums\Alert;
 use FapiMember\Model\Enums\Keys\OptionKey;
 use FapiMember\Model\Enums\Types\RequestMethodType;
+use FapiMember\Model\Enums\UserPermission;
 use FapiMember\Utils\AlertProvider;
 use Throwable;
 use WP_REST_Request;
@@ -244,7 +245,7 @@ class ApiController
 	{
 		if (
 			isset($this->freeAccessEndpoints[$controllerName]) &&
-			in_array($action, $this->freeAccessEndpoints[$controllerName])
+			in_array($action, $this->freeAccessEndpoints[$controllerName], true)
 		) {
 			return;
 		}
@@ -274,6 +275,13 @@ class ApiController
 			$this->callbackError([
 				'class' => self::class,
 				'description' => "Permission denied. Invalid Nonce provided.",
+			]);
+		}
+
+		if (!current_user_can(UserPermission::REQUIRED_CAPABILITY)) {
+			$this->callbackError([
+				'class' => self::class,
+				'description' => "Permission denied. Missing required capability.",
 			]);
 		}
 	}

@@ -135,6 +135,28 @@ class ApiClient
 		return json_decode($response['body'], true);
 	}
 
+	public function getItemTemplate(string $code): false|array
+	{
+		$response = $this->retryRequest($this->apiUrl . 'item_templates/?code=' . rawurlencode($code));
+
+		if (!$response) {
+			return false;
+		}
+
+		$data = json_decode($response['body'], true);
+
+		if (
+			!isset($data['item_templates'][0]) ||
+			!is_array($data) ||
+			!is_array($data['item_templates']) ||
+			!is_array($data['item_templates'][0])
+		) {
+			return false;
+		}
+
+		return $data['item_templates'][0];
+	}
+
 	public function getInvoice(int $id): false|array
 	{
 		$response = $this->retryRequest($this->apiUrl . 'invoices/' . $id);

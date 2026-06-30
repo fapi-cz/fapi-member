@@ -337,8 +337,9 @@ final class Bootstrap
 			'list-forms/(?P<user>[^/]+(?:\+[^/]+)?)',
 			'handleApiListFormsCallback',
 			RequestMethodType::GET,
+			true,
 		);
-		$this->addRestEndpointV1('list-users', 'handleApiUsernamesCallback', RequestMethodType::GET);
+		$this->addRestEndpointV1('list-users', 'handleApiUsernamesCallback', RequestMethodType::GET, true);
 
 		$this->addRestEndpointV2('sections');
 		$this->addRestEndpointV2('pages');
@@ -367,7 +368,10 @@ final class Bootstrap
 	}
 
 	public function addRestEndpointV1(
-		string $route, string $functionName, string $method
+		string $route,
+		string $functionName,
+		string $method,
+		bool $requiresCapability = false,
 	): void
 	{
 		register_rest_route(
@@ -376,8 +380,12 @@ final class Bootstrap
 			[
 				'methods' => $method,
 				'callback' => [$this->requestHandler, $functionName],
-				'permission_callback' => function () {
-					return true;
+				'permission_callback' => function () use ($requiresCapability) {
+					if (!$requiresCapability) {
+						return true;
+					}
+
+					return current_user_can(UserPermission::REQUIRED_CAPABILITY);
 				},
 			],
 		);
