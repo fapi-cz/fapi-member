@@ -120,7 +120,7 @@ class ShortcodeSubstitutor
 			$dateFormat = 'Y-m-d';
 		}
 
-		$memberships = $this->membershipRepository->getActiveByUserId($user->ID);
+		$memberships = $this->membershipRepository->getActiveByUserId($user->ID, true);
 		$currentMemberShip = null;
 
 		foreach ($memberships as $membership) {
@@ -163,7 +163,7 @@ class ShortcodeSubstitutor
 			$dateFormat = 'Y-m-d';
 		}
 
-		$memberships = $this->membershipRepository->getActiveByUserId($user->ID);
+		$memberships = $this->membershipRepository->getActiveByUserId($user->ID, true);
 		$currentMemberShip = null;
 		$parentMembership = null;
 

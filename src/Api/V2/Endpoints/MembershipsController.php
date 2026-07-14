@@ -331,17 +331,17 @@ class MembershipsController
 			$this->redirectService->redirectToNoAccessPage($levelId);
 		}
 
-		$memberships = $this->membershipRepository->getActiveByUserId($userId);
-		$ownsParent = false;
+		$memberships = $this->membershipRepository->getActiveByUserId($userId, true);
+		$parentMembership = null;
 
 		foreach ($memberships as $membership) {
-			if ($membership->getLevelId() === $level->getParentId()){
-				$ownsParent = true;
+			if ($membership->getLevelId() === $level->getParentId()) {
+				$parentMembership = $membership;
 				break;
 			}
 		}
 
-		if ($ownsParent === false) {
+		if ($parentMembership === null) {
 			$this->redirectService->redirectToNoAccessPage($levelId);
 		}
 
@@ -349,7 +349,8 @@ class MembershipsController
 			'level_id' => $levelId,
 			'user_id' => $userId,
 			'registered' => DateTimeHelper::getNow()->format(Format::DATE_TIME),
-			'is_unlimited' => true,
+			'until' => $parentMembership->getUntil()?->format(Format::DATE_TIME),
+			'is_unlimited' => $parentMembership->isUnlimited(),
 		]));
 
 		if ($pageId === null) {

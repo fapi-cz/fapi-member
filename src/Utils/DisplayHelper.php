@@ -42,7 +42,7 @@ final class DisplayHelper
 		$userId = isset($wpUserId) && $wpUserId ? $wpUserId : get_current_user_id();
 
 		global $membershipRepository;
-		$memberships = $membershipRepository->getAllByUserId($userId);
+		$memberships = $membershipRepository->getActiveByUserId($userId, true);
 
 		if ($hasMemberSectionOrLevel === true) {
 			foreach ($memberships as $membership) {
