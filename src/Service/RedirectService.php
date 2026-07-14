@@ -150,7 +150,7 @@ class RedirectService
 			return admin_url();
 		}
 
-		$memberships = $this->membershipService->getActiveByUserIdAndUpdate($userId);
+		$memberships = $this->membershipService->getActiveWithAccessByUserId($userId);
 
 		$allowedPages = [];
 
