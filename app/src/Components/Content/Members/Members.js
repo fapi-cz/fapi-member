@@ -119,10 +119,14 @@ function Members() {
           const reader = new FileReader();
     
           reader.onload = async (e) => {
-            await MemberService.importCsv(e.target.result).then(() => {
+            try {
+                await MemberService.importCsv(e.target.result);
                 setLoadMembers(true);
+            } catch {
+                setLoadMembers(false);
+            } finally {
                 setImporting(false);
-            });
+            }
           };
     
           reader.readAsText(file);

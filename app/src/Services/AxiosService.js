@@ -8,10 +8,20 @@ class AxiosService {
 	config = {
 		headers: {
 			'Content-Type': 'application/json',
-			'X-WP-Nonce': window.apiInternalAccessNonce,
 		},
 		withCredentials: true,
 	};
+
+	getConfig()
+	{
+		return {
+			...this.config,
+			headers: {
+				...this.config.headers,
+				'X-WP-Nonce': window.apiInternalAccessNonce,
+			},
+		};
+	}
 
 	async sendRequest(endpoint, method, data)
 	{
@@ -30,13 +40,14 @@ class AxiosService {
 	{
 		var responseData = null;
 
-		await axios.get(url, this.config)
+		await axios.get(url, this.getConfig())
 		.then(response => {
 			responseData = response.data;
 			this.handleAlert(response?.data?.data?.alert);
 		  })
 		  .catch(error => {
 			this.handleAlert(error.response?.data?.data?.alert);
+			throw error;
 		  });
 
 		return responseData;
@@ -46,15 +57,15 @@ class AxiosService {
 	{
 		var responseData = null;
 
-		await axios.post(url, data, this.config)
+		await axios.post(url, data, this.getConfig())
 		  .then(response => {
 			responseData = response.data;
 			this.handleAlert(response?.data?.data?.alert);
 
 		  })
 		  .catch(error => {
-		  	console.log(error)
 			this.handleAlert(error.response?.data?.data?.alert);
+			throw error;
 		  });
 
 

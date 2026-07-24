@@ -1,6 +1,8 @@
 import MembershipClient from "Clients/MembershipClient";
 import Papa from "papaparse";
 
+const IMPORT_BATCH_SIZE = 100;
+
 export class MemberService {
     static membershipClient = new MembershipClient();
 
@@ -53,22 +55,16 @@ export class MemberService {
         document.body.removeChild(link);
     }
 
-    static importCsv(csv) {
-        return new Promise((resolve, reject) => {
-            Papa.parse(csv, {
-                header: true,
-                worker: false,
-                step: (results) => {
-                    this.membershipClient.create(results.data);
-                },
-                complete: () => {
-                    return resolve();
-                },
-                error: (error) => {
-                    console.log(error)
-                    return reject(error);
-                }
-            });
+    static async importCsv(csv) {
+        const results = Papa.parse(csv, {
+            header: true,
+            skipEmptyLines: true,
         });
+
+        for (let offset = 0; offset < results.data.length; offset += IMPORT_BATCH_SIZE) {
+            await this.membershipClient.createMultiple(
+                results.data.slice(offset, offset + IMPORT_BATCH_SIZE),
+            );
+        }
     }
 }
