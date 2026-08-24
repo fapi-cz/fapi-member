@@ -368,11 +368,18 @@ class MembershipService
 
 	public function timeUnlockLevelsForAllUsers(): void
 	{
-		$users = $this->userRepository->getAllUsers();
+		$batchSize = 100;
+		$offset = 0;
 
-		foreach ($users as $user) {
-			$this->timeUnlockLevelsForUser($user->getId());
-		}
+		do {
+			$userIds = $this->userRepository->getUserIdsBatch($batchSize, $offset);
+
+			foreach ($userIds as $userId) {
+				$this->timeUnlockLevelsForUser($userId);
+			}
+
+			$offset += count($userIds);
+		} while (count($userIds) === $batchSize);
 	}
 
 	public function timeUnlockLevelsForUser(int $userId): void

@@ -71,6 +71,21 @@ class UserRepository extends Repository
 		return $this->toEntities(get_users());
 	}
 
+	/** @return array<int> */
+	public function getUserIdsBatch(int $number, int $offset): array
+	{
+		return array_map(
+			'intval',
+			get_users([
+				'fields' => 'ID',
+				'number' => $number,
+				'offset' => $offset,
+				'orderby' => 'ID',
+				'order' => 'ASC',
+			]),
+		);
+	}
+
 	/** @return array<User> */
 	public function getAllMemberUsers(): array
 	{
