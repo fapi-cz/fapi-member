@@ -233,6 +233,47 @@ final class FutureAwareMembershipService extends MembershipService
 	}
 }
 
+final class BatchedUserRepository extends UserRepository
+{
+	/** @var array<array{int, int}> */
+	public array $calls = [];
+
+	public function __construct(private int $userCount)
+	{
+	}
+
+	public function getUserIdsBatch(int $number, int $offset): array
+	{
+		$this->calls[] = [$number, $offset];
+
+		if ($offset >= $this->userCount) {
+			return [];
+		}
+
+		return range(
+			$offset + 1,
+			min($offset + $number, $this->userCount),
+		);
+	}
+}
+
+final class BatchedMembershipService extends MembershipService
+{
+	/** @var array<int> */
+	public array $processedUserIds = [];
+
+	public function __construct(UserRepository $userRepository)
+	{
+		$property = new ReflectionProperty(MembershipService::class, 'userRepository');
+		$property->setValue($this, $userRepository);
+	}
+
+	public function timeUnlockLevelsForUser(int $userId): void
+	{
+		$this->processedUserIds[] = $userId;
+	}
+}
+
 final class LoginLevelRepository extends LevelRepository
 {
 	public function __construct(private MemberLevel $level)
@@ -430,5 +471,20 @@ try {
 } catch (AccessDenied) {
 	assertSameValue(null, $capturingService->savedMembership, 'Denied button unlock must not save a membership.');
 }
+
+$batchedUserRepository = new BatchedUserRepository(205);
+$batchedMembershipService = new BatchedMembershipService($batchedUserRepository);
+$batchedMembershipService->timeUnlockLevelsForAllUsers();
+
+assertSameValue(
+	[[100, 0], [100, 100], [100, 200]],
+	$batchedUserRepository->calls,
+	'Users must be loaded in batches of 100.',
+);
+assertSameValue(
+	range(1, 205),
+	$batchedMembershipService->processedUserIds,
+	'Every user must be processed exactly once.',
+);
 
 echo "Access logic tests passed.\n";
