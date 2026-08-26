@@ -181,7 +181,7 @@ class MembershipsController
 		$until = DateTimeHelper::createOrNull(
 			$this->apiController->extractParamOrNull($body, 'until', StringType::class),
 			Format::DATE,
-		);
+		)?->setTime(23, 59, 59);
 
 		try {
 			foreach ($levelIds as $levelId) {
