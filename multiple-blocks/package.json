@@ -10,6 +10,7 @@
 		"format": "wp-scripts format",
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
+		"test:unit": "wp-scripts test-unit-js",
 		"start": "wp-scripts start",
 		"packages-update": "wp-scripts packages-update"
 	},
