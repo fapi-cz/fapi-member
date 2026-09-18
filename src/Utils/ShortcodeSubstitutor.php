@@ -10,6 +10,7 @@ use FapiMember\Repository\LevelRepository;
 use FapiMember\Repository\MembershipRepository;
 use FapiMember\Repository\SettingsRepository;
 use FapiMember\Repository\UserRepository;
+use FapiMember\Service\MembershipService;
 
 class ShortcodeSubstitutor
 {
@@ -17,6 +18,7 @@ class ShortcodeSubstitutor
 	private MembershipRepository $membershipRepository;
 	private LevelRepository $levelRepository;
 	private UserRepository $userRepository;
+	private MembershipService $membershipService;
 
 	public function __construct()
 	{
@@ -24,6 +26,7 @@ class ShortcodeSubstitutor
 		$this->membershipRepository = Container::get(MembershipRepository::class);
 		$this->levelRepository = Container::get(LevelRepository::class);
 		$this->userRepository = Container::get(UserRepository::class);
+		$this->membershipService = Container::get(MembershipService::class);
 	}
 
 	public function shortcodeLoginForm(): string
@@ -197,15 +200,17 @@ class ShortcodeSubstitutor
 		}
 
 		if ($currentMemberShip === null && $parentMembership->getRegistered() !== null) {
-			$daysToUnlock = get_term_meta($sectionOrLevelId, MetaKey::DAYS_TO_UNLOCK, true);
-
-			$unlockDate = date(
-					'd.m.Y',
-					strtotime($parentMembership->getRegistered()->format($dateFormat))
-					+ (86400 * (int) $daysToUnlock),
+			$unlockDate = $this->membershipService->getUnlockDate(
+				$sectionOrLevelId,
+				$user->ID,
+				$parentMembership->getRegistered(),
 			);
 
-			return __( 'Bude odemčeno', 'fapi-member' ) . " " . $unlockDate;
+			if ($unlockDate === null) {
+				return __( 'bez přístupu', 'fapi-member' );
+			}
+
+			return __( 'Bude odemčeno', 'fapi-member' ) . " " . $unlockDate->format('d.m.Y');
 		}
 
 		if ($currentMemberShip->getUntil() === null) {
