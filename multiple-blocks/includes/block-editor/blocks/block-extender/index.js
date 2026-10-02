@@ -1,9 +1,10 @@
 const { addFilter } = wp.hooks;
 const { __ } = wp.i18n;
 const { createHigherOrderComponent } = wp.compose;
-const { Fragment, useState } = wp.element;
+const { Fragment } = wp.element;
 import { InspectorControls } from '@wordpress/block-editor';
-const { PanelBody, CheckboxControl, RadioControl } = wp.components;
+import { useSelect } from '@wordpress/data';
+const { PanelBody, CheckboxControl, RadioControl, Notice } = wp.components;
 import apiFetch from '@wordpress/api-fetch';
 
 const disabledBlocks = [];
@@ -61,28 +62,46 @@ addFilter(
 
 const withFapiSectionAndLevels = createHigherOrderComponent( ( BlockEdit ) => {
 	return ( props ) => {
+		const hasRestrictedParent = useSelect(
+			( select ) => {
+				if (
+					! props.isSelected ||
+					disabledBlocks.includes( props.name )
+				) {
+					return false;
+				}
+
+				const { getBlockParents, getBlockAttributes } =
+					select( 'core/block-editor' );
+				return getBlockParents( props.clientId ).some( ( parentId ) => {
+					const attributes = getBlockAttributes( parentId ) || {};
+					if (
+						! [ '1', '0' ].includes( attributes.hasSectionOrLevel )
+					) {
+						return false;
+					}
+
+					const levels = JSON.parse(
+						attributes.fapiSectionAndLevels || '[]'
+					);
+					return Array.isArray( levels ) && levels.length > 0;
+				} );
+			},
+			[ props.clientId, props.isSelected, props.name ]
+		);
+
 		if ( disabledBlocks.includes( props.name ) ) {
 			return <BlockEdit { ...props } />;
 		}
 
-		if ( ! props.attributes.hasOwnProperty( 'hasSectionOrLevel' ) ) {
-			props.attributes.hasSectionOrLevel = '';
-		}
-
-		if ( ! props.attributes.hasOwnProperty( 'fapiSectionAndLevels' ) ) {
-			props.attributes.fapiSectionAndLevels = '[]';
-		}
-
-		const [ option, setOption ] = useState(
-			props.attributes.hasSectionOrLevel
-		);
-		const [ state, setState ] = useState(
-			JSON.parse( props.attributes.fapiSectionAndLevels )
+		const option = props.attributes.hasSectionOrLevel || '';
+		const state = JSON.parse(
+			props.attributes.fapiSectionAndLevels || '[]'
 		);
 
-		const checkOption = ( sectionOrLevelId, checked, setState ) => {
+		const checkOption = ( sectionOrLevelId, checked ) => {
 			const fapiSectionAndLevels = JSON.parse(
-				props.attributes.fapiSectionAndLevels
+				props.attributes.fapiSectionAndLevels || '[]'
 			);
 
 			if ( checked === false ) {
@@ -98,8 +117,6 @@ const withFapiSectionAndLevels = createHigherOrderComponent( ( BlockEdit ) => {
 			props.setAttributes( {
 				fapiSectionAndLevels: JSON.stringify( fapiSectionAndLevels ),
 			} );
-
-			setState( fapiSectionAndLevels );
 		};
 
 		return (
@@ -110,6 +127,14 @@ const withFapiSectionAndLevels = createHigherOrderComponent( ( BlockEdit ) => {
 						title={ __( 'FAPI Member', 'fapi-member' ) }
 						initialOpen={ true }
 					>
+						{ hasRestrictedParent && (
+							<Notice status="info" isDismissible={ false }>
+								{ __(
+									'Zobrazení tohoto bloku je omezeno nastavením FAPI Member v nadřazeném bloku. Níže upravujete pouze vlastní nastavení tohoto bloku.',
+									'fapi-member'
+								) }
+							</Notice>
+						) }
 						<RadioControl
 							label={ __(
 								'Zobrazit blok pokud návštěvník',
@@ -136,10 +161,15 @@ const withFapiSectionAndLevels = createHigherOrderComponent( ( BlockEdit ) => {
 									value: '0',
 								},
 								{
-									label: __(
-										'zobrazit všem návštěvníkům (vybrané sekce a urovně se ignorují)',
-										'fapi-member'
-									),
+									label: hasRestrictedParent
+										? __(
+												'bez dalšího omezení (platí omezení nadřazeného bloku)',
+												'fapi-member'
+										  )
+										: __(
+												'zobrazit všem návštěvníkům (vybrané sekce a urovně se ignorují)',
+												'fapi-member'
+										  ),
 									value: '',
 								},
 							] }
@@ -147,7 +177,6 @@ const withFapiSectionAndLevels = createHigherOrderComponent( ( BlockEdit ) => {
 								props.setAttributes( {
 									hasSectionOrLevel: value,
 								} );
-								return setOption( value );
 							} }
 						/>
 						{ sectionAndLevels.map( ( sectionAndLevel ) => {
@@ -162,8 +191,7 @@ const withFapiSectionAndLevels = createHigherOrderComponent( ( BlockEdit ) => {
 									onChange={ ( checked ) => {
 										checkOption(
 											sectionAndLevel.id,
-											checked,
-											setState
+											checked
 										);
 									} }
 								/>

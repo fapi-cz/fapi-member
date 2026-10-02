@@ -131,6 +131,19 @@ Javascript je transpilován webpackem, pro kompilaci po úpravách:
 npx webpack
 ~~~
 
+## Gutenberg: omezení vnořených bloků
+
+Omezení FAPI Member na skupině nebo jiném nadřazeném bloku platí pro celý jeho
+obsah. Panel vnořeného bloku na toto omezení upozorňuje; jeho ovládací prvky
+upravují pouze vlastní nastavení vybraného bloku. Volba „bez dalšího omezení“
+proto neruší omezení nadřazeného bloku.
+
+Regresní testy panelu a sestavení Gutenberg rozšíření:
+```
+docker exec node sh -c 'yarn --cwd multiple-blocks test:unit --runInBand --watch=false'
+docker exec node sh -c 'yarn --cwd multiple-blocks build'
+```
+
 ## Build Reactu pro Divi / fix node_modules
 - `make divi-build`
 
