@@ -133,6 +133,28 @@ class RequestHandler
 		wp_send_json(json_encode($usernames));
 	}
 
+	public function handleApiDiviFormsCallback(WP_REST_Request $request): array
+	{
+		$forms = ['' => ['label' => __('-- vyberte prodejní formulář --', 'fapi-member')]];
+		$formsError = false;
+		foreach ($this->apiService->getApiClients() as $client) {
+			$connection = $client->getConnection();
+			if ($connection === null || !$connection->getApiUser() || !$connection->getApiKey()) {
+				continue;
+			}
+			$clientForms = $client->getForms();
+			if (!is_array($clientForms)) {
+				$formsError = true;
+				continue;
+			}
+			foreach ($clientForms as $form) {
+				$forms[$form['path']] = ['label' => $form['name'] . ' (' . $connection->getApiUser() . ')'];
+			}
+		}
+
+		return ['forms' => (object) $forms, 'error' => $formsError];
+	}
+
 	public function handleApiListFormsCallback(WP_REST_Request $request): void
 	{
 		$user = (($request->get_param('user') === 'all')

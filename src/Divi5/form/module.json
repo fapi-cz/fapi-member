@@ -1,0 +1,55 @@
+{
+  "name": "fapi-member/form",
+  "title": "FAPI formulář",
+  "titles": "FAPI formuláře",
+  "category": "module",
+  "moduleClassName": "fapi_member_form",
+  "moduleOrderClassName": "fapi_member_form",
+  "attributes": {
+    "module": {
+      "type": "object",
+      "selector": "{{selector}}",
+      "default": {
+        "meta": { "adminLabel": { "desktop": { "value": "FAPI formulář" } } }
+      },
+      "settings": {
+        "meta": { "adminLabel": {} },
+        "decoration": {
+          "layout": {},
+          "background": {},
+          "sizing": {},
+          "spacing": {},
+          "border": {},
+          "boxShadow": {},
+          "disabledOn": {},
+          "position": {},
+          "zIndex": {}
+        }
+      }
+    },
+    "formPath": {
+      "type": "object",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-item",
+          "item": {
+            "groupName": "mainContent",
+            "priority": 10,
+            "render": true,
+            "attrName": "formPath.innerContent",
+            "label": "Prodejní formulář",
+            "features": {
+              "hover": false,
+              "sticky": false,
+              "responsive": false,
+              "dynamicContent": false,
+              "preset": "content"
+            },
+            "component": { "name": "fapi-member/form-select", "type": "field" }
+          }
+        }
+      }
+    }
+  },
+  "settings": { "content": "auto", "design": "auto", "advanced": "auto" }
+}

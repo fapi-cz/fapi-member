@@ -6,6 +6,7 @@ use FapiMember\Api\V1\RequestHandler;
 use FapiMember\Api\V2\ApiController;
 use FapiMember\Container\Container;
 use FapiMember\Divi\FapiMemberDivi;
+use FapiMember\Divi5\FapiMemberDivi5;
 use FapiMember\Mioweb\FapiMemberMioweb;
 use FapiMember\Model\Enums\Keys\OptionKey;
 use FapiMember\Model\Enums\Types\MembershipChangeType;
@@ -229,6 +230,8 @@ final class Bootstrap
 
 	public function addDiviHooks(): void
 	{
+		Container::get(FapiMemberDivi5::class)->registerHooks();
+
 		add_action('divi_extensions_init', [$this, 'initializeDiviExtension']);
 
 		add_filter('et_builder_get_parent_modules', [$this->fapiMemberDivi, 'addToggle']);
@@ -339,6 +342,7 @@ final class Bootstrap
 			RequestMethodType::GET,
 			true,
 		);
+		$this->addRestEndpointV1('divi-forms', 'handleApiDiviFormsCallback', RequestMethodType::GET, true);
 		$this->addRestEndpointV1('list-users', 'handleApiUsernamesCallback', RequestMethodType::GET, true);
 
 		$this->addRestEndpointV2('sections');
