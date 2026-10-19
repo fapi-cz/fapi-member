@@ -5,7 +5,7 @@ Requires at least: 5.9
 Tested up to: 6.7
 Requires PHP: 8.1
 License: GPLv2 or later
-Stable tag: 2.2.38
+Stable tag: 2.3.0
 
 Plugin FAPI pro jednoduchou správu členských sekcí na webu.
 
@@ -25,6 +25,10 @@ Máte problém s nastavením FAPI Memberu. Obrátit se můžete na naší podpor
 Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org/plugins/fapi-member/#reviews).
 
 == Changelog ==
+
+= 2.3.0 =
+* Added Divi5 support
+* Fixed Gutenberg bug
 
 = 2.2.38 =
 * Fixed Shortcode Date
