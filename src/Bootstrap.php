@@ -203,6 +203,7 @@ final class Bootstrap
 
 	private function addInitHooks(): void
 	{
+		add_filter('wp_sweep_excluded_termids', [$this, 'excludeMemberTermsFromSweep']);
 		add_action('init', [$this, 'registerLevelsTaxonomy']);
 		add_action('init', [$this, 'registerRoles']);
 		add_action('init', [$this, 'addShortcodes']);
@@ -586,6 +587,24 @@ final class Bootstrap
 				'show_in_rest' => false,
 			]
 		);
+	}
+
+	public function excludeMemberTermsFromSweep(array $excludedTermIds): array
+	{
+		$memberTermIds = get_terms([
+			'taxonomy' => 'fapi_levels',
+			'hide_empty' => false,
+			'fields' => 'ids',
+		]);
+
+		if (is_wp_error($memberTermIds)) {
+			return $excludedTermIds;
+		}
+
+		return array_values(array_unique(array_merge(
+			$excludedTermIds,
+			$memberTermIds,
+		)));
 	}
 
 	public function initializeStatisticsIfNeeded(): void
