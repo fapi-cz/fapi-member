@@ -2,7 +2,7 @@
 Contributors: Jiří Slischka, Monika Tomešková, Marek Klein
 Tags: membership, fapi, member
 Requires at least: 5.9
-Tested up to: 6.7
+Tested up to: 7.1
 Requires PHP: 8.1
 License: GPLv2 or later
 Stable tag: 2.3.1
@@ -25,6 +25,9 @@ Máte problém s nastavením FAPI Memberu. Obrátit se můžete na naší podpor
 Ohodnotit tento plugin můžete na stránkách [WordPress](https://wordpress.org/plugins/fapi-member/#reviews).
 
 == Changelog ==
+
+= 2.3.2 =
+* Compatibility for newest version
 
 = 2.3.1 =
 * Fixed WP Sweep dont delete members
