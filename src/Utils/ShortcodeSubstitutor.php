@@ -43,6 +43,12 @@ class ShortcodeSubstitutor
 						<input type="password" name="pwd" id="user_pass" value="" size="20">
 					</div>
 					<div class="f-m-row">
+						<label for="fapi-member-rememberme" class="fapi-member-remember">
+							<input type="checkbox" name="rememberme" id="fapi-member-rememberme" value="forever">
+							' . __('Zapamatovat si mě', 'fapi-member') . '
+						</label>
+					</div>
+					<div class="f-m-row">
 					<a href="' . wp_lostpassword_url() . '">' . __( 'Zapomněli jste heslo?', 'fapi-member' ) . '</a>
 					</div>
 					<div class="f-m-row controls">

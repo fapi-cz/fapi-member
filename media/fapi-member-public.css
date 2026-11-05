@@ -3,13 +3,54 @@
   max-width: 350px !important;
   padding: 10px !important;
 }
+.fapiShortcodeLoginForm, .fapiShortcodeLoginForm * {
+  box-sizing: border-box !important;
+}
+.fapiShortcodeLoginForm form {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+  margin: 0 !important;
+}
+.fapiShortcodeLoginForm .f-m-row {
+  margin: 0 !important;
+}
 .fapiShortcodeLoginForm .f-m-row label, .fapiShortcodeLoginForm .f-m-row a {
   display: inline-block !important;
   font-weight: normal !important;
   font-size: 14px !important;
   color: #4c5567 !important;
-  margin: 14px 0 0 0 !important;
+  margin: 0 !important;
   text-decoration: none;
+}
+.fapiShortcodeLoginForm .f-m-row label {
+  display: block !important;
+  margin-bottom: 6px !important;
+}
+.fapiShortcodeLoginForm .f-m-row .fapi-member-remember {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 0 !important;
+  cursor: pointer;
+}
+.fapiShortcodeLoginForm .f-m-row input[type=checkbox] {
+  flex: 0 0 16px !important;
+  width: 16px !important;
+  height: 16px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  accent-color: #0074e2;
+  cursor: pointer;
+}
+.fapiShortcodeLoginForm .f-m-row input[type=checkbox]:focus:not(:focus-visible) {
+  outline: none !important;
+  box-shadow: none !important;
+}
+.fapiShortcodeLoginForm .f-m-row input[type=checkbox]:focus-visible {
+  outline: 2px solid #0074e2 !important;
+  outline-offset: 3px !important;
+  box-shadow: none !important;
 }
 .fapiShortcodeLoginForm .f-m-row a:hover {
   text-decoration: underline;
@@ -19,7 +60,7 @@
   border: 1px solid #9ca3af !important;
   height: 45px !important;
   padding: 10px !important;
-  line-height: 45px !important;
+  line-height: normal !important;
   width: 100% !important;
   background-color: #ffffff !important;
   border-radius: 0.25rem !important;
@@ -34,7 +75,10 @@
   text-align: center !important;
   text-decoration: none !important;
   font-size: 15px !important;
-  padding: 14px !important;
+  line-height: 1.4 !important;
+  min-height: 45px !important;
+  padding: 10px 14px !important;
+  margin: 0 !important;
   border: 2px solid transparent !important;
 }
 .fapiShortcodeLoginForm .f-m-row input[type=submit]:hover {
@@ -44,7 +88,6 @@
   cursor: pointer !important;
 }
 .fapiShortcodeLoginForm .f-m-row.controls {
-  margin-top: 25px !important;
   text-align: center !important;
 }
 
@@ -185,5 +228,3 @@ a.button-level-unlock-link {
 a.button-level-unlock-link:hover {
   background-color: #eeeeee;
 }
-
-/*# sourceMappingURL=fapi-member-public.css.map */
